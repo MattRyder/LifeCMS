@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Domain.Common;
 using Socialite.Domain.Interfaces;
 using Socialite.Infrastructure.Data;
+using Socialite.Infrastructure.Repositories;
 
 namespace Socialite
 {
@@ -21,10 +25,13 @@ namespace Socialite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkSqlServer()
-                .AddDbContext<SocialiteDbContext>((options) => options.UseInMemoryDatabase("SocialiteDatabase"));
+            services.AddMediatR();
 
-            services.AddTransient<IRepo, EfRepo>();
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<StatusContext>((options) => options.UseInMemoryDatabase("SocialiteDatabase"));
+
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

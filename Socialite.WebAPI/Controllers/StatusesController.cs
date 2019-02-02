@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Socialite.Domain.Entities;
-using Socialite.Domain.Interfaces;
-using Socialite.Infrastructure.DTO;
+﻿using Microsoft.AspNetCore.Mvc;
+using Socialite.Domain.AggregateModels.StatusAggregate;
 
 namespace Socialite.WebAPI.Controllers
 {
@@ -14,18 +7,18 @@ namespace Socialite.WebAPI.Controllers
     [ApiController]
     public class StatusesController : ControllerBase
     {
-        public readonly IRepo _repository;
+        public readonly IStatusRepository _statusRepository;
 
-        public StatusesController(IRepo repository)
+        public StatusesController(IStatusRepository statusRepository)
         {
-            _repository = repository;
+            _statusRepository = statusRepository;
         }
 
         // GET: api/Statuses
         [HttpGet]
         public IActionResult Get()
         {
-            var statuses = _repository.FindAll<Status>().Select(StatusDTO.FromModel);
+            var statuses = _statusRepository.FindAll();
             return Ok(statuses);
         }
 

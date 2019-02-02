@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.WebAPI", "Socialite\Socialite.WebAPI.csproj", "{A0DA9364-A515-4E9D-8C53-F2F583719958}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.WebAPI", "Socialite.WebAPI\Socialite.WebAPI.csproj", "{A0DA9364-A515-4E9D-8C53-F2F583719958}"
 	ProjectSection(ProjectDependencies) = postProject
 		{78771E1F-AE6F-4178-90C5-D05965E306DA} = {78771E1F-AE6F-4178-90C5-D05965E306DA}
 		{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0} = {5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}

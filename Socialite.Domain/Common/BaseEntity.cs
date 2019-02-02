@@ -7,23 +7,30 @@ namespace Socialite.Domain.Common
         /// <summary>
         /// ID for this BaseEntity
         /// </summary>
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// List of Domain Events being raised for this BaseEntity
         /// </summary>
-        public List<BaseEvent> Events { get; private set; }
+        private List<BaseEvent> _events;
+        public IReadOnlyCollection<BaseEvent> Events => _events?.AsReadOnly();
 
         public void AddEvent(BaseEvent eventItem)
         {
-            Events = Events ?? new List<BaseEvent>();
-            Events.Add(eventItem);
+            _events = _events ?? new List<BaseEvent>();
+            _events.Add(eventItem);
         }
 
         public void RemoveEvent(BaseEvent eventItem)
         {
-            if (Events is null) return;
-            Events.Remove(eventItem);
+            if (_events is null) return;
+            _events.Remove(eventItem);
+        }
+
+        public void ClearEvents()
+        {
+            if (_events is null) return;
+            _events.Clear();
         }
     }
 }

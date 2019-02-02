@@ -2,11 +2,11 @@
 using Socialite.Domain.Common;
 using Socialite.Domain.Interfaces;
 
-namespace Socialite.Domain.Entities
+namespace Socialite.Domain.AggregateModels.StatusAggregate
 {
-    public class Status : BaseEntity, IStatus
+    public class Status : BaseEntity, IAggregateRoot
     {
-        public char Mood { get; set; }
+        public string Mood { get; set; }
 
         public string Text { get; set; }
 
