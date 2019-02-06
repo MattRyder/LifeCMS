@@ -6,12 +6,12 @@ namespace Socialite.Domain.AggregateModels.StatusAggregate
 {
     public interface IStatusRepository : IRepository<Status>
     {
-        Status Add(Status status);
-
-        void Update(Status status);
+        List<Status> FindAll();
 
         Task<Status> FindAsync(int statusId);
 
-        List<Status> FindAll();
+        Status Add(Status status);
+
+        void Delete(Status status);
     }
 }

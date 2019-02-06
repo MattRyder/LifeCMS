@@ -15,21 +15,23 @@ namespace Socialite.Domain.Common
         private List<BaseEvent> _events;
         public IReadOnlyCollection<BaseEvent> Events => _events?.AsReadOnly();
 
+        public BaseEntity()
+        {
+            _events = new List<BaseEvent>();
+        }
+
         public void AddEvent(BaseEvent eventItem)
         {
-            _events = _events ?? new List<BaseEvent>();
             _events.Add(eventItem);
         }
 
         public void RemoveEvent(BaseEvent eventItem)
         {
-            if (_events is null) return;
             _events.Remove(eventItem);
         }
 
         public void ClearEvents()
         {
-            if (_events is null) return;
             _events.Clear();
         }
     }

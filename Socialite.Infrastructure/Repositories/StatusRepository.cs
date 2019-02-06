@@ -18,14 +18,9 @@ namespace Socialite.Infrastructure.Repositories
             StatusContext = statusContext;
         }
 
-        public Status Add(Status status)
+        public List<Status> FindAll()
         {
-            return StatusContext.Statuses.Add(status).Entity;
-        }
-
-        public void Update(Status status)
-        {
-            StatusContext.Statuses.Update(status);
+            return StatusContext.Set<Status>().ToList();
         }
 
         public async Task<Status> FindAsync(int statusId)
@@ -33,9 +28,14 @@ namespace Socialite.Infrastructure.Repositories
             return await StatusContext.Set<Status>().FindAsync(statusId);
         }
 
-        public List<Status> FindAll()
+        public Status Add(Status status)
         {
-            return StatusContext.Set<Status>().ToList();
+            return StatusContext.Statuses.Add(status).Entity;
+        }
+
+        public void Delete(Status status)
+        {
+            StatusContext.Set<Status>().Remove(status);
         }
     }
 }

@@ -4,13 +4,13 @@ using MediatR;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Repositories;
 
-namespace Socialite.WebAPI.Application.Commands
+namespace Socialite.WebAPI.Application.Commands.Status
 {
     class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, bool>
     {
-        private readonly StatusRepository _statusRepository;
+        private readonly IStatusRepository _statusRepository;
 
-        public CreateStatusCommandHandler(StatusRepository statusRepository)
+        public CreateStatusCommandHandler(IStatusRepository statusRepository)
         {
             _statusRepository = statusRepository;
         }
@@ -19,7 +19,7 @@ namespace Socialite.WebAPI.Application.Commands
         {
             _statusRepository.Add(request.Status);
 
-            return await _statusRepository.StatusContext.SaveEntitiesAsync();
+            return await _statusRepository.UnitOfWork.SaveEntitiesAsync();
         }
     }
 }
