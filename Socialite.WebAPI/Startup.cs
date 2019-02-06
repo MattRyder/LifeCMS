@@ -34,7 +34,6 @@ namespace Socialite
 
 
             services.AddTransient<IStatusRepository, StatusRepository>()
-                    .AddTransient<IDomainEventDispatcher, DomainEventDispatcher>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
                     .AddTransient<IStatusQueries, StatusQueries>(s =>
                     {
