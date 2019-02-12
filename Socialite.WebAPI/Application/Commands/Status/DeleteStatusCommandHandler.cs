@@ -6,7 +6,7 @@ using Socialite.Infrastructure.Repositories;
 
 namespace Socialite.WebAPI.Application.Commands.Status
 {
-    class DeleteStatusCommandHandler : IRequestHandler<DeleteStatusCommand, DeleteStatusCommandResult>
+    public class DeleteStatusCommandHandler : IRequestHandler<DeleteStatusCommand, DeleteStatusCommandResult>
     {
         private readonly IStatusRepository _statusRepository;
 

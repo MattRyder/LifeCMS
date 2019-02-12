@@ -6,7 +6,7 @@ using Socialite.Infrastructure.Repositories;
 
 namespace Socialite.WebAPI.Application.Commands.Status
 {
-    class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, bool>
+    public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, bool>
     {
         private readonly IStatusRepository _statusRepository;
 

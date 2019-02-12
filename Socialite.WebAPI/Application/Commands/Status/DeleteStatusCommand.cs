@@ -3,7 +3,7 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 
 namespace Socialite.WebAPI.Application.Commands.Status
 {
-    enum DeleteStatusCommandResult
+    public enum DeleteStatusCommandResult
     {
         // Successfully deleted the Status
         Success,

@@ -11,16 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.WebAPI", "Sociali
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.Domain", "Socialite.Domain\Socialite.Domain.csproj", "{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.Test", "Socialite.Test\Socialite.Test.csproj", "{452C82B8-A5F8-464E-9121-084869200CB7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{78771E1F-AE6F-4178-90C5-D05965E306DA} = {78771E1F-AE6F-4178-90C5-D05965E306DA}
-		{A0DA9364-A515-4E9D-8C53-F2F583719958} = {A0DA9364-A515-4E9D-8C53-F2F583719958}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.Infrastructure", "Socialite.Infrastructure\Socialite.Infrastructure.csproj", "{78771E1F-AE6F-4178-90C5-D05965E306DA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0} = {5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socialite.UnitTests", "Socialite.UnitTests\Socialite.UnitTests.csproj", "{7DA1C85F-99A2-496C-8C37-5E5E2403745D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,14 +32,14 @@ Global
 		{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5BAC76B8-D6FB-4BA7-A369-071CAC6AF2A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{452C82B8-A5F8-464E-9121-084869200CB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{452C82B8-A5F8-464E-9121-084869200CB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{452C82B8-A5F8-464E-9121-084869200CB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{452C82B8-A5F8-464E-9121-084869200CB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78771E1F-AE6F-4178-90C5-D05965E306DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78771E1F-AE6F-4178-90C5-D05965E306DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78771E1F-AE6F-4178-90C5-D05965E306DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78771E1F-AE6F-4178-90C5-D05965E306DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
