@@ -17,9 +17,17 @@ namespace Socialite.UnitTests.Domain
         }
 
         [Fact]
-        public void Constructor_ThrowsException_GivenEmptyParams()
+        public void Constructor_ThrowsException_GivenEmptyMood()
         {
-            Assert.Throws<StatusDomainException>(() => new Status(string.Empty, string.Empty));
+            var validStatus = StatusFactory.Create();
+            Assert.Throws<StatusDomainException>(() => new Status(string.Empty, validStatus.Text));
+        }
+
+        [Fact]
+        public void Constructor_ThrowsException_GivenEmptyText()
+        {
+            var validStatus = StatusFactory.Create();
+            Assert.Throws<StatusDomainException>(() => new Status(validStatus.Mood, string.Empty));
         }
     }
 }

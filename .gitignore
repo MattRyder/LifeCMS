@@ -4,6 +4,8 @@
 # Socialite
 Socialite.WebAPI/Properties/launchSettings.json
 
+lcov.info
+
 # User-specific files
 *.suo
 *.user

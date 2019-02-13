@@ -12,22 +12,22 @@ namespace Socialite.UnitTests.Factories
         {
             return new Faker<Status>().CustomInstantiator(
                 f => new Status(
-                    f.Lorem.Sentence(),
-                    f.PickRandom(new[] { "👍", "👌", "🤘" }
-                ))
+                    f.PickRandom(new[] { "👍", "👌", "🤘" }),
+                    f.Lorem.Sentence()
+                )
             );
         }
 
         public static List<Status> CreateList(int count = 0)
         {
-            if(count <= 0)
+            if (count <= 0)
             {
                 count = new Random().Next(1, 20);
             }
 
             var statusList = new List<Status>();
 
-            for(var i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 statusList.Add(Create());
             }
