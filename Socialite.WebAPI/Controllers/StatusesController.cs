@@ -51,6 +51,7 @@ namespace Socialite.WebAPI.Controllers
         public async Task<IActionResult> Post([FromBody] Status status)
         {
             var command = new CreateStatusCommand(status);
+
             var result = await _mediator.Send(command);
 
             if (result)
