@@ -8,4 +8,5 @@ jobs:
       - run: find .
       - run: dotnet restore
       - run: dotnet build
-      - run: dotnet test --no-build Socialite.UnitTests
+      - run: dotnet test --no-build /p:CollectCoverage=true  /p:Include="[Socialite.*]*" /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info Socialite.UnitTests
+      - run: bash <(curl -s https://codecov.io/bash)
