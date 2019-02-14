@@ -34,7 +34,6 @@ namespace Socialite.Infrastructure.Data
             modelBuilder.Entity<Status>().Ignore(s => s.Events);
 
             modelBuilder.Entity<Status>().Property(s => s.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
-            modelBuilder.Entity<Status>().Property(s => s.UpdatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
         }
 
         public Task<int> SaveChangesAsync()

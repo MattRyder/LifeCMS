@@ -35,10 +35,12 @@ namespace Socialite
 
             services.AddTransient<IStatusRepository, StatusRepository>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
-                    .AddTransient<IStatusQueries, StatusQueries>(s =>
+                    .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
                     {
-                        return new StatusQueries(Configuration["ConnectionStrings:Socialite"]);
-                    });
+                        return new MySqlDbConnectionFactory(Configuration["ConnectionStrings:Socialite"]);
+                    })
+                    .AddTransient<IStatusQueries, StatusQueries>();
+
 
             services.AddMvc()
             .AddJsonOptions(json =>

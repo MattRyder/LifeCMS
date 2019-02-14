@@ -15,7 +15,7 @@ using System.Net;
 using System.Threading;
 using System;
 
-namespace Socialite.UnitTests.Application
+namespace Socialite.UnitTests.Application.Commands
 {
     public class StatusControllerTest
     {

@@ -10,21 +10,16 @@ namespace Socialite.WebAPI.Queries.Status
 {
     public class StatusQueries : IStatusQueries
     {
-        private string _dbConnectionString;
+        private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public StatusQueries(string dbConnectionString)
+        public StatusQueries(IDbConnectionFactory dbConnectionFactory)
         {
-            this._dbConnectionString = dbConnectionString;
-        }
-
-        public IDbConnection DbConnection
-        {
-            get { return new MySqlConnection(_dbConnectionString); }
+            _dbConnectionFactory = dbConnectionFactory;
         }
 
         public async Task<IEnumerable<StatusDTO>> FindAllAsync()
         {
-            using (var connection = DbConnection)
+            using (var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findAllQuery = @"
                     SELECT Id, Mood, Text, CreatedAt
@@ -37,7 +32,7 @@ namespace Socialite.WebAPI.Queries.Status
 
         public async Task<StatusDTO> FindStatus(int id)
         {
-            using (var connection = DbConnection)
+            using (var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findStatusQuery = @"
                     SELECT Id, Mood, Text, CreatedAt

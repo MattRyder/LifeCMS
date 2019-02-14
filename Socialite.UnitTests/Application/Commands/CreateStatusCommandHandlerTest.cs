@@ -7,7 +7,7 @@ using Bogus;
 using System.Threading.Tasks;
 using Socialite.UnitTests.Factories;
 
-namespace Socialite.UnitTests.Application
+namespace Socialite.UnitTests.Application.Commands
 {
     public class CreateStatusCommandHandlerTest
     {

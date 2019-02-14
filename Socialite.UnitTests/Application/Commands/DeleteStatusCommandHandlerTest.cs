@@ -7,7 +7,7 @@ using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Application.Commands.Status;
 using Xunit;
 
-namespace Socialite.UnitTests.Application
+namespace Socialite.UnitTests.Application.Commands
 {
     public class DeleteStatusCommandHandlerTest
     {
