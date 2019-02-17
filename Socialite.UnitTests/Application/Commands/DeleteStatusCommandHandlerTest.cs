@@ -4,7 +4,8 @@ using MediatR;
 using Moq;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.UnitTests.Factories;
-using Socialite.WebAPI.Application.Commands.Status;
+using Socialite.WebAPI.Application.Commands.Statuses;
+using Socialite.WebAPI.Application.Enums;
 using Xunit;
 
 namespace Socialite.UnitTests.Application.Commands
@@ -39,7 +40,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var result = await handler.Handle(deleteStatusCmd, new System.Threading.CancellationToken());
 
-            Assert.Equal(DeleteStatusCommandResult.Success, result);
+            Assert.Equal(DeleteCommandResult.Success, result);
 
             _statusRepositoryMock.Verify(x => x.Delete(status), Times.Once);
 
@@ -59,7 +60,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var result = await handler.Handle(deleteStatusCmd, new System.Threading.CancellationToken());
 
-            Assert.Equal(DeleteStatusCommandResult.NotFound, result);
+            Assert.Equal(DeleteCommandResult.NotFound, result);
 
             _statusRepositoryMock.Verify(x => x.FindAsync(statusId), Times.Once);
 
@@ -85,7 +86,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var result = await handler.Handle(deleteStatusCmd, new System.Threading.CancellationToken());
 
-            Assert.Equal(DeleteStatusCommandResult.Failure, result);
+            Assert.Equal(DeleteCommandResult.Failure, result);
         }
     }
 }

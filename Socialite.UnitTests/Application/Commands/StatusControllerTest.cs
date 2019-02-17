@@ -10,10 +10,11 @@ using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Controllers;
 using Socialite.WebAPI.Queries.Status;
 using Xunit;
-using Socialite.WebAPI.Application.Commands.Status;
+using Socialite.WebAPI.Application.Commands.Statuses;
 using System.Net;
 using System.Threading;
 using System;
+using Socialite.WebAPI.Application.Enums;
 
 namespace Socialite.UnitTests.Application.Commands
 {
@@ -125,7 +126,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Controller_GivenValidId_Delete_ReturnsOk()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteStatusCommandResult.Success));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
 
             var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
 
@@ -137,7 +138,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Controller_Delete_ReturnsNotFound()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteStatusCommandResult.NotFound));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
             var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
 
@@ -149,7 +150,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Controller_Delete_ReturnsBadRequest_WhenCommandFails()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteStatusCommandResult.Failure));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
             var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
 
@@ -161,7 +162,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Controller_GivenInvalidId_Delete_ReturnsBadRequest()
         {
-            var invalidDeleteStatusCmdResult = (DeleteStatusCommandResult)Int32.MaxValue;
+            var invalidDeleteStatusCmdResult = (DeleteCommandResult)Int32.MaxValue;
 
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(invalidDeleteStatusCmdResult));
 

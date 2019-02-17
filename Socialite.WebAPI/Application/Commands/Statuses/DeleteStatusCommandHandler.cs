@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using MediatR;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Repositories;
+using Socialite.WebAPI.Application.Enums;
 
-namespace Socialite.WebAPI.Application.Commands.Status
+namespace Socialite.WebAPI.Application.Commands.Statuses
 {
-    public class DeleteStatusCommandHandler : IRequestHandler<DeleteStatusCommand, DeleteStatusCommandResult>
+    public class DeleteStatusCommandHandler : IRequestHandler<DeleteStatusCommand, DeleteCommandResult>
     {
         private readonly IStatusRepository _statusRepository;
 
@@ -15,7 +16,7 @@ namespace Socialite.WebAPI.Application.Commands.Status
             _statusRepository = statusRepository;
         }
 
-        public async Task<DeleteStatusCommandResult> Handle(DeleteStatusCommand command, CancellationToken cancellationToken)
+        public async Task<DeleteCommandResult> Handle(DeleteStatusCommand command, CancellationToken cancellationToken)
         {
             var status = await _statusRepository.FindAsync(command.StatusId);
 
@@ -25,12 +26,12 @@ namespace Socialite.WebAPI.Application.Commands.Status
 
                 var result = await _statusRepository.UnitOfWork.SaveEntitiesAsync();
 
-                return result ? DeleteStatusCommandResult.Success : DeleteStatusCommandResult.Failure;
+                return result ? DeleteCommandResult.Success : DeleteCommandResult.Failure;
 
             }
             else
             {
-                return DeleteStatusCommandResult.NotFound;
+                return DeleteCommandResult.NotFound;
             }
         }
     }

@@ -4,7 +4,7 @@ using MediatR;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Repositories;
 
-namespace Socialite.WebAPI.Application.Commands.Status
+namespace Socialite.WebAPI.Application.Commands.Statuses
 {
     public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, bool>
     {

@@ -9,33 +9,33 @@ namespace Socialite.Infrastructure.Repositories
 {
     public class StatusRepository : IStatusRepository
     {
-        public StatusContext StatusContext { get; private set; }
+        public SocialiteDbContext DbContext { get; private set; }
 
-        public IUnitOfWork UnitOfWork => StatusContext;
+        public IUnitOfWork UnitOfWork => DbContext;
 
-        public StatusRepository(StatusContext statusContext)
+        public StatusRepository(SocialiteDbContext dbContext)
         {
-            StatusContext = statusContext;
+            DbContext = dbContext;
         }
 
         public List<Status> FindAll()
         {
-            return StatusContext.Set<Status>().ToList();
+            return DbContext.Set<Status>().ToList();
         }
 
         public async Task<Status> FindAsync(int statusId)
         {
-            return await StatusContext.Set<Status>().FindAsync(statusId);
+            return await DbContext.Set<Status>().FindAsync(statusId);
         }
 
         public Status Add(Status status)
         {
-            return StatusContext.Statuses.Add(status).Entity;
+            return DbContext.Statuses.Add(status).Entity;
         }
 
         public void Delete(Status status)
         {
-            StatusContext.Set<Status>().Remove(status);
+            DbContext.Set<Status>().Remove(status);
         }
     }
 }

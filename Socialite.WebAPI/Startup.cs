@@ -1,16 +1,16 @@
-﻿using System.Diagnostics;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
+using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.Domain.Common;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
-using Socialite.WebAPI.Application.Commands.Status;
+using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Queries.Status;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -28,16 +28,21 @@ namespace Socialite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration["ConnectionStrings:Socialite"];
+
             services.AddMediatR();
 
-            services.AddEntityFrameworkSqlServer().AddDbContext<StatusContext>();
-
+            services.AddEntityFrameworkSqlServer().AddDbContext<SocialiteDbContext>(opts =>
+            {
+                opts.UseMySql(connectionString);
+            });
 
             services.AddTransient<IStatusRepository, StatusRepository>()
+                    .AddTransient<IPostRepository, PostRepository>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
                     .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
                     {
-                        return new MySqlDbConnectionFactory(Configuration["ConnectionStrings:Socialite"]);
+                        return new MySqlDbConnectionFactory(connectionString);
                     })
                     .AddTransient<IStatusQueries, StatusQueries>();
 

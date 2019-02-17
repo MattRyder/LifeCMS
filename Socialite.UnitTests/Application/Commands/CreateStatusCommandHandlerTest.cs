@@ -1,11 +1,10 @@
 using MediatR;
 using Moq;
 using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.WebAPI.Application.Commands.Status;
 using Xunit;
-using Bogus;
 using System.Threading.Tasks;
 using Socialite.UnitTests.Factories;
+using Socialite.WebAPI.Application.Commands.Statuses;
 
 namespace Socialite.UnitTests.Application.Commands
 {

@@ -1,45 +1,42 @@
-﻿using System.Net;
+using System.Net;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.WebAPI.Application.Commands.Statuses;
+using Socialite.Domain.AggregateModels.PostAggregate;
+using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Enums;
-using Socialite.WebAPI.Queries.Status;
 
 namespace Socialite.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StatusesController : ControllerBase
+    public class PostsController : ControllerBase
     {
         public readonly IMediator _mediator;
-        public readonly IStatusRepository _statusRepository;
-        public readonly IStatusQueries _statusQueries;
+        public readonly IPostRepository _postRepository;
 
-        public StatusesController(IMediator mediator, IStatusRepository statusRepository, IStatusQueries statusQueries)
+        public PostsController(IMediator mediator, IPostRepository postRepository)
         {
             _mediator = mediator;
-            _statusRepository = statusRepository;
-            _statusQueries = statusQueries;
+            _postRepository = postRepository;
         }
 
-        // GET: api/Statuses
-        [HttpGet(Name = "GetStatuses")]
+        // GET: api/Posts
+        [HttpGet(Name = "GetPosts")]
         public async Task<IActionResult> Get()
         {
-            var statuses = await _statusQueries.FindAllAsync();
-            return Ok(statuses);
+            // var statuses = await _statusQueries.FindAllAsync();
+            return Ok();
         }
 
-        // GET: api/Statuses/5
-        [HttpGet("{id}", Name = "GetStatus")]
+        // GET: api/Posts/5
+        [HttpGet("{id}", Name = "GetPost")]
         public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var status = await _statusQueries.FindStatus(id);
-                return Ok(status);
+                // var status = await _statusQueries.FindStatus(id);
+                return Ok();
             }
             catch
             {
@@ -47,11 +44,11 @@ namespace Socialite.WebAPI.Controllers
             }
         }
 
-        // POST: api/Statuses
+        // POST: api/Posts
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Status status)
+        public async Task<IActionResult> Post([FromBody] Post post)
         {
-            var command = new CreateStatusCommand(status);
+            var command = new CreatePostCommand(post);
 
             var result = await _mediator.Send(command);
 
@@ -61,15 +58,16 @@ namespace Socialite.WebAPI.Controllers
             }
             else
             {
-                return BadRequest(status);
+                return BadRequest(post);
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Posts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var command = new DeleteStatusCommand(id);
+            var command = new DeletePostCommand(id);
+
             var result = await _mediator.Send(command);
 
             switch (result)
