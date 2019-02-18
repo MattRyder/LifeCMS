@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using MediatR;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Enums;
+using Socialite.WebAPI.Queries.Posts;
 
 namespace Socialite.WebAPI.Controllers
 {
@@ -14,19 +16,22 @@ namespace Socialite.WebAPI.Controllers
     {
         public readonly IMediator _mediator;
         public readonly IPostRepository _postRepository;
+        public readonly IPostQueries _postQueries;
 
-        public PostsController(IMediator mediator, IPostRepository postRepository)
+        public PostsController(IMediator mediator, IPostRepository postRepository, IPostQueries postQueries)
         {
             _mediator = mediator;
             _postRepository = postRepository;
+            _postQueries = postQueries;
         }
 
         // GET: api/Posts
         [HttpGet(Name = "GetPosts")]
         public async Task<IActionResult> Get()
         {
-            // var statuses = await _statusQueries.FindAllAsync();
-            return Ok();
+            var posts = await _postQueries.FindAllAsync();
+
+            return Ok(posts);
         }
 
         // GET: api/Posts/5
@@ -35,10 +40,11 @@ namespace Socialite.WebAPI.Controllers
         {
             try
             {
-                // var status = await _statusQueries.FindStatus(id);
-                return Ok();
+                var post = await _postQueries.FindAsync(id);
+
+                return Ok(post);
             }
-            catch
+            catch (KeyNotFoundException)
             {
                 return NotFound();
             }
@@ -77,9 +83,8 @@ namespace Socialite.WebAPI.Controllers
                 case DeleteCommandResult.NotFound:
                     return NotFound();
                 case DeleteCommandResult.Failure:
-                    return BadRequest();
                 default:
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
+                    return BadRequest();
             }
         }
     }

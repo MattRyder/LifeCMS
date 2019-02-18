@@ -10,12 +10,12 @@ using Xunit;
 
 namespace Socialite.UnitTests.Application.Commands
 {
-    public class DeleteCommandHandlerTest
+    public class DeletePostCommandHandlerTest
     {
         private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IPostRepository> _postRepositoryMock;
 
-        public DeleteCommandHandlerTest()
+        public DeletePostCommandHandlerTest()
         {
             _mediatorMock = new Mock<IMediator>();
             _postRepositoryMock = new Mock<IPostRepository>();
@@ -41,8 +41,6 @@ namespace Socialite.UnitTests.Application.Commands
             var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
 
             var result = await handler.Handle(deletePostCmd, default(CancellationToken));
-
-            Assert.NotNull(result);
 
             Assert.Equal(DeleteCommandResult.Success, result);
         }

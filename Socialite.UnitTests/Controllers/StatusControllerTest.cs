@@ -16,7 +16,7 @@ using System.Threading;
 using System;
 using Socialite.WebAPI.Application.Enums;
 
-namespace Socialite.UnitTests.Application.Commands
+namespace Socialite.UnitTests.Controllers
 {
     public class StatusControllerTest
     {
@@ -32,7 +32,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_Get_ReturnsOk()
+        public async void Get_ReturnsOk()
         {
             var statusList = StatusFactory.CreateList();
 
@@ -56,7 +56,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_GivenAnId_Get_ReturnsStatus()
+        public async void Get_ReturnsStatus_GivenAnId()
         {
             var expectedStatusId = 1;
 
@@ -82,7 +82,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_GivenInvalidId_Get_ReturnsNotFound()
+        public async void Get_ReturnsNotFound_GivenInvalidId()
         {
             var statusId = 1;
 
@@ -98,7 +98,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_GivenStatusBody_Post_WhenValid()
+        public async void Post_ReturnsOk_GivenValidStatus()
         {
             var status = StatusFactory.Create();
 
@@ -112,7 +112,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_GivenInvalidBody_Post_ReturnsBadRequest()
+        public async void Post_ReturnsBadRequest_GivenInvalidBody()
         {
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(false));
 
@@ -124,7 +124,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_GivenValidId_Delete_ReturnsOk()
+        public async void Delete_ReturnsOk_GivenValidId()
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
 
@@ -136,7 +136,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_Delete_ReturnsNotFound()
+        public async void Delete_ReturnsNotFound_GivenInvalidId()
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
@@ -148,7 +148,7 @@ namespace Socialite.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Controller_Delete_ReturnsBadRequest_WhenCommandFails()
+        public async void Delete_ReturnsBadRequest_WhenCommandFails()
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
@@ -157,20 +157,6 @@ namespace Socialite.UnitTests.Application.Commands
             var actionResult = await controller.Delete(1) as BadRequestResult;
 
             Assert.Equal((int)HttpStatusCode.BadRequest, actionResult.StatusCode);
-        }
-
-        [Fact]
-        public async void Controller_GivenInvalidId_Delete_ReturnsBadRequest()
-        {
-            var invalidDeleteStatusCmdResult = (DeleteCommandResult)Int32.MaxValue;
-
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(invalidDeleteStatusCmdResult));
-
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
-
-            var actionResult = await controller.Delete(1) as StatusCodeResult;
-
-            Assert.Equal((int)HttpStatusCode.InternalServerError, actionResult.StatusCode);
         }
     }
 }

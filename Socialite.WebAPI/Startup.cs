@@ -11,6 +11,8 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
 using Socialite.WebAPI.Application.Commands.Statuses;
+using Socialite.WebAPI.Application.Queries.Posts;
+using Socialite.WebAPI.Queries.Posts;
 using Socialite.WebAPI.Queries.Status;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -44,7 +46,8 @@ namespace Socialite
                     {
                         return new MySqlDbConnectionFactory(connectionString);
                     })
-                    .AddTransient<IStatusQueries, StatusQueries>();
+                    .AddTransient<IStatusQueries, StatusQueries>()
+                    .AddTransient<IPostQueries, PostQueries>();
 
 
             services.AddMvc()
