@@ -12,4 +12,5 @@ namespace Socialite.WebAPI.Application.Commands.Posts
             this.PostId = postId;
         }
     }
+
 }

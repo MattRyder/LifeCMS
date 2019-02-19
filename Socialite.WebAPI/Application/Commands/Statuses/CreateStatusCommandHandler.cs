@@ -17,7 +17,9 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
 
         public async Task<bool> Handle(CreateStatusCommand request, CancellationToken cancellationToken)
         {
-            _statusRepository.Add(request.Status);
+            var status = new Status(request.Mood, request.Text);
+
+            _statusRepository.Add(status);
 
             return await _statusRepository.UnitOfWork.SaveEntitiesAsync();
         }

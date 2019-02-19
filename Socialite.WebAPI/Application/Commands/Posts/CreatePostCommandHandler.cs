@@ -16,7 +16,9 @@ namespace Socialite.WebAPI.Application.Commands.Posts
 
         public async Task<bool> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            _postRepository.Add(request.Post);
+            var post = new Post(request.Text);
+
+            _postRepository.Add(post);
 
             return await _postRepository.UnitOfWork.SaveEntitiesAsync();
         }

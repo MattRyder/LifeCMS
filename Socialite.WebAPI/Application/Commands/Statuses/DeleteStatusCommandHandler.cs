@@ -27,7 +27,6 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
                 var result = await _statusRepository.UnitOfWork.SaveEntitiesAsync();
 
                 return result ? DeleteCommandResult.Success : DeleteCommandResult.Failure;
-
             }
             else
             {

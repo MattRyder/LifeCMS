@@ -52,20 +52,19 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Post post)
+        public async Task<IActionResult> Post([FromBody] CreatePostCommand command)
         {
-            var command = new CreatePostCommand(post);
-
-            var result = await _mediator.Send(command);
-
-            if (result)
+            if(ModelState.IsValid)
             {
-                return Ok();
+                var result = await _mediator.Send(command);
+
+                if(result)
+                {
+                    return Ok();
+                }
             }
-            else
-            {
-                return BadRequest(post);
-            }
+
+            return BadRequest(command);
         }
 
         // DELETE: api/Posts/5

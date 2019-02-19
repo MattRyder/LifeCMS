@@ -102,11 +102,13 @@ namespace Socialite.UnitTests.Controllers
         {
             var status = StatusFactory.Create();
 
+            var createStatusCmd = new CreateStatusCommand(status.Mood, status.Text);
+
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(true));
 
             var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
 
-            var actionResult = await controller.Post(status) as OkResult;
+            var actionResult = await controller.Post(createStatusCmd) as OkResult;
 
             Assert.Equal((int)HttpStatusCode.OK, actionResult.StatusCode);
         }

@@ -30,7 +30,7 @@ namespace Socialite.Infrastructure.Repositories
 
         public Status Add(Status status)
         {
-            return DbContext.Statuses.Add(status).Entity;
+            return DbContext.Set<Status>().Add(status).Entity;
         }
 
         public void Delete(Status status)

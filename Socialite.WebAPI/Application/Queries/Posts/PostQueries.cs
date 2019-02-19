@@ -21,8 +21,10 @@ namespace Socialite.WebAPI.Application.Queries.Posts
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findAllQuery = @"
-                    SELECT Id, Text, State, CreatedAt, UpdatedAt
-                    FROM Posts;";
+                    SELECT Posts.Id, Posts.Text, PostState.Name, Posts.CreatedAt
+                    FROM Posts
+                    INNER JOIN PostState
+                    ON Posts.StateId = PostState.Id;";
 
                 return await connection.QueryAsync<PostDTO>(findAllQuery);
             }
@@ -33,9 +35,11 @@ namespace Socialite.WebAPI.Application.Queries.Posts
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findByIdQuery = @"
-                    SELECT Id, Text, State, CreatedAt, UpdatedAt
+                    SELECT Posts.Id, Posts.Text, PostState.Name, Posts.CreatedAt
                     FROM Posts
-                    WHERE Id = @id";
+                    INNER JOIN PostState
+                    ON Posts.StateId = PostState.Id
+                    WHERE Posts.Id = @id";
 
                 var result = await connection.QueryAsync<PostDTO>(findByIdQuery);
 

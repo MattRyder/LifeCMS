@@ -44,5 +44,19 @@ namespace Socialite.UnitTests.Application.Commands
 
             Assert.Equal(DeleteCommandResult.Success, result);
         }
+
+        [Fact]
+        public async Task Handle_ReturnsNotFound_GivenInvalidId()
+        {
+            var deletePostCmd = new DeletePostCommand(1);
+
+            _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).Returns(Task.FromResult((Post)null));
+
+            var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
+
+            var result = await handler.Handle(deletePostCmd, default(CancellationToken));
+
+            Assert.Equal(DeleteCommandResult.NotFound, result);
+        }
     }
 }

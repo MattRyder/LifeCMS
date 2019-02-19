@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
 using Socialite.WebAPI.Queries.Status;
@@ -49,20 +50,19 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Statuses
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Status status)
+        public async Task<IActionResult> Post([FromBody] CreateStatusCommand createStatusCommand)
         {
-            var command = new CreateStatusCommand(status);
-
-            var result = await _mediator.Send(command);
-
-            if (result)
+            if(ModelState.IsValid)
             {
-                return Ok();
+                var result = await _mediator.Send(createStatusCommand);
+
+                if(result)
+                {
+                    return Ok();
+                }
             }
-            else
-            {
-                return BadRequest(status);
-            }
+
+            return BadRequest(createStatusCommand);
         }
 
         // DELETE: api/ApiWithActions/5
@@ -70,6 +70,7 @@ namespace Socialite.WebAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteStatusCommand(id);
+
             var result = await _mediator.Send(command);
 
             switch (result)
@@ -79,9 +80,8 @@ namespace Socialite.WebAPI.Controllers
                 case DeleteCommandResult.NotFound:
                     return NotFound();
                 case DeleteCommandResult.Failure:
-                    return BadRequest();
                 default:
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
+                    return BadRequest();
             }
         }
     }

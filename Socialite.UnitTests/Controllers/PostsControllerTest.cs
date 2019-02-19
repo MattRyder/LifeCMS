@@ -34,9 +34,11 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsOk()
         {
-            var postList = PostFactory.CreateDTOList();
+            var postList = PostFactory.CreateList();
 
-            _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postList));
+            IEnumerable<PostDTO> postDTOList = postList.ConvertAll<PostDTO>(p => PostDTO.FromModel(p));
+
+            _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postDTOList));
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
@@ -44,7 +46,7 @@ namespace Socialite.UnitTests.Controllers
 
             Assert.NotNull(result);
 
-            Assert.Equal(postList, result.Value as IEnumerable<PostDTO>);
+            Assert.Equal(postDTOList, result.Value as IEnumerable<PostDTO>);
         }
 
         [Fact]
@@ -52,7 +54,7 @@ namespace Socialite.UnitTests.Controllers
         {
             var expectedPostId = 1;
 
-            var post = PostFactory.CreateDTO();
+            var post = PostDTO.FromModel(PostFactory.Create());
 
             post.Id = expectedPostId;
 
@@ -88,11 +90,13 @@ namespace Socialite.UnitTests.Controllers
         {
             var post = PostFactory.Create();
 
+            var createPostCmd = new CreatePostCommand(post.Text);
+
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(true));
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Post(post) as OkResult;
+            var result = await controller.Post(createPostCmd) as OkResult;
 
             Assert.NotNull(result);
 
@@ -102,19 +106,17 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Post_ReturnsBadRequest_GivenInvalidBody()
         {
-            var post = PostFactory.Create();
+            var createPostCmd = new CreatePostCommand(string.Empty);
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(false));
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Post(post) as BadRequestObjectResult;
+            var result = await controller.Post(createPostCmd) as BadRequestObjectResult;
 
             Assert.NotNull(result);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
-
-            Assert.Equal(post, result.Value as Post);
         }
 
         [Fact]

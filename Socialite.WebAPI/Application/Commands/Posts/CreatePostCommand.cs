@@ -5,11 +5,11 @@ namespace Socialite.WebAPI.Application.Commands.Posts
 {
     public class CreatePostCommand : IRequest<bool>
     {
-        public Post Post { get; private set; }
+        public string Text { get; private set; }
 
-        public CreatePostCommand(Post post)
+        public CreatePostCommand(string text)
         {
-            this.Post = post;
+            Text = text;
         }
     }
 }

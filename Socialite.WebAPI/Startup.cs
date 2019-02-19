@@ -10,6 +10,7 @@ using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
+using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Queries.Posts;
 using Socialite.WebAPI.Queries.Posts;
@@ -42,6 +43,7 @@ namespace Socialite
             services.AddTransient<IStatusRepository, StatusRepository>()
                     .AddTransient<IPostRepository, PostRepository>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
+                    .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
                     .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
                     {
                         return new MySqlDbConnectionFactory(connectionString);

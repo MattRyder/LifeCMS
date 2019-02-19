@@ -26,7 +26,7 @@ namespace Socialite.UnitTests.Application.Commands
         {
             var post = PostFactory.Create();
 
-            var createPostCmd = new CreatePostCommand(post);
+            var createPostCmd = new CreatePostCommand(post.Text);
 
             _postRepositoryMock.Setup(p => p.Add(post)).Returns(post);
 

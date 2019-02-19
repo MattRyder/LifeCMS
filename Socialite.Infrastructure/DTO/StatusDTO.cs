@@ -9,10 +9,8 @@ namespace Socialite.Infrastructure.DTO
     {
         public int Id { get; set; }
 
-        [Required]
         public String Mood { get; set; }
 
-        [Required]
         public string Text { get; set; }
 
         public DateTime CreatedAt { get; set; }
