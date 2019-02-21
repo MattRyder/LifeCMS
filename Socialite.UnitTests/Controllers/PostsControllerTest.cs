@@ -34,39 +34,39 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsOk()
         {
-            var postList = PostFactory.CreateList();
+            IEnumerable<PostViewModel> postList = PostFactory.CreateDTOList().ToList().ConvertAll<PostViewModel>(p => PostViewModel.FromModel(p));
 
-            IEnumerable<PostDTO> postDTOList = postList.ConvertAll<PostDTO>(p => PostDTO.FromModel(p));
-
-            _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postDTOList));
+            _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postList));
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
             var result = await controller.Get() as OkObjectResult;
 
+            var resultValue = result.Value as IEnumerable<PostViewModel>;
+
             Assert.NotNull(result);
 
-            Assert.Equal(postDTOList, result.Value as IEnumerable<PostDTO>);
+            Assert.NotNull(resultValue);
+
+            Assert.Equal(postList, resultValue);
         }
 
         [Fact]
         public async void Get_ReturnsOk_GivenValidId()
         {
-            var expectedPostId = 1;
+            var post = PostViewModel.FromModel(PostFactory.CreateDTO());
 
-            var post = PostDTO.FromModel(PostFactory.Create());
-
-            post.Id = expectedPostId;
-
-            _postQueriesMock.Setup(x => x.FindAsync(expectedPostId)).Returns(Task.FromResult(post));
+            _postQueriesMock.Setup(x => x.FindAsync(post.Id)).Returns(Task.FromResult(post));
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Get(expectedPostId) as OkObjectResult;
+            var result = await controller.Get(post.Id) as OkObjectResult;
+
+            var resultValue = result.Value as PostViewModel;
 
             Assert.NotNull(result);
 
-            Assert.Equal(post, result.Value as PostDTO);
+            Assert.Equal(post, resultValue);
         }
 
         [Fact]

@@ -6,8 +6,8 @@ namespace  Socialite.WebAPI.Queries.Posts
 {
     public interface IPostQueries
     {
-        Task<IEnumerable<PostDTO>> FindAllAsync();
+        Task<IEnumerable<PostViewModel>> FindAllAsync();
 
-        Task<PostDTO> FindAsync(int id);
+        Task<PostViewModel> FindAsync(int id);
     }
 }

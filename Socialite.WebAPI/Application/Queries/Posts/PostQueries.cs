@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Queries.Posts;
 
@@ -16,32 +18,32 @@ namespace Socialite.WebAPI.Application.Queries.Posts
             _dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task<IEnumerable<PostDTO>> FindAllAsync()
+        public async Task<IEnumerable<PostViewModel>> FindAllAsync()
         {
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findAllQuery = @"
-                    SELECT Posts.Id, Posts.Text, PostState.Name, Posts.CreatedAt
+                    SELECT Posts.Id, Posts.Text, PostStates.Name as State, Posts.CreatedAt
                     FROM Posts
-                    INNER JOIN PostState
-                    ON Posts.StateId = PostState.Id;";
+                    INNER JOIN PostStates
+                    ON Posts.StateId = PostStates.Id;";
 
-                return await connection.QueryAsync<PostDTO>(findAllQuery);
+                return await connection.QueryAsync<PostViewModel>(findAllQuery);
             }
         }
 
-        public async Task<PostDTO> FindAsync(int id)
+        public async Task<PostViewModel> FindAsync(int id)
         {
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
                 string findByIdQuery = @"
-                    SELECT Posts.Id, Posts.Text, PostState.Name, Posts.CreatedAt
+                    SELECT Posts.Id, Posts.Text, PostStates.Name as State, Posts.CreatedAt
                     FROM Posts
                     INNER JOIN PostState
                     ON Posts.StateId = PostState.Id
                     WHERE Posts.Id = @id";
 
-                var result = await connection.QueryAsync<PostDTO>(findByIdQuery);
+                var result = await connection.QueryAsync<PostViewModel>(findByIdQuery);
 
                 if(result == null)
                 {
