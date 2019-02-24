@@ -13,6 +13,11 @@ namespace Socialite.Infrastructure.Repositories
 
         public IUnitOfWork UnitOfWork => DbContext;
 
+        public PostRepository(SocialiteDbContext context)
+        {
+            DbContext = context;
+        }
+
         public IEnumerable<Post> FindAll()
         {
             return DbContext.Set<Post>().ToList();

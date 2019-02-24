@@ -36,11 +36,6 @@ namespace Socialite.Infrastructure.Data
             modelBuilder.Entity<Post>().Property(p => p.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
         }
 
-        public Task<int> SaveChangesAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<bool> SaveEntitiesAsync()
         {
             await _mediator.DispatchDomainEventsAsync(this);

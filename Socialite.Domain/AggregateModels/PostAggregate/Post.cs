@@ -1,5 +1,6 @@
 using System;
 using Socialite.Domain.Common;
+using Socialite.Domain.Events;
 using Socialite.Domain.Exceptions;
 
 namespace Socialite.Domain.AggregateModels.PostAggregate
@@ -12,22 +13,31 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
 
         public string Text { get; private set; }
 
-        public Post() { }
+        private Post()
+        {
+            State = PostState.Drafted;
+        }
 
         public Post(string text) : this()
         {
             Text = !string.IsNullOrEmpty(text) ? text : throw new PostDomainException(nameof(text));
+
+            AddEvent(new PostDraftedEvent(this));
         }
 
-        public static Post NewDraft()
+        /// <summary>
+        /// Update the Post entity to a State of Published
+        /// </summary>
+        public void SetPublishedState()
         {
-            var post = new Post();
+            if(State != PostState.Drafted)
+            {
+                throw new PostDomainException("Cannot set Post state to published if not currently a draft");
+            }
 
-            post.State = PostState.Drafted;
+            State = PostState.Published;
 
-            return post;
+            AddEvent(new PostPublishedEvent(this));
         }
-
-
     }
 }

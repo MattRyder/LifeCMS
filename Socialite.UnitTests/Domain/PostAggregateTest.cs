@@ -13,6 +13,8 @@ namespace Socialite.UnitTests.Domain
             var post = PostFactory.Create();
 
             Assert.NotNull(post);
+
+            Assert.Equal(1, post.Events.Count);
         }
 
         [Fact]
@@ -22,15 +24,15 @@ namespace Socialite.UnitTests.Domain
         }
 
         [Fact]
-        public void NewDraft_ReturnsPost()
+        public void SetPublishedStatus_CreatesEvent_GivenValidDraft()
         {
-            var post = Post.NewDraft();
+            var post = PostFactory.Create();
 
             Assert.NotNull(post);
 
-            Assert.Equal(PostState.Drafted, post.State);
+            post.SetPublishedState();
+
+            Assert.Equal(2, post.Events.Count);
         }
-
-
     }
 }

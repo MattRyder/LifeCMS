@@ -26,8 +26,7 @@ namespace Socialite.WebAPI.Controllers
         }
 
         // GET: api/Posts
-        [HttpGet(Name = "GetPosts")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetPosts()
         {
             var posts = await _postQueries.FindAllAsync();
 
@@ -35,8 +34,8 @@ namespace Socialite.WebAPI.Controllers
         }
 
         // GET: api/Posts/5
-        [HttpGet("{id}", Name = "GetPost")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPost(int id)
         {
             try
             {
@@ -52,13 +51,13 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreatePostCommand command)
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostCommand command)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await _mediator.Send(command);
 
-                if(result)
+                if (result)
                 {
                     return Ok();
                 }
@@ -67,9 +66,24 @@ namespace Socialite.WebAPI.Controllers
             return BadRequest(command);
         }
 
+        [HttpPut("{id}/publish")]
+        public async Task<IActionResult> PublishPost(int id)
+        {
+            var command = new PublishPostCommand(id);
+
+            var result = await _mediator.Send(command);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest(command);
+        }
+
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeletePost(int id)
         {
             var command = new DeletePostCommand(id);
 

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Domain.Events;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
 using Socialite.WebAPI.Application.Commands.Posts;

@@ -40,7 +40,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Get() as OkObjectResult;
+            var result = await controller.GetPosts() as OkObjectResult;
 
             var resultValue = result.Value as IEnumerable<PostViewModel>;
 
@@ -60,7 +60,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Get(post.Id) as OkObjectResult;
+            var result = await controller.GetPost(post.Id) as OkObjectResult;
 
             var resultValue = result.Value as PostViewModel;
 
@@ -78,7 +78,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Get(invalidId) as NotFoundResult;
+            var result = await controller.GetPost(invalidId) as NotFoundResult;
 
             Assert.NotNull(result);
 
@@ -96,7 +96,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Post(createPostCmd) as OkResult;
+            var result = await controller.CreatePost(createPostCmd) as OkResult;
 
             Assert.NotNull(result);
 
@@ -112,7 +112,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Post(createPostCmd) as BadRequestObjectResult;
+            var result = await controller.CreatePost(createPostCmd) as BadRequestObjectResult;
 
             Assert.NotNull(result);
 
@@ -126,7 +126,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Delete(1) as OkResult;
+            var result = await controller.DeletePost(1) as OkResult;
 
             Assert.NotNull(result);
 
@@ -140,7 +140,7 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Delete(1) as NotFoundResult;
+            var result = await controller.DeletePost(1) as NotFoundResult;
 
             Assert.NotNull(result);
 
@@ -155,12 +155,43 @@ namespace Socialite.UnitTests.Controllers
 
             var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
 
-            var result = await controller.Delete(1) as BadRequestResult;
+            var result = await controller.DeletePost(1) as BadRequestResult;
 
             Assert.NotNull(result);
 
             Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
+        }
 
+        [Fact]
+        public async void Publish_ReturnsOk_GivenValidCommand()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<PublishPostCommand>(), default(CancellationToken))).Returns(Task.FromResult(true));
+
+            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+
+            var result = await controller.PublishPost(1) as OkResult;
+
+            Assert.NotNull(result);
+
+            Assert.Equal((int)HttpStatusCode.OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async void Publish_ReturnsBadRequest_GivenInvalidCommand()
+        {
+            _mediatorMock.Setup(x => x.Send(It.IsAny<PublishPostCommand>(), default(CancellationToken))).Returns(Task.FromResult(false));
+
+            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+
+            var result = await controller.PublishPost(1) as BadRequestObjectResult;
+
+            var resultValue = result.Value as PublishPostCommand;
+
+            Assert.NotNull(result);
+
+            Assert.NotNull(resultValue);
+
+            Assert.Equal((int)HttpStatusCode.BadRequest, result.StatusCode);
         }
     }
 }

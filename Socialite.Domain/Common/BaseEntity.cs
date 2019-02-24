@@ -20,16 +20,28 @@ namespace Socialite.Domain.Common
             _events = new List<BaseEvent>();
         }
 
+
+        /// <summary>
+        /// Adds an event to the entities event collection
+        /// </summary>
+        /// <param name="eventItem">Event to add to the list</param>
         public void AddEvent(BaseEvent eventItem)
         {
             _events.Add(eventItem);
         }
 
+        /// <summary>
+        /// Removes an event from the entity event collection
+        /// </summary>
+        /// <param name="eventItem">Event to remove from the list</param>
         public void RemoveEvent(BaseEvent eventItem)
         {
             _events.Remove(eventItem);
         }
 
+        /// <summary>
+        /// Clears all events from the entity
+        /// </summary>
         public void ClearEvents()
         {
             _events.Clear();
