@@ -5,13 +5,23 @@ Socialite
 
 A self-hosted social content management system, built on ASP Core.
 
-## Building
+## Installing Socialite via `docker-compose`
+
+Requires [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/) installed.
+
+```bash
+docker-compose build
+
+docker-compose up
+```
+
+## Building Socialite
 
 ```bash
 dotnet run -p Socialite.WebAPI
 ```
 
-## Testing
+## Testing Socialite
 
 ```bash
 dotnet test
