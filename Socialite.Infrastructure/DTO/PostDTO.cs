@@ -16,16 +16,5 @@ namespace Socialite.Infrastructure.DTO
         public PostState State { get; set; }
 
         public DateTime CreatedAt { get; set; }
-
-        public static PostDTO FromModel(Post post)
-        {
-            return new PostDTO()
-            {
-                Id = post.Id,
-                Text = post.Text,
-                State = post.State,
-                CreatedAt = post.CreatedAt
-            };
-        }
     }
 }
