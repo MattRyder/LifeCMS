@@ -9,6 +9,8 @@ namespace Socialite.Infrastructure.DTO
     {
         public int Id { get; set; }
 
+        public string Title { get; set; }
+
         public string Text { get; set; }
 
         public PostState State { get; set; }

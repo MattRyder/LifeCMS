@@ -90,7 +90,7 @@ namespace Socialite.UnitTests.Controllers
         {
             var post = PostFactory.Create();
 
-            var createPostCmd = new CreatePostCommand(post.Text);
+            var createPostCmd = new CreatePostCommand(post.Title, post.Text);
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(true));
 
@@ -106,7 +106,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Post_ReturnsBadRequest_GivenInvalidBody()
         {
-            var createPostCmd = new CreatePostCommand(string.Empty);
+            var createPostCmd = new CreatePostCommand(string.Empty, string.Empty);
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(false));
 

@@ -20,8 +20,15 @@ namespace Socialite.UnitTests.Domain
         [Fact]
         public void Constructor_ThrowsException_GivenInvalidTextParam()
         {
-            Assert.Throws<PostDomainException>(() => new Post(null));
+            Assert.Throws<PostDomainException>(() => new Post("Title", null));
         }
+
+        [Fact]
+        public void Constructor_ThrowsException_GivenInvalidTitleParam()
+        {
+            Assert.Throws<PostDomainException>(() => new Post(null, "Text"));
+        }
+
 
         [Fact]
         public void SetPublishedStatus_CreatesEvent_GivenValidDraft()
@@ -33,6 +40,20 @@ namespace Socialite.UnitTests.Domain
             post.SetPublishedState();
 
             Assert.Equal(2, post.Events.Count);
+        }
+
+        [Fact]
+        public void SetPublishedStatus_ThrowsException_GivenPublishedPost()
+        {
+            var post = PostFactory.Create();
+
+            Assert.NotNull(post);
+
+            post.SetPublishedState();
+
+            Assert.Equal(post.State, PostState.Published);
+
+            Assert.Throws<PostDomainException>(() => post.SetPublishedState());
         }
     }
 }

@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Socialite.Infrastructure.DTO;
 
 namespace Socialite.WebAPI.Queries.Posts
 {
-    public class PostViewModel
+    public class PostViewModel : ValueObject
     {
         public int Id { get; set; }
+        public string Title { get; set; }
         public string State { get; set; }
         public string Text { get; set; }
         public string CreatedAt { get; set; }
@@ -17,45 +19,19 @@ namespace Socialite.WebAPI.Queries.Posts
             {
                 Id = postDTO.Id,
                 State = postDTO.State.Name,
+                Title = postDTO.Title,
                 Text = postDTO.Text,
                 CreatedAt = postDTO.CreatedAt.ToString("o", CultureInfo.InvariantCulture)
             };
         }
 
-        // override object.Equals
-        public override bool Equals(object obj)
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-
-            var otherViewModel = obj as PostViewModel;
-
-            return Id.Equals(otherViewModel.Id) &&
-                    State.Equals(otherViewModel.State) &&
-                    Text.Equals(otherViewModel.Text) &&
-                    CreatedAt.Equals(otherViewModel.CreatedAt);
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = 13;
-            var prime = 397;
-
-            hashCode = (hashCode * prime) ^ Id;
-
-            var stateHash = !string.IsNullOrEmpty(State) ? State.GetHashCode() : 0;
-
-            hashCode = (hashCode * prime) ^ stateHash;
-
-            var textHash = !string.IsNullOrEmpty(Text) ? Text.GetHashCode() : 0;
-
-            hashCode = (hashCode * prime) ^ textHash;
-
-            hashCode = (hashCode * prime) ^ CreatedAt.GetHashCode();
-
-            return hashCode;
+            yield return Id;
+            yield return Title;
+            yield return State;
+            yield return Text;
+            yield return CreatedAt;
         }
     }
 }

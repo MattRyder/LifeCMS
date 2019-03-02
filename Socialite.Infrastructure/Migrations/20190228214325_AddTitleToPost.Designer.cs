@@ -2,19 +2,21 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Socialite.Infrastructure.Data;
 
 namespace Socialite.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialiteDbContext))]
-    partial class SocialiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190228214325_AddTitleToPost")]
+    partial class AddTitleToPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Socialite.Domain.AggregateModels.PostAggregate.Post", b =>
@@ -48,19 +50,7 @@ namespace Socialite.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostStates");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "drafted"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "published"
-                        });
+                    b.ToTable("PostState");
                 });
 
             modelBuilder.Entity("Socialite.Domain.AggregateModels.StatusAggregate.Status", b =>

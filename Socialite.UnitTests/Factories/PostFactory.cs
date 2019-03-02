@@ -13,7 +13,7 @@ namespace Socialite.UnitTests.Factories
         {
             return new Faker<Post>().CustomInstantiator(f =>
             {
-                return new Post(f.Lorem.Paragraphs());
+                return new Post(f.Lorem.Sentence(), f.Lorem.Paragraphs());
             });
         }
 
@@ -24,6 +24,7 @@ namespace Socialite.UnitTests.Factories
                 .RuleFor(x => x.CreatedAt, f => f.Date.Recent())
                 .RuleFor(x => x.Id, f => ++f.IndexFaker)
                 .RuleFor(x => x.State, f => f.PickRandom(PostState.List()))
+                .RuleFor(x => x.Title, f => f.Lorem.Sentence())
                 .RuleFor(x => x.Text, f => f.Rant.Review());
         }
 

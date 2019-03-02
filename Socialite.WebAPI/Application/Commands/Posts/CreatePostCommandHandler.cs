@@ -14,11 +14,12 @@ namespace Socialite.WebAPI.Application.Commands.Posts
             _postRepository = postRepository;
         }
 
+
         public async Task<bool> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            var post = new Post(request.Text);
+            var post = new Post(request.Title, request.Text);
 
-            _postRepository.Add(post);
+            var wtf = _postRepository.Add(post);
 
             return await _postRepository.UnitOfWork.SaveEntitiesAsync();
         }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System.Linq;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,8 @@ namespace Socialite.Infrastructure.Data
 
         public DbSet<Post> Posts { get; set; }
 
+        public DbSet<PostState> PostStates { get; set;}
+
         public SocialiteDbContext(DbContextOptions<SocialiteDbContext> contextOptions, IConfiguration configuration, IMediator mediator)
             : base(contextOptions)
         {
@@ -30,10 +33,15 @@ namespace Socialite.Infrastructure.Data
             const string DATETIME_NOW_FUNC = "CURRENT_TIMESTAMP(6)";
 
             modelBuilder.Entity<Status>().Ignore(s => s.Events);
+            modelBuilder.Entity<Status>().Property(s => s.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Status>().Property(s => s.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
 
             modelBuilder.Entity<Post>().Ignore(p => p.Events);
+            modelBuilder.Entity<Post>().Property(p => p.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Post>().Property(p => p.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
+
+            var postStateSeedData = PostState.List().ToArray();
+            modelBuilder.Entity<PostState>().HasData(postStateSeedData);
         }
 
         public async Task<bool> SaveEntitiesAsync()
