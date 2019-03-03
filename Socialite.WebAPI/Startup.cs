@@ -9,12 +9,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Domain.AggregateModels.UsersAggregate;
 using Socialite.Domain.Events;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
 using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Commands.Statuses;
+using Socialite.WebAPI.Application.Commands.Users;
 using Socialite.WebAPI.Application.Queries.Posts;
+using Socialite.WebAPI.Application.Queries.Users;
 using Socialite.WebAPI.Queries.Posts;
 using Socialite.WebAPI.Queries.Status;
 using Swashbuckle.AspNetCore.Swagger;
@@ -42,17 +45,14 @@ namespace Socialite
                 opts.UseMySql(connectionString);
             });
 
-            services.AddTransient<IStatusRepository, StatusRepository>()
-                    .AddTransient<IPostRepository, PostRepository>()
-                    .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
-                    .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
-                    .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
-                    {
-                        return new MySqlDbConnectionFactory(connectionString);
-                    })
-                    .AddTransient<IStatusQueries, StatusQueries>()
-                    .AddTransient<IPostQueries, PostQueries>();
+            services.AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
+            {
+                return new MySqlDbConnectionFactory(connectionString);
+            });
 
+            SetupPost(services);
+            SetupStatus(services);
+            SetupUser(services);
 
             services.AddMvc()
             .AddJsonOptions(json =>
@@ -62,7 +62,7 @@ namespace Socialite
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 };
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(c =>
             {
@@ -85,9 +85,31 @@ namespace Socialite
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger();
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Socialite API v1");
             });
+        }
+
+        private void SetupStatus(IServiceCollection services)
+        {
+            services.AddTransient<IStatusRepository, StatusRepository>()
+                    .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
+                    .AddTransient<IStatusQueries, StatusQueries>();
+        }
+
+        private void SetupPost(IServiceCollection services)
+        {
+            services.AddTransient<IPostRepository, PostRepository>()
+                    .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
+                    .AddTransient<IPostQueries, PostQueries>();
+        }
+
+        private void SetupUser(IServiceCollection services)
+        {
+            services.AddTransient<IUserRepository, UserRepository>()
+                    .AddTransient<IRequestHandler<CreateUserCommand, bool>, CreateUserCommandHandler>()
+                    .AddTransient<IUserQueries, UserQueries>();
         }
     }
 }

@@ -15,13 +15,11 @@ namespace Socialite.WebAPI.Controllers
     public class PostsController : ControllerBase
     {
         public readonly IMediator _mediator;
-        public readonly IPostRepository _postRepository;
         public readonly IPostQueries _postQueries;
 
-        public PostsController(IMediator mediator, IPostRepository postRepository, IPostQueries postQueries)
+        public PostsController(IMediator mediator, IPostQueries postQueries)
         {
             _mediator = mediator;
-            _postRepository = postRepository;
             _postQueries = postQueries;
         }
 

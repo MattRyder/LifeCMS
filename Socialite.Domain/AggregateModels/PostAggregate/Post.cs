@@ -1,31 +1,28 @@
 using System;
 using Socialite.Domain.Common;
 using Socialite.Domain.Events;
+using Socialite.Domain.Events.Posts;
 using Socialite.Domain.Exceptions;
 
 namespace Socialite.Domain.AggregateModels.PostAggregate
 {
     public class Post : BaseEntity, IAggregateRoot
     {
-        public DateTime CreatedAt { get; private set; }
-
         /// <summary>
         /// Title of this Post
         /// </summary>
         /// <value>This getter/setter returns a String</value>
-        public String Title { get; set; }
+        public String Title { get; private set; }
 
         /// <summary>
         /// The condition of this Post
         /// </summary>
         /// <value>This getter/setter returns an enumeration of PostState</value>
-        private int? _stateId;
+        private int _stateId;
         public PostState State
         {
-            get
-            {
-                return PostState.FromValue<PostState>(_stateId.Value);
-            }
+            get { return PostState.FromValue<PostState>(_stateId); }
+            private set { _stateId = value.Id; }
         }
 
         /// <summary>
@@ -36,7 +33,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
 
         private Post()
         {
-            _stateId = PostState.Drafted.Id;
+            State = PostState.Drafted;
         }
 
         public Post(string title, string text) : this()
@@ -52,12 +49,12 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
         /// </summary>
         public void SetPublishedState()
         {
-            if (_stateId != PostState.Drafted.Id)
+            if (State != PostState.Drafted)
             {
                 throw new PostDomainException("Cannot set Post state to published if not currently a draft");
             }
 
-            _stateId = PostState.Published.Id;
+            State = PostState.Published;
 
             AddEvent(new PostPublishedEvent(this));
         }

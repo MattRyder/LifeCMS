@@ -21,13 +21,11 @@ namespace Socialite.UnitTests.Controllers
     public class PostsControllerTest
     {
         private readonly Mock<IMediator> _mediatorMock;
-        private readonly Mock<IPostRepository> _postRepositoryMock;
         private readonly Mock<IPostQueries> _postQueriesMock;
 
         public PostsControllerTest()
         {
             _mediatorMock = new Mock<IMediator>();
-            _postRepositoryMock = new Mock<IPostRepository>();
             _postQueriesMock = new Mock<IPostQueries>();
         }
 
@@ -38,7 +36,7 @@ namespace Socialite.UnitTests.Controllers
 
             _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postList));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.GetPosts() as OkObjectResult;
 
@@ -58,7 +56,7 @@ namespace Socialite.UnitTests.Controllers
 
             _postQueriesMock.Setup(x => x.FindAsync(post.Id)).Returns(Task.FromResult(post));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.GetPost(post.Id) as OkObjectResult;
 
@@ -76,7 +74,7 @@ namespace Socialite.UnitTests.Controllers
 
             _postQueriesMock.Setup(x => x.FindAsync(invalidId)).Throws(new KeyNotFoundException());
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.GetPost(invalidId) as NotFoundResult;
 
@@ -94,7 +92,7 @@ namespace Socialite.UnitTests.Controllers
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(true));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.CreatePost(createPostCmd) as OkResult;
 
@@ -110,7 +108,7 @@ namespace Socialite.UnitTests.Controllers
 
             _mediatorMock.Setup(x => x.Send(It.IsAny<CreatePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(false));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.CreatePost(createPostCmd) as BadRequestObjectResult;
 
@@ -124,7 +122,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeletePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.DeletePost(1) as OkResult;
 
@@ -138,7 +136,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeletePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.DeletePost(1) as NotFoundResult;
 
@@ -153,7 +151,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<DeletePostCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.DeletePost(1) as BadRequestResult;
 
@@ -167,7 +165,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<PublishPostCommand>(), default(CancellationToken))).Returns(Task.FromResult(true));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.PublishPost(1) as OkResult;
 
@@ -181,7 +179,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediatorMock.Setup(x => x.Send(It.IsAny<PublishPostCommand>(), default(CancellationToken))).Returns(Task.FromResult(false));
 
-            var controller = new PostsController(_mediatorMock.Object, _postRepositoryMock.Object, _postQueriesMock.Object);
+            var controller = new PostsController(_mediatorMock.Object, _postQueriesMock.Object);
 
             var result = await controller.PublishPost(1) as BadRequestObjectResult;
 

@@ -7,6 +7,8 @@ using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.Common;
 using Socialite.Infrastructure.Exensions;
+using Socialite.Domain.AggregateModels.UsersAggregate;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Socialite.Infrastructure.Data
 {
@@ -19,7 +21,9 @@ namespace Socialite.Infrastructure.Data
 
         public DbSet<Post> Posts { get; set; }
 
-        public DbSet<PostState> PostStates { get; set;}
+        public DbSet<PostState> PostStates { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         public SocialiteDbContext(DbContextOptions<SocialiteDbContext> contextOptions, IConfiguration configuration, IMediator mediator)
             : base(contextOptions)
@@ -30,18 +34,29 @@ namespace Socialite.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            const string DATETIME_NOW_FUNC = "CURRENT_TIMESTAMP(6)";
+            SetupEntityModel<Status>(modelBuilder);
+            SetupEntityModel<Post>(modelBuilder);
+            SetupEntityModel<User>(modelBuilder);
 
-            modelBuilder.Entity<Status>().Ignore(s => s.Events);
-            modelBuilder.Entity<Status>().Property(s => s.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Status>().Property(s => s.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
+            modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.Name).IsRequired();
 
-            modelBuilder.Entity<Post>().Ignore(p => p.Events);
-            modelBuilder.Entity<Post>().Property(p => p.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Post>().Property(p => p.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC);
+            modelBuilder.Entity<Post>().HasOne(p => p.State).WithMany();
 
             var postStateSeedData = PostState.List().ToArray();
             modelBuilder.Entity<PostState>().HasData(postStateSeedData);
+        }
+
+        private void SetupEntityModel<T>(ModelBuilder modelBuilder) where T : BaseEntity
+        {
+            const string DATETIME_NOW_FUNC = "CURRENT_TIMESTAMP(6)";
+
+            var entityModel = modelBuilder.Entity<T>();
+
+            entityModel.Ignore(m => m.Events);
+            entityModel.Property(m => m.Id).ValueGeneratedOnAdd();
+            entityModel.Property(m => m.CreatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC).ValueGeneratedOnAdd();
+            entityModel.Property(m => m.UpdatedAt).HasDefaultValueSql(DATETIME_NOW_FUNC).ValueGeneratedOnAddOrUpdate();
         }
 
         public async Task<bool> SaveEntitiesAsync()

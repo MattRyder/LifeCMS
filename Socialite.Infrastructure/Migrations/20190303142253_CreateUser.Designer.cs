@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Socialite.Infrastructure.Data;
 
 namespace Socialite.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialiteDbContext))]
-    partial class SocialiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190303142253_CreateUser")]
+    partial class CreateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

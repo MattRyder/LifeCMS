@@ -1,7 +1,7 @@
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.Common;
 
-namespace Socialite.Domain.Events
+namespace Socialite.Domain.Events.Posts
 {
     /// <summary>
     /// Event raised when a Post is initially drafted

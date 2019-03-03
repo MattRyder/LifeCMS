@@ -21,13 +21,11 @@ namespace Socialite.UnitTests.Controllers
     public class StatusControllerTest
     {
         private readonly Mock<IMediator> _mediator;
-        private readonly Mock<IStatusRepository> _statusRepository;
         private readonly Mock<IStatusQueries> _statusQueries;
 
         public StatusControllerTest()
         {
             _mediator = new Mock<IMediator>();
-            _statusRepository = new Mock<IStatusRepository>();
             _statusQueries = new Mock<IStatusQueries>();
         }
 
@@ -40,7 +38,7 @@ namespace Socialite.UnitTests.Controllers
 
             _statusQueries.Setup(sq => sq.FindAllAsync()).Returns(Task.FromResult(statusDTOList));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get() as OkObjectResult;
 
@@ -66,7 +64,7 @@ namespace Socialite.UnitTests.Controllers
 
             _statusQueries.Setup(sq => sq.FindStatus(expectedStatusId)).Returns(Task.FromResult(status));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get(expectedStatusId) as OkObjectResult;
 
@@ -88,7 +86,7 @@ namespace Socialite.UnitTests.Controllers
 
             _statusQueries.Setup(sq => sq.FindStatus(statusId)).Throws(new KeyNotFoundException());
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get(statusId) as NotFoundResult;
 
@@ -106,7 +104,7 @@ namespace Socialite.UnitTests.Controllers
 
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(true));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Post(createStatusCmd) as OkResult;
 
@@ -118,7 +116,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(false));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Post(null) as BadRequestObjectResult;
 
@@ -130,7 +128,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as OkResult;
 
@@ -142,7 +140,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as NotFoundResult;
 
@@ -154,7 +152,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as BadRequestResult;
 

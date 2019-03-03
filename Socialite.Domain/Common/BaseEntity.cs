@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Socialite.Domain.Common
 {
@@ -8,6 +9,10 @@ namespace Socialite.Domain.Common
         /// ID for this BaseEntity
         /// </summary>
         public int Id { get; set; }
+
+        public DateTime CreatedAt { get; private set; }
+
+        public DateTime UpdatedAt { get; private set; }
 
         /// <summary>
         /// List of Domain Events being raised for this BaseEntity

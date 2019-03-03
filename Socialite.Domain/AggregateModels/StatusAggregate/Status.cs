@@ -11,9 +11,6 @@ namespace Socialite.Domain.AggregateModels.StatusAggregate
 
         public string Text { get; private set; }
 
-        private DateTime _createdAt;
-        public DateTime CreatedAt { get { return _createdAt; } }
-
         public Status(string mood, string text)
         {
             Mood = !String.IsNullOrEmpty(mood) ? mood : throw new StatusDomainException(nameof(mood));
