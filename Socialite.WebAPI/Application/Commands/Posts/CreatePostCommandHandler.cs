@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Socialite.Domain.AggregateModels.PostAggregate;
+using Socialite.Domain.Exceptions;
 
 namespace Socialite.WebAPI.Application.Commands.Posts
 {
@@ -14,14 +15,20 @@ namespace Socialite.WebAPI.Application.Commands.Posts
             _postRepository = postRepository;
         }
 
-
         public async Task<bool> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            var post = new Post(request.Title, request.Text);
+            try
+            {
+                var post = new Post(request.Title, request.Text);
 
-            var wtf = _postRepository.Add(post);
+                var wtf = _postRepository.Add(post);
 
-            return await _postRepository.UnitOfWork.SaveEntitiesAsync();
+                return await _postRepository.UnitOfWork.SaveEntitiesAsync();
+            }
+            catch(PostDomainException)
+            {
+                return false;
+            }
         }
     }
 }

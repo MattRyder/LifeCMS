@@ -6,7 +6,7 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
-using Socialite.WebAPI.Queries.Status;
+using Socialite.WebAPI.Queries.Statuses;
 
 namespace Socialite.WebAPI.Controllers
 {
@@ -15,13 +15,11 @@ namespace Socialite.WebAPI.Controllers
     public class StatusesController : ControllerBase
     {
         public readonly IMediator _mediator;
-        public readonly IStatusRepository _statusRepository;
         public readonly IStatusQueries _statusQueries;
 
-        public StatusesController(IMediator mediator, IStatusRepository statusRepository, IStatusQueries statusQueries)
+        public StatusesController(IMediator mediator, IStatusQueries statusQueries)
         {
             _mediator = mediator;
-            _statusRepository = statusRepository;
             _statusQueries = statusQueries;
         }
 

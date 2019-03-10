@@ -1,7 +1,7 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 
-class MySqlDbConnectionFactory : IDbConnectionFactory
+public class MySqlDbConnectionFactory : IDbConnectionFactory
 {
     private readonly string _connectionString;
 

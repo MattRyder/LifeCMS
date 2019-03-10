@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1-sdk AS base
+FROM microsoft/dotnet:2.2-sdk AS base
 WORKDIR /app
 COPY . .
 

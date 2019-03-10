@@ -8,26 +8,25 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.DTO;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Controllers;
-using Socialite.WebAPI.Queries.Status;
+using Socialite.WebAPI.Queries.Statuses;
 using Xunit;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using System.Net;
 using System.Threading;
 using System;
 using Socialite.WebAPI.Application.Enums;
+using Socialite.WebAPI.Application.Queries.Statuses;
 
 namespace Socialite.UnitTests.Controllers
 {
     public class StatusControllerTest
     {
         private readonly Mock<IMediator> _mediator;
-        private readonly Mock<IStatusRepository> _statusRepository;
         private readonly Mock<IStatusQueries> _statusQueries;
 
         public StatusControllerTest()
         {
             _mediator = new Mock<IMediator>();
-            _statusRepository = new Mock<IStatusRepository>();
             _statusQueries = new Mock<IStatusQueries>();
         }
 
@@ -36,15 +35,15 @@ namespace Socialite.UnitTests.Controllers
         {
             var statusList = StatusFactory.CreateList();
 
-            IEnumerable<StatusDTO> statusDTOList = statusList.ConvertAll<StatusDTO>(s => StatusDTO.FromModel(s));
+            IEnumerable<StatusViewModel> statusViewModelList = statusList.ConvertAll<StatusViewModel>(s => StatusViewModel.FromModel(s));
 
-            _statusQueries.Setup(sq => sq.FindAllAsync()).Returns(Task.FromResult(statusDTOList));
+            _statusQueries.Setup(sq => sq.FindAllAsync()).Returns(Task.FromResult(statusViewModelList));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get() as OkObjectResult;
 
-            var resultValue = actionResult.Value as IEnumerable<StatusDTO>;
+            var resultValue = actionResult.Value as IEnumerable<StatusViewModel>;
 
             Assert.NotNull(actionResult);
 
@@ -60,17 +59,17 @@ namespace Socialite.UnitTests.Controllers
         {
             var expectedStatusId = 1;
 
-            var status = StatusDTO.FromModel(StatusFactory.Create());
+            var status = StatusViewModel.FromModel(StatusFactory.Create());
 
             status.Id = expectedStatusId;
 
             _statusQueries.Setup(sq => sq.FindStatus(expectedStatusId)).Returns(Task.FromResult(status));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get(expectedStatusId) as OkObjectResult;
 
-            var resultObject = actionResult.Value as StatusDTO;
+            var resultObject = actionResult.Value as StatusViewModel;
 
             Assert.NotNull(actionResult);
 
@@ -88,7 +87,7 @@ namespace Socialite.UnitTests.Controllers
 
             _statusQueries.Setup(sq => sq.FindStatus(statusId)).Throws(new KeyNotFoundException());
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get(statusId) as NotFoundResult;
 
@@ -106,7 +105,7 @@ namespace Socialite.UnitTests.Controllers
 
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(true));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Post(createStatusCmd) as OkResult;
 
@@ -118,7 +117,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(false));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Post(null) as BadRequestObjectResult;
 
@@ -130,7 +129,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as OkResult;
 
@@ -142,7 +141,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as NotFoundResult;
 
@@ -154,7 +153,7 @@ namespace Socialite.UnitTests.Controllers
         {
             _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
-            var controller = new StatusesController(_mediator.Object, _statusRepository.Object, _statusQueries.Object);
+            var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Delete(1) as BadRequestResult;
 

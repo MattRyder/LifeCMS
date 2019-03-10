@@ -3,10 +3,45 @@ jobs:
   build:
     docker:
       - image: microsoft/dotnet:2.2-sdk
+      - image: mysql/mysql-server:8.0
+        environment:
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_USER: socialite_dbuser
+          MYSQL_PASSWORD: socialite_pass
+          MYSQL_DATABASE: socialite_test
     steps:
       - checkout
+
+      - setup_remote_docker
+
+      - run:
+          name: Installing dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+
+      - run:
+          name: Waiting for MySQL to be ready
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+
       - run: find .
-      - run: dotnet restore
-      - run: dotnet build
-      - run: dotnet test --no-build /p:CollectCoverage=true  /p:Include="[Socialite.*]*" /p:Exclude="[*]Socialite.Infrastructure.Migrations.*" /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info Socialite.UnitTests
-      - run: bash <(curl -s https://codecov.io/bash)
+
+      - run:
+          name: Building Socialite
+          command: dotnet build
+
+
+      - run:
+          name: Executing unit tests
+          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=json /p:CoverletOutput=./../coverage/unit.tests.json Socialite.UnitTests
+
+      - run:
+          name: Executing integration tests
+          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./../coverage/Socialite_coverage.xml /p:MergeWith="./../coverage/unit.tests.json" Socialite.IntegrationTests
+          environment:
+            ConnectionStrings__SocialiteIntegrationTests: Server=localhost;Database=socialite_test;Uid=root;AllowUserVariables=True;
+
+      - run:
+          name: Uploading code coverage to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)

@@ -4,7 +4,7 @@
 # Socialite
 Socialite.WebAPI/Properties/launchSettings.json
 
-lcov.info
+coverage/
 
 # User-specific files
 *.suo

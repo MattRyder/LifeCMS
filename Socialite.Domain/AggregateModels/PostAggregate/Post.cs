@@ -1,32 +1,29 @@
 using System;
 using Socialite.Domain.Common;
 using Socialite.Domain.Events;
+using Socialite.Domain.Events.Posts;
 using Socialite.Domain.Exceptions;
 
 namespace Socialite.Domain.AggregateModels.PostAggregate
 {
     public class Post : BaseEntity, IAggregateRoot
     {
-        public DateTime CreatedAt { get; private set; }
-
         /// <summary>
         /// Title of this Post
         /// </summary>
         /// <value>This getter/setter returns a String</value>
-        public String Title { get; set; }
+        public String Title { get; private set; }
 
         /// <summary>
         /// The condition of this Post
         /// </summary>
         /// <value>This getter/setter returns an enumeration of PostState</value>
-        private int? _stateId;
         public PostState State
         {
-            get
-            {
-                return PostState.FromValue<PostState>(_stateId.Value);
-            }
+            get { return PostState.FromValue<PostState>(_stateId); }
+            private set { _stateId = value.Id; }
         }
+        private int _stateId;
 
         /// <summary>
         /// The textual content of this Post

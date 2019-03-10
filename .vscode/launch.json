@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Socialite.WebAPI/bin/Debug/netcoreapp2.1/Socialite.WebAPI.dll",
+            "program": "${workspaceFolder}/Socialite.WebAPI/bin/Debug/netcoreapp2.2/Socialite.WebAPI.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Socialite.WebAPI",
             "stopAtEntry": false,

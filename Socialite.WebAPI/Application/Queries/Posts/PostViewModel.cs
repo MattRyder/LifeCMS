@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Socialite.Infrastructure.DTO;
+using Socialite.Domain.AggregateModels.PostAggregate;
 
 namespace Socialite.WebAPI.Queries.Posts
 {
@@ -13,15 +13,15 @@ namespace Socialite.WebAPI.Queries.Posts
         public string Text { get; set; }
         public string CreatedAt { get; set; }
 
-        public static PostViewModel FromModel(PostDTO postDTO)
+        public static PostViewModel FromModel(Post post)
         {
             return new PostViewModel()
             {
-                Id = postDTO.Id,
-                State = postDTO.State.Name,
-                Title = postDTO.Title,
-                Text = postDTO.Text,
-                CreatedAt = postDTO.CreatedAt.ToString("o", CultureInfo.InvariantCulture)
+                Id = post.Id,
+                State = post.State.Name,
+                Title = post.Title,
+                Text = post.Text,
+                CreatedAt = post.CreatedAt.ToString()
             };
         }
 
