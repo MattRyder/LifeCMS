@@ -18,12 +18,12 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
         /// The condition of this Post
         /// </summary>
         /// <value>This getter/setter returns an enumeration of PostState</value>
-        private int _stateId;
         public PostState State
         {
             get { return PostState.FromValue<PostState>(_stateId); }
             private set { _stateId = value.Id; }
         }
+        private int _stateId;
 
         /// <summary>
         /// The textual content of this Post
@@ -33,7 +33,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
 
         private Post()
         {
-            State = PostState.Drafted;
+            _stateId = PostState.Drafted.Id;
         }
 
         public Post(string title, string text) : this()
@@ -49,12 +49,12 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
         /// </summary>
         public void SetPublishedState()
         {
-            if (State != PostState.Drafted)
+            if (_stateId != PostState.Drafted.Id)
             {
                 throw new PostDomainException("Cannot set Post state to published if not currently a draft");
             }
 
-            State = PostState.Published;
+            _stateId = PostState.Published.Id;
 
             AddEvent(new PostPublishedEvent(this));
         }

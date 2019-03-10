@@ -32,7 +32,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsOk()
         {
-            IEnumerable<PostViewModel> postList = PostFactory.CreateDTOList().ToList().ConvertAll<PostViewModel>(p => PostViewModel.FromModel(p));
+            IEnumerable<PostViewModel> postList = PostFactory.CreateList().ToList().ConvertAll<PostViewModel>(p => PostViewModel.FromModel(p));
 
             _postQueriesMock.Setup(x => x.FindAllAsync()).Returns(Task.FromResult(postList));
 
@@ -52,7 +52,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsOk_GivenValidId()
         {
-            var post = PostViewModel.FromModel(PostFactory.CreateDTO());
+            var post = PostViewModel.FromModel(PostFactory.Create());
 
             _postQueriesMock.Setup(x => x.FindAsync(post.Id)).Returns(Task.FromResult(post));
 

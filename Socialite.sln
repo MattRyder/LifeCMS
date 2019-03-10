@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Socialite.Infrastructure", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socialite.UnitTests", "Socialite.UnitTests\Socialite.UnitTests.csproj", "{7DA1C85F-99A2-496C-8C37-5E5E2403745D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Socialite.IntegrationTests", "Socialite.IntegrationTests\Socialite.IntegrationTests.csproj", "{985D927D-BA35-4326-BE2D-2F16C5DE5342}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DA1C85F-99A2-496C-8C37-5E5E2403745D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{985D927D-BA35-4326-BE2D-2F16C5DE5342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{985D927D-BA35-4326-BE2D-2F16C5DE5342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{985D927D-BA35-4326-BE2D-2F16C5DE5342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{985D927D-BA35-4326-BE2D-2F16C5DE5342}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

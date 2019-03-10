@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using MySql.Data.MySqlClient;
 using Socialite.Infrastructure.DTO;
+using Socialite.WebAPI.Application.Queries.Statuses;
 
-namespace Socialite.WebAPI.Queries.Status
+namespace Socialite.WebAPI.Queries.Statuses
 {
     public class StatusQueries : IStatusQueries
     {
@@ -17,7 +16,7 @@ namespace Socialite.WebAPI.Queries.Status
             _dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task<IEnumerable<StatusDTO>> FindAllAsync()
+        public async Task<IEnumerable<StatusViewModel>> FindAllAsync()
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
@@ -26,11 +25,11 @@ namespace Socialite.WebAPI.Queries.Status
                     FROM Statuses
                 ";
 
-                return await connection.QueryAsync<StatusDTO>(findAllQuery);
+                return await connection.QueryAsync<StatusViewModel>(findAllQuery);
             }
         }
 
-        public async Task<StatusDTO> FindStatus(int id)
+        public async Task<StatusViewModel> FindStatus(int id)
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
@@ -40,7 +39,7 @@ namespace Socialite.WebAPI.Queries.Status
                     WHERE Id = @StatusId
                 ";
 
-                var queryResult = await connection.QueryAsync<StatusDTO>(findStatusQuery, new { StatusId = id });
+                var queryResult = await connection.QueryAsync<StatusViewModel>(findStatusQuery, new { StatusId = id });
 
                 if(queryResult.AsList().Count == 0)
                 {

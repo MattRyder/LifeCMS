@@ -19,7 +19,7 @@ using Socialite.WebAPI.Application.Commands.Users;
 using Socialite.WebAPI.Application.Queries.Posts;
 using Socialite.WebAPI.Application.Queries.Users;
 using Socialite.WebAPI.Queries.Posts;
-using Socialite.WebAPI.Queries.Status;
+using Socialite.WebAPI.Queries.Statuses;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Socialite

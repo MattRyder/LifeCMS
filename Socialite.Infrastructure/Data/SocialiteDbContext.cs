@@ -41,9 +41,7 @@ namespace Socialite.Infrastructure.Data
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Name).IsRequired();
 
-            modelBuilder.Entity<Post>().HasOne(p => p.State).WithMany();
-
-            var postStateSeedData = PostState.List().ToArray();
+            var postStateSeedData = Socialite.Domain.AggregateModels.PostAggregate.PostState.List().ToArray();
             modelBuilder.Entity<PostState>().HasData(postStateSeedData);
         }
 
@@ -63,7 +61,7 @@ namespace Socialite.Infrastructure.Data
         {
             await _mediator.DispatchDomainEventsAsync(this);
 
-            var result = await base.SaveChangesAsync();
+            await base.SaveChangesAsync();
 
             return true;
         }

@@ -8,13 +8,14 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.DTO;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Controllers;
-using Socialite.WebAPI.Queries.Status;
+using Socialite.WebAPI.Queries.Statuses;
 using Xunit;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using System.Net;
 using System.Threading;
 using System;
 using Socialite.WebAPI.Application.Enums;
+using Socialite.WebAPI.Application.Queries.Statuses;
 
 namespace Socialite.UnitTests.Controllers
 {
@@ -34,15 +35,15 @@ namespace Socialite.UnitTests.Controllers
         {
             var statusList = StatusFactory.CreateList();
 
-            IEnumerable<StatusDTO> statusDTOList = statusList.ConvertAll<StatusDTO>(s => StatusDTO.FromModel(s));
+            IEnumerable<StatusViewModel> statusViewModelList = statusList.ConvertAll<StatusViewModel>(s => StatusViewModel.FromModel(s));
 
-            _statusQueries.Setup(sq => sq.FindAllAsync()).Returns(Task.FromResult(statusDTOList));
+            _statusQueries.Setup(sq => sq.FindAllAsync()).Returns(Task.FromResult(statusViewModelList));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
             var actionResult = await controller.Get() as OkObjectResult;
 
-            var resultValue = actionResult.Value as IEnumerable<StatusDTO>;
+            var resultValue = actionResult.Value as IEnumerable<StatusViewModel>;
 
             Assert.NotNull(actionResult);
 
@@ -58,7 +59,7 @@ namespace Socialite.UnitTests.Controllers
         {
             var expectedStatusId = 1;
 
-            var status = StatusDTO.FromModel(StatusFactory.Create());
+            var status = StatusViewModel.FromModel(StatusFactory.Create());
 
             status.Id = expectedStatusId;
 
@@ -68,7 +69,7 @@ namespace Socialite.UnitTests.Controllers
 
             var actionResult = await controller.Get(expectedStatusId) as OkObjectResult;
 
-            var resultObject = actionResult.Value as StatusDTO;
+            var resultObject = actionResult.Value as StatusViewModel;
 
             Assert.NotNull(actionResult);
 

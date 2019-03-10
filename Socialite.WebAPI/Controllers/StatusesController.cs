@@ -6,7 +6,7 @@ using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
-using Socialite.WebAPI.Queries.Status;
+using Socialite.WebAPI.Queries.Statuses;
 
 namespace Socialite.WebAPI.Controllers
 {
