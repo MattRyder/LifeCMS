@@ -31,7 +31,6 @@ jobs:
           name: Building Socialite
           command: dotnet build
 
-
       - run:
           name: Executing unit tests
           command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=json /p:CoverletOutput=./../coverage/unit.tests.json Socialite.UnitTests

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.DTO;
@@ -25,6 +26,7 @@ namespace Socialite.WebAPI.Controllers
 
         // GET: api/Statuses
         [HttpGet(Name = "GetStatuses")]
+        [Authorize(Policy = "StatusReadPolicy")]
         public async Task<IActionResult> Get()
         {
             var statuses = await _statusQueries.FindAllAsync();
@@ -48,6 +50,7 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Statuses
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] CreateStatusCommand createStatusCommand)
         {
             if(ModelState.IsValid)
@@ -65,6 +68,7 @@ namespace Socialite.WebAPI.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteStatusCommand(id);

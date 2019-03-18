@@ -3,6 +3,7 @@
 
 # Socialite
 Socialite.WebAPI/Properties/launchSettings.json
+tempkey.rsa
 
 coverage/
 
