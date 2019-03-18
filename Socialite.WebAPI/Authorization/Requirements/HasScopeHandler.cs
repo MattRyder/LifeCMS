@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Socialite.WebAPI.Authentication.Handlers
+namespace Socialite.WebAPI.Authorization.Handlers
 {
     public class HasScopeHandler : AuthorizationHandler<HasScopeRequirement>
     {

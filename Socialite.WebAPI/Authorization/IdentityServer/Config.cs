@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace Socialite.WebAPI.Authentication
+namespace Socialite.WebAPI.Authorization.IdentityServer
 {
     public static class Config
     {

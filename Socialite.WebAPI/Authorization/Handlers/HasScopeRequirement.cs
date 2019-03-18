@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Socialite.WebAPI.Authentication.Handlers
+namespace Socialite.WebAPI.Authorization.Handlers
 {
     public class HasScopeRequirement : IAuthorizationRequirement
     {

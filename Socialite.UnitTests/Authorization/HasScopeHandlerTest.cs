@@ -1,8 +1,7 @@
-using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
-using Socialite.WebAPI.Authentication.Handlers;
+using Socialite.WebAPI.Authorization.Handlers;
 using Xunit;
 
 namespace Socialite.UnitTests.Authorization
@@ -27,11 +26,11 @@ namespace Socialite.UnitTests.Authorization
 
             var scopes = "status:read";
 
-            var requirements = new [] { new HasScopeRequirement(scopes, issuer) };
+            var requirements = new[] { new HasScopeRequirement(scopes, issuer) };
 
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
-                    new [] { new Claim(scopeClaimType, scopes, null, issuer) }
+                    new[] { new Claim(scopeClaimType, scopes, null, issuer) }
                 )
             );
 
@@ -53,11 +52,11 @@ namespace Socialite.UnitTests.Authorization
 
             var scopes = "status:read";
 
-            var requirements = new [] { new HasScopeRequirement(scopes, invalidIssuer) };
+            var requirements = new[] { new HasScopeRequirement(scopes, invalidIssuer) };
 
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
-                    new [] { new Claim(scopeClaimType, scopes, null, "https://example.com") }
+                    new[] { new Claim(scopeClaimType, scopes, null, "https://example.com") }
                 )
             );
 
@@ -77,11 +76,11 @@ namespace Socialite.UnitTests.Authorization
 
             var scopeClaimType = "scope";
 
-            var requirements = new [] { new HasScopeRequirement("peace:find", issuer) };
+            var requirements = new[] { new HasScopeRequirement("peace:find", issuer) };
 
             var user = new ClaimsPrincipal(
                 new ClaimsIdentity(
-                    new [] { new Claim(scopeClaimType, "", null, issuer) }
+                    new[] { new Claim(scopeClaimType, "", null, issuer) }
                 )
             );
 

@@ -1,8 +1,6 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +10,6 @@ using Newtonsoft.Json.Serialization;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.AggregateModels.UsersAggregate;
-using Socialite.Domain.Events;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
 using Socialite.WebAPI.Application.Commands.Posts;
@@ -20,12 +17,12 @@ using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Commands.Users;
 using Socialite.WebAPI.Application.Queries.Posts;
 using Socialite.WebAPI.Application.Queries.Users;
-using Socialite.WebAPI.Authentication;
 using Socialite.WebAPI.Queries.Posts;
 using Socialite.WebAPI.Queries.Statuses;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Authorization;
-using Socialite.WebAPI.Authentication.Handlers;
+using Socialite.WebAPI.Authorization.IdentityServer;
+using Socialite.WebAPI.Authorization.Handlers;
 
 namespace Socialite
 {
