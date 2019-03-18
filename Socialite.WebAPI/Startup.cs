@@ -2,10 +2,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using Newtonsoft.Json.Serialization;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
@@ -18,9 +20,12 @@ using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Commands.Users;
 using Socialite.WebAPI.Application.Queries.Posts;
 using Socialite.WebAPI.Application.Queries.Users;
+using Socialite.WebAPI.Authentication;
 using Socialite.WebAPI.Queries.Posts;
 using Socialite.WebAPI.Queries.Statuses;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.Authorization;
+using Socialite.WebAPI.Authentication.Handlers;
 
 namespace Socialite
 {
@@ -38,6 +43,8 @@ namespace Socialite
         {
             var connectionString = Configuration["ConnectionStrings:Socialite"];
 
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddMediatR();
 
             services.AddEntityFrameworkSqlServer().AddDbContext<SocialiteDbContext>(opts =>
@@ -45,7 +52,9 @@ namespace Socialite
                 opts.UseMySql(connectionString);
             });
 
-            services.AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
+            services
+            .AddSingleton<IAuthorizationHandler, HasScopeHandler>()
+            .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
             {
                 return new MySqlDbConnectionFactory(connectionString);
             });
@@ -53,6 +62,30 @@ namespace Socialite
             SetupPost(services);
             SetupStatus(services);
             SetupUser(services);
+
+            services
+                .AddIdentityServer(configuration =>
+                {
+                    configuration.IssuerUri = "http://localhost:5000";
+                })
+                .AddInMemoryApiResources(Config.GetApis())
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddDeveloperSigningCredential();
+
+
+            services
+            .AddAuthorization(options =>
+            {
+                options.AddPolicy("StatusReadPolicy", policy => policy.Requirements.Add(new HasScopeRequirement("status:read", "http://localhost:5000")));
+            })
+            .AddAuthentication("Bearer")
+            .AddJwtBearer("Bearer", configureOptions =>
+            {
+                configureOptions.Audience = "http://localhost:5000";
+                configureOptions.Authority = "http://localhost:5000";
+                configureOptions.RequireHttpsMetadata = false;
+            });
 
             services.AddMvc()
             .AddJsonOptions(json =>
@@ -82,9 +115,16 @@ namespace Socialite
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
+            app.UseIdentityServer();
+
             app.UseHttpsRedirection();
+
             app.UseMvc();
+
             app.UseSwagger();
+
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Socialite API v1");
