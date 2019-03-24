@@ -4,8 +4,6 @@ using MediatR;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.Infrastructure.DTO;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Controllers;
 using Socialite.WebAPI.Queries.Statuses;
@@ -13,7 +11,6 @@ using Xunit;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using System.Net;
 using System.Threading;
-using System;
 using Socialite.WebAPI.Application.Enums;
 using Socialite.WebAPI.Application.Queries.Statuses;
 
@@ -33,7 +30,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsOk()
         {
-            var statusList = StatusFactory.CreateList();
+            var statusList = StatusFactory.CreateList().ToList();
 
             IEnumerable<StatusViewModel> statusViewModelList = statusList.ConvertAll<StatusViewModel>(s => StatusViewModel.FromModel(s));
 

@@ -5,7 +5,6 @@ using Xunit;
 using System.Threading.Tasks;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Application.Commands.Statuses;
-using Socialite.Infrastructure.DTO;
 using System.Threading;
 
 namespace Socialite.UnitTests.Application.Commands

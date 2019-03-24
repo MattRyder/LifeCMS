@@ -1,28 +1,26 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using MySql.Data.MySqlClient;
 using Respawn;
-using Socialite.Domain.AggregateModels.PostAggregate;
+using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.UnitTests.Factories;
-using Socialite.WebAPI.Application.Queries.Posts;
-using Socialite.WebAPI.Queries.Posts;
+using Socialite.WebAPI.Application.Queries.Albums;
 using Xunit;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace Socialite.IntegrationTests.Application.Queries
 {
-    public class PostQueriesTest
+
+    public class AlbumQueriesTest
     {
         private readonly Checkpoint _checkpoint;
         private readonly SocialiteDbContext dbContext;
         private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public PostQueriesTest()
+        public AlbumQueriesTest()
         {
             var integrationConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__SocialiteIntegrationTests");
 
@@ -43,7 +41,7 @@ namespace Socialite.IntegrationTests.Application.Queries
 
             dbContext.Database.EnsureDeleted();
 
-            dbContext.Database.Migrate();
+            dbContext.Database.EnsureCreated();
         }
 
         [Fact]
@@ -51,52 +49,46 @@ namespace Socialite.IntegrationTests.Application.Queries
         {
             RunWithDbContext(dbContext, async (context) =>
             {
-                var postList = PostFactory.CreateList();
+                var albumsList = AlbumFactory.CreateList();
 
-                context.PostStates.Attach(postList.First().State);
-                context.Posts.Add(postList.First());
+                context.Albums.Add(albumsList.First());
 
                 await context.SaveChangesAsync();
 
-                var postViewModels = context.Set<Post>().ToList().ConvertAll<PostViewModel>(p => PostViewModel.FromModel(p));
+                var albumViewModels = context.Set<Album>().ToList().ConvertAll<AlbumViewModel>(a => AlbumViewModel.FromModel(a));
 
-                var postQueries = new PostQueries(_dbConnectionFactory);
+                var albumQueries = new AlbumQueries(_dbConnectionFactory);
 
-                var result = await postQueries.FindAllAsync() as List<PostViewModel>;
+                var result = await albumQueries.FindAllAsync() as List<AlbumViewModel>;
 
                 Assert.NotNull(result);
 
-                Assert.Equal(postViewModels.Count, result.Count);
-
-                Assert.Equal(postViewModels, result);
+                Assert.Equal(albumViewModels, result);
             });
         }
 
         [Fact]
-        public void FindStatus_ReturnsOk()
+        public void FindAsync_ReturnsOk()
         {
             RunWithDbContext(dbContext, async (context) =>
             {
-                var postList = PostFactory.CreateList();
+                var album = AlbumFactory.Create();
 
-                context.AttachRange(postList.Select(p => p.State));
-
-                await context.Set<Post>().AddRangeAsync(postList);
+                context.Albums.Add(album);
 
                 await context.SaveChangesAsync();
 
-                var postViewModel = PostViewModel.FromModel(context.Set<Post>().First());
+                var albumViewModel = AlbumViewModel.FromModel(album);
 
-                var postQueries = new PostQueries(_dbConnectionFactory);
+                var albumQueries = new AlbumQueries(_dbConnectionFactory);
 
-                var result = await postQueries.FindAsync(postViewModel.Id);
+                var result = await albumQueries.FindAsync(albumViewModel.Id) as AlbumViewModel;
 
                 Assert.NotNull(result);
 
-                Assert.Equal(postViewModel, result);
+                Assert.Equal(albumViewModel, result);
             });
         }
-
 
         private void RunWithDbContext(SocialiteDbContext dbContext, Action<SocialiteDbContext> assertFunc)
         {

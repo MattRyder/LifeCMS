@@ -1,10 +1,7 @@
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Socialite.Domain.AggregateModels.PostAggregate;
-using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Queries.Posts;
 
 namespace Socialite.WebAPI.Application.Queries.Posts

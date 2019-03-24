@@ -23,6 +23,11 @@ using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Socialite.WebAPI.Authorization.IdentityServer;
 using Socialite.WebAPI.Authorization.Handlers;
+using Socialite.Domain.AggregateModels.AlbumAggregate;
+using Socialite.WebAPI.Application.Commands.Albums;
+using Amazon.S3;
+using Socialite.WebAPI.Infrastructure.Services;
+using Socialite.WebAPI.Application.Queries.Albums;
 
 namespace Socialite
 {
@@ -40,9 +45,14 @@ namespace Socialite
         {
             var connectionString = Configuration["ConnectionStrings:Socialite"];
 
+            services.Configure<S3ImageUploadOptions>(Configuration.GetSection("AmazonS3"));
+
             IdentityModelEventSource.ShowPII = true;
 
             services.AddMediatR();
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
 
             services.AddEntityFrameworkSqlServer().AddDbContext<SocialiteDbContext>(opts =>
             {
@@ -51,6 +61,7 @@ namespace Socialite
 
             services
             .AddSingleton<IAuthorizationHandler, HasScopeHandler>()
+            .AddTransient<IImageUploadService, S3ImageUploadService>()
             .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
             {
                 return new MySqlDbConnectionFactory(connectionString);
@@ -59,6 +70,7 @@ namespace Socialite
             SetupPost(services);
             SetupStatus(services);
             SetupUser(services);
+            SetupAlbum(services);
 
             services
                 .AddIdentityServer(configuration =>
@@ -69,7 +81,6 @@ namespace Socialite
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryClients(Config.GetClients())
                 .AddDeveloperSigningCredential();
-
 
             services
             .AddAuthorization(options =>
@@ -147,6 +158,14 @@ namespace Socialite
             services.AddTransient<IUserRepository, UserRepository>()
                     .AddTransient<IRequestHandler<CreateUserCommand, bool>, CreateUserCommandHandler>()
                     .AddTransient<IUserQueries, UserQueries>();
+        }
+
+        private void SetupAlbum(IServiceCollection services)
+        {
+            services.AddTransient<IAlbumRepository, AlbumRepository>()
+                    .AddTransient<IRequestHandler<CreateAlbumCommand, bool>, CreateAlbumCommandHandler>()
+                    .AddTransient<IRequestHandler<UploadPhotoCommand, bool>, UploadPhotoCommandHandler>()
+                    .AddTransient<IAlbumQueries, AlbumQueries>();
         }
     }
 }

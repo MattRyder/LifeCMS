@@ -1,10 +1,7 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
 using Socialite.WebAPI.Queries.Statuses;

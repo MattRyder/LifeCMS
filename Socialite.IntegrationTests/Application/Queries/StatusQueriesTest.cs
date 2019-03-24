@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using MySql.Data.MySqlClient;
+using Respawn;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.UnitTests.Factories;
@@ -17,6 +18,7 @@ namespace Socialite.IntegrationTests.Application.Queries
 {
     public class StatusQueriesTest
     {
+        private readonly Checkpoint _checkpoint;
         private readonly SocialiteDbContext dbContext;
         private readonly IDbConnectionFactory _dbConnectionFactory;
 
@@ -24,28 +26,35 @@ namespace Socialite.IntegrationTests.Application.Queries
         {
             var integrationConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__SocialiteIntegrationTests");
 
+            _checkpoint = new Checkpoint
+            {
+                SchemasToInclude = new[]
+                {
+                    "public"
+                },
+                DbAdapter = DbAdapter.MySql,
+            };
+
             _dbConnectionFactory = new MySqlDbConnectionFactory(integrationConnectionString);
 
             var contextOptions = new DbContextOptionsBuilder<SocialiteDbContext>().UseMySql(_dbConnectionFactory.CreateConnection().ConnectionString).Options;
 
             dbContext = new SocialiteDbContext(contextOptions, null, null);
 
-            try
-            {
-                dbContext.Database.EnsureCreated();
+            dbContext.Database.EnsureDeleted();
 
-                // Required to store EMOJI
-                dbContext.Database.ExecuteSqlCommand($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-            }
-            catch (MySqlException)
-            {
-                // Pomelo MySQL throws if it doesn't exist, instead of returning false, as per docs?
-            }
+            dbContext.Database.Migrate();
+
+            // Required to store EMOJI
+            // dbContext.Database.ExecuteSqlCommand($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
         }
 
         [Fact]
         public void FindAllAsync_ReturnsOk()
         {
+            // Required to store EMOJI
+            // dbContext.Database.ExecuteSqlCommand($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+
             RunWithDbContext(dbContext, async (context) =>
             {
                 var statusList = StatusFactory.CreateList();
@@ -71,6 +80,9 @@ namespace Socialite.IntegrationTests.Application.Queries
         [Fact]
         public void FindStatus_ReturnsOk()
         {
+            // Required to store EMOJI
+            // dbContext.Database.ExecuteSqlCommand($@"ALTER DATABASE CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+
             RunWithDbContext(dbContext, async (context) =>
             {
                 var statusList = StatusFactory.CreateList();
@@ -94,7 +106,7 @@ namespace Socialite.IntegrationTests.Application.Queries
 
         private void RunWithDbContext(SocialiteDbContext dbContext, Action<SocialiteDbContext> assertFunc)
         {
-            dbContext.Database.ExecuteSqlCommand("DELETE FROM Statuses;");
+            _checkpoint.Reset(_dbConnectionFactory.CreateConnection().ConnectionString);
 
             assertFunc(dbContext);
         }

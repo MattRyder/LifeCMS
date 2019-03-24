@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Socialite.Infrastructure.Data;
 
 namespace Socialite.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialiteDbContext))]
-    partial class SocialiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190319203914_CreateAlbum")]
+    partial class CreateAlbum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,13 +47,9 @@ namespace Socialite.Infrastructure.Migrations
 
                     b.Property<int?>("AlbumId");
 
-                    b.Property<string>("Caption");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                    b.Property<int>("Height");
 
                     b.Property<string>("Location")
                         .IsRequired();
@@ -62,8 +60,6 @@ namespace Socialite.Infrastructure.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                    b.Property<int>("Width");
 
                     b.HasKey("Id");
 

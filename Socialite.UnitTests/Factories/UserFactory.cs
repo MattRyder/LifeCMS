@@ -1,9 +1,12 @@
+using System;
+using System.Collections.Generic;
 using Bogus;
+using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.Domain.AggregateModels.UsersAggregate;
 
 namespace Socialite.UnitTests.Factories
 {
-    public class UserFactory
+    public class UserFactory : FactoryBase<User>
     {
         public static User Create()
         {
@@ -13,5 +16,7 @@ namespace Socialite.UnitTests.Factories
                     f.Name.FullName()
                 ));
         }
+
+        public static IEnumerable<User> CreateList() => MakeList(Create);
     }
 }

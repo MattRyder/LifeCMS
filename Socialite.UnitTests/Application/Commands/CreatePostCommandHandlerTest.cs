@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Moq;
 using Socialite.Domain.AggregateModels.PostAggregate;
-using Socialite.Infrastructure.DTO;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Application.Commands.Posts;
 using Xunit;

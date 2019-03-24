@@ -1,28 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
+using Bogus;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using MySql.Data.MySqlClient;
 using Respawn;
-using Socialite.Domain.AggregateModels.PostAggregate;
+using Socialite.Domain.AggregateModels.AlbumAggregate;
+using Socialite.Domain.AggregateModels.UsersAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.UnitTests.Factories;
-using Socialite.WebAPI.Application.Queries.Posts;
-using Socialite.WebAPI.Queries.Posts;
+using Socialite.WebAPI.Application.Queries.Albums;
+using Socialite.WebAPI.Application.Queries.Users;
 using Xunit;
 
 namespace Socialite.IntegrationTests.Application.Queries
 {
-    public class PostQueriesTest
+    public class UserQueriesTest
     {
         private readonly Checkpoint _checkpoint;
         private readonly SocialiteDbContext dbContext;
         private readonly IDbConnectionFactory _dbConnectionFactory;
 
-        public PostQueriesTest()
+        public UserQueriesTest()
         {
             var integrationConnectionString = Environment.GetEnvironmentVariable("ConnectionStrings__SocialiteIntegrationTests");
 
@@ -43,60 +42,48 @@ namespace Socialite.IntegrationTests.Application.Queries
 
             dbContext.Database.EnsureDeleted();
 
-            dbContext.Database.Migrate();
+            dbContext.Database.EnsureCreated();
         }
 
         [Fact]
-        public void FindAllAsync_ReturnsOk()
+        public void FindAsync_ReturnsOk()
         {
             RunWithDbContext(dbContext, async (context) =>
             {
-                var postList = PostFactory.CreateList();
+                var user = UserFactory.Create();
 
-                context.PostStates.Attach(postList.First().State);
-                context.Posts.Add(postList.First());
+                context.Users.Add(user);
 
                 await context.SaveChangesAsync();
 
-                var postViewModels = context.Set<Post>().ToList().ConvertAll<PostViewModel>(p => PostViewModel.FromModel(p));
+                var userViewModel = UserViewModel.FromModel(user);
 
-                var postQueries = new PostQueries(_dbConnectionFactory);
+                var userQueries = new UserQueries(_dbConnectionFactory);
 
-                var result = await postQueries.FindAllAsync() as List<PostViewModel>;
+                var result = await userQueries.FindAsync(user.Id) as UserViewModel;
 
                 Assert.NotNull(result);
 
-                Assert.Equal(postViewModels.Count, result.Count);
-
-                Assert.Equal(postViewModels, result);
+                Assert.Equal(userViewModel, result);
             });
         }
 
         [Fact]
-        public void FindStatus_ReturnsOk()
+        public void FindAsync_ThrowsException_GivenInvalidId()
         {
             RunWithDbContext(dbContext, async (context) =>
             {
-                var postList = PostFactory.CreateList();
+                var user = UserFactory.Create();
 
-                context.AttachRange(postList.Select(p => p.State));
-
-                await context.Set<Post>().AddRangeAsync(postList);
+                context.Users.Add(user);
 
                 await context.SaveChangesAsync();
 
-                var postViewModel = PostViewModel.FromModel(context.Set<Post>().First());
+                var userQueries = new UserQueries(_dbConnectionFactory);
 
-                var postQueries = new PostQueries(_dbConnectionFactory);
-
-                var result = await postQueries.FindAsync(postViewModel.Id);
-
-                Assert.NotNull(result);
-
-                Assert.Equal(postViewModel, result);
+                await Assert.ThrowsAsync<KeyNotFoundException>(() => userQueries.FindAsync(999));
             });
         }
-
 
         private void RunWithDbContext(SocialiteDbContext dbContext, Action<SocialiteDbContext> assertFunc)
         {

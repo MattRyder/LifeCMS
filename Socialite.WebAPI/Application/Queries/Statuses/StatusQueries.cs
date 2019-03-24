@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Socialite.Infrastructure.DTO;
 using Socialite.WebAPI.Application.Queries.Statuses;
 
 namespace Socialite.WebAPI.Queries.Statuses
