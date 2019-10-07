@@ -8,7 +8,7 @@ namespace Socialite.Domain.AggregateModels.UsersAggregate
     {
         List<User> FindAll();
 
-        Task<User> FindAsync(int userId);
+        ValueTask<User> FindAsync(int userId);
 
         User Add(User user);
 

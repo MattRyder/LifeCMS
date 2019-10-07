@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -14,7 +14,6 @@
     </PackageReference>
     <PackageReference Include="Mediatr" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="Moq.Dapper" Version="1.0.0.9" />
     <PackageReference Include="xunit" Version="2.4.0" />

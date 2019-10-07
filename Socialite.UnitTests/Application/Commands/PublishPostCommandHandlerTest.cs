@@ -41,7 +41,7 @@ namespace Socialite.UnitTests.Application.Commands
         {
             var publishCmd = new PublishPostCommand(1);
 
-            _postRepositoryMock.Setup(x => x.FindAsync(It.IsAny<int>())).Returns(Task.FromResult<Post>(null));
+            _postRepositoryMock.Setup(x => x.FindAsync(It.IsAny<int>())).Returns(new ValueTask<Post>((Post)null));
 
             var handler = new PublishPostCommandHandler(_postRepositoryMock.Object);
 

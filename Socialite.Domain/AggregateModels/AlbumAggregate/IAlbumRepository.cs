@@ -5,7 +5,7 @@ namespace Socialite.Domain.AggregateModels.AlbumAggregate
 {
     public interface IAlbumRepository : IRepository<Album>
     {
-        Task<Album> FindAsync(int id);
+        ValueTask<Album> FindAsync(int id);
 
         Album Add(Album album);
 

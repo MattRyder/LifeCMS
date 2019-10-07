@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Logging;
-using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.AggregateModels.UsersAggregate;
@@ -28,6 +28,8 @@ using Socialite.WebAPI.Application.Commands.Albums;
 using Amazon.S3;
 using Socialite.WebAPI.Infrastructure.Services;
 using Socialite.WebAPI.Application.Queries.Albums;
+using Newtonsoft.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 namespace Socialite
 {
@@ -95,19 +97,20 @@ namespace Socialite
                 configureOptions.RequireHttpsMetadata = false;
             });
 
-            services.AddMvc()
-            .AddJsonOptions(json =>
+            services
+            .AddControllersWithViews()
+            .AddNewtonsoftJson(json =>
             {
                 json.SerializerSettings.ContractResolver = new DefaultContractResolver()
                 {
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 };
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Version = "1", Title = "Socialite API" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Version = "1", Title = "Socialite API" });
             });
         }
 
@@ -129,7 +132,7 @@ namespace Socialite
 
             app.UseHttpsRedirection();
 
-            app.UseMvc();
+            // app.UseMvc();
 
             app.UseSwagger();
 

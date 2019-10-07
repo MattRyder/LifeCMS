@@ -16,7 +16,7 @@ namespace Socialite.Infrastructure.Repositories
             DbContext = dbContext;
         }
 
-        public Task<Album> FindAsync(int id)
+        public ValueTask<Album> FindAsync(int id)
         {
             return DbContext.Set<Album>().FindAsync(id);
         }

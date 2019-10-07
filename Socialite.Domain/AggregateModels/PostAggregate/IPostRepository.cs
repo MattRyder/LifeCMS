@@ -8,7 +8,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
     {
         IEnumerable<Post> FindAll();
 
-        Task<Post> FindAsync(int postId);
+        ValueTask<Post> FindAsync(int postId);
 
         Post Add(Post post);
 

@@ -32,7 +32,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var deletePostCmd = new DeletePostCommand(postId);
 
-            _postRepositoryMock.Setup(p => p.FindAsync(postId)).Returns(Task.FromResult(post));
+            _postRepositoryMock.Setup(p => p.FindAsync(postId)).Returns(new ValueTask<Post>(post));
 
             _postRepositoryMock.Setup(p => p.Delete(It.IsAny<Post>()));
 
@@ -50,7 +50,7 @@ namespace Socialite.UnitTests.Application.Commands
         {
             var deletePostCmd = new DeletePostCommand(1);
 
-            _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).Returns(Task.FromResult((Post)null));
+            _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).Returns(new ValueTask<Post>((Post)null));
 
             var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
 

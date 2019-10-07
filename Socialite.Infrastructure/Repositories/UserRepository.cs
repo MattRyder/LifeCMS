@@ -23,7 +23,7 @@ namespace Socialite.Infrastructure.Repositories
             return DbContext.Set<User>().ToList();
         }
 
-        public Task<User> FindAsync(int userId)
+        public ValueTask<User> FindAsync(int userId)
         {
             return DbContext.Set<User>().FindAsync(userId);
         }

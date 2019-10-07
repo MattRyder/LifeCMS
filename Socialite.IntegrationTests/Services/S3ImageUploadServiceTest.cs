@@ -5,7 +5,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Bogus;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
+// using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Options;
 using Moq;
 using Socialite.WebAPI.Infrastructure.Services;
