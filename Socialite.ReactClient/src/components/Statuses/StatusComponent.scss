@@ -1,0 +1,22 @@
+.status {
+  background-color: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.33);
+  border-radius: 4px;
+  padding: 1em;
+
+  .mood {
+    font-size: 0.85em;
+  }
+
+  .message {
+    p {
+      font-size: 1.5em;
+      margin: 6px 0;
+    }
+  }
+
+  .created-at {
+    color: #5f737d;
+    font-size: 0.85em;
+  }
+}

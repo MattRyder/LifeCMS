@@ -2,34 +2,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Logging;
-using Newtonsoft.Json;
-using Socialite.Domain.AggregateModels.PostAggregate;
-using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.Domain.AggregateModels.UsersAggregate;
-using Socialite.Infrastructure.Data;
-using Socialite.Infrastructure.Repositories;
-using Socialite.WebAPI.Application.Commands.Posts;
-using Socialite.WebAPI.Application.Commands.Statuses;
-using Socialite.WebAPI.Application.Commands.Users;
-using Socialite.WebAPI.Application.Queries.Posts;
-using Socialite.WebAPI.Application.Queries.Users;
-using Socialite.WebAPI.Queries.Posts;
-using Socialite.WebAPI.Queries.Statuses;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.Authorization;
-using Socialite.WebAPI.Authorization.IdentityServer;
-using Socialite.WebAPI.Authorization.Handlers;
-using Socialite.Domain.AggregateModels.AlbumAggregate;
-using Socialite.WebAPI.Application.Commands.Albums;
-using Amazon.S3;
 using Socialite.WebAPI.Infrastructure.Services;
-using Socialite.WebAPI.Application.Queries.Albums;
 using Newtonsoft.Json.Serialization;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Socialite.WebAPI.Authorization.Jwt;
+using Socialite.WebAPI.Startup;
+using System.Reflection;
 
 namespace Socialite
 {
@@ -45,57 +25,11 @@ namespace Socialite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration["ConnectionStrings:Socialite"];
-
-            services.Configure<S3ImageUploadOptions>(Configuration.GetSection("AmazonS3"));
-
-            IdentityModelEventSource.ShowPII = true;
-
             services.AddMediatR();
 
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
-            services.AddAWSService<IAmazonS3>();
-
-            services.AddEntityFrameworkSqlServer().AddDbContext<SocialiteDbContext>(opts =>
-            {
-                opts.UseMySql(connectionString);
-            });
-
             services
-            .AddSingleton<IAuthorizationHandler, HasScopeHandler>()
-            .AddTransient<IImageUploadService, S3ImageUploadService>()
-            .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
-            {
-                return new MySqlDbConnectionFactory(connectionString);
-            });
-
-            SetupPost(services);
-            SetupStatus(services);
-            SetupUser(services);
-            SetupAlbum(services);
-
-            services
-                .AddIdentityServer(configuration =>
-                {
-                    configuration.IssuerUri = "http://localhost:5000";
-                })
-                .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryClients(Config.GetClients())
-                .AddDeveloperSigningCredential();
-
-            services
-            .AddAuthorization(options =>
-            {
-                options.AddPolicy("StatusReadPolicy", policy => policy.Requirements.Add(new HasScopeRequirement("status:read", "http://localhost:5000")));
-            })
-            .AddAuthentication("Bearer")
-            .AddJwtBearer("Bearer", configureOptions =>
-            {
-                configureOptions.Audience = "http://localhost:5000";
-                configureOptions.Authority = "http://localhost:5000";
-                configureOptions.RequireHttpsMetadata = false;
-            });
+            .AddSingleton<IJwtGenerationService, JwtGenerationService>()
+            .AddTransient<IImageUploadService, S3ImageUploadService>();
 
             services
             .AddControllersWithViews()
@@ -108,16 +42,33 @@ namespace Socialite
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddSwaggerGen(c =>
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Version = "1", Title = "Socialite API" });
+                configuration.RootPath = "client/build";
             });
+
+            services.SetupWebApi();
+
+            services.SetupAws(Configuration);
+
+            services.SetupEntityFramework(Configuration);
+
+            services.SetupIdentity(Configuration);
+
+            services.SetupSwagger(Configuration);
+
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddSocialiteIdentityServer(Configuration, migrationsAssembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            var envIsDevelopment = env.EnvironmentName.Equals("Development");
+
+            if (envIsDevelopment)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -126,13 +77,41 @@ namespace Socialite
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
-
-            app.UseIdentityServer();
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
 
             app.UseHttpsRedirection();
 
-            // app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseIdentityServer();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (envIsDevelopment)
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
 
             app.UseSwagger();
 
@@ -140,35 +119,6 @@ namespace Socialite
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Socialite API v1");
             });
-        }
-
-        private void SetupStatus(IServiceCollection services)
-        {
-            services.AddTransient<IStatusRepository, StatusRepository>()
-                    .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
-                    .AddTransient<IStatusQueries, StatusQueries>();
-        }
-
-        private void SetupPost(IServiceCollection services)
-        {
-            services.AddTransient<IPostRepository, PostRepository>()
-                    .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
-                    .AddTransient<IPostQueries, PostQueries>();
-        }
-
-        private void SetupUser(IServiceCollection services)
-        {
-            services.AddTransient<IUserRepository, UserRepository>()
-                    .AddTransient<IRequestHandler<CreateUserCommand, bool>, CreateUserCommandHandler>()
-                    .AddTransient<IUserQueries, UserQueries>();
-        }
-
-        private void SetupAlbum(IServiceCollection services)
-        {
-            services.AddTransient<IAlbumRepository, AlbumRepository>()
-                    .AddTransient<IRequestHandler<CreateAlbumCommand, bool>, CreateAlbumCommandHandler>()
-                    .AddTransient<IRequestHandler<UploadPhotoCommand, bool>, UploadPhotoCommandHandler>()
-                    .AddTransient<IAlbumQueries, AlbumQueries>();
         }
     }
 }

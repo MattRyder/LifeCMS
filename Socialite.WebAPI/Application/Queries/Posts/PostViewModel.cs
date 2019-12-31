@@ -11,7 +11,7 @@ namespace Socialite.WebAPI.Queries.Posts
         public string Title { get; set; }
         public string State { get; set; }
         public string Text { get; set; }
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public static PostViewModel FromModel(Post post)
         {
@@ -21,7 +21,7 @@ namespace Socialite.WebAPI.Queries.Posts
                 State = post.State.Name,
                 Title = post.Title,
                 Text = post.Text,
-                CreatedAt = post.CreatedAt.ToString()
+                CreatedAt = post.CreatedAt
             };
         }
 

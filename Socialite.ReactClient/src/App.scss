@@ -1,0 +1,23 @@
+@import "assets/styles/colors.scss";
+
+@font-face {
+    font-family: Roboto-Medium;
+    src: url('./assets/fonts/roboto/Roboto-Medium.ttf');
+    font-weight: 400;
+}
+
+* {
+    font-family: Roboto-Medium, sans-serif;
+}
+
+html, body {
+    background-color: $soc_body;
+}
+
+a {
+    color: $soc_pink;
+}
+
+a:hover {
+    color: darken($soc_pink, 15%);
+}

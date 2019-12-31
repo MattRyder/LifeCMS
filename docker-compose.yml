@@ -25,3 +25,12 @@ services:
       ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_dbuser;Password=socialite_pass;AllowUserVariables=True;
     depends_on:
       - sql.data
+
+  react-client:
+    image: socialite_react-client:latest
+    ports:
+      - "80:80"
+      - "3000:3000"
+    build:
+      context: ./Socialite.ReactClient
+      dockerfile: Dockerfile

@@ -19,6 +19,7 @@ namespace Socialite
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseUrls(new[] { "http://localhost:5000", "https://localhost:5001" })
                 .UseStartup<Startup>();
     }
 }

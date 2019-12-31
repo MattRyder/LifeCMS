@@ -1,0 +1,27 @@
+$border-color: rgb(185, 185, 185);
+
+.side-menu {
+    border: 1px solid $border-color;
+    background-color: #FFF;
+    padding: 0;
+    
+    a {
+        display: block;
+        color: darken($border-color, 25%);
+        border-bottom: 1px solid $border-color;
+        
+        li.side-menu-item {
+            list-style-type: none;
+            padding: 0.25em 1em;
+            
+            &.side-menu-item-active {
+                font-weight: bold;
+                color: darken($border-color, 40%);
+            }            
+        }
+    }
+
+    a:last-of-type {
+        border-bottom: none;
+    }
+}

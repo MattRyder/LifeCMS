@@ -1,0 +1,16 @@
+.status-container {
+    display: flex;
+    flex-direction: column;
+
+    .status {
+        flex: 1;
+
+        :not(:first-of-type) {
+            margin-top: 1em;
+        }
+
+        :not(:last-of-type) {
+            margin-bottom: 1em;
+        }
+    }
+}

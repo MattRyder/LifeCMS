@@ -39,6 +39,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
         public Post(string title, string text) : this()
         {
             Title = !string.IsNullOrEmpty(title) ? title : throw new PostDomainException(nameof(title));
+            
             Text = !string.IsNullOrEmpty(text) ? text : throw new PostDomainException(nameof(text));
 
             AddEvent(new PostDraftedEvent(this));

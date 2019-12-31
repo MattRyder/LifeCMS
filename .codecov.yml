@@ -3,4 +3,4 @@ coverage:
     project: on
     patch:
       default:
-        threshold: 0.1
+        enabled: no

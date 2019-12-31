@@ -7,8 +7,6 @@ using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.Common;
 using Socialite.Infrastructure.Exensions;
-using Socialite.Domain.AggregateModels.UsersAggregate;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Socialite.Domain.AggregateModels.AlbumAggregate;
 using System;
 
@@ -16,21 +14,18 @@ namespace Socialite.Infrastructure.Data
 {
     public class SocialiteDbContext : DbContext, IUnitOfWork
     {
-        private IConfiguration _configuration;
-        private IMediator _mediator;
+        private readonly IMediator _mediator;
 
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostState> PostStates { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Album> Albums { get; set; }
         public DbSet<Photo> Photos { get; set; }
 
-        public SocialiteDbContext(DbContextOptions<SocialiteDbContext> contextOptions, IConfiguration configuration, IMediator mediator)
+        public SocialiteDbContext(DbContextOptions<SocialiteDbContext> contextOptions, IMediator mediator)
             : base(contextOptions)
         {
             _mediator = mediator;
-            _configuration = configuration;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,10 +33,6 @@ namespace Socialite.Infrastructure.Data
             SetupEntityModel<Status>(modelBuilder);
 
             SetupEntityModel<Post>(modelBuilder);
-
-            SetupEntityModel<User>(modelBuilder);
-            modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
-            modelBuilder.Entity<User>().Property(u => u.Name).IsRequired();
 
             SetupEntityModel<Album>(modelBuilder);
             modelBuilder.Entity<Album>().Property(a => a.Name).IsRequired();
@@ -57,7 +48,7 @@ namespace Socialite.Infrastructure.Data
                 locationString => new Uri(locationString)
             );
 
-            var postStateSeedData = Socialite.Domain.AggregateModels.PostAggregate.PostState.List().ToArray();
+            var postStateSeedData = PostState.List().ToArray();
             modelBuilder.Entity<PostState>().HasData(postStateSeedData);
         }
 

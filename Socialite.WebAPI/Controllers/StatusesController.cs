@@ -23,7 +23,7 @@ namespace Socialite.WebAPI.Controllers
 
         // GET: api/Statuses
         [HttpGet(Name = "GetStatuses")]
-        [Authorize(Policy = "StatusReadPolicy")]
+        // [Authorize(Policy = "StatusReadPolicy")]
         public async Task<IActionResult> Get()
         {
             var statuses = await _statusQueries.FindAllAsync();
@@ -47,7 +47,7 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Statuses
         [HttpPost]
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Post([FromBody] CreateStatusCommand createStatusCommand)
         {
             if(ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace Socialite.WebAPI.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        [Authorize]
+        // [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteStatusCommand(id);

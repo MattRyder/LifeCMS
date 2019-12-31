@@ -1,0 +1,6 @@
+<svg width="102" height="102" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <rect rx="5" id="background" height="100" width="100" y="1" x="1" stroke-width="1.5" fill="#e356bd"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="86" id="s_text" y="95" x="45" stroke-opacity="null" stroke-width="0" stroke="null" fill="#ffffff">S</text>
+ </g>
+</svg>

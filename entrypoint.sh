@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-dotnet_run_cmd="dotnet run --project Socialite.WebAPI"
+dotnet_run_cmd="dotnet watch --project Socialite.WebAPI run"
 
 set -e
 dotnet_migrate_db_cmd="dotnet ef database update --startup-project Socialite.WebAPI --project Socialite.Infrastructure"

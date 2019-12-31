@@ -51,7 +51,7 @@ namespace Socialite.WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(command, default(CancellationToken));
+                var result = await _mediator.Send(command);
 
                 if (result)
                 {

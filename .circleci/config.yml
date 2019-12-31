@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: mcr.microsoft.com/dotnet/core/sdk:3.0
+      - image: faithlife/aspnetcore-build-yarn:2019.12
       - image: mysql/mysql-server:8.0
         environment:
           MYSQL_ROOT_HOST: '%'

@@ -37,7 +37,7 @@ namespace Socialite.IntegrationTests.Application.Queries
 
             var contextOptions = new DbContextOptionsBuilder<SocialiteDbContext>().UseMySql(_dbConnectionFactory.CreateConnection().ConnectionString).Options;
 
-            dbContext = new SocialiteDbContext(contextOptions, null, null);
+            dbContext = new SocialiteDbContext(contextOptions, null);
 
             dbContext.Database.EnsureDeleted();
 

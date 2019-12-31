@@ -24,6 +24,7 @@ namespace Socialite.WebAPI.Controllers
         }
 
         // GET: api/Posts
+        [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
             var posts = await _postQueries.FindAllAsync();
