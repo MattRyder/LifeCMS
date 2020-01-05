@@ -1,36 +1,45 @@
 version: '3'
 
+networks:
+  socialite_network:
+    driver: bridge
+
 services:
   sql.data:
-    image: mysql/mysql-server:latest
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    ports:
-      - "33060:3306"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_HOST: '%'
-      MYSQL_USER: socialite_dbuser
-      MYSQL_PASSWORD: socialite_pass
-      MYSQL_DATABASE: socialite_production
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    image: mysql/mysql-server:latest
+    ports:
+      - "3306:3306"
+    networks:
+      - socialite_network
+    restart: always
+    volumes:
+      - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
 
   socialite.webapi:
     image: socialite_webapi:latest
     ports:
-      - "8080:8080"
+      - "5000:5000"
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       SQL_DB_HOST: sql.data
-      ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_dbuser;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
     depends_on:
-      - sql.data
+    - sql.data
+    networks:
+      - socialite_network
 
-  react-client:
-    image: socialite_react-client:latest
-    ports:
-      - "80:80"
-      - "3000:3000"
-    build:
-      context: ./Socialite.ReactClient
-      dockerfile: Dockerfile
+  # react-client:
+  #   image: socialite_react-client:latest
+  #   ports:
+  #     - "80:80"
+  #     - "3000:3000"
+  #   build:
+  #     context: ./Socialite.ReactClient
+  #     dockerfile: Dockerfile

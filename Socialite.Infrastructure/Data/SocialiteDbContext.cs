@@ -72,5 +72,13 @@ namespace Socialite.Infrastructure.Data
 
             return true;
         }
+
+        public void ApplyMigrations(SocialiteDbContext context)
+        {
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
+        }
     }
 }

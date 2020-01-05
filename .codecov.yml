@@ -1,6 +1,0 @@
-coverage:
-  status:
-    project: on
-    patch:
-      default:
-        enabled: no

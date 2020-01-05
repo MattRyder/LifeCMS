@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Socialite.WebAPI.Authorization.Jwt;
 using Socialite.WebAPI.Startup;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Socialite.Infrastructure.Data;
 
 namespace Socialite
 {
@@ -45,7 +48,7 @@ namespace Socialite
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "client/build";
+                configuration.RootPath = "ClientApp/build";
             });
 
             services.SetupWebApi();
@@ -84,8 +87,6 @@ namespace Socialite
                 .AllowAnyMethod();
             });
 
-            app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             app.UseIdentityServer();
@@ -119,6 +120,32 @@ namespace Socialite
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Socialite API v1");
             });
+
+            UpdateDatabase(app);
+        }
+
+        private void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var socialiteDbContext = serviceScope.ServiceProvider.GetService<SocialiteDbContext>())
+                {
+                    ApplyMigrations(socialiteDbContext);
+                }
+
+                using (var identityDbContext = serviceScope.ServiceProvider.GetService<SocialiteIdentityDbContext>())
+                {
+                   ApplyMigrations(identityDbContext);
+                }
+            }
+        }
+
+        public void ApplyMigrations(DbContext context)
+        {
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }

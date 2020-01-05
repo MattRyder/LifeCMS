@@ -40,7 +40,3 @@ jobs:
           command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./../coverage/Socialite_coverage.xml /p:MergeWith="./../coverage/unit.tests.json" Socialite.IntegrationTests
           environment:
             ConnectionStrings__SocialiteIntegrationTests: Server=localhost;Database=socialite_test;Uid=root;AllowUserVariables=True;
-
-      - run:
-          name: Uploading code coverage to CodeCov
-          command: bash <(curl -s https://codecov.io/bash)
