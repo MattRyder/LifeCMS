@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Socialite.WebAPI.Queries.Posts;
 
 namespace Socialite.WebAPI.Application.Queries.Albums
 {
@@ -19,7 +19,7 @@ namespace Socialite.WebAPI.Application.Queries.Albums
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findAllQuery = @"
+                var findAllQuery = @"
                     SELECT Id, Name, CreatedAt, UpdatedAt
                     FROM Albums;";
 
@@ -27,18 +27,18 @@ namespace Socialite.WebAPI.Application.Queries.Albums
             }
         }
 
-        public async Task<AlbumViewModel> FindAsync(int id)
+        public async Task<AlbumViewModel> FindAsync(Guid id)
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findByIdQuery = @"
+                var findByIdQuery = @"
                 SELECT  Albums.Id, Albums.Name, Albums.CreatedAt, Albums.UpdatedAt,
                         Photos.Id, Photos.Name, Photos.AlbumId, Photos.Caption, Photos.Location, Photos.Height, Photos.Width
                 FROM Albums LEFT JOIN
                 Photos ON Photos.AlbumId = Albums.Id
                 WHERE Albums.Id = @Id;";
 
-                var albumLookup = new Dictionary<int, AlbumViewModel>();
+                var albumLookup = new Dictionary<Guid, AlbumViewModel>();
 
                 var result = await connection.QueryAsync<AlbumViewModel, PhotoViewModel, AlbumViewModel>(
                     findByIdQuery,
@@ -53,7 +53,7 @@ namespace Socialite.WebAPI.Application.Queries.Albums
                             albumViewModel = album;
                         }
 
-                        albumViewModel.Photos = albumViewModel.Photos ?? new List<PhotoViewModel>();
+                        albumViewModel.Photos ??= new List<PhotoViewModel>();
 
                         if(photo != null)
                         {

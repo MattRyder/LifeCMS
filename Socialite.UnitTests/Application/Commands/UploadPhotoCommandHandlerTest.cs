@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
@@ -37,13 +38,13 @@ namespace Socialite.UnitTests.Application.Commands
 
             _imageUploadServiceMock.Setup(s => s.UploadAsync(It.IsAny<IFormFile>())).ReturnsAsync(new System.Uri(new Faker().Internet.UrlWithPath()));
 
-            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).ReturnsAsync(album);
+            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<Guid>())).ReturnsAsync(album);
 
             _albumRepositoryMock.Setup(p => p.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
             var handler = new UploadPhotoCommandHandler(_albumRepositoryMock.Object, _imageUploadServiceMock.Object);
 
-            var result = await handler.Handle(uploadPhotoCmd, default(CancellationToken));
+            var result = await handler.Handle(uploadPhotoCmd, default);
 
             Assert.True(result);
         }
@@ -55,17 +56,17 @@ namespace Socialite.UnitTests.Application.Commands
 
             var album = AlbumFactory.Create();
 
-            var uploadPhotoCmd = new UploadPhotoCommand(0, null, null, null);
+            var uploadPhotoCmd = new UploadPhotoCommand(new Guid(), null, null, null);
 
             _imageUploadServiceMock.Setup(s => s.UploadAsync(It.IsAny<IFormFile>())).ReturnsAsync(new System.Uri(new Faker().Internet.UrlWithPath()));
 
-            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).ReturnsAsync(album);
+            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<Guid>())).ReturnsAsync(album);
 
             _albumRepositoryMock.Setup(p => p.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
             var handler = new UploadPhotoCommandHandler(_albumRepositoryMock.Object, _imageUploadServiceMock.Object);
 
-            var result = await handler.Handle(uploadPhotoCmd, default(CancellationToken));
+            var result = await handler.Handle(uploadPhotoCmd, default);
 
             Assert.False(result);
         }
@@ -75,17 +76,17 @@ namespace Socialite.UnitTests.Application.Commands
         {
             var f = new Faker();
 
-            var uploadPhotoCmd = new UploadPhotoCommand(0, f.Lorem.Word(), null, f.Lorem.Sentence());
+            var uploadPhotoCmd = new UploadPhotoCommand(new Guid(), f.Lorem.Word(), null, f.Lorem.Sentence());
 
             _imageUploadServiceMock.Setup(s => s.UploadAsync(It.IsAny<IFormFile>())).ReturnsAsync(new System.Uri(new Faker().Internet.UrlWithPath()));
 
-            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).ReturnsAsync(null as Album);
+            _albumRepositoryMock.Setup(p => p.FindAsync(It.IsAny<Guid>())).ReturnsAsync(null as Album);
 
             _albumRepositoryMock.Setup(p => p.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
             var handler = new UploadPhotoCommandHandler(_albumRepositoryMock.Object, _imageUploadServiceMock.Object);
 
-            var result = await handler.Handle(uploadPhotoCmd, default(CancellationToken));
+            var result = await handler.Handle(uploadPhotoCmd, default);
 
             Assert.False(result);
         }

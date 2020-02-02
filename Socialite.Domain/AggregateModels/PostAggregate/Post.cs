@@ -9,6 +9,12 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
     public class Post : BaseEntity, IAggregateRoot
     {
         /// <summary>
+        /// GUID of the author of this Post
+        /// </summary>
+        /// <value></value>
+        public Guid AuthorId { get; private set; }
+
+        /// <summary>
         /// Title of this Post
         /// </summary>
         /// <value>This getter/setter returns a String</value>
@@ -36,8 +42,10 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
             _stateId = PostState.Drafted.Id;
         }
 
-        public Post(string title, string text) : this()
+        public Post(Guid authorId, string title, string text) : this()
         {
+            AuthorId = authorId != null ? authorId : throw new PostDomainException(nameof(authorId));
+
             Title = !string.IsNullOrEmpty(title) ? title : throw new PostDomainException(nameof(title));
             
             Text = !string.IsNullOrEmpty(text) ? text : throw new PostDomainException(nameof(text));

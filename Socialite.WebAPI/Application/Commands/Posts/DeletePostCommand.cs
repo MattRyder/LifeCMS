@@ -1,3 +1,4 @@
+using System;
 using MediatR;
 using Socialite.WebAPI.Application.Enums;
 
@@ -5,11 +6,11 @@ namespace Socialite.WebAPI.Application.Commands.Posts
 {
     public class DeletePostCommand : IRequest<DeleteCommandResult>
     {
-        public int PostId { get; private set; }
+        public Guid PostId { get; private set; }
 
-        public DeletePostCommand(int postId)
+        public DeletePostCommand(Guid postId)
         {
-            this.PostId = postId;
+            PostId = postId;
         }
     }
 

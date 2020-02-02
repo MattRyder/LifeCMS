@@ -19,7 +19,7 @@ namespace Socialite.WebAPI.Application.Commands.Posts
         {
             try
             {
-                var post = new Post(request.Title, request.Text);
+                var post = new Post(request.AuthorId, request.Title, request.Text);
 
                 var wtf = _postRepository.Add(post);
 

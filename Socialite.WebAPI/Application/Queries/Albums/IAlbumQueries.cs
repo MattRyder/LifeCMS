@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,6 +8,6 @@ namespace Socialite.WebAPI.Application.Queries.Albums
     {
         Task<IEnumerable<AlbumViewModel>> FindAllAsync();
 
-        Task<AlbumViewModel> FindAsync(int id);
+        Task<AlbumViewModel> FindAsync(Guid id);
     }
 }

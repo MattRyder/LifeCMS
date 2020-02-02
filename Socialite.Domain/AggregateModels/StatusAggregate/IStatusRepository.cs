@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Socialite.Domain.Interfaces;
@@ -8,7 +9,7 @@ namespace Socialite.Domain.AggregateModels.StatusAggregate
     {
         List<Status> FindAll();
 
-        Task<Status> FindAsync(int statusId);
+        Task<Status> FindAsync(Guid statusId);
 
         Status Add(Status status);
 

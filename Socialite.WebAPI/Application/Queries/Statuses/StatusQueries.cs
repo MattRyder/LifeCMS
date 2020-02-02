@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Socialite.WebAPI.Queries.Statuses
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findAllQuery = @"
+                var findAllQuery = @"
                     SELECT Id, Mood, Text, CreatedAt
                     FROM Statuses
                 ";
@@ -28,11 +29,11 @@ namespace Socialite.WebAPI.Queries.Statuses
             }
         }
 
-        public async Task<StatusViewModel> FindStatus(int id)
+        public async Task<StatusViewModel> FindStatus(Guid id)
         {
             using (var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findStatusQuery = @"
+                var findStatusQuery = @"
                     SELECT Id, Mood, Text, CreatedAt
                     FROM Statuses
                     WHERE Id = @StatusId

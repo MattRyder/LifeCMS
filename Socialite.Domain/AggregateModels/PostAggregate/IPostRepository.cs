@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Socialite.Domain.Interfaces;
@@ -8,7 +9,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
     {
         IEnumerable<Post> FindAll();
 
-        ValueTask<Post> FindAsync(int postId);
+        ValueTask<Post> FindAsync(Guid postId);
 
         Post Add(Post post);
 

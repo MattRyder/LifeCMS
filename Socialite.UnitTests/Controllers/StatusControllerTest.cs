@@ -13,6 +13,7 @@ using System.Net;
 using System.Threading;
 using Socialite.WebAPI.Application.Enums;
 using Socialite.WebAPI.Application.Queries.Statuses;
+using System;
 
 namespace Socialite.UnitTests.Controllers
 {
@@ -54,7 +55,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsStatus_GivenAnId()
         {
-            var expectedStatusId = 1;
+            var expectedStatusId = new Guid();
 
             var status = StatusViewModel.FromModel(StatusFactory.Create());
 
@@ -80,7 +81,7 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Get_ReturnsNotFound_GivenInvalidId()
         {
-            var statusId = 1;
+            var statusId = new Guid();
 
             _statusQueries.Setup(sq => sq.FindStatus(statusId)).Throws(new KeyNotFoundException());
 
@@ -124,11 +125,11 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Delete_ReturnsOk_GivenValidId()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Success));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default)).Returns(Task.FromResult(DeleteCommandResult.Success));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
-            var actionResult = await controller.Delete(1) as OkResult;
+            var actionResult = await controller.Delete(new Guid()) as OkResult;
 
             Assert.Equal((int)HttpStatusCode.OK, actionResult.StatusCode);
         }
@@ -136,11 +137,11 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Delete_ReturnsNotFound_GivenInvalidId()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.NotFound));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default)).Returns(Task.FromResult(DeleteCommandResult.NotFound));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
-            var actionResult = await controller.Delete(1) as NotFoundResult;
+            var actionResult = await controller.Delete(new Guid()) as NotFoundResult;
 
             Assert.Equal((int)HttpStatusCode.NotFound, actionResult.StatusCode);
         }
@@ -148,11 +149,11 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Delete_ReturnsBadRequest_WhenCommandFails()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default(CancellationToken))).Returns(Task.FromResult(DeleteCommandResult.Failure));
+            _mediator.Setup(m => m.Send(It.IsAny<DeleteStatusCommand>(), default)).Returns(Task.FromResult(DeleteCommandResult.Failure));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
-            var actionResult = await controller.Delete(1) as BadRequestResult;
+            var actionResult = await controller.Delete(new Guid()) as BadRequestResult;
 
             Assert.Equal((int)HttpStatusCode.BadRequest, actionResult.StatusCode);
         }

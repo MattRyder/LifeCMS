@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -12,19 +13,17 @@ namespace Socialite.UnitTests.Application.Commands
 {
     public class DeletePostCommandHandlerTest
     {
-        private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IPostRepository> _postRepositoryMock;
 
         public DeletePostCommandHandlerTest()
         {
-            _mediatorMock = new Mock<IMediator>();
             _postRepositoryMock = new Mock<IPostRepository>();
         }
 
         [Fact]
         public async Task Handle_ReturnsSuccess_GivenValidCommandAsync()
         {
-            var postId = 1;
+            var postId = new Guid();
 
             var post = PostFactory.Create();
 
@@ -40,7 +39,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
 
-            var result = await handler.Handle(deletePostCmd, default(CancellationToken));
+            var result = await handler.Handle(deletePostCmd, default);
 
             Assert.Equal(DeleteCommandResult.Success, result);
         }
@@ -48,13 +47,13 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async Task Handle_ReturnsNotFound_GivenInvalidId()
         {
-            var deletePostCmd = new DeletePostCommand(1);
+            var deletePostCmd = new DeletePostCommand(new Guid());
 
-            _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<int>())).Returns(new ValueTask<Post>((Post)null));
+            _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<Guid>())).Returns(new ValueTask<Post>((Post)null));
 
             var handler = new DeletePostCommandHandler(_postRepositoryMock.Object);
 
-            var result = await handler.Handle(deletePostCmd, default(CancellationToken));
+            var result = await handler.Handle(deletePostCmd, default);
 
             Assert.Equal(DeleteCommandResult.NotFound, result);
         }

@@ -1,3 +1,4 @@
+using System;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.Exceptions;
 using Socialite.UnitTests.Factories;
@@ -20,13 +21,13 @@ namespace Socialite.UnitTests.Domain
         [Fact]
         public void Constructor_ThrowsException_GivenInvalidTextParam()
         {
-            Assert.Throws<PostDomainException>(() => new Post("Title", null));
+            Assert.Throws<PostDomainException>(() => new Post(new Guid(), "Title", null));
         }
 
         [Fact]
         public void Constructor_ThrowsException_GivenInvalidTitleParam()
         {
-            Assert.Throws<PostDomainException>(() => new Post(null, "Text"));
+            Assert.Throws<PostDomainException>(() => new Post(new Guid(), null, "Text"));
         }
 
 

@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +31,7 @@ namespace Socialite.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAlbum(int id)
+        public async Task<IActionResult> GetAlbum(Guid id)
         {
             var albums = await _albumQueries.FindAsync(id);
 
@@ -64,7 +64,7 @@ namespace Socialite.WebAPI.Controllers
 
         [HttpPost]
         [Route("{albumId}/upload")]
-        public async Task<IActionResult> UploadPhoto(int albumId, [FromForm] string name, [FromForm] string caption, IFormFile file)
+        public async Task<IActionResult> UploadPhoto(Guid albumId, [FromForm] string name, [FromForm] string caption, IFormFile file)
         {
             var command = new UploadPhotoCommand(albumId, name, file, caption);
 

@@ -6,7 +6,7 @@ namespace Socialite.WebAPI.Application.Queries.Statuses
 {
     public class StatusViewModel : ValueObject
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Mood { get; set; }
 

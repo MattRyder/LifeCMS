@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Socialite.Infrastructure.Repositories
             return DbContext.Set<Status>().ToList();
         }
 
-        public async Task<Status> FindAsync(int statusId)
+        public async Task<Status> FindAsync(Guid statusId)
         {
             return await DbContext.Set<Status>().FindAsync(statusId);
         }

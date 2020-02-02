@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Socialite.Domain.AggregateModels.PersonAggregate;
 
@@ -5,7 +6,7 @@ namespace Socialite.WebAPI.Application.Queries.Persons
 {
     public class PersonViewModel : ValueObject
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public string CreatedAt { get; set; }

@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
@@ -32,7 +32,7 @@ namespace Socialite.WebAPI.Controllers
 
         // GET: api/Statuses/5
         [HttpGet("{id}", Name = "GetStatus")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             try
             {
@@ -66,22 +66,18 @@ namespace Socialite.WebAPI.Controllers
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         // [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteStatusCommand(id);
 
             var result = await _mediator.Send(command);
 
-            switch (result)
+            return result switch
             {
-                case DeleteCommandResult.Success:
-                    return Ok();
-                case DeleteCommandResult.NotFound:
-                    return NotFound();
-                case DeleteCommandResult.Failure:
-                default:
-                    return BadRequest();
-            }
+                DeleteCommandResult.Success => Ok(),
+                DeleteCommandResult.NotFound => NotFound(),
+                _ => BadRequest(),
+            };
         }
     }
 }

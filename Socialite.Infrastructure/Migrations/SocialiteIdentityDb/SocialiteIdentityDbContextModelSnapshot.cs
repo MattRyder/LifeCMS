@@ -92,12 +92,10 @@ namespace Socialite.Infrastructure.Migrations.SocialiteIdentityDb
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
@@ -134,12 +132,10 @@ namespace Socialite.Infrastructure.Migrations.SocialiteIdentityDb
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
                         .HasColumnType("longtext");

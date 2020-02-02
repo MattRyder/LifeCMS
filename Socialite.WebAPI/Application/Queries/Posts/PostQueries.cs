@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Socialite.WebAPI.Application.Queries.Posts
         {
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findAllQuery = @"
+                var findAllQuery = @"
                     SELECT Posts.Id, Posts.Title, Posts.Text, PostStates.Name as State, Posts.CreatedAt
                     FROM Posts
                     INNER JOIN PostStates
@@ -29,11 +30,11 @@ namespace Socialite.WebAPI.Application.Queries.Posts
             }
         }
 
-        public async Task<PostViewModel> FindAsync(int id)
+        public async Task<PostViewModel> FindAsync(Guid id)
         {
             using(var connection = _dbConnectionFactory.CreateConnection())
             {
-                string findByIdQuery = @"
+                var findByIdQuery = @"
                     SELECT Posts.Id, Posts.Title, Posts.Text, PostStates.Name as State, Posts.CreatedAt
                     FROM Posts
                     INNER JOIN PostStates

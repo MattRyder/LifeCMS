@@ -19,7 +19,7 @@ services:
     volumes:
       - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
 
-  socialite.webapi:
+  webapi:
     image: socialite_webapi:latest
     ports:
       - "5000:5000"
@@ -30,16 +30,16 @@ services:
       SQL_DB_HOST: sql.data
       ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
       ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
     depends_on:
     - sql.data
     networks:
       - socialite_network
 
-  # react-client:
-  #   image: socialite_react-client:latest
-  #   ports:
-  #     - "80:80"
-  #     - "3000:3000"
-  #   build:
-  #     context: ./Socialite.ReactClient
-  #     dockerfile: Dockerfile
+  react-client:
+    image: socialite_react-client:latest
+    ports:
+      - "3000:80"
+    build:
+      context: ./Socialite.ReactClient
+      dockerfile: Dockerfile

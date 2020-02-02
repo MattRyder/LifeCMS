@@ -11,12 +11,10 @@ namespace Socialite.UnitTests.Application.Commands
 {
     public class CreatePostCommandHandlerTest
     {
-        private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IPostRepository> _postRepositoryMock;
 
         public CreatePostCommandHandlerTest()
         {
-            _mediatorMock = new Mock<IMediator>();
             _postRepositoryMock = new Mock<IPostRepository>();
         }
 
@@ -25,7 +23,7 @@ namespace Socialite.UnitTests.Application.Commands
         {
             var post = PostFactory.Create();
 
-            var createPostCmd = new CreatePostCommand(post.Title, post.Text);
+            var createPostCmd = new CreatePostCommand(post.AuthorId, post.Title, post.Text);
 
             _postRepositoryMock.Setup(p => p.Add(post)).Returns(post);
 
@@ -33,7 +31,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var handler = new CreatePostCommandHandler(_postRepositoryMock.Object);
 
-            var result = await handler.Handle(createPostCmd, default(CancellationToken));
+            var result = await handler.Handle(createPostCmd, default);
 
             Assert.True(result);
         }

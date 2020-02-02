@@ -8,7 +8,7 @@ namespace Socialite.WebAPI.Application.Queries.Albums
 {
     public class AlbumViewModel : ValueObject
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public List<PhotoViewModel> Photos { get; set; }
 

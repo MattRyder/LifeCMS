@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -104,11 +105,11 @@ namespace Socialite.UnitTests.Controllers
         {
             var f = new Faker();
 
-            _mediatorMock.Setup(m => m.Send(It.IsAny<UploadPhotoCommand>(), default(CancellationToken))).ReturnsAsync(true);
+            _mediatorMock.Setup(m => m.Send(It.IsAny<UploadPhotoCommand>(), default)).ReturnsAsync(true);
 
             var controller = new AlbumsController(_mediatorMock.Object, _albumQueriesMock.Object);
 
-            var result = await controller.UploadPhoto(f.Random.Number(), f.Lorem.Word(), f.Lorem.Sentence(), null) as OkResult;
+            var result = await controller.UploadPhoto(new Guid(), f.Lorem.Word(), f.Lorem.Sentence(), null) as OkResult;
 
             Assert.NotNull(result);
 
@@ -120,11 +121,11 @@ namespace Socialite.UnitTests.Controllers
         {
             var f = new Faker();
 
-            _mediatorMock.Setup(m => m.Send(It.IsAny<UploadPhotoCommand>(), default(CancellationToken))).ReturnsAsync(false);
+            _mediatorMock.Setup(m => m.Send(It.IsAny<UploadPhotoCommand>(), default)).ReturnsAsync(false);
 
             var controller = new AlbumsController(_mediatorMock.Object, _albumQueriesMock.Object);
 
-            var result = await controller.UploadPhoto(f.Random.Number(), f.Lorem.Word(), f.Lorem.Sentence(), null) as BadRequestObjectResult;
+            var result = await controller.UploadPhoto(new Guid(), f.Lorem.Word(), f.Lorem.Sentence(), null) as BadRequestObjectResult;
 
             Assert.NotNull(result);
 

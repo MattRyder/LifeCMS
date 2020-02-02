@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Socialite.Infrastructure.Repositories
             return DbContext.Set<Post>().ToList();
         }
 
-        public ValueTask<Post> FindAsync(int postId)
+        public ValueTask<Post> FindAsync(Guid postId)
         {
             return DbContext.Set<Post>().FindAsync(postId);
         }

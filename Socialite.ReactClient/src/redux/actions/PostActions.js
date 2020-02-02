@@ -1,8 +1,8 @@
 import SocialiteApi from '../SocialiteApi';
 
-export const FETCH_USER_POSTS_BEGIN = "FETCH_USER_POSTS_BEGIN";
-export const FETCH_USER_POSTS_SUCCESS = "FETCH_USER_POSTS_SUCCESS";
-export const FETCH_USER_POSTS_FAILURE = "FETCH_USER_POSTS_FAILURE";
+export const FETCH_USER_POSTS_BEGIN = 'FETCH_USER_POSTS_BEGIN';
+export const FETCH_USER_POSTS_SUCCESS = 'FETCH_USER_POSTS_SUCCESS';
+export const FETCH_USER_POSTS_FAILURE = 'FETCH_USER_POSTS_FAILURE';
 
 export const fetchUserPostsBegin = () => ({
     type: FETCH_USER_POSTS_BEGIN,
@@ -15,26 +15,24 @@ export const fetchUserPostsSuccess = (posts) => ({
 
 export const fetchUserPostsFailure = (error) => ({
     type: FETCH_USER_POSTS_FAILURE,
-    payload: { error }
+    payload: { error },
 });
 
-export const fetchPosts = () => {
-    var socialiteApi = new SocialiteApi(process.env.REACT_APP_API_HOST, process.env.REACT_APP_API_KEY)
+export const fetchPosts = () => async (dispatch) => {
+    const socialiteApi = new SocialiteApi(
+        process.env.REACT_APP_API_HOST,
+        process.env.REACT_APP_API_KEY,
+    );
 
-    return dispatch => {
-        dispatch(fetchUserPostsBegin());
+    dispatch(fetchUserPostsBegin());
 
-        return socialiteApi
-            .getPosts()
-            .catch(error => {
-                dispatch(fetchUserPostsFailure(error));
-            })
-            .then(response => {
-                var posts = response.data;
+    try {
+        const response = await socialiteApi.getPosts();
 
-                dispatch(fetchUserPostsSuccess(posts));
+        const { data } = response;
 
-                return posts;
-            });
-    };
-}
+        dispatch(fetchUserPostsSuccess(data));
+    } catch (error) {
+        dispatch(fetchUserPostsFailure(error));
+    }
+};

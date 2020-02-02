@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Socialite.WebAPI.Application.Queries.Statuses;
@@ -8,6 +9,6 @@ namespace Socialite.WebAPI.Queries.Statuses
     {
         Task<IEnumerable<StatusViewModel>> FindAllAsync();
 
-        Task<StatusViewModel> FindStatus(int id);
+        Task<StatusViewModel> FindStatus(Guid id);
     }
 }

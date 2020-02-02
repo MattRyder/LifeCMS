@@ -1,6 +1,6 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Moq;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.UnitTests.Factories;
@@ -31,7 +31,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             var handler = new PublishPostCommandHandler(_postRepositoryMock.Object);
 
-            var result = await handler.Handle(publishCmd, default(CancellationToken));
+            var result = await handler.Handle(publishCmd, default);
 
             Assert.True(result);
         }
@@ -39,13 +39,13 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Handle_ReturnsFalse_GivenNonExistentId()
         {
-            var publishCmd = new PublishPostCommand(1);
+            var publishCmd = new PublishPostCommand(new Guid());
 
-            _postRepositoryMock.Setup(x => x.FindAsync(It.IsAny<int>())).Returns(new ValueTask<Post>((Post)null));
+            _postRepositoryMock.Setup(x => x.FindAsync(It.IsAny<Guid>())).Returns(new ValueTask<Post>((Post)null));
 
             var handler = new PublishPostCommandHandler(_postRepositoryMock.Object);
 
-            var result = await handler.Handle(publishCmd, default(CancellationToken));
+            var result = await handler.Handle(publishCmd, default);
 
             Assert.False(result);
         }

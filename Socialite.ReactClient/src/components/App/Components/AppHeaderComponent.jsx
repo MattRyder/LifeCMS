@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
     Collapse,
     Container,
@@ -10,9 +9,9 @@ import {
     NavLink,
     NavbarToggler,
 } from 'reactstrap';
-
 import './AppHeaderComponent.scss';
 import SocialiteLogo from 'assets/images/socialite-logo.svg';
+import userManager from '../../../openid/UserManager';
 
 export default class AppHeader extends Component {
     constructor(props) {
@@ -22,8 +21,15 @@ export default class AppHeader extends Component {
 
         this.state = {
             isOpen: false,
-        }
+        };
     }
+
+    static onLoginButtonClick(e) {
+        e.preventDefault();
+
+        userManager.signinRedirect();
+    }
+
 
     toggle() {
         this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
@@ -47,7 +53,7 @@ export default class AppHeader extends Component {
                                 <NavLink href="/profile/1">Profile</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="/login">Login</NavLink>
+                                <NavLink href="#" onClick={AppHeader.onLoginButtonClick}>Login</NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>

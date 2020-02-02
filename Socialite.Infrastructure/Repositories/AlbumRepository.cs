@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.Domain.Common;
@@ -16,7 +17,7 @@ namespace Socialite.Infrastructure.Repositories
             DbContext = dbContext;
         }
 
-        public ValueTask<Album> FindAsync(int id)
+        public ValueTask<Album> FindAsync(Guid id)
         {
             return DbContext.Set<Album>().FindAsync(id);
         }

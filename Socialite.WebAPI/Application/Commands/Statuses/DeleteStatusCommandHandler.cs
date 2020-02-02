@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Socialite.Domain.AggregateModels.StatusAggregate;
-using Socialite.Infrastructure.Repositories;
 using Socialite.WebAPI.Application.Enums;
 
 namespace Socialite.WebAPI.Application.Commands.Statuses

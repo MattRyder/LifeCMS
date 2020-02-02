@@ -8,7 +8,7 @@ namespace Socialite.Domain.Common
         /// <summary>
         /// ID for this BaseEntity
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime CreatedAt { get; private set; }
 

@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.WebAPI.Application.Commands.Posts;
@@ -12,18 +16,21 @@ namespace Socialite.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PostsController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IPostQueries _postQueries;
+        private readonly IMediator _mediator;
+        private readonly IPostQueries _postQueries;
+        private readonly ClaimsPrincipal _claimsPrincipal;
 
-        public PostsController(IMediator mediator, IPostQueries postQueries)
+        public PostsController(IMediator mediator, IPostQueries postQueries, IHttpContextAccessor httpContextAccessor)
         {
             _mediator = mediator;
             _postQueries = postQueries;
+            // _claimsPrincipal = httpContextAccessor.HttpContext.User;
         }
 
-        // GET: api/Posts
+        // GET: api/person/:personGuid/posts
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {
@@ -34,7 +41,7 @@ namespace Socialite.WebAPI.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPost(int id)
+        public async Task<IActionResult> GetPost(Guid id)
         {
             try
             {
@@ -66,7 +73,7 @@ namespace Socialite.WebAPI.Controllers
         }
 
         [HttpPut("{id}/publish")]
-        public async Task<IActionResult> PublishPost(int id)
+        public async Task<IActionResult> PublishPost(Guid id)
         {
             var command = new PublishPostCommand(id);
 
@@ -82,22 +89,18 @@ namespace Socialite.WebAPI.Controllers
 
         // DELETE: api/Posts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePost(int id)
+        public async Task<IActionResult> DeletePost(Guid id)
         {
             var command = new DeletePostCommand(id);
 
             var result = await _mediator.Send(command);
 
-            switch (result)
+            return result switch
             {
-                case DeleteCommandResult.Success:
-                    return Ok();
-                case DeleteCommandResult.NotFound:
-                    return NotFound();
-                case DeleteCommandResult.Failure:
-                default:
-                    return BadRequest();
-            }
+                DeleteCommandResult.Success => Ok(),
+                DeleteCommandResult.NotFound => NotFound(),
+                _ => BadRequest(),
+            };
         }
     }
 }

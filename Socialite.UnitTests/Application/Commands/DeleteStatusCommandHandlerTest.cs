@@ -1,6 +1,5 @@
+using System;
 using System.Threading.Tasks;
-using Bogus;
-using MediatR;
 using Moq;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.UnitTests.Factories;
@@ -12,19 +11,17 @@ namespace Socialite.UnitTests.Application.Commands
 {
     public class DeleteStatusCommandHandlerTest
     {
-        private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IStatusRepository> _statusRepositoryMock;
 
         public DeleteStatusCommandHandlerTest()
         {
-            _mediatorMock = new Mock<IMediator>();
             _statusRepositoryMock = new Mock<IStatusRepository>();
         }
 
         [Fact]
         public async void ShouldDeleteStatusAsync()
         {
-            var statusId = 1;
+            var statusId = new Guid();
 
             var status = StatusFactory.Create();
 
@@ -50,7 +47,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Handle_ReturnsNotFound_GivenAnInvalidStatus()
         {
-            var statusId = 1;
+            var statusId = new Guid();
 
             _statusRepositoryMock.Setup(s => s.FindAsync(statusId)).Returns(Task.FromResult(null as Status));
 
@@ -70,7 +67,7 @@ namespace Socialite.UnitTests.Application.Commands
         [Fact]
         public async void Handle_ReturnsFailure()
         {
-            var statusId = 1;
+            var statusId = new Guid();
 
             var status = StatusFactory.Create();
 

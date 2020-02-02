@@ -9,6 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="3.1.0" />
+    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="3.1.0" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />

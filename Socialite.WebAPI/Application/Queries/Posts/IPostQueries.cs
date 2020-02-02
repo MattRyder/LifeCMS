@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,6 +8,6 @@ namespace Socialite.WebAPI.Queries.Posts
     {
         Task<IEnumerable<PostViewModel>> FindAllAsync();
 
-        Task<PostViewModel> FindAsync(int id);
+        Task<PostViewModel> FindAsync(Guid id);
     }
 }

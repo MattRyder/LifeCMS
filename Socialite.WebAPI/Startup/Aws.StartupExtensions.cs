@@ -7,7 +7,7 @@ namespace Socialite.WebAPI.Startup
 {
     public static partial class StartupExtensions
     {
-        public static void SetupAws(this IServiceCollection services, IConfiguration configuration)
+        public static void AddSocialiteAws(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<S3ImageUploadOptions>(configuration.GetSection("AmazonS3"));
 

@@ -6,7 +6,7 @@ namespace Socialite.WebAPI.Application.Commands.Albums
 {
     public class UploadPhotoCommand : IRequest<bool>
     {
-        public int AlbumId { get; private set; }
+        public Guid AlbumId { get; private set; }
 
         public string Name { get; private set; }
 
@@ -14,7 +14,7 @@ namespace Socialite.WebAPI.Application.Commands.Albums
 
         public string Caption { get; private set; }
 
-        public UploadPhotoCommand(int albumId, string name, IFormFile file, string caption)
+        public UploadPhotoCommand(Guid albumId, string name, IFormFile file, string caption)
         {
             AlbumId = albumId;
             Name = name;

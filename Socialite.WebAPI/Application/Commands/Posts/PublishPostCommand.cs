@@ -1,12 +1,13 @@
+using System;
 using MediatR;
 
 namespace Socialite.WebAPI.Application.Commands.Posts
 {
     public class PublishPostCommand : IRequest<bool>
     {
-        public int PostId { get; private set; }
+        public Guid PostId { get; private set; }
 
-        public PublishPostCommand(int postId)
+        public PublishPostCommand(Guid postId)
         {
             PostId = postId;
         }

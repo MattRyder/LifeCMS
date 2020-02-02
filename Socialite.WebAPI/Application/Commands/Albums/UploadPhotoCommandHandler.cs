@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.WebAPI.Infrastructure.Services;
 

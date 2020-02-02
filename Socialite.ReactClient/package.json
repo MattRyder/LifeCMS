@@ -10,7 +10,7 @@
     "bootstrap": "^4.3.1",
     "connected-react-router": "^6.4.0",
     "formik": "^2.0.6",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.0",
     "oidc-client": "^1.9.1",
     "proptypes": "^1.1.0",
     "react": "^16.8.5",

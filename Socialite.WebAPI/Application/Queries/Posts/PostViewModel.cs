@@ -7,7 +7,7 @@ namespace Socialite.WebAPI.Queries.Posts
 {
     public class PostViewModel : ValueObject
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string State { get; set; }
         public string Text { get; set; }

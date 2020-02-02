@@ -11,7 +11,7 @@ namespace Socialite.UnitTests.Factories
         {
             return new Faker<Post>().CustomInstantiator(f =>
             {
-                return new Post(f.Lorem.Sentence(), f.Lorem.Paragraphs());
+                return new Post(new Guid(), f.Lorem.Sentence(), f.Lorem.Paragraphs());
             });
         }
 
