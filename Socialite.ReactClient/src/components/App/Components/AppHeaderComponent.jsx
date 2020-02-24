@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { push } from 'connected-react-router';
 import {
     Collapse,
     Container,
@@ -11,25 +12,40 @@ import {
 } from 'reactstrap';
 import './AppHeaderComponent.scss';
 import SocialiteLogo from 'assets/images/socialite-logo.svg';
+import { connect } from 'react-redux';
 import userManager from '../../../openid/UserManager';
+import { performLogout } from '../../../redux/actions/LogoutActions';
 
-export default class AppHeader extends Component {
+const mapStateToProps = ({ oidc }) => ({
+    user: oidc.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    dispatchPerformLogout: () => dispatch(performLogout()),
+})
+
+class AppHeaderComponent extends Component {
     constructor(props) {
         super(props);
 
         this.toggle = this.toggle.bind(this);
+
+        this.onLogoutButtonClick = this.onLogoutButtonClick.bind(this);
 
         this.state = {
             isOpen: false,
         };
     }
 
-    static onLoginButtonClick(e) {
-        e.preventDefault();
-
+    static onLoginButtonClick() {
         userManager.signinRedirect();
     }
 
+    onLogoutButtonClick() {
+        const { dispatchPerformLogout } = this.props;
+
+        dispatchPerformLogout();
+    }
 
     toggle() {
         this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
@@ -37,6 +53,8 @@ export default class AppHeader extends Component {
 
     render() {
         const { isOpen } = this.state;
+
+        const { user } = this.props;
 
         return (
             <Container fluid className="p-0">
@@ -53,7 +71,13 @@ export default class AppHeader extends Component {
                                 <NavLink href="/profile/1">Profile</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#" onClick={AppHeader.onLoginButtonClick}>Login</NavLink>
+                                {!user || user.expired
+                                    ? (
+                                        <NavLink href="#" onClick={AppHeaderComponent.onLoginButtonClick}>Login</NavLink>
+                                    )
+                                    : (
+                                        <NavLink href="#" onClick={this.onLogoutButtonClick}>Logout</NavLink>
+                                    )}
                             </NavItem>
                         </Nav>
                     </Collapse>
@@ -62,3 +86,5 @@ export default class AppHeader extends Component {
         );
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeaderComponent);

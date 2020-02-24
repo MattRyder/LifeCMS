@@ -1,13 +1,15 @@
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.Authentication.Application.Commands.Identity;
 
 namespace Socialite.Authentication.Controllers
 {
-    [ApiController]
+    // [ApiController]
+    [EnableCors("CorsPolicy")]
     [Route("api/v1/[controller]")]
-    public class AccountsController : ControllerBase
+    public class AccountsController : Controller
     {
         private readonly IMediator _mediator;
 
@@ -27,7 +29,7 @@ namespace Socialite.Authentication.Controllers
                 {
                     return Ok(result);
                 }
-                
+
                 return BadRequest(result);
             }
 
@@ -35,7 +37,7 @@ namespace Socialite.Authentication.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginIdentityUser([FromBody] LoginIdentityUserCommand loginIdentityUserCommand, [FromQuery] string returnUrl)
+        public async Task<IActionResult> Login([FromBody] LoginIdentityUserCommand loginIdentityUserCommand)
         {
             if (ModelState.IsValid)
             {
@@ -43,13 +45,28 @@ namespace Socialite.Authentication.Controllers
 
                 if (result.Success)
                 {
-                    return LocalRedirect(returnUrl);
+                    return Ok(result);
                 }
-                
+
                 return BadRequest(result);
             }
 
             return BadRequest(ModelState.ValidationState);
+        }
+
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout([FromForm] LogoutIdentityUserCommand logoutIdentityUserCommand)
+        {
+            var result = await _mediator.Send(logoutIdentityUserCommand);
+
+            if (result.Success)
+            {
+                var returnUrl = result.Data.PostLogoutRedirectUri;
+
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpGet("Error")]

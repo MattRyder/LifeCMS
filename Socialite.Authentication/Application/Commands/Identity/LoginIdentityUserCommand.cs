@@ -10,17 +10,10 @@ namespace Socialite.Authentication.Application.Commands.Identity
         public string Email { get; set; }
 
         // [Required]
-        public string Password { get; private set; }
+        public string Password { get; set; }
 
-        public string ReturnUrl { get; private set; }
+        public bool RememberLogin { get; set; }
 
-        public LoginIdentityUserCommand(string email, string password, string returnUrl)
-        {
-            Email = email;
-
-            Password = password;
-
-            ReturnUrl = returnUrl;
-        }
+        public string ReturnUrl { get; set; }
     }
 }

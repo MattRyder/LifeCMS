@@ -1,13 +1,8 @@
 namespace Socialite.WebAPI.Application.Commands.Identity
 {
-    using System.Security.Claims;
     using System.Threading;
     using System.Threading.Tasks;
-    using IdentityServer4;
-    using IdentityServer4.Services;
     using MediatR;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Socialite.Authentication.Application.Commands.Identity;
     using Socialite.Authentication.Application.Responses;
@@ -28,10 +23,11 @@ namespace Socialite.WebAPI.Application.Commands.Identity
 
             if (result.Succeeded)
             {
-                return new CommandResponse()
-                {
-                    Success = true
-                };
+                    return new CommandResponse()
+                    {
+                        Success = true,
+                        Data = request.ReturnUrl
+                    };
             }
 
             return new CommandResponse()

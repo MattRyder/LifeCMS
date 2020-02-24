@@ -3,6 +3,8 @@
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 3em;
+  position: relative;
+  z-index: 3;
 
   .session-form-title {
     display: block;

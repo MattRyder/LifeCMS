@@ -13,7 +13,6 @@ using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Queries.Albums;
 using Socialite.WebAPI.Application.Queries.Posts;
-using Socialite.WebAPI.Application.Responses;
 using Socialite.WebAPI.Extensions;
 using Socialite.WebAPI.Queries.Posts;
 using Socialite.WebAPI.Queries.Statuses;
@@ -26,7 +25,12 @@ namespace Socialite.WebAPI.Startup
         {
             var connectionString = configuration.GetConnectionString("Socialite");
 
-            services.AddDbContext<SocialiteDbContext>(opts => opts.UseMySql(connectionString));
+            services
+            .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
+            {
+                return new MySqlDbConnectionFactory(connectionString);
+            })
+            .AddDbContext<SocialiteDbContext>(opts => opts.UseMySql(connectionString));
 
             services.AddTransient<IStatusRepository, StatusRepository>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()

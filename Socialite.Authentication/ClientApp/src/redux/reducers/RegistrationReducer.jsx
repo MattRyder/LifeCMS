@@ -5,7 +5,7 @@ import {
 } from '../actions/RegistrationActions';
 
 const InitialState = {
-    registration: {},
+    userId: '',
     errors: [],
     isLoading: true,
 };
@@ -16,13 +16,14 @@ export default (state = InitialState, action) => {
             return {
                 ...state,
                 isLoading: true,
+                userId: '',
                 errors: [],
             };
         case PERFORM_REGISTRATION_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                registration: action.payload,
+                userId: action.payload.userId,
                 errors: []
             };
         case PERFORM_REGISTRATION_FAILURE:

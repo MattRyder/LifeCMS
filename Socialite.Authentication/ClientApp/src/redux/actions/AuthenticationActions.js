@@ -1,5 +1,6 @@
 import api from '../AuthenticationApi';
-import { push } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
+import { LOCATION_CHANGE } from 'connected-react-router';
 
 export const PERFORM_AUTHENTICATION_BEGIN = "PERFORM_AUTHENTICATION_BEGIN";
 export const PERFORM_AUTHENTICATION_SUCCESS = "PERFORM_AUTHENTICATION_SUCCESS";
@@ -23,22 +24,16 @@ export const performAuthentication = (authenticationParams, returnUrl) => async 
     dispatch(performAuthenticationBegin());
 
     try {
-        const response = await api.performAuthentication(authenticationParams, { 
+        const { data: { data } = {}} = await api.performAuthentication(authenticationParams, {
             returnUrl
         });
-        
-        debugger;
-        const { data: { data } = {} } = response;
 
+        if (!data) {
+            throw new Error("callback url was not present on the response.");
+        }
 
-        const authenticationJson = JSON.parse(data);
-
-        dispatch(performAuthenticationSuccess(authenticationJson));
-
-        dispatch(push(returnUrl));
-    } catch (errorResponse) {
-        const { response: { data: { errors } } } = errorResponse;
-
-        dispatch(performAuthenticationFailure(errors));
+        window.location.href = data;
+    } catch ({ message, response: { data: { errors } = {}} = {}}) {
+        dispatch(performAuthenticationFailure(errors || [message]));
     }
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { storiesOf } from "@storybook/react";
+import { storiesOf } from '@storybook/react';
 
-import AppHeaderComponent from '../components/App/AppHeaderComponent';
+import AppHeaderComponent from '../components/App/Components/AppHeaderComponent';
+import { CallbackComponent } from '../components/Session/CallbackComponent';
 
 import '../assets/styles/colors.scss';
 import ProfileView from '../components/App/Views/ProfileView';
@@ -10,14 +11,14 @@ import { createUser, createStatus } from './factories/factories';
 import MenuComponent from '../components/App/Components/MenuComponent';
 
 const actionMenuItems = [
-    new ActionMenuItem("Connect", "#connect"),
-    new ActionMenuItem("Edit Details", "#edit")
+    new ActionMenuItem('Connect', '#connect'),
+    new ActionMenuItem('Edit Details', '#edit'),
 ];
 
 const menuItems = [
-    new ActionMenuItem("Statuses", "/profile/statuses"),
-    new ActionMenuItem("Posts", "/profile/posts"),
-    new ActionMenuItem("Photos", "/profile/photos"),
+    new ActionMenuItem('Statuses', '/profile/statuses'),
+    new ActionMenuItem('Posts', '/profile/posts'),
+    new ActionMenuItem('Photos', '/profile/photos'),
 ];
 
 const createStatusArray = () => [...Array(10).keys()].map(createStatus);
@@ -29,4 +30,5 @@ storiesOf('App/Views', module)
     .add('ProfileView', () => <ProfileView userProfile={createUser()} actionMenuItems={actionMenuItems} statuses={createStatusArray()} />);
 
 storiesOf('App/Components', module)
-    .add('Menu', () => <MenuComponent menuItems={menuItems} />);
+    .add('Menu', () => <MenuComponent menuItems={menuItems} />)
+    .add('CallbackComponent', () => <CallbackComponent />);

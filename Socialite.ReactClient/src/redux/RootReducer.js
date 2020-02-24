@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import UserReducer from './reducers/UserReducer';
-import PostReducer from './reducers/PostReducer';
-import StatusReducer from './reducers/StatusReducer';
+import { reducer as oidcReducer } from 'redux-oidc';
+import {
+    PostReducer,
+    StatusReducer,
+    UserReducer,
+} from './reducers';
 
 export default (history) => combineReducers({
     router: connectRouter(history),
@@ -11,4 +14,5 @@ export default (history) => combineReducers({
         status: StatusReducer,
         post: PostReducer,
     }),
+    oidc: oidcReducer,
 });

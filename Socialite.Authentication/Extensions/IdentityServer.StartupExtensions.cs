@@ -27,7 +27,16 @@ namespace Socialite.Authentication.Extensions
 
             services
             .AddTransient<IRequestHandler<CreateIdentityUserCommand, CommandResponse>, CreateIdentityUserCommandHandler>()
-            .AddTransient<IRequestHandler<LoginIdentityUserCommand, CommandResponse>, LoginIdentityUserCommandHandler>();
+            .AddTransient<IRequestHandler<LoginIdentityUserCommand, CommandResponse>, LoginIdentityUserCommandHandler>()
+            .AddTransient<IRequestHandler<LogoutIdentityUserCommand, CommandResponse>, LogoutIdentityUserCommandHandler>();
+
+            services.AddCors(options =>
+               {
+                   options.AddPolicy("CorsPolicy",
+                       builder => builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
+               });
 
             services
             .AddIdentityServer(options =>
@@ -39,9 +48,9 @@ namespace Socialite.Authentication.Extensions
 
                 options.UserInteraction = new UserInteractionOptions
                 {
-                    LogoutUrl = "/Accounts/Logout",
-                    LoginUrl = "/Accounts/Login",
-                    ErrorUrl = "/api/v1/accounts/error",
+                    LoginUrl = "/accounts/login",
+                    LogoutUrl = "/accounts/logout",
+                    ErrorUrl = "/accounts/error",
                     LoginReturnUrlParameter = "returnUrl",
                 };
             })
@@ -68,6 +77,8 @@ namespace Socialite.Authentication.Extensions
         public static void UseSocialiteIdentityServer(this IApplicationBuilder app)
         {
             app.UseIdentityServer();
+
+            app.UseCors("CorsPolicy");
 
             app.ApplyMigrations<PersistedGrantDbContext>();
 

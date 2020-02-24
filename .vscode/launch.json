@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Socialite.WebApi/bin/Debug/netcoreapp3.1/Socialite.WebApi.dll",
+            "program": "${workspaceFolder}/Socialite.Authentication/bin/Debug/netcoreapp3.1/Socialite.Authentication.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Socialite.WebApi",
+            "cwd": "${workspaceFolder}/Socialite.Authentication",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

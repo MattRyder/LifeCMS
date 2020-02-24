@@ -19,18 +19,32 @@ services:
     volumes:
       - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
 
-  webapi:
-    image: socialite_webapi:latest
+  authentication:
+    image: socialite_authentication:latest
     ports:
       - "5000:5000"
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./Socialite.Authentication/Dockerfile
+    environment:
+      SQL_DB_HOST: sql.data
+      ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+    depends_on:
+    - sql.data
+    networks:
+      - socialite_network
+
+  web_api:
+    image: socialite_web-api:latest
+    ports:
+      - "5001:5000"
+    build:
+      context: ./
+      dockerfile: ./Socialite.WebAPI/Dockerfile
     environment:
       SQL_DB_HOST: sql.data
       ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
-      ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
-      ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
     depends_on:
     - sql.data
     networks:

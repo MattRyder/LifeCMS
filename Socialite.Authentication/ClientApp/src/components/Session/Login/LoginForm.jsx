@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Fade from 'react-reveal';
 import {
     Form, FormGroup, Button, Nav, NavLink, NavItem,
 } from 'reactstrap';
@@ -18,8 +19,7 @@ const mapStateToProps = ({ authenticationState }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchAuthentication: (authenticationParams, returnUrl) =>
-        dispatch(performAuthentication(authenticationParams, returnUrl)),
+    dispatchAuthentication: (authenticationParams) => dispatch(performAuthentication(authenticationParams)),
 });
 
 class LoginFormComponent extends Component {
@@ -55,72 +55,77 @@ class LoginFormComponent extends Component {
         const { dispatchAuthentication, errors = [] } = this.props;
 
         return (
-            <div className="session-form">
-                <div className="session-form-title">
-                    <span className="session-form-text">Login to Socialite</span>
-                </div>
-                <Formik
-                    initialValues={{
-                        emailAddress: '',
-                        password: '',
-                    }}
-                    validationSchema={Schema}
-                    onSubmit={(values) => {
-                        dispatchAuthentication({
-                            Email: values.emailAddress,
-                            Password: values.password,
-                        }, returnUrl);
-                    }}
-                >
-                    {({
-                        handleSubmit,
-                        isLoading,
-                    }) => (
-                            <Form onSubmit={handleSubmit}>
-                                {errors.length > 0 ? <MessageContainer type={MessageType.error} title="Error" messages={errors} /> : null}
+            <div>
+                <Fade bottom when={errors.length > 0}>
+                    <MessageContainer type={MessageType.error} title="Error" messages={errors} />
+                </Fade>
+                <div className="session-form">
+                    <div className="session-form-title">
+                        <span className="session-form-text">Login to Socialite</span>
+                    </div>
+                    <Formik
+                        initialValues={{
+                            emailAddress: '',
+                            password: '',
+                        }}
+                        validationSchema={Schema}
+                        onSubmit={(values) => {
+                            dispatchAuthentication({
+                                Email: values.emailAddress,
+                                Password: values.password,
+                                ReturnUrl: returnUrl,
+                            });
+                        }}
+                    >
+                        {({
+                            handleSubmit,
+                            isLoading,
+                        }) => (
+                                <Form onSubmit={handleSubmit}>
+                                    <FormGroup htmlFor="input-email-address">
+                                        <Field
+                                            type="email"
+                                            name="emailAddress"
+                                            id="input-email-address"
+                                            placeholder="Email Address"
+                                            component={ReactstrapInput}
+                                        />
+                                    </FormGroup>
 
-                                <FormGroup htmlFor="input-email-address">
-                                    <Field
-                                        type="email"
-                                        name="emailAddress"
-                                        id="input-email-address"
-                                        placeholder="Email Address"
-                                        component={ReactstrapInput}
-                                    />
-                                </FormGroup>
+                                    <FormGroup htmlFor="input-password" style={{ marginTop: "2em" }}>
+                                        <Field
+                                            type="password"
+                                            name="password"
+                                            id="input-password"
+                                            placeholder="Password"
+                                            component={ReactstrapInput}
+                                        />
+                                    </FormGroup>
 
-                                <FormGroup htmlFor="input-password" style={{ marginTop: "2em" }}>
-                                    <Field
-                                        type="password"
-                                        name="password"
-                                        id="input-password"
-                                        placeholder="Password"
-                                        component={ReactstrapInput}
-                                    />
-                                </FormGroup>
-
-                                <Button
-                                    variant="primary"
-                                    className="btn-submit"
-                                    type="submit"
-                                    block
-                                    disabled={isLoading}
-                                >
-                                    Login
+                                    <Button
+                                        variant="primary"
+                                        className="btn-submit"
+                                        type="submit"
+                                        block
+                                        disabled={isLoading}
+                                    >
+                                        Login
                                 </Button>
 
-                                <Nav fill>
-                                    <NavItem>
-                                        <NavLink href="/accounts/forgot-details">Forgot details?</NavLink>
-                                    </NavItem>
-                                    <NavItem>
-                                        <NavLink href={registerUrl}>Sign up for Socialite</NavLink>
-                                    </NavItem>
-                                </Nav>
-                            </Form>
-                        )}
-                </Formik>
-            </div >
+                                    <Nav fill>
+                                        <NavItem>
+                                            <NavLink href="/accounts/forgot-details">Forgot details?</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink href={registerUrl}>Sign up for Socialite</NavLink>
+                                        </NavItem>
+                                    </Nav>
+                                </Form>
+                            )}
+                    </Formik>
+                </div >
+            </div>
+
         );
     }
 }

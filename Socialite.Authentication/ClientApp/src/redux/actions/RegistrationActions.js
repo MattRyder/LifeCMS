@@ -10,9 +10,9 @@ export const performRegistrationBegin = () => ({
     type: PERFORM_REGISTRATION_BEGIN,
 });
 
-export const performRegistrationSuccess = (response) => ({
+export const performRegistrationSuccess = (userId) => ({
     type: PERFORM_REGISTRATION_SUCCESS,
-    payload: { response },
+    payload: { userId },
 })
 
 export const performRegistrationFailure = (errors) => ({
@@ -24,18 +24,16 @@ export const performRegistration = (registrationFormBody, returnUrl) => async (d
     dispatch(performRegistrationBegin());
 
     try {
-        await api.performRegistration(registrationFormBody);
+        const { data: { data: { id } = {} } = {} } = await api.performRegistration(registrationFormBody);
 
-        dispatch(performRegistrationSuccess());
+        dispatch(performRegistrationSuccess(id));
 
         const loginRedirectUrl = createUrlWithQueryString('/accounts/login', {
             returnUrl
         });
 
-        dispatch(() => push(loginRedirectUrl));
-    } catch (errorResponse) {
-        const { response: { data: { errors } } } = errorResponse;
-
-        dispatch(performRegistrationFailure(errors));
+        setTimeout(() => window.location.href = loginRedirectUrl, 1000 * 3);
+    } catch ({ message, response: { data: { errors } = {} } = {} }) {
+        dispatch(performRegistrationFailure(errors || [message]));
     }
 }

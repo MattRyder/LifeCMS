@@ -3,10 +3,6 @@ const QueryString = require('query-string');
 export function getParamFromSearch(props, paramName) {
     const { location: { search: search } } = props;
 
-    if (!search) {
-        throw new Error("No search object found on location");
-    }
-
     return QueryString.parse(search)[paramName];
 }
 

@@ -64,7 +64,7 @@ class ProfileViewComponent extends React.Component {
                         actionMenuItems={ProfileViewComponent.getActionMenuItems(url)}
                     />
                 </div>
-                <Container>
+                <Container fluid>
                     <Row>
                         <Col sm="3">
                             <MenuComponent menuItems={ProfileViewComponent.getSideMenuItems(url)} />

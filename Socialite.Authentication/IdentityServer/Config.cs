@@ -31,14 +31,13 @@ namespace Socialite.Authentication.Authorization.IdentityServer
                 {
                     ClientId = "SocialiteWebApiClient",
 
+                    ClientName = "Socialite",
+
                     RequireConsent = false,
 
                     RequireClientSecret = false,
 
-                    AllowedGrantTypes =
-                    {
-                        GrantType.AuthorizationCode,
-                    },
+                    AllowedGrantTypes = GrantTypes.Code,
 
                     AllowedScopes =
                     {
@@ -52,8 +51,10 @@ namespace Socialite.Authentication.Authorization.IdentityServer
 
                     RedirectUris =
                     {
-                        "http://localhost:3000/OAuth2/Callback"
-                    }
+                        "http://localhost:3000/session/oauth_callback"
+                    },
+
+                    PostLogoutRedirectUris = { "http://localhost:3000/signout-callback-oidc/" },
                 }
             };
         }

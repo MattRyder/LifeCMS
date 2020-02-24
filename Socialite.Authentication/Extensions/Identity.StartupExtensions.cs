@@ -33,5 +33,4 @@ namespace Socialite.Authentication.Extensions
             app.ApplyMigrations<SocialiteIdentityDbContext>();
         }
     }
-
 }
