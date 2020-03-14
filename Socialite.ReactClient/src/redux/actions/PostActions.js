@@ -18,10 +18,10 @@ export const fetchUserPostsFailure = (error) => ({
     payload: { error },
 });
 
-export const fetchPosts = () => async (dispatch) => {
+export const fetchPosts = (accessToken) => async (dispatch) => {
     const socialiteApi = new SocialiteApi(
         process.env.REACT_APP_API_HOST,
-        process.env.REACT_APP_API_KEY,
+        accessToken,
     );
 
     dispatch(fetchUserPostsBegin());

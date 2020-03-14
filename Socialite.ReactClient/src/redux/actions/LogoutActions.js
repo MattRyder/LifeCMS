@@ -22,14 +22,10 @@ export const performLogout = (returnUrl = Settings.post_logout_redirect_uri) => 
     dispatch(performLogoutBegin());
 
     try {
-        userManager.signoutRedirect().then((test) => {
-            debugger;
-        });
+        userManager.signoutRedirect();
 
         // window.location.href = returnUrl;
-    // } catch ({ message, response: { data: { errors } = {} } = {} }) {
-    } catch(response) {
-        console.log(response);
-        // dispatch(performLogoutFailure(errors || [message]));
+    } catch ({ message, response: { data: { errors } = {} } = {} }) {
+        dispatch(performLogoutFailure(errors || [message]));
     }
 };

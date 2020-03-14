@@ -29,7 +29,7 @@ export const performRegistration = (registrationFormBody, returnUrl) => async (d
         dispatch(performRegistrationSuccess(id));
 
         const loginRedirectUrl = createUrlWithQueryString('/accounts/login', {
-            returnUrl
+            ReturnUrl: returnUrl
         });
 
         setTimeout(() => window.location.href = loginRedirectUrl, 1000 * 3);

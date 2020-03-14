@@ -50,8 +50,7 @@ namespace Socialite.Authentication.Extensions
                 {
                     LoginUrl = "/accounts/login",
                     LogoutUrl = "/accounts/logout",
-                    ErrorUrl = "/accounts/error",
-                    LoginReturnUrlParameter = "returnUrl",
+                    ErrorUrl = "/accounts/error"
                 };
             })
             .AddAspNetIdentity<SocialiteIdentityUser>()

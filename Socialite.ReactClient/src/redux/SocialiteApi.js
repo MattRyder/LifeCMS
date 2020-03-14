@@ -1,25 +1,29 @@
 import axios from 'axios';
 
 export default class SocialiteApi {
-    constructor(backendHost, apiKey) {
+    constructor(backendHost, accessToken) {
+        if (typeof this.backendHost === 'undefined') {
+            // throw new Error('Backend Host must be provided.');
+        }
+
         this.backendHost = backendHost;
 
-        this.apiKey = apiKey;
+        this.accessToken = accessToken;
     }
 
     get(route) {
         return axios.get(`${this.backendHost}/${route}`, {
             timeout: 2500,
             responseType: 'json',
-            headers: { "Authentication": `Bearer: ${this.apiKey}` }
-        })
+            headers: { Authorization: `Bearer ${this.accessToken}` },
+        });
     }
 
     getStatuses() {
-        return this.get("statuses");
+        return this.get('statuses');
     }
 
     getPosts() {
-        return this.get("posts");
+        return this.get('posts');
     }
 }

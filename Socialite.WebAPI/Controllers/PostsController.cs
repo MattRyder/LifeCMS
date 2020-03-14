@@ -10,27 +10,26 @@ using Microsoft.AspNetCore.Mvc;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Enums;
+using Socialite.WebAPI.Filters;
 using Socialite.WebAPI.Queries.Posts;
 
 namespace Socialite.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class PostsController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IPostQueries _postQueries;
-        private readonly ClaimsPrincipal _claimsPrincipal;
 
-        public PostsController(IMediator mediator, IPostQueries postQueries, IHttpContextAccessor httpContextAccessor)
+        public PostsController(IMediator mediator, IPostQueries postQueries)
         {
             _mediator = mediator;
             _postQueries = postQueries;
-            // _claimsPrincipal = httpContextAccessor.HttpContext.User;
         }
 
-        // GET: api/person/:personGuid/posts
+        // GET: api/posts
         [HttpGet]
         public async Task<IActionResult> GetPosts()
         {

@@ -3,10 +3,10 @@ using MediatR;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.Authentication.Application.Commands.Identity;
+using Socialite.Authentication.Filters;
 
 namespace Socialite.Authentication.Controllers
 {
-    // [ApiController]
     [EnableCors("CorsPolicy")]
     [Route("api/v1/[controller]")]
     public class AccountsController : Controller
@@ -19,39 +19,31 @@ namespace Socialite.Authentication.Controllers
         }
 
         [HttpPost]
+        [ModelStateValidation]
         public async Task<IActionResult> CreateIdentityUser([FromBody] CreateIdentityUserCommand createIdentityUserCommand)
         {
-            if (ModelState.IsValid)
+            var result = await _mediator.Send(createIdentityUserCommand);
+
+            if (result.Success)
             {
-                var result = await _mediator.Send(createIdentityUserCommand);
-
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-
-                return BadRequest(result);
+                return Ok(result);
             }
 
-            return BadRequest(ModelState.ValidationState);
+            return BadRequest(result);
         }
 
         [HttpPost("Login")]
+        [ModelStateValidation]
         public async Task<IActionResult> Login([FromBody] LoginIdentityUserCommand loginIdentityUserCommand)
         {
-            if (ModelState.IsValid)
+            var result = await _mediator.Send(loginIdentityUserCommand);
+
+            if (result.Success)
             {
-                var result = await _mediator.Send(loginIdentityUserCommand);
-
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-
-                return BadRequest(result);
+                return Ok(result);
             }
 
-            return BadRequest(ModelState.ValidationState);
+            return BadRequest(result);
         }
 
         [HttpPost("Logout")]

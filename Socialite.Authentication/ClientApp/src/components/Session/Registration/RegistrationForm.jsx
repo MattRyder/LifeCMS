@@ -34,10 +34,10 @@ class RegistrationFormComponent extends Component {
   }
 
   applyRedirectUri() {
-    const returnUrl = getParamFromSearch(this.props, "returnUrl");
+    const returnUrl = getParamFromSearch(this.props, "ReturnUrl");
 
     const loginUrl = createUrlWithQueryString('/accounts/login', {
-      returnUrl
+      ReturnUrl: returnUrl,
     });
 
     this.setState({
@@ -57,12 +57,16 @@ class RegistrationFormComponent extends Component {
 
     return (
       <div>
-        <Fade bottom when={errors.length > 0}>
-          <MessageContainer type={MessageType.error} title="Error" messages={errors} />
-        </Fade>
-        <Fade bottom when={userId.length > 0}>
-          <MessageContainer type={MessageType.success} title="Your account is ready to go." messages={["Successfully created an account, you can now sign in."]} />
-        </Fade>
+        {errors ? (
+          <Fade bottom when={errors.length > 0}>
+            <MessageContainer type={MessageType.error} title="Error" messages={errors} />
+          </Fade>
+        ) : (
+            <Fade bottom when={userId.length > 0}>
+              <MessageContainer type={MessageType.success} title="Your account is ready to go." messages={["Successfully created an account, you can now sign in."]} />
+            </Fade>
+          )
+        }
         <div className="session-form">
           <div className="session-form-title">
             <span className="session-form-text">Sign Up</span>
@@ -143,4 +147,3 @@ class RegistrationFormComponent extends Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationFormComponent);
-

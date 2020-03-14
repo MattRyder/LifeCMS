@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Socialite.WebAPI.Infrastructure.Services;
 using Newtonsoft.Json.Serialization;
 using Socialite.WebAPI.Startup;
+using IdentityServer4.AccessTokenValidation;
 
 namespace Socialite
 {
@@ -27,7 +28,7 @@ namespace Socialite
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
 
             services
-            .AddControllersWithViews()
+            .AddControllers()
             .AddNewtonsoftJson(json =>
             {
                 json.SerializerSettings.ContractResolver = new DefaultContractResolver()
@@ -36,6 +37,19 @@ namespace Socialite
                 };
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                    .AddIdentityServerAuthentication(configureOptions =>
+                    {
+                        configureOptions.ApiName = "SocialiteWebApi";
+
+                        configureOptions.Authority = "http://localhost:5000";
+
+                        configureOptions.RequireHttpsMetadata = false;
+
+                        configureOptions.SupportedTokens = SupportedTokens.Jwt;
+                    });
+
 
             services.AddSocialiteWebApi(Configuration);
 
@@ -60,7 +74,8 @@ namespace Socialite
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyOrigin()
+                builder
+                .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod();
             });

@@ -14,22 +14,32 @@ import { fetchPosts } from '../../../redux/actions/PostActions';
 import Post from '../../Posts/Post';
 
 const mapStateToProps = (state) => ({
+    user: state.oidc.user,
     userProfile: state.profile.user.userProfile,
     status: state.profile.status,
     post: state.profile.post,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchFetchStatuses: () => dispatch(fetchStatuses()),
-    dispatchFetchPosts: () => dispatch(fetchPosts()),
+    dispatchFetchStatuses: (accessToken) => dispatch(fetchStatuses(accessToken)),
+    dispatchFetchPosts: (accessToken) => dispatch(fetchPosts(accessToken)),
 });
 
 class ProfileViewComponent extends React.Component {
-    componentDidMount() {
-        const { dispatchFetchPosts, dispatchFetchStatuses } = this.props;
+    constructor(props) {
+        super(props);
 
-        dispatchFetchPosts();
-        dispatchFetchStatuses();
+        this.state = {
+            dataLoaded: false,
+        };
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    componentDidUpdate() {
+        this.loadData();
     }
 
     static getActionMenuItems(path) {
@@ -45,6 +55,20 @@ class ProfileViewComponent extends React.Component {
             new ActionMenuItem('Posts', `${path}/posts`),
             new ActionMenuItem('Photos', `${path}/photos`),
         ];
+    }
+
+    loadData() {
+        const { dispatchFetchPosts, dispatchFetchStatuses, user } = this.props;
+
+        const { dataLoaded } = this.state;
+
+        if (!dataLoaded && user) {
+            dispatchFetchPosts(user.access_token);
+
+            dispatchFetchStatuses(user.access_token);
+
+            this.setState({ dataLoaded: true });
+        }
     }
 
     render() {

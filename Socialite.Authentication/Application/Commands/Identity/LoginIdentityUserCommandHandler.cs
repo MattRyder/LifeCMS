@@ -26,7 +26,7 @@ namespace Socialite.WebAPI.Application.Commands.Identity
                     return new CommandResponse()
                     {
                         Success = true,
-                        Data = request.ReturnUrl
+                        Data = request.Return
                     };
             }
 

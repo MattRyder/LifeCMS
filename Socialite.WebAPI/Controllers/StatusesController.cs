@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using Socialite.WebAPI.Application.Enums;
@@ -8,8 +10,9 @@ using Socialite.WebAPI.Queries.Statuses;
 
 namespace Socialite.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class StatusesController : ControllerBase
     {
         public readonly IMediator _mediator;
@@ -18,12 +21,12 @@ namespace Socialite.WebAPI.Controllers
         public StatusesController(IMediator mediator, IStatusQueries statusQueries)
         {
             _mediator = mediator;
+
             _statusQueries = statusQueries;
         }
 
         // GET: api/Statuses
         [HttpGet(Name = "GetStatuses")]
-        // [Authorize(Policy = "StatusReadPolicy")]
         public async Task<IActionResult> Get()
         {
             var statuses = await _statusQueries.FindAllAsync();
@@ -47,14 +50,13 @@ namespace Socialite.WebAPI.Controllers
 
         // POST: api/Statuses
         [HttpPost]
-        // [Authorize]
         public async Task<IActionResult> Post([FromBody] CreateStatusCommand createStatusCommand)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var result = await _mediator.Send(createStatusCommand);
 
-                if(result)
+                if (result)
                 {
                     return Ok();
                 }
@@ -65,7 +67,6 @@ namespace Socialite.WebAPI.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        // [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             var command = new DeleteStatusCommand(id);

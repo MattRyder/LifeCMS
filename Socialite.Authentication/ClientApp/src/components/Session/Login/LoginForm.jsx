@@ -33,10 +33,10 @@ class LoginFormComponent extends Component {
     }
 
     applyRedirectUri() {
-        const returnUrl = getParamFromSearch(this.props, "returnUrl");
+        const returnUrl = getParamFromSearch(this.props, "ReturnUrl");
 
         const registerUrl = createUrlWithQueryString('/accounts/register', {
-            returnUrl
+            ReturnUrl: returnUrl,
         });
 
         this.setState({
@@ -73,7 +73,7 @@ class LoginFormComponent extends Component {
                             dispatchAuthentication({
                                 Email: values.emailAddress,
                                 Password: values.password,
-                                ReturnUrl: returnUrl,
+                                Returnurl: returnUrl,
                             });
                         }}
                     >
