@@ -55,5 +55,5 @@ services:
     ports:
       - "3000:80"
     build:
-      context: ./Socialite.ReactClient
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: ./Socialite.ReactClient/Dockerfile

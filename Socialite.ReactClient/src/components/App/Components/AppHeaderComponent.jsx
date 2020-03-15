@@ -11,10 +11,10 @@ import {
     NavbarToggler,
 } from 'reactstrap';
 import './AppHeaderComponent.scss';
-import SocialiteLogo from 'assets/images/socialite-logo.svg';
 import { connect } from 'react-redux';
 import userManager from '../../../openid/UserManager';
 import { performLogout } from '../../../redux/actions/LogoutActions';
+import SocialiteLogo from '../../../assets/images/socialite-logo.svg';
 
 const mapStateToProps = ({ oidc }) => ({
     user: oidc.user,
