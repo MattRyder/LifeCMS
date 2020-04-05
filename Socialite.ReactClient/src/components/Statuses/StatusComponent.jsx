@@ -1,30 +1,39 @@
-import React from 'react'
-import PropTypes from 'proptypes';
+import React from 'react';
+import PropTypes from 'prop-types';
 import strftime from 'strftime';
-import Status from './Status';
 
 import './StatusComponent.scss';
 
-class StatusComponent extends React.Component {
-    render() {
-        return (
-            <div className="status">
-                <span className="mood">is feeling: {this.props.status.mood}</span>
+function StatusComponent({ mood, text, createdAt }) {
+    return (
+        <div className="status">
+            <span className="mood">
+                is feeling:
+                {' '}
+                {mood}
+            </span>
 
-                <div className="message">
-                    <p>{this.props.status.text}</p>
-                </div>
-
-                <span className="created-at" title={this.props.status.createdAt.toString()}>
-                    {strftime("%H:%M • %d %B %Y", this.props.status.createdAt)}
-                </span>
+            <div className="message">
+                <p>{text}</p>
             </div>
-        );
-    }
+
+            <span className="created-at" title={createdAt.toString()}>
+                {strftime('%H:%M • %d %B %Y', createdAt)}
+            </span>
+        </div>
+    );
 }
 
 StatusComponent.propTypes = {
-    status: PropTypes.instanceOf(Status).isRequired
+    mood: PropTypes.string,
+    text: PropTypes.string,
+    createdAt: PropTypes.string,
+};
+
+StatusComponent.defaultProps = {
+    mood: '',
+    text: '',
+    createdAt: '',
 };
 
 export default StatusComponent;

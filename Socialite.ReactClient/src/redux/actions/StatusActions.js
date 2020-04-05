@@ -18,11 +18,15 @@ export const fetchUserStatusesFailure = (error) => ({
     payload: { error },
 });
 
-export const fetchStatuses = (accessToken) => async (dispatch) => {
-    const socialiteApi = new SocialiteApi(
+function getSocialiteApi(accessToken) {
+    return new SocialiteApi(
         process.env.REACT_APP_API_HOST,
         accessToken,
     );
+}
+
+export const fetchStatuses = (accessToken) => async (dispatch) => {
+    const socialiteApi = getSocialiteApi(accessToken);
 
     dispatch(fetchUserStatusesBegin());
 
@@ -34,5 +38,16 @@ export const fetchStatuses = (accessToken) => async (dispatch) => {
         dispatch(fetchUserStatusesSuccess(data));
     } catch (error) {
         dispatch(fetchUserStatusesFailure(error.message));
+    }
+};
+
+export const createStatus = async (accessToken, statusParams) => {
+    const socialiteApi = getSocialiteApi(accessToken);
+
+    try {
+        const response = await socialiteApi.createStatus(statusParams);
+        debugger;
+    } catch (error) {
+        console.log(`Fuck: ${error}`);
     }
 };

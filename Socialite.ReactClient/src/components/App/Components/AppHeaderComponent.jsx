@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { push } from 'connected-react-router';
 import {
     Collapse,
     Container,
@@ -12,6 +11,8 @@ import {
 } from 'reactstrap';
 import './AppHeaderComponent.scss';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
+import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import userManager from '../../../openid/UserManager';
 import { performLogout } from '../../../redux/actions/LogoutActions';
 import SocialiteLogo from '../../../assets/images/socialite-logo.svg';
@@ -22,7 +23,7 @@ const mapStateToProps = ({ oidc }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     dispatchPerformLogout: () => dispatch(performLogout()),
-})
+});
 
 class AppHeaderComponent extends Component {
     constructor(props) {
@@ -54,7 +55,7 @@ class AppHeaderComponent extends Component {
     render() {
         const { isOpen } = this.state;
 
-        const { user } = this.props;
+        const { user, t } = this.props;
 
         return (
             <Container fluid className="p-0">
@@ -68,15 +69,21 @@ class AppHeaderComponent extends Component {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="col-md-9" navbar>
                             <NavItem>
-                                <NavLink href="/profile/1">Profile</NavLink>
+                                <NavLink href="/profile/1">
+                                    {t(TextTranslationKeys.menu.profile)}
+                                </NavLink>
                             </NavItem>
                             <NavItem>
                                 {!user || user.expired
                                     ? (
-                                        <NavLink href="#" onClick={AppHeaderComponent.onLoginButtonClick}>Login</NavLink>
+                                        <NavLink href="#" onClick={AppHeaderComponent.onLoginButtonClick}>
+                                            {t(TextTranslationKeys.menu.login)}
+                                        </NavLink>
                                     )
                                     : (
-                                        <NavLink href="#" onClick={this.onLogoutButtonClick}>Logout</NavLink>
+                                        <NavLink href="#" onClick={this.onLogoutButtonClick}>
+                                            {t(TextTranslationKeys.menu.logout)}
+                                        </NavLink>
                                     )}
                             </NavItem>
                         </Nav>
@@ -87,4 +94,6 @@ class AppHeaderComponent extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppHeaderComponent);
+const TranslatedAppHeaderComponent = withTranslation()(AppHeaderComponent);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TranslatedAppHeaderComponent);

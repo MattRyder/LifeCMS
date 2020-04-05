@@ -1,0 +1,14 @@
+.create-status-component {
+    padding: 1em;
+
+    form > div:not(:first-child) {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+    .dropdown button {
+        background-color: transparent;
+        border: none;
+        color: #7b8a8b;
+    }
+}

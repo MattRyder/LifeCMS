@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Socialite.UnitTests.Factories;
 using Socialite.WebAPI.Application.Commands.Statuses;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Socialite.UnitTests.Application.Commands
 {
@@ -13,11 +14,13 @@ namespace Socialite.UnitTests.Application.Commands
     {
         private readonly Mock<IMediator> _mediator;
         private readonly Mock<IStatusRepository> _statusRepositoryMock;
+        private readonly Mock<ILogger<CreateStatusCommandHandler>> _loggerMock;
 
         public CreateStatusCommandHandlerTest()
         {
             _mediator = new Mock<IMediator>();
             _statusRepositoryMock = new Mock<IStatusRepository>();
+            _loggerMock = new Mock<ILogger<CreateStatusCommandHandler>>();
         }
 
         [Fact]
@@ -31,7 +34,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             _statusRepositoryMock.Setup(statusRepo => statusRepo.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
-            var handler = new CreateStatusCommandHandler(_statusRepositoryMock.Object);
+            var handler = new CreateStatusCommandHandler(_statusRepositoryMock.Object, _loggerMock.Object);
 
             var result = await handler.Handle(createStatusCommand, default(CancellationToken));
 

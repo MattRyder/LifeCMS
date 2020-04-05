@@ -1,4 +1,4 @@
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 
 class Status {
     constructor(mood, text, createdAt) {
@@ -11,7 +11,7 @@ class Status {
 Status.propTypes = {
     mood: PropTypes.string,
     text: PropTypes.string,
-    createdAt: PropTypes.instanceOf(Date)
+    createdAt: PropTypes.instanceOf(Date),
 };
 
 export default Status;

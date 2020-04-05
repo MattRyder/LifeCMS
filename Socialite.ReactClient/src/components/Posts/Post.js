@@ -1,4 +1,4 @@
-import PropTypes from 'proptypes';
+import PropTypes from 'prop-types';
 
 export const PostStates = Object.freeze({
     DRAFTED: Symbol("drafted"),

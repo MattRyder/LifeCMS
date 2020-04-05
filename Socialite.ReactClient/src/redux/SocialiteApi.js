@@ -19,11 +19,21 @@ export default class SocialiteApi {
         });
     }
 
+    post(route, params) {
+        return axios.post(`${this.backendHost}/${route}`, params, {
+            headers: { Authorization: `Bearer ${this.accessToken}` },
+        });
+    }
+
     getStatuses() {
         return this.get('statuses');
     }
 
     getPosts() {
         return this.get('posts');
+    }
+
+    createStatus(statusParams) {
+        return this.post('statuses', statusParams);
     }
 }

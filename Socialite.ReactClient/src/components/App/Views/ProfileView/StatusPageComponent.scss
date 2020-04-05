@@ -1,0 +1,10 @@
+.status-page-component {
+    > div {
+        margin-bottom: 1em;
+    }
+
+    .create-status-component {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+}

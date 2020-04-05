@@ -5,11 +5,11 @@
     .status {
         flex: 1;
 
-        :not(:first-of-type) {
+        &:not(:first-of-type) {
             margin-top: 1em;
         }
 
-        :not(:last-of-type) {
+        &:not(:last-of-type) {
             margin-bottom: 1em;
         }
     }
