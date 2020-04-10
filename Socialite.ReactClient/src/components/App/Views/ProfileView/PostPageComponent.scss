@@ -1,0 +1,15 @@
+.post-page-component {
+    > div {
+        margin-bottom: 1em;
+    }
+
+    .create-post-component, .post-component {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .post-component {
+        margin-top: 1em;
+        padding-bottom: 1em;
+    }
+}

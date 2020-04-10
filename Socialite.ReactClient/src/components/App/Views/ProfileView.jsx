@@ -7,25 +7,21 @@ import { withTranslation } from 'react-i18next';
 import BasicInfoComponent, { ActionMenuItem, UserProfile } from '../../Profile/BasicInfoComponent';
 import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import Status from '../../Statuses/Status';
-import StatusContainer from '../../Statuses/StatusContainer';
-import PostListComponent from '../../Posts/PostListComponent';
-import PostDetailComponent from '../../Posts/PostDetailComponent';
 import MenuComponent from '../Components/MenuComponent';
 import { fetchStatuses } from '../../../redux/actions/StatusActions';
 import { fetchPosts } from '../../../redux/actions/PostActions';
-import Post from '../../Posts/Post';
 import StatusPageComponent from './ProfileView/StatusPageComponent';
+import PostPageComponent from './ProfileView/PostPageComponent';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, { match: { params: { id: userId } } }) => ({
     user: state.oidc.user,
-    userProfile: state.profile.user.userProfile,
-    status: state.profile.status,
-    post: state.profile.post,
+    userStatusState: state.status[userId],
+    userPostState: state.post[userId],
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchFetchStatuses: (accessToken) => dispatch(fetchStatuses(accessToken)),
-    dispatchFetchPosts: (accessToken) => dispatch(fetchPosts(accessToken)),
+    dispatchFetchStatuses: (accessToken, userId) => dispatch(fetchStatuses(accessToken, userId)),
+    dispatchFetchPosts: (accessToken, userId) => dispatch(fetchPosts(accessToken, userId)),
 });
 
 class ProfileViewComponent extends React.Component {
@@ -61,14 +57,14 @@ class ProfileViewComponent extends React.Component {
     }
 
     loadData() {
-        const { dispatchFetchPosts, dispatchFetchStatuses, user } = this.props;
+        const { dispatchFetchPosts, dispatchFetchStatuses, user, match: { params: { id } } } = this.props;
 
         const { dataLoaded } = this.state;
 
         if (!dataLoaded && user) {
-            dispatchFetchPosts(user.access_token);
+            dispatchFetchPosts(user.access_token, id);
 
-            dispatchFetchStatuses(user.access_token);
+            dispatchFetchStatuses(user.access_token, id);
 
             this.setState({ dataLoaded: true });
         }
@@ -77,18 +73,19 @@ class ProfileViewComponent extends React.Component {
     render() {
         const {
             match: { url },
-            userProfile,
-            status,
-            post,
-            selectedPost,
+            userStatusState = { statuses: [] },
+            userPostState = { posts: [] },
             t,
+            user,
         } = this.props;
+
+        const { access_token: accessToken } = user || {};
 
         return (
             <div className="profile-view">
                 <div className="basic-info-row">
                     <BasicInfoComponent
-                        userProfile={userProfile}
+                        userProfile={{}}
                         actionMenuItems={ProfileViewComponent.getActionMenuItems(t, url)}
                     />
                 </div>
@@ -100,24 +97,32 @@ class ProfileViewComponent extends React.Component {
                         <Col sm="9">
                             <Route
                                 path={`${url}/statuses`}
-                                render={() => <StatusPageComponent status={status} />}
-                            />
-                            <Route
-                                path={`${url}/posts`}
                                 render={() => (
-                                    <PostListComponent
-                                        posts={post.posts}
-                                        loading={post.loading}
-                                        error={post.error}
+                                    <StatusPageComponent
+                                        accessToken={accessToken}
+                                        statuses={userStatusState.statuses}
+                                        loading={userStatusState.loading}
+                                        error={null}
                                     />
                                 )}
                             />
                             <Route
+                                path={`${url}/posts`}
+                                render={() => (
+                                    <PostPageComponent
+                                        accessToken={accessToken}
+                                        posts={userPostState.posts}
+                                        loading={userPostState.loading}
+                                        error={null}
+                                    />
+                                )}
+                            />
+                            {/* <Route
                                 path={`${url}/posts/:postId`}
                                 render={() => (
                                     <PostDetailComponent post={selectedPost} />
                                 )}
-                            />
+                            /> */}
                         </Col>
                     </Row>
                 </Container>
@@ -125,13 +130,6 @@ class ProfileViewComponent extends React.Component {
         );
     }
 }
-
-ProfileViewComponent.propTypes = {
-    userProfile: PropTypes.instanceOf(UserProfile),
-    actionMenuItems: PropTypes.arrayOf(PropTypes.instanceOf(ActionMenuItem)),
-    statuses: PropTypes.arrayOf(PropTypes.instanceOf(Status)),
-    posts: PropTypes.arrayOf(PropTypes.instanceOf(Post)),
-};
 
 const TranslatedComponent = withTranslation()(ProfileViewComponent);
 

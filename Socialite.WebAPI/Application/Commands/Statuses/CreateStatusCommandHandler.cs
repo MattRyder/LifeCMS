@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.Exceptions;
-using Socialite.Infrastructure.Repositories;
 
 namespace Socialite.WebAPI.Application.Commands.Statuses
 {

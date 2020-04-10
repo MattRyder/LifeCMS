@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
@@ -31,7 +30,11 @@ namespace Socialite.WebAPI.Startup
             {
                 return new MySqlDbConnectionFactory(connectionString);
             })
-            .AddDbContext<SocialiteDbContext>(opts => opts.UseMySql(connectionString));
+            .AddDbContext<SocialiteDbContext>(opts => {
+                opts.UseMySql(connectionString);
+
+                opts.EnableSensitiveDataLogging();
+            });
 
             services.AddTransient<IStatusRepository, StatusRepository>()
                     .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()

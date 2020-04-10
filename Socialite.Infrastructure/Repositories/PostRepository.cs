@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.Common;
 using Socialite.Infrastructure.Data;
@@ -31,6 +32,8 @@ namespace Socialite.Infrastructure.Repositories
 
         public Post Add(Post post)
         {
+            DbContext.Entry(post.State).State = EntityState.Unchanged;
+
             return DbContext.Add(post).Entity;
         }
 

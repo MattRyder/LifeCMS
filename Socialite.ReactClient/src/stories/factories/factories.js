@@ -3,23 +3,23 @@ import Status from '../../components/Statuses/Status';
 
 const faker = require('faker');
 
-const generateText = (paragraphs = 5) =>
-    Array.from(Array(paragraphs), (_v, _i) => faker.lorem.paragraph(10) + "\n");
+const generateText = (paragraphs = 5) => Array.from(
+    Array(paragraphs),
+    () => `${faker.lorem.paragraph(10)}\n`,
+);
 
-const postFactory = () => {
-    return {
-        id: faker.random.number({ min: 1 }),
-        title: faker.lorem.sentence(),
-        text: generateText(),
-        createdAt: faker.date.past(1),
-    }
-};
+const postFactory = () => ({
+    id: faker.random.uuid(),
+    title: faker.lorem.sentence(),
+    text: generateText(),
+    createdAt: faker.date.past(1),
+});
 
 const statusFactory = () => {
     return new Status(
         faker.random.arrayElement(['😎', '👌', '💯']),
         faker.lorem.sentences(5),
-        faker.date.past(2)
+        faker.date.past(2),
     );
 };
 
@@ -29,7 +29,7 @@ const userFactory = () => {
         faker.name.lastName(),
         faker.name.jobTitle(),
         faker.company.companyName(),
-        "https://thispersondoesnotexist.com/image",);
+        "https://thispersondoesnotexist.com/image");
 };
 
 export const createPost = postFactory;

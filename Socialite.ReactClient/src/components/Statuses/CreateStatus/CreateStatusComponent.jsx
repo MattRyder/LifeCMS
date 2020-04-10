@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    FormFeedback, InputGroup, InputGroupAddon, Input, Button, Row, Col, FormGroup, Form,
+    InputGroup, InputGroupAddon, Input, Button, Row, Col,
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -13,15 +13,9 @@ import EmojiDropdownComponent from './EmojiDropdownComponent';
 import './CreateStatusComponent.scss';
 
 const mapDispatchToProps = (dispatch) => ({
-    dispatchCreateStatus: (accessToken, statusParams) => dispatch(createStatus(accessToken, statusParams)),
-});
-
-const mapStateToProps = ({
-    oidc: {
-        user: { access_token: accessToken } = {},
-    } = {},
-}) => ({
-    accessToken,
+    dispatchCreateStatus: (accessToken, statusParams) => dispatch(
+        createStatus(accessToken, statusParams),
+    ),
 });
 
 const CreateStatusComponent = ({ accessToken, dispatchCreateStatus }) => {
@@ -32,7 +26,8 @@ const CreateStatusComponent = ({ accessToken, dispatchCreateStatus }) => {
             const params = {
                 Mood: values.mood,
                 Text: values.text,
-            }
+            };
+
             dispatchCreateStatus(accessToken, params);
         },
     });
@@ -68,4 +63,4 @@ const CreateStatusComponent = ({ accessToken, dispatchCreateStatus }) => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateStatusComponent);
+export default connect(null, mapDispatchToProps)(CreateStatusComponent);

@@ -1,0 +1,8 @@
+.create-post-component {
+    padding: 1em;
+
+    form > div:not(:first-child) {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+}

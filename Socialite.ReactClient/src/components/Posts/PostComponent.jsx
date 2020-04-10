@@ -1,21 +1,47 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import strftime from 'strftime';
+import Truncate from 'react-truncate';
 
 import './PostComponent.scss';
 
-export default class PostComponent extends React.Component {
-    render() {
+export default function PostComponent({ post, maxLines }) {
+    const getParagraphStringsArray = (text) => {
+        if (text instanceof Array) {
+            return text;
+        }
+
+        if (typeof text === 'string') {
+            return text.split(/\r?\n/);
+        }
+
+        return [];
+    };
+
+    const renderPostText = (postText) => {
+        const paragraphStrings = getParagraphStringsArray(postText);
+
         return (
-            <div className="post ">
-                <p className="created-at" title={this.props.post.createdAt.toString()}>
-                    {strftime("%d %B %Y", this.props.post.createdAt)}
-                </p>
-                <h2 className="title">{this.props.post.title}</h2>
-                <div className="text">
-                    {this.props.post.text.map((para, _) => <p>{para}</p>)}
-                </div>
+            <Truncate lines={maxLines}>
+                {
+                    paragraphStrings.map((paragraph, i, array) => {
+                        const line = <span key={i}>{paragraph}</span>;
+
+                        return (i === array.length - 1) ? line : [line, <br key={`${i}br`} />];
+                    })
+                }
+            </Truncate>
+        );
+    };
+
+    return (
+        <div className="post-component">
+            <p className="created-at" title={post.createdAt}>
+                {strftime('%d %B %Y', new Date(post.createdAt))}
+            </p>
+            <h2 className="title">{post.title}</h2>
+            <div className="text">
+                {renderPostText(post.text)}
             </div>
-        )
-    }
+        </div>
+    );
 }

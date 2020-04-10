@@ -1,4 +1,18 @@
 import axios from 'axios';
+import camelcaseKeys from 'camelcase-keys';
+
+
+function getAxiosInstance() {
+    const instance = axios.create();
+
+    instance.interceptors.response.use((response) => {
+        response.data = camelcaseKeys(response.data);
+
+        return response;
+    });
+
+    return instance;
+}
 
 export default class SocialiteApi {
     constructor(backendHost, accessToken) {
@@ -12,7 +26,7 @@ export default class SocialiteApi {
     }
 
     get(route) {
-        return axios.get(`${this.backendHost}/${route}`, {
+        return getAxiosInstance().get(`${this.backendHost}/${route}`, {
             timeout: 2500,
             responseType: 'json',
             headers: { Authorization: `Bearer ${this.accessToken}` },
@@ -20,7 +34,7 @@ export default class SocialiteApi {
     }
 
     post(route, params) {
-        return axios.post(`${this.backendHost}/${route}`, params, {
+        return getAxiosInstance().post(`${this.backendHost}/${route}`, params, {
             headers: { Authorization: `Bearer ${this.accessToken}` },
         });
     }
@@ -36,4 +50,15 @@ export default class SocialiteApi {
     createStatus(statusParams) {
         return this.post('statuses', statusParams);
     }
+
+    createPost(postParams) {
+        return this.post('posts', postParams);
+    }
+}
+
+export function getSocialiteApi(accessToken) {
+    return new SocialiteApi(
+        process.env.REACT_APP_API_HOST,
+        accessToken,
+    );
 }

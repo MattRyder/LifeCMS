@@ -1,53 +1,42 @@
-import SocialiteApi from '../SocialiteApi';
+import { getSocialiteApi } from '../SocialiteApi';
 
 export const FETCH_USER_STATUSES_BEGIN = 'FETCH_USER_STATUSES_BEGIN';
 export const FETCH_USER_STATUSES_SUCCESS = 'FETCH_USER_STATUSES_SUCCESS';
 export const FETCH_USER_STATUSES_FAILURE = 'FETCH_USER_STATUSES_FAILURE';
 
-export const fetchUserStatusesBegin = () => ({
+export const fetchUserStatusesBegin = (userId) => ({
     type: FETCH_USER_STATUSES_BEGIN,
+    payload: { userId },
 });
 
-export const fetchUserStatusesSuccess = (statuses) => ({
+export const fetchUserStatusesSuccess = (userId, statuses) => ({
     type: FETCH_USER_STATUSES_SUCCESS,
-    payload: { statuses },
+    payload: { userId, statuses },
 });
 
-export const fetchUserStatusesFailure = (error) => ({
+export const fetchUserStatusesFailure = (userId, error) => ({
     type: FETCH_USER_STATUSES_FAILURE,
-    payload: { error },
+    payload: { userId, error },
 });
 
-function getSocialiteApi(accessToken) {
-    return new SocialiteApi(
-        process.env.REACT_APP_API_HOST,
-        accessToken,
-    );
-}
-
-export const fetchStatuses = (accessToken) => async (dispatch) => {
+export const fetchStatuses = (accessToken, userId) => async (dispatch) => {
     const socialiteApi = getSocialiteApi(accessToken);
 
-    dispatch(fetchUserStatusesBegin());
+    dispatch(fetchUserStatusesBegin(userId));
 
     try {
         const response = await socialiteApi.getStatuses();
 
         const { data } = response;
 
-        dispatch(fetchUserStatusesSuccess(data));
+        dispatch(fetchUserStatusesSuccess(userId, data));
     } catch (error) {
-        dispatch(fetchUserStatusesFailure(error.message));
+        dispatch(fetchUserStatusesFailure(userId, error.message));
     }
 };
 
 export const createStatus = async (accessToken, statusParams) => {
     const socialiteApi = getSocialiteApi(accessToken);
 
-    try {
-        const response = await socialiteApi.createStatus(statusParams);
-        debugger;
-    } catch (error) {
-        console.log(`Fuck: ${error}`);
-    }
+    await socialiteApi.createStatus(statusParams);
 };

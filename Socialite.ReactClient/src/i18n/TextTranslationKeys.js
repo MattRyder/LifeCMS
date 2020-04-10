@@ -15,6 +15,17 @@ export default {
             placeholder: 'statusCreatePlaceholder',
         },
     },
+    post: {
+        noPostsAvailable: 'noPostsAvailable',
+        create: {
+            title: {
+                placeholder: 'postCreateTitlePlaceholder',
+            },
+            text: {
+                placeholder: 'postCreateTextPlaceholder',
+            },
+        },
+    },
     profileView: {
         connect: 'connect',
         editDetails: 'editDetails',

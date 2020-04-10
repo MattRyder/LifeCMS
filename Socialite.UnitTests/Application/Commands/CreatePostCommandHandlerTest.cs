@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.UnitTests.Factories;
@@ -13,9 +14,13 @@ namespace Socialite.UnitTests.Application.Commands
     {
         private readonly Mock<IPostRepository> _postRepositoryMock;
 
+        private readonly Mock<ILogger<CreatePostCommandHandler>> _loggerMock;
+
         public CreatePostCommandHandlerTest()
         {
             _postRepositoryMock = new Mock<IPostRepository>();
+
+            _loggerMock = new Mock<ILogger<CreatePostCommandHandler>>();
         }
 
         [Fact]
@@ -29,7 +34,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             _postRepositoryMock.Setup(p => p.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
-            var handler = new CreatePostCommandHandler(_postRepositoryMock.Object);
+            var handler = new CreatePostCommandHandler(_postRepositoryMock.Object, _loggerMock.Object);
 
             var result = await handler.Handle(createPostCmd, default);
 

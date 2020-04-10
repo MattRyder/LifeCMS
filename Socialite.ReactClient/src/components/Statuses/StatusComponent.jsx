@@ -17,8 +17,8 @@ function StatusComponent({ mood, text, createdAt }) {
                 <p>{text}</p>
             </div>
 
-            <span className="created-at" title={createdAt.toString()}>
-                {strftime('%H:%M • %d %B %Y', createdAt)}
+            <span className="created-at" title={createdAt}>
+                {strftime('%H:%M • %d %B %Y', new Date(createdAt))}
             </span>
         </div>
     );

@@ -23,10 +23,12 @@ class StatusContainer extends Component {
         const { t } = this.props;
 
         return (
-            <CenteredMessageComponent
-                message={t(TextTranslationKeys.status.noStatusesAvailable)}
-                icon={<FontAwesomeIcon icon={faCommentAlt} />}
-            />
+            <div className="none-available">
+                <CenteredMessageComponent
+                    message={t(TextTranslationKeys.status.noStatusesAvailable)}
+                    icon={<FontAwesomeIcon icon={faCommentAlt} />}
+                />
+            </div>
         );
     }
 

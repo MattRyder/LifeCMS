@@ -4,16 +4,22 @@ import CreateStatusComponent from '../../../Statuses/CreateStatus/CreateStatusCo
 
 import './StatusPageComponent.scss';
 
-export default function StatusPageComponent({ status }) {
-    const statuses = status.statuses.sort((x, y) => x.createdAt < y.createdAt);
+export default function StatusPageComponent({
+    accessToken,
+    error,
+    loading,
+    statuses,
+}) {
+    const sortedStatuses = statuses ? statuses.sort((x, y) => x.createdAt < y.createdAt) : [];
 
     return (
         <div className="status-page-component">
-            <CreateStatusComponent />
+            {accessToken ? <CreateStatusComponent accessToken={accessToken} /> : null}
+
             <StatusContainer
-                statuses={statuses}
-                loading={status.loading}
-                error={status.error}
+                statuses={sortedStatuses}
+                loading={loading}
+                error={error}
             />
         </div>
     )

@@ -27,7 +27,19 @@ storiesOf('App/AppHeader', module)
     .add('with unauthenticated user', () => <AppHeaderComponent />);
 
 storiesOf('App/Views', module)
-    .add('ProfileView', () => <ProfileView userProfile={createUser()} actionMenuItems={actionMenuItems} statuses={createStatusArray()} />);
+    .add('ProfileView', () => (
+        <ProfileView
+            userProfile={createUser()}
+            actionMenuItems={actionMenuItems}
+            statuses={createStatusArray()}
+            match={{
+                url: '/profile-view-story',
+                params: {
+                    id: 'e5c64dd1-88e0-4fa0-a35f-83adb39c6e1f',
+                },
+            }}
+        />
+    ));
 
 storiesOf('App/Components', module)
     .add('Menu', () => <MenuComponent menuItems={menuItems} />)

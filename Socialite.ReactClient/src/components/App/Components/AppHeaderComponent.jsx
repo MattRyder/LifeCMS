@@ -9,13 +9,14 @@ import {
     NavLink,
     NavbarToggler,
 } from 'reactstrap';
-import './AppHeaderComponent.scss';
 import { connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 import { withTranslation } from 'react-i18next';
 import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import userManager from '../../../openid/UserManager';
 import { performLogout } from '../../../redux/actions/LogoutActions';
 import SocialiteLogo from '../../../assets/images/socialite-logo.svg';
+import './AppHeaderComponent.scss';
 
 const mapStateToProps = ({ oidc }) => ({
     user: oidc.user,
@@ -32,6 +33,8 @@ class AppHeaderComponent extends Component {
         this.toggle = this.toggle.bind(this);
 
         this.onLogoutButtonClick = this.onLogoutButtonClick.bind(this);
+
+        this.getUserId = this.getUserId.bind(this);
 
         this.state = {
             isOpen: false,
@@ -52,10 +55,24 @@ class AppHeaderComponent extends Component {
         this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
     }
 
+    getUserId() {
+        const { user } = this.props;
+
+        if (user) {
+            const { sub } = jwtDecode(user.access_token);
+
+            return sub;
+        }
+
+        return null;
+    }
+
     render() {
         const { isOpen } = this.state;
 
         const { user, t } = this.props;
+
+        const userId = this.getUserId();
 
         return (
             <Container fluid className="p-0">
@@ -68,11 +85,13 @@ class AppHeaderComponent extends Component {
 
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="col-md-9" navbar>
-                            <NavItem>
-                                <NavLink href="/profile/1">
-                                    {t(TextTranslationKeys.menu.profile)}
-                                </NavLink>
-                            </NavItem>
+                            {userId ? (
+                                <NavItem>
+                                    <NavLink href={`/profile/${userId}`}>
+                                        {t(TextTranslationKeys.menu.profile)}
+                                    </NavLink>
+                                </NavItem>
+                            ) : null}
                             <NavItem>
                                 {!user || user.expired
                                     ? (

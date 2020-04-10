@@ -1,38 +1,32 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import strftime from 'strftime';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
+import TextTranslationKeys from '../../i18n/TextTranslationKeys';
 import CenteredMessageComponent from '../App/Components/CenteredMessageComponent';
+import PostComponent from './PostComponent';
 
 import './PostListComponent.scss';
 
-export default class PostListContainer extends React.Component {
-    render() {
-        const renderNoPostsAvailable = () => (
+export default function PostListComponent({ posts, maxLines }) {
+    const { t } = useTranslation();
+
+    const renderNoPostsAvailable = () => (
+        <div className="none-available">
             <CenteredMessageComponent
-                message={"No posts are available that have been authored by this person."}
+                message={t(TextTranslationKeys.post.noPostsAvailable)}
                 icon={<FontAwesomeIcon icon={faFolderOpen} />}
             />
-        );
+        </div>
+    );
 
-        const renderPosts = () => (
-            this.props.posts.map((post) => {
-                return (<div className="post">
-                    <p className="created-at" title={post.createdAt.toString()}>
-                        {strftime("%d %B %Y", post.createdAt)}
-                    </p>
-                    <Link className="title" to={"/profile/post/"+post.title}>
-                        {post.title}
-                    </Link>
-                </div>);
-            })
-        );
+    const renderPosts = () => (
+        posts.map((post) => <PostComponent post={post} key={post.id} maxLines={maxLines} />)
+    );
 
-        return (
-            <div className="post-list">
-                {this.props.posts.length > 0 ? renderPosts() : renderNoPostsAvailable()}
-            </div>
-        );
-    }
+    return (
+        <div className="post-list">
+            {posts.length > 0 ? renderPosts() : renderNoPostsAvailable()}
+        </div>
+    );
 }
