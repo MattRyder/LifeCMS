@@ -23,8 +23,8 @@ RUN cp /source/Socialite.WebAPI/Socialite.WebAPI.csproj /build/Socialite
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /build .
-EXPOSE 5000/tcp
-ENV ASPNETCORE_URLS http://0.0.0.0:5000
+EXPOSE 80/tcp
+ENV ASPNETCORE_URLS http://0.0.0.0:80
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 

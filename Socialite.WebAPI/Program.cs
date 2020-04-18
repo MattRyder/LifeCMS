@@ -18,7 +18,6 @@ namespace Socialite
                 logging.ClearProviders();
                 logging.AddConsole();
             })
-            .UseUrls(new string[] { "http://localhost:5002"})
-                .UseStartup<Startup>();
+            .UseStartup<Startup>();
     }
 }

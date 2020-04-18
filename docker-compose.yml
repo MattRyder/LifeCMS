@@ -38,7 +38,7 @@ services:
   web_api:
     image: socialite_web-api:latest
     ports:
-      - "5001:5000"
+      - "5001:80"
     build:
       context: ./
       dockerfile: ./Socialite.WebAPI/Dockerfile
