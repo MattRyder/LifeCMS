@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 networks:
   socialite_network:
@@ -8,8 +8,8 @@ services:
   sql.data:
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
     image: mysql/mysql-server:latest
     ports:
       - "3306:3306"
@@ -22,7 +22,7 @@ services:
   authentication:
     image: socialite_authentication:latest
     ports:
-      - "5000:5000"
+      - "5002:80"
     build:
       context: ./
       dockerfile: ./Socialite.Authentication/Dockerfile
@@ -30,8 +30,9 @@ services:
       SQL_DB_HOST: sql.data
       ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
       ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      IdentityServerAuthentication__Authority: "http://localhost:5002"
     depends_on:
-    - sql.data
+      - sql.data
     networks:
       - socialite_network
 
@@ -46,14 +47,21 @@ services:
       SQL_DB_HOST: sql.data
       ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
     depends_on:
-    - sql.data
+      - sql.data
     networks:
       - socialite_network
 
   react-client:
     image: socialite_react-client:latest
     ports:
-      - "3000:80"
+      - "5000:80"
     build:
       context: ./
       dockerfile: ./Socialite.ReactClient/Dockerfile
+    environment:
+      REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
+      REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002
+      REACT_APP_RUNTIME_CLIENT_ID: SocialiteWebApiClient
+      REACT_APP_RUNTIME_REDIRECT_URI: http://localhost:5000/session/oauth_callback
+      REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://localhost:5000
+      REACT_APP_RUNTIME_SCOPE: status:read

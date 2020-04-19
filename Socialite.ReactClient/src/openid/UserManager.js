@@ -1,4 +1,4 @@
 import { createUserManager } from 'redux-oidc';
-import userManagerSettings from './Settings';
+import Settings from './Settings';
 
-export default createUserManager(userManagerSettings);
+export default createUserManager(Settings.json());

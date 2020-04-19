@@ -23,8 +23,8 @@ RUN cp /source/Socialite.Authentication/Socialite.Authentication.csproj /build/S
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /build .
-EXPOSE 5000/tcp
-ENV ASPNETCORE_URLS http://0.0.0.0:5000
+EXPOSE 80/tcp
+ENV ASPNETCORE_URLS http://0.0.0.0:80
 
 ENV PATH="${PATH}:/root/.dotnet/tools"
 

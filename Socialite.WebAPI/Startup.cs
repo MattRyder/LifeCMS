@@ -27,6 +27,8 @@ namespace Socialite
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
 
+            services.Configure<IdentityServerAuthenticationOptions>(Configuration.GetSection("IdentityServerAuthentication"));
+
             services
             .AddControllers()
             .AddNewtonsoftJson(json =>
@@ -39,17 +41,7 @@ namespace Socialite
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-                    .AddIdentityServerAuthentication(configureOptions =>
-                    {
-                        configureOptions.ApiName = "SocialiteWebApi";
-
-                        configureOptions.Authority = "http://localhost:5000";
-
-                        configureOptions.RequireHttpsMetadata = false;
-
-                        configureOptions.SupportedTokens = SupportedTokens.Jwt;
-                    });
-
+            .AddIdentityServerAuthentication();
 
             services.AddSocialiteWebApi(Configuration);
 
