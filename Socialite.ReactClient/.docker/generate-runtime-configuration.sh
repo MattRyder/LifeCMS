@@ -23,12 +23,6 @@ function write_config {
     echo "};" >> $config_file
 }
 
-# function fix_json {
-#     res=$(cat $config_file | awk 'NR>2{print a;} {a=b; b=$0} END{sub(/,$/, "", a); print a;print b;}')
-
-#     echo $res > $config_file
-# }
-
 function check_key {
     PREFIX='^REACT_APP_RUNTIME_([A-Z]+)$'
 

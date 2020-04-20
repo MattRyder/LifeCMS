@@ -10,6 +10,8 @@ COPY --from=react-build /app/build /var/www/socialite-frontend
 COPY --from=react-build /app/.docker/generate-runtime-configuration.sh /var/www/socialite-frontend
 COPY --from=react-build /app/.docker/nginx.conf /etc/nginx/nginx.conf
 
+RUN chmod +x /var/www/socialite-frontend/generate-runtime-configuration.sh
+
 RUN /var/www/socialite-frontend/generate-runtime-configuration.sh /var/www/socialite-frontend/runtime/config.js
 
 EXPOSE 80
