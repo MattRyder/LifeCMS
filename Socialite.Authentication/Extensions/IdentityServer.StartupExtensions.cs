@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using Socialite.Authentication.Application.Commands.Identity;
 using Socialite.Authentication.Application.Responses;
 using Socialite.Authentication.Authorization.IdentityServer;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Identity;
+using Socialite.Infrastructure.Exensions;
 using Socialite.WebAPI.Application.Commands.Identity;
 
 namespace Socialite.Authentication.Extensions
@@ -53,6 +55,9 @@ namespace Socialite.Authentication.Extensions
                     ErrorUrl = "/accounts/error"
                 };
             })
+            .LoadSigningCredential(
+                configuration.GetValue<string>("Certificates:SigningCredential")
+            )
             .AddAspNetIdentity<SocialiteIdentityUser>()
             .AddConfigurationStore(options =>
             {
@@ -69,8 +74,7 @@ namespace Socialite.Authentication.Extensions
                         identityServerDbConnectionString,
                         sql => sql.MigrationsAssembly(migrationsAssembly)
                     );
-            })
-            .AddDeveloperSigningCredential();
+            });
         }
 
         public static void UseSocialiteIdentityServer(this IApplicationBuilder app)

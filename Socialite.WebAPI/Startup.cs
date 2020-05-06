@@ -8,6 +8,7 @@ using Socialite.WebAPI.Infrastructure.Services;
 using Newtonsoft.Json.Serialization;
 using Socialite.WebAPI.Startup;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.IdentityModel.Logging;
 
 namespace Socialite
 {
@@ -27,8 +28,6 @@ namespace Socialite
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
 
-            services.Configure<IdentityServerAuthenticationOptions>(Configuration.GetSection("IdentityServerAuthentication"));
-
             services
             .AddControllers()
             .AddNewtonsoftJson(json =>
@@ -40,8 +39,20 @@ namespace Socialite
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            .AddIdentityServerAuthentication();
+            services
+            .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+            .AddIdentityServerAuthentication(opts =>
+            {
+                var configuration = Configuration.GetSection("IdentityServerAuthentication");
+
+                opts.ApiName = configuration.GetValue<string>("ApiName");
+
+                opts.Authority = configuration.GetValue<string>("Authority");
+
+                opts.RequireHttpsMetadata = configuration.GetValue<bool>("RequireHttpsMetadata");
+
+                opts.SupportedTokens = SupportedTokens.Jwt;
+            });
 
             services.AddSocialiteWebApi(Configuration);
 
