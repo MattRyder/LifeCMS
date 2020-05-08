@@ -28,6 +28,19 @@ namespace Socialite
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    }
+                );
+            });
+
             services
             .AddControllers()
             .AddNewtonsoftJson(json =>
@@ -75,13 +88,7 @@ namespace Socialite
                 app.UseHsts();
             }
 
-            app.UseCors(builder =>
-            {
-                builder
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-            });
+            app.UseCors();
 
             app.UseStaticFiles();
 
