@@ -24,7 +24,7 @@ function write_config {
 }
 
 function check_key {
-    PREFIX='^REACT_APP_RUNTIME_([A-Z]+)$'
+    PREFIX='^REACT_APP_RUNTIME_([A-Z_]+)$'
 
     if [[ $1 =~ ${PREFIX} ]]; then
         value=$2
