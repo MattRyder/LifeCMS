@@ -63,6 +63,13 @@ namespace Socialite.Authentication
                 app.UseHsts();
             }
 
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+            });
+
             app.UseStaticFiles();
 
             app.UseSpaStaticFiles();
@@ -72,13 +79,6 @@ namespace Socialite.Authentication
             app.UseSocialiteIdentity();
 
             app.UseSocialiteIdentityServer();
-
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-            });
 
             app.UseEndpoints(endpoints =>
             {
