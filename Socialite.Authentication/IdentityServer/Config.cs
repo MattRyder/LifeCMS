@@ -1,62 +1,91 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Linq;
 using System.Text;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Socialite.Authentication.Authorization.IdentityServer
 {
     public class Config
     {
-        public static IEnumerable<ApiResource> GetApiResources()
+        public static IEnumerable<ApiResource> GetApiResources(IConfigurationSection configurationSection)
         {
-            return new[]
-            {
-                new ApiResource()
-                {
-                    Name = "SocialiteWebApi",
+            return configurationSection
+                    .GetChildren()
+                    .Select(x => BuildApiResource(x));
+        }
 
-                    Scopes = new[]
-                    {
-                        new Scope("status:read", "Read access to the Status resource")
-                    }
-                }
+        public static IEnumerable<Client> GetClients(IConfigurationSection configurationSection)
+        {
+            return configurationSection
+                    .GetChildren()
+                    .Select(x => BuildClient(x));
+        }
+
+        private static Client BuildClient(IConfigurationSection configuration)
+        {
+            var c = new Client()
+            {
+                AllowedGrantTypes = GrantTypes.Code,
+
+                AllowedCorsOrigins = GetArray(
+                    configuration.GetSection("AllowedCorsOrigins")
+                ),
+
+                AllowedScopes = GetArray(
+                    configuration.GetSection("AllowedScopes")
+                ),
+
+                ClientId = configuration.GetValue<string>("ClientId"),
+
+                ClientName = configuration.GetValue<string>("ClientName"),
+
+                PostLogoutRedirectUris = GetArray(
+                    configuration.GetSection("PostLogoutRedirectUris")
+                ),
+
+                RequireConsent = configuration.GetValue<bool>("RequireConsent"),
+
+                RequireClientSecret = configuration.GetValue<bool>("RequireClientSecret"),
+
+                RedirectUris = GetArray(
+                    configuration.GetSection("RedirectUris")
+                ),
+            };
+
+            return c;
+        }
+
+        private static ApiResource BuildApiResource(IConfigurationSection configuration)
+        {
+            var scopes = configuration
+                .GetSection("Scopes")
+                .GetChildren()
+                .Select(x => BuildScope(x))
+                .ToArray();
+
+            return new ApiResource()
+            {
+                Name = configuration.GetValue<string>("Name"),
+                Scopes = scopes
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        private static Scope BuildScope(IConfigurationSection configuration)
         {
-            return new[]
-            {
-                new Client()
-                {
-                    ClientId = "SocialiteWebApiClient",
+            return new Scope(
+                configuration.GetValue<string>("Name"),
+                configuration.GetValue<string>("DisplayName")
+            );
+        }
 
-                    ClientName = "Socialite",
-
-                    RequireConsent = false,
-
-                    RequireClientSecret = false,
-
-                    AllowedGrantTypes = GrantTypes.Code,
-
-                    AllowedScopes =
-                    {
-                        "status:read"
-                    },
-
-                    AllowedCorsOrigins =
-                    {
-                        "http://localhost:3000"
-                    },
-
-                    RedirectUris =
-                    {
-                        "http://localhost:3000/session/oauth_callback"
-                    },
-
-                    PostLogoutRedirectUris = { "http://localhost:3000/signout-callback-oidc/" },
-                }
-            };
+        private static ICollection<string> GetArray(IConfigurationSection configuration)
+        {
+            return configuration
+                .GetChildren()
+                .Select(x => x.Value)
+                .ToArray();
         }
     }
 }

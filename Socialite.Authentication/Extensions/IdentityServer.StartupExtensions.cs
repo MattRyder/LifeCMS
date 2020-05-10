@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Logging;
 using Socialite.Authentication.Application.Commands.Identity;
 using Socialite.Authentication.Application.Responses;
 using Socialite.Authentication.Authorization.IdentityServer;
@@ -77,7 +76,7 @@ namespace Socialite.Authentication.Extensions
             });
         }
 
-        public static void UseSocialiteIdentityServer(this IApplicationBuilder app)
+        public static void UseSocialiteIdentityServer(this IApplicationBuilder app, IConfiguration configuration)
         {
             app.UseIdentityServer();
 
@@ -87,10 +86,18 @@ namespace Socialite.Authentication.Extensions
 
             app.ApplyMigrations<ConfigurationDbContext>();
 
-            EnsureSeedData(app);
+            EnsureSeedData(
+                app,
+                configuration.GetSection("ApiResources"),
+                configuration.GetSection("Clients")
+            );
         }
 
-        private static async void EnsureSeedData(IApplicationBuilder app)
+        private static async void EnsureSeedData(
+            IApplicationBuilder app,
+            IConfigurationSection apiResourcesConfigurationSection,
+            IConfigurationSection clientsConfigurationSection
+        )
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
 
@@ -99,13 +106,13 @@ namespace Socialite.Authentication.Extensions
             if (!await context.Clients.AnyAsync())
             {
                 Config
-                .GetApiResources()
+                .GetApiResources(apiResourcesConfigurationSection)
                 .Select((apiResourceModel) => apiResourceModel.ToEntity())
                 .ToList()
                 .ForEach((apiResourceEntity) => context.ApiResources.Add(apiResourceEntity));
 
                 Config
-                .GetClients()
+                .GetClients(clientsConfigurationSection)
                 .Select((clientModel) => clientModel.ToEntity())
                 .ToList()
                 .ForEach((clientEntity) => context.Clients.Add(clientEntity));

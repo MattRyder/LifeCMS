@@ -78,7 +78,7 @@ namespace Socialite.Authentication
 
             app.UseSocialiteIdentity();
 
-            app.UseSocialiteIdentityServer();
+            app.UseSocialiteIdentityServer(Configuration);
 
             app.UseEndpoints(endpoints =>
             {
