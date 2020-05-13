@@ -103,14 +103,17 @@ namespace Socialite.Authentication.Extensions
 
             using var context = serviceScope.ServiceProvider.GetService<ConfigurationDbContext>();
 
-            if (!await context.Clients.AnyAsync())
+            if (!await context.ApiResources.AnyAsync())
             {
                 Config
                 .GetApiResources(apiResourcesConfigurationSection)
                 .Select((apiResourceModel) => apiResourceModel.ToEntity())
                 .ToList()
                 .ForEach((apiResourceEntity) => context.ApiResources.Add(apiResourceEntity));
+            }
 
+            if (!await context.Clients.AnyAsync())
+            {
                 Config
                 .GetClients(clientsConfigurationSection)
                 .Select((clientModel) => clientModel.ToEntity())

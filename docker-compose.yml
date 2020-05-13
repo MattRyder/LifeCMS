@@ -27,10 +27,22 @@ services:
       context: ./
       dockerfile: ./Socialite.Authentication/Dockerfile
     environment:
+      Logging__LogLevel__Default: Debug
       SQL_DB_HOST: sql.data
       ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
       ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
       IdentityServerAuthentication__Authority: "http://localhost:5002"
+      ApiResources_0_Name: WebApi
+      ApiResources_0_Scopes_0_Name: status:read
+      ApiResources_0_Scopes_0_DisplayName: "Read access to the Status resource"
+      Clients__WebApiClient__AllowedCorsOrigins__0: http://localhost:5000
+      Clients__WebApiClient__AllowedScopes__0: status:read
+      Clients__WebApiClient__ClientId: WebApiClient
+      Clients__WebApiClient__ClientName: WebApiClient
+      Clients__WebApiClient__PostLogoutRedirectUris__0: http://localhost:5002/signout-callback-oidc
+      Clients__WebApiClient__RedirectUris__0: http://localhost:5002/session/oauth_callback
+      Clients__WebApiClient__RequireConsent: "false"
+      Clients__WebApiClient__RequireClientSecret: "false"
     depends_on:
       - sql.data
     networks:
@@ -61,7 +73,8 @@ services:
     environment:
       REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
       REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002
-      REACT_APP_RUNTIME_CLIENT_ID: SocialiteWebApiClient
-      REACT_APP_RUNTIME_REDIRECT_URI: http://localhost:5000/session/oauth_callback
+      REACT_APP_RUNTIME_CLIENT_ID: WebApiClient
       REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://localhost:5000
+      REACT_APP_RUNTIME_REDIRECT_URI: http://localhost:5000/session/oauth_callback
+      REACT_APP_RUNTIME_RESPONSE_TYPE: code
       REACT_APP_RUNTIME_SCOPE: status:read
