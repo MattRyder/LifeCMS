@@ -110,6 +110,8 @@ namespace Socialite.Authentication.Extensions
                 .Select((apiResourceModel) => apiResourceModel.ToEntity())
                 .ToList()
                 .ForEach((apiResourceEntity) => context.ApiResources.Add(apiResourceEntity));
+
+                context.SaveChanges();
             }
 
             if (!await context.Clients.AnyAsync())
