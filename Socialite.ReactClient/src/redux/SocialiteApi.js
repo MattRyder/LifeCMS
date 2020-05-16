@@ -1,6 +1,6 @@
 import axios from 'axios';
 import camelcaseKeys from 'camelcase-keys';
-
+import WebApiConfiguration from './WebApiConfiguration';
 
 function getAxiosInstance() {
     const instance = axios.create();
@@ -58,7 +58,7 @@ export default class SocialiteApi {
 
 export function getSocialiteApi(accessToken) {
     return new SocialiteApi(
-        process.env.REACT_APP_API_HOST,
+        WebApiConfiguration.json().api_host,
         accessToken,
     );
 }

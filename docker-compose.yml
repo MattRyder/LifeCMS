@@ -71,7 +71,7 @@ services:
       context: ./
       dockerfile: ./Socialite.ReactClient/Dockerfile
     environment:
-      REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
+      REACT_APP_RUNTIME_WEB_API_HOST: http://localhost:5001/api
       REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002
       REACT_APP_RUNTIME_CLIENT_ID: WebApiClient
       REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://localhost:5000
