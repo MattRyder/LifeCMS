@@ -1,9 +1,9 @@
 using MediatR;
-using Socialite.Authentication.Application.Responses;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Application.Commands.Identity
 {
-    public class LogoutIdentityUserCommand : IRequest<CommandResponse>
+    public class LogoutIdentityUserCommand : IRequest<BasicResponse>
     {
         public string LogoutId { get; set; }
     }

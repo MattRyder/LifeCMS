@@ -1,11 +1,10 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using MediatR;
-using Socialite.Authentication.Application.Responses;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Application.Commands.Identity
 {
-    public class CreateIdentityUserCommand : IRequest<CommandResponse>
+    public class CreateIdentityUserCommand : IRequest<BasicResponse>
     {
         [Required]
         [EmailAddress]

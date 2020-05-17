@@ -4,10 +4,11 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Domain.Exceptions;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.WebAPI.Application.Commands.Statuses
 {
-    public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, bool>
+    public class CreateStatusCommandHandler : IRequestHandler<CreateStatusCommand, BasicResponse>
     {
         private readonly IStatusRepository _statusRepository;
 
@@ -20,7 +21,7 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
             _logger = logger;
         }
 
-        public async Task<bool> Handle(CreateStatusCommand request, CancellationToken cancellationToken)
+        public async Task<BasicResponse> Handle(CreateStatusCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -28,13 +29,22 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
 
                 _statusRepository.Add(status);
 
-                return await _statusRepository.UnitOfWork.SaveEntitiesAsync();
+                var result = await _statusRepository.UnitOfWork.SaveEntitiesAsync();
+
+                return new BasicResponse
+                {
+                    Success = result
+                };
             }
             catch (StatusDomainException ex)
             {
                 _logger.LogError(ex, null);
 
-                return false;
+                return new BasicResponse
+                {
+                    Success = false,
+                    Errors = new[] { ex.Message }
+                };
             }
         }
     }

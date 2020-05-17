@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Socialite.WebAPI.Application.Commands.Statuses;
@@ -30,6 +29,7 @@ namespace Socialite.WebAPI.Controllers
         public async Task<IActionResult> Get()
         {
             var statuses = await _statusQueries.FindAllAsync();
+
             return Ok(statuses);
         }
 
@@ -54,11 +54,11 @@ namespace Socialite.WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _mediator.Send(createStatusCommand);
+                var response = await _mediator.Send(createStatusCommand);
 
-                if (result)
+                if (response.Success)
                 {
-                    return Ok();
+                    return Ok(response);
                 }
             }
 

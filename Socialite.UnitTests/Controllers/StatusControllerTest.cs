@@ -14,6 +14,8 @@ using System.Threading;
 using Socialite.WebAPI.Application.Enums;
 using Socialite.WebAPI.Application.Queries.Statuses;
 using System;
+using Socialite.Infrastructure.Responses;
+using System.Diagnostics;
 
 namespace Socialite.UnitTests.Controllers
 {
@@ -101,11 +103,16 @@ namespace Socialite.UnitTests.Controllers
 
             var createStatusCmd = new CreateStatusCommand(status.Mood, status.Text);
 
-            _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(true));
+            var response = new BasicResponse
+            {
+                Success = true
+            };
+
+            _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(response));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 
-            var actionResult = await controller.Post(createStatusCmd) as OkResult;
+            var actionResult = (OkObjectResult)await controller.Post(createStatusCmd);
 
             Assert.Equal((int)HttpStatusCode.OK, actionResult.StatusCode);
         }
@@ -113,7 +120,12 @@ namespace Socialite.UnitTests.Controllers
         [Fact]
         public async void Post_ReturnsBadRequest_GivenInvalidBody()
         {
-            _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(false));
+            var response = new BasicResponse
+            {
+                Success = false
+            };
+
+            _mediator.Setup(m => m.Send(It.IsAny<CreateStatusCommand>(), new CancellationToken())).Returns(Task.FromResult(response));
 
             var controller = new StatusesController(_mediator.Object, _statusQueries.Object);
 

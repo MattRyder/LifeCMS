@@ -8,6 +8,7 @@ using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
+using Socialite.Infrastructure.Responses;
 using Socialite.WebAPI.Application.Commands.Albums;
 using Socialite.WebAPI.Application.Commands.Posts;
 using Socialite.WebAPI.Application.Commands.Statuses;
@@ -37,7 +38,7 @@ namespace Socialite.WebAPI.Startup
             });
 
             services.AddTransient<IStatusRepository, StatusRepository>()
-                    .AddTransient<IRequestHandler<CreateStatusCommand, bool>, CreateStatusCommandHandler>()
+                    .AddTransient<IRequestHandler<CreateStatusCommand, BasicResponse>, CreateStatusCommandHandler>()
                     .AddTransient<IStatusQueries, StatusQueries>();
 
             services.AddTransient<IPostRepository, PostRepository>()

@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using IdentityServer4.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Socialite.Authentication.Application.Responses;
 using Socialite.Infrastructure.Identity;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Application.Commands.Identity
 {
-    public class LogoutIdentityUserCommandHandler : IRequestHandler<LogoutIdentityUserCommand, CommandResponse>
+    public class LogoutIdentityUserCommandHandler : IRequestHandler<LogoutIdentityUserCommand, BasicResponse>
     {
         private readonly SignInManager<SocialiteIdentityUser> _signInManager;
         private readonly IIdentityServerInteractionService _interactionService;
@@ -24,13 +24,13 @@ namespace Socialite.Authentication.Application.Commands.Identity
 
         }
 
-        public async Task<CommandResponse> Handle(LogoutIdentityUserCommand request, CancellationToken cancellationToken)
+        public async Task<BasicResponse> Handle(LogoutIdentityUserCommand request, CancellationToken cancellationToken)
         {
             await _signInManager.SignOutAsync();
 
             var result = await _interactionService.GetLogoutContextAsync(request.LogoutId);
 
-            return new CommandResponse
+            return new BasicResponse
             {
                 Success = true,
                 Data = new { result.PostLogoutRedirectUri },

@@ -36,9 +36,9 @@ namespace Socialite.UnitTests.Application.Commands
 
             var handler = new CreateStatusCommandHandler(_statusRepositoryMock.Object, _loggerMock.Object);
 
-            var result = await handler.Handle(createStatusCommand, default(CancellationToken));
+            var result = await handler.Handle(createStatusCommand, default);
 
-            Assert.True(result);
+            Assert.True(result.Success);
         }
     }
 }

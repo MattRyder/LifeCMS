@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Socialite.Authentication.Application.Responses;
 using Socialite.Infrastructure.Identity;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Application.Commands.Identity
 {
-    public class CreateIdentityUserCommandHandler : IRequestHandler<CreateIdentityUserCommand, CommandResponse>
+    public class CreateIdentityUserCommandHandler : IRequestHandler<CreateIdentityUserCommand, BasicResponse>
     {
         private readonly UserManager<SocialiteIdentityUser> _userManager;
 
@@ -17,7 +17,7 @@ namespace Socialite.Authentication.Application.Commands.Identity
             _userManager = userManager;
         }
 
-        public async Task<CommandResponse> Handle(CreateIdentityUserCommand request, CancellationToken cancellationToken)
+        public async Task<BasicResponse> Handle(CreateIdentityUserCommand request, CancellationToken cancellationToken)
         {
             var user = new SocialiteIdentityUser
             {
@@ -29,7 +29,7 @@ namespace Socialite.Authentication.Application.Commands.Identity
 
             if (result.Succeeded)
             {
-                return new CommandResponse()
+                return new BasicResponse()
                 {
                     Success = true,
                     Data = new { user.Id }
@@ -37,7 +37,7 @@ namespace Socialite.Authentication.Application.Commands.Identity
             }
             else
             {
-                return new CommandResponse()
+                return new BasicResponse()
                 {
                     Success = false,
                     Errors = result.Errors.ToList().Select((identityError) => identityError.Description),

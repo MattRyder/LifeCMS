@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Socialite.Authentication.Application.Responses;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Filters
 {
@@ -15,20 +15,21 @@ namespace Socialite.Authentication.Filters
                 return;
             }
 
-            var response = GenerateCommandResponse(context.ModelState);
+            var response = GenerateResponse(context.ModelState);
 
             context.Result = new BadRequestObjectResult(response);
         }
 
-        private CommandResponse GenerateCommandResponse(ModelStateDictionary modelState)
+        private BasicResponse GenerateResponse(ModelStateDictionary modelState)
         {
-            var response = new CommandResponse();
+            var response = new BasicResponse();
 
             var errors = modelState
                 .SelectMany(selector => selector.Value.Errors)
                 .Select((err) => err.ErrorMessage);
 
-            return new CommandResponse {
+            return new BasicResponse
+            {
                 Success = false,
                 Errors = errors,
             };

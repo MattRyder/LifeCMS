@@ -1,11 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using MediatR;
-using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.WebAPI.Application.Commands.Statuses
 {
-    public class CreateStatusCommand : IRequest<bool>
+    public class CreateStatusCommand : IRequest<BasicResponse>
     {
         [DataMember]
         public string Mood { get; private set; }

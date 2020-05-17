@@ -9,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Socialite.Authentication.Application.Commands.Identity;
-using Socialite.Authentication.Application.Responses;
 using Socialite.Authentication.Authorization.IdentityServer;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Identity;
 using Socialite.Infrastructure.Exensions;
 using Socialite.WebAPI.Application.Commands.Identity;
+using Socialite.Infrastructure.Responses;
 
 namespace Socialite.Authentication.Extensions
 {
@@ -27,9 +27,9 @@ namespace Socialite.Authentication.Extensions
             var migrationsAssembly = typeof(SocialiteDbContext).GetTypeInfo().Assembly.GetName().Name;
 
             services
-            .AddTransient<IRequestHandler<CreateIdentityUserCommand, CommandResponse>, CreateIdentityUserCommandHandler>()
-            .AddTransient<IRequestHandler<LoginIdentityUserCommand, CommandResponse>, LoginIdentityUserCommandHandler>()
-            .AddTransient<IRequestHandler<LogoutIdentityUserCommand, CommandResponse>, LogoutIdentityUserCommandHandler>();
+            .AddTransient<IRequestHandler<CreateIdentityUserCommand, BasicResponse>, CreateIdentityUserCommandHandler>()
+            .AddTransient<IRequestHandler<LoginIdentityUserCommand, BasicResponse>, LoginIdentityUserCommandHandler>()
+            .AddTransient<IRequestHandler<LogoutIdentityUserCommand, BasicResponse>, LogoutIdentityUserCommandHandler>();
 
             services.AddCors(options =>
                {
