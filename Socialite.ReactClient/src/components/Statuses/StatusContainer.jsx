@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentAlt, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { withTranslation } from 'react-i18next';
 import TextTranslationKeys from '../../i18n/TextTranslationKeys';
 import Status from './Status';
@@ -9,6 +7,7 @@ import StatusComponent from './StatusComponent';
 import CenteredMessageComponent from '../App/Components/CenteredMessageComponent';
 
 import './StatusContainer.scss';
+import Icon, { Icons } from '../App/Iconography/Icon';
 
 class StatusContainer extends Component {
     renderStatuses() {
@@ -26,7 +25,7 @@ class StatusContainer extends Component {
             <div className="none-available">
                 <CenteredMessageComponent
                     message={t(TextTranslationKeys.status.noStatusesAvailable)}
-                    icon={<FontAwesomeIcon icon={faCommentAlt} />}
+                    icon={<Icon icon={Icons.folder} />}
                 />
             </div>
         );
@@ -37,7 +36,7 @@ class StatusContainer extends Component {
 
         return (
             <div className="centered-message">
-                <FontAwesomeIcon icon={faExclamationTriangle} />
+                <Icon icon={Icons.attentionTriangle} />
                 <p>{error.message}</p>
             </div>
         );

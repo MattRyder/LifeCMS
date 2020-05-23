@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -12,10 +11,10 @@ class MenuComponent extends React.Component {
         this.getClassNames = this.getClassNames.bind(this);
     }
 
-    getClassNames(menuItem) {
+    getClassNames(path) {
         const classNames = ['side-menu-item'];
 
-        if (menuItem.link === this.props.location.pathname) {
+        if (path === this.props.location.pathname) {
             classNames.push('side-menu-item-active');
         }
 
@@ -26,11 +25,12 @@ class MenuComponent extends React.Component {
         const { menuItems = [] } = this.props;
 
         return (
-            <ul className="side-menu">
-                {menuItems.map((menuItem, i) => (
-                    <Link key={i} to={menuItem.link}>
-                        <li key={i} className={this.getClassNames(menuItem)}>
-                            {menuItem.title}
+            <ul className="menu-component">
+                {menuItems.map(({text, icon, path}, i) => (
+                    <Link key={i} to={path}>
+                        <li key={i} className={this.getClassNames(path)}>
+                            {icon}
+                            <span>{text}</span>
                         </li>
                     </Link>
                 ))}

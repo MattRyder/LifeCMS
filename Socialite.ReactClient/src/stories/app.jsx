@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import AppHeaderComponent from '../components/App/Components/AppHeaderComponent';
+import AppTopNavigationComponent from '../components/App/Components/AppTopNavigationComponent';
 import { CallbackComponent } from '../components/Session/CallbackComponent';
 
 import '../assets/styles/colors.scss';
@@ -23,8 +23,8 @@ const menuItems = [
 
 const createStatusArray = () => [...Array(10).keys()].map(createStatus);
 
-storiesOf('App/AppHeader', module)
-    .add('with unauthenticated user', () => <AppHeaderComponent />);
+storiesOf('App/AppTopNavigation', module)
+    .add('with unauthenticated user', () => <AppTopNavigationComponent />);
 
 storiesOf('App/Views', module)
     .add('ProfileView', () => (

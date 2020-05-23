@@ -7,11 +7,10 @@ import { withTranslation } from 'react-i18next';
 import BasicInfoComponent, { ActionMenuItem, UserProfile } from '../../Profile/BasicInfoComponent';
 import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import Status from '../../Statuses/Status';
-import MenuComponent from '../Components/MenuComponent';
 import { fetchStatuses } from '../../../redux/actions/StatusActions';
 import { fetchPosts } from '../../../redux/actions/PostActions';
 import StatusPageComponent from './ProfileView/StatusPageComponent';
-import PostPageComponent from './ProfileView/PostPageComponent';
+// import PostPageComponent from './ProfileView/PostPageComponent';
 
 const mapStateToProps = (state, { match: { params: { id: userId } } }) => ({
     user: state.oidc.user,
@@ -90,41 +89,34 @@ class ProfileViewComponent extends React.Component {
                     />
                 </div>
                 <Container fluid>
-                    <Row>
-                        <Col sm="3">
-                            <MenuComponent menuItems={ProfileViewComponent.getSideMenuItems(t, url)} />
-                        </Col>
-                        <Col sm="9">
-                            <Route
-                                path={`${url}/statuses`}
-                                render={() => (
-                                    <StatusPageComponent
-                                        accessToken={accessToken}
-                                        statuses={userStatusState.statuses}
-                                        loading={userStatusState.loading}
-                                        error={null}
-                                    />
-                                )}
+                    <Route
+                        path={`${url}/statuses`}
+                        render={() => (
+                            <StatusPageComponent
+                                accessToken={accessToken}
+                                statuses={userStatusState.statuses}
+                                loading={userStatusState.loading}
+                                error={null}
                             />
-                            <Route
-                                path={`${url}/posts`}
-                                render={() => (
-                                    <PostPageComponent
-                                        accessToken={accessToken}
-                                        posts={userPostState.posts}
-                                        loading={userPostState.loading}
-                                        error={null}
-                                    />
-                                )}
+                        )}
+                    />
+                    {/* <Route
+                        path={`${url}/posts`}
+                        render={() => (
+                            <PostPageComponent
+                                accessToken={accessToken}
+                                posts={userPostState.posts}
+                                loading={userPostState.loading}
+                                error={null}
                             />
-                            {/* <Route
-                                path={`${url}/posts/:postId`}
-                                render={() => (
-                                    <PostDetailComponent post={selectedPost} />
-                                )}
-                            /> */}
-                        </Col>
-                    </Row>
+                        )}
+                    /> */}
+                    {/* <Route
+                        path={`${url}/posts/:postId`}
+                        render={() => (
+                            <PostDetailComponent post={selectedPost} />
+                        )}
+                    /> */}
                 </Container>
             </div>
         );

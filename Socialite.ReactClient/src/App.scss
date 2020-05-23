@@ -1,23 +1,19 @@
 @import "./assets/styles/colors.scss";
 
-@font-face {
-    font-family: Roboto-Medium;
-    // src: url('./assets/fonts/roboto/Roboto-Medium.ttf');
-    font-weight: 400;
-}
-
 * {
-    font-family: Roboto-Medium, sans-serif;
-}
-
-html, body {
-    background-color: $soc_body;
+    font-family: sans-serif;
 }
 
 a {
-    color: $soc_pink;
+    color: $theme_main_link_color;
+
+    :hover {
+        color: darken($theme_main_link_color, 15%);
+    }
 }
 
-a:hover {
-    color: darken($soc_pink, 15%);
+#root > div {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }

@@ -1,8 +1,40 @@
 .create-post-component {
-    padding: 1em;
+    form {
+        display: flex;
 
-    form > div:not(:first-child) {
-        margin-top: 1em;
-        margin-bottom: 1em;
+        textarea {
+            border: none;
+            resize: none;
+            box-sizing: content-box;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        button {
+            flex: 1;
+            align-self: flex-start;
+            margin: 1rem;
+        }
+    }
+
+    .add-media-list {
+        background-color: #EFEFEF;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        list-style-type: none;
+        padding: 0.5rem;
+        margin-bottom: 0;
+
+        li {
+            font-size: 0.8rem;
+            color: darken(#EFEFEF, 50%);
+
+            span {
+                padding: 0 0.5rem;
+            }
+        }
     }
 }

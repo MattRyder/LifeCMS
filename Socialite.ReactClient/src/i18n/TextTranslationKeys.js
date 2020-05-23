@@ -3,6 +3,11 @@ export default {
         save: 'commonSave',
         load: 'commonLoad',
         post: 'commonPost',
+        domain: {
+            newsFeed: 'commonDomainNewsFeed',
+            messages: 'commonDomainMessages',
+            watch: 'commonDomainWatch',
+        },
     },
     menu: {
         profile: 'profile',

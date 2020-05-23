@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderOpen } from '@fortawesome/free-solid-svg-icons';
+import Icon, { Icons } from '../App/Iconography/Icon';
 import { useTranslation } from 'react-i18next';
 import TextTranslationKeys from '../../i18n/TextTranslationKeys';
 import CenteredMessageComponent from '../App/Components/CenteredMessageComponent';
@@ -15,7 +14,7 @@ export default function PostListComponent({ posts, maxLines }) {
         <div className="none-available">
             <CenteredMessageComponent
                 message={t(TextTranslationKeys.post.noPostsAvailable)}
-                icon={<FontAwesomeIcon icon={faFolderOpen} />}
+                icon={<Icon icon={Icons.folder} />}
             />
         </div>
     );

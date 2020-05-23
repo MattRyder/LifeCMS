@@ -1,23 +1,27 @@
 $border-color: rgb(185, 185, 185);
 
-.side-menu {
-    border: 1px solid $border-color;
-    background-color: #FFF;
+.menu-component {
     padding: 0;
-    
+
     a {
         display: block;
         color: darken($border-color, 25%);
-        border-bottom: 1px solid $border-color;
-        
+
         li.side-menu-item {
+            align-items: center;
+            display: flex;
+            font-size: 0.75rem;
             list-style-type: none;
-            padding: 0.25em 1em;
-            
+            padding: 0.25rem 2rem;
+
+            svg {
+                padding-right: 1rem;
+                font-size: 2rem;
+            }
+
             &.side-menu-item-active {
-                font-weight: bold;
                 color: darken($border-color, 40%);
-            }            
+            }
         }
     }
 
