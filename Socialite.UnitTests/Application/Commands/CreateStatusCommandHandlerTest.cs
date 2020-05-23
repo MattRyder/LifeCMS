@@ -12,13 +12,14 @@ namespace Socialite.UnitTests.Application.Commands
 {
     public class CreateStatusCommandHandlerTest
     {
-        private readonly Mock<IMediator> _mediator;
+        private readonly Mock<IMediator> _mediatorMock;
         private readonly Mock<IStatusRepository> _statusRepositoryMock;
         private readonly Mock<ILogger<CreateStatusCommandHandler>> _loggerMock;
 
         public CreateStatusCommandHandlerTest()
         {
-            _mediator = new Mock<IMediator>();
+            
+            _mediatorMock = new Mock<IMediator>();
             _statusRepositoryMock = new Mock<IStatusRepository>();
             _loggerMock = new Mock<ILogger<CreateStatusCommandHandler>>();
         }
@@ -34,7 +35,7 @@ namespace Socialite.UnitTests.Application.Commands
 
             _statusRepositoryMock.Setup(statusRepo => statusRepo.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
-            var handler = new CreateStatusCommandHandler(_statusRepositoryMock.Object, _loggerMock.Object);
+            var handler = new CreateStatusCommandHandler(_statusRepositoryMock.Object, _loggerMock.Object, _mediatorMock.Object);
 
             var result = await handler.Handle(createStatusCommand, default);
 

@@ -9,6 +9,7 @@ using Newtonsoft.Json.Serialization;
 using Socialite.WebAPI.Startup;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.IdentityModel.Logging;
+using Socialite.WebAPI.Infrastructure.Websocket;
 
 namespace Socialite
 {
@@ -34,12 +35,15 @@ namespace Socialite
                     builder =>
                     {
                         builder
-                        .AllowAnyOrigin()
+                        .WithOrigins("http://localhost:3000")
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                     }
                 );
             });
+
+            services.AddSignalR();
 
             services
             .AddControllers()
@@ -100,9 +104,12 @@ namespace Socialite
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<WebsocketClient>("/services/websocket");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
             });
 
             app.UseSocialiteWebApi();

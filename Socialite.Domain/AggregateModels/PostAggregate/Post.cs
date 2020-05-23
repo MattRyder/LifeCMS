@@ -18,7 +18,7 @@ namespace Socialite.Domain.AggregateModels.PostAggregate
         /// Title of this Post
         /// </summary>
         /// <value>This getter/setter returns a String</value>
-        public String Title { get; private set; }
+        public string Title { get; private set; }
 
         /// <summary>
         /// The condition of this Post

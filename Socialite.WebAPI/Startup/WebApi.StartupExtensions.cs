@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Socialite.Domain.AggregateModels.AlbumAggregate;
 using Socialite.Domain.AggregateModels.PostAggregate;
 using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Domain.Events.Statuses;
 using Socialite.Infrastructure.Data;
 using Socialite.Infrastructure.Repositories;
 using Socialite.Infrastructure.Responses;

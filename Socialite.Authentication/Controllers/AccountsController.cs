@@ -53,8 +53,6 @@ namespace Socialite.Authentication.Controllers
 
             if (result.Success)
             {
-                var returnUrl = result.Data.PostLogoutRedirectUri;
-
                 return Ok();
             }
 

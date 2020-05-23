@@ -61,9 +61,9 @@ class ProfileViewComponent extends React.Component {
         const { dataLoaded } = this.state;
 
         if (!dataLoaded && user) {
-            dispatchFetchPosts(user.access_token, id);
+            // dispatchFetchPosts(user.access_token, id);
 
-            dispatchFetchStatuses(user.access_token, id);
+            // dispatchFetchStatuses(user.access_token, id);
 
             this.setState({ dataLoaded: true });
         }

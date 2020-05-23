@@ -3,6 +3,7 @@ import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import createRootReducer from './RootReducer';
+import signalrMiddleware from './middlewares/signalr/SignalrMiddleware';
 
 export const history = createBrowserHistory();
 
@@ -17,6 +18,7 @@ export default function configureStore(preloadedState) {
         composeEnhancers(
             applyMiddleware(thunk),
             applyMiddleware(routingMiddleware),
+            applyMiddleware(signalrMiddleware),
         ),
     );
 

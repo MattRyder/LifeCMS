@@ -39,8 +39,8 @@ services:
       Clients__WebApiClient__AllowedScopes__0: status:read
       Clients__WebApiClient__ClientId: WebApiClient
       Clients__WebApiClient__ClientName: WebApiClient
-      Clients__WebApiClient__PostLogoutRedirectUris__0: http://localhost:5002/signout-callback-oidc
-      Clients__WebApiClient__RedirectUris__0: http://localhost:5002/session/oauth_callback
+      Clients__WebApiClient__PostLogoutRedirectUris__0: http://localhost:5000/signout-callback-oidc
+      Clients__WebApiClient__RedirectUris__0: http://localhost:5000/session/oauth_callback
       Clients__WebApiClient__RequireConsent: "false"
       Clients__WebApiClient__RequireClientSecret: "false"
     depends_on:
@@ -78,3 +78,4 @@ services:
       REACT_APP_RUNTIME_REDIRECT_URI: http://localhost:5000/session/oauth_callback
       REACT_APP_RUNTIME_RESPONSE_TYPE: code
       REACT_APP_RUNTIME_SCOPE: status:read
+      REACT_APP_RUNTIME_WEBSOCKET_HOST: http://localhost:5001/services/websocket

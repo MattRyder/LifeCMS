@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Socialite.Domain.AggregateModels.StatusAggregate;
+using Socialite.Domain.Events.Statuses;
 using Socialite.Domain.Exceptions;
 using Socialite.Infrastructure.Responses;
 
@@ -14,11 +15,18 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
 
         private readonly ILogger<CreateStatusCommandHandler> _logger;
 
-        public CreateStatusCommandHandler(IStatusRepository statusRepository, ILogger<CreateStatusCommandHandler> logger)
+        private readonly IMediator _mediator;
+
+        public CreateStatusCommandHandler(
+            IStatusRepository statusRepository,
+            ILogger<CreateStatusCommandHandler> logger,
+            IMediator mediator)
         {
             _statusRepository = statusRepository;
 
             _logger = logger;
+
+            _mediator = mediator;
         }
 
         public async Task<BasicResponse> Handle(CreateStatusCommand request, CancellationToken cancellationToken)
@@ -29,11 +37,13 @@ namespace Socialite.WebAPI.Application.Commands.Statuses
 
                 _statusRepository.Add(status);
 
-                var result = await _statusRepository.UnitOfWork.SaveEntitiesAsync();
+                await _statusRepository.UnitOfWork.SaveEntitiesAsync();
+
+                await _mediator.Publish(new StatusCreatedEvent(status));
 
                 return new BasicResponse
                 {
-                    Success = result
+                    Success = true
                 };
             }
             catch (StatusDomainException ex)
