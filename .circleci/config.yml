@@ -7,9 +7,9 @@ jobs:
         environment:
           MYSQL_ROOT_HOST: '%'
           MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_USER: socialite_dbuser
-          MYSQL_PASSWORD: socialite_pass
-          MYSQL_DATABASE: socialite_test
+          MYSQL_USER: lifecms_dbuser
+          MYSQL_PASSWORD: lifecms_pass
+          MYSQL_DATABASE: lifecms_test
     steps:
       - checkout
 
@@ -28,15 +28,15 @@ jobs:
       - run: find .
 
       - run:
-          name: Building Socialite
+          name: Building LifeCMS
           command: dotnet build
 
       - run:
           name: Executing unit tests
-          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=json /p:CoverletOutput=./../coverage/unit.tests.json Socialite.UnitTests
+          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[LifeCMS.Services.ContentCreation.Domain]*,[LifeCMS.WebAPI]*\" /p:CoverletOutputFormat=json /p:CoverletOutput=./../coverage/unit.tests.json ./src/Services/ContentCreation/ContentCreation.UnitTests
 
       - run:
           name: Executing integration tests
-          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[Socialite.Domain]*,[Socialite.WebAPI]*\" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./../coverage/Socialite_coverage.xml /p:MergeWith="./../coverage/unit.tests.json" Socialite.IntegrationTests
+          command: dotnet test /p:CollectCoverage=true  /p:Include=\"[LifeCMS.Services.ContentCreation.Domain]*,[LifeCMS.WebAPI]*\" /p:CoverletOutputFormat=opencover /p:CoverletOutput=./../coverage/LifeCMS_coverage.xml /p:MergeWith="./../coverage/unit.tests.json" ./src/Services/ContentCreation/ContentCreation.IntegrationTests
           environment:
-            ConnectionStrings__SocialiteIntegrationTests: Server=localhost;Database=socialite_test;Uid=root;AllowUserVariables=True;
+            ConnectionStrings__LifeCMSIntegrationTests: Server=localhost;Database=lifecms_test;Uid=root;AllowUserVariables=True;

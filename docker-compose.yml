@@ -1,7 +1,7 @@
 version: "3"
 
 networks:
-  socialite_network:
+  lifecms_network:
     driver: bridge
 
 services:
@@ -14,23 +14,22 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - socialite_network
+      - lifecms_network
     restart: always
     volumes:
       - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
 
-  authentication:
-    image: socialite_authentication:latest
+  identity.api:
+    image: lifecms_identity.api:latest
     ports:
       - "5002:80"
     build:
       context: ./
-      dockerfile: ./Socialite.Authentication/Dockerfile
+      dockerfile: ./src/Services/Identity/Identity.API/Dockerfile
     environment:
-      Logging__LogLevel__Default: Debug
       SQL_DB_HOST: sql.data
-      ConnectionStrings__SocialiteIdentity: Server=sql.data;Database=socialite_identity;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
-      ConnectionStrings__SocialiteIdentityServer: Server=sql.data;Database=socialite_identity_server;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
+      ConnectionStrings__LifeCMSIdentityServer: Server=sql.data;Database=lifecms_identity_server;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       IdentityServerAuthentication__Authority: "http://localhost:5002"
       ApiResources_0_Name: WebApi
       ApiResources_0_Scopes_0_Name: status:read
@@ -46,30 +45,30 @@ services:
     depends_on:
       - sql.data
     networks:
-      - socialite_network
+      - lifecms_network
 
-  web_api:
-    image: socialite_web-api:latest
+  contentcreation.api:
+    image: lifecms_contentcreation.api:latest
     ports:
       - "5001:80"
     build:
       context: ./
-      dockerfile: ./Socialite.WebAPI/Dockerfile
+      dockerfile: ./src/Services/ContentCreation/ContentCreation.API/Dockerfile
     environment:
       SQL_DB_HOST: sql.data
-      ConnectionStrings__Socialite: Server=sql.data;Database=socialite_production;Uid=socialite_user;Password=socialite_pass;AllowUserVariables=True;
+      ConnectionStrings__LifeCMS: Server=sql.data;Database=lifecms_production;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
     depends_on:
       - sql.data
     networks:
-      - socialite_network
+      - lifecms_network
 
-  react-client:
-    image: socialite_react-client:latest
+  web.webspa:
+    image: web.webspa:latest
     ports:
       - "5000:80"
     build:
       context: ./
-      dockerfile: ./Socialite.ReactClient/Dockerfile
+      dockerfile: ./src/Web/WebSPA/Dockerfile
     environment:
       REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
       REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002

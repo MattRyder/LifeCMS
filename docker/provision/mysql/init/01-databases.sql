@@ -1,8 +1,8 @@
--- CREATE DATABASE IF NOT EXISTS `socialite_production`;
--- CREATE DATABASE IF NOT EXISTS `socialite_identity`;
+-- CREATE DATABASE IF NOT EXISTS `lifecms_production`;
+-- CREATE DATABASE IF NOT EXISTS `lifecms_identity`;
 
-CREATE USER 'socialite_user'@'%' IDENTIFIED BY 'socialite_pass';
+CREATE USER 'lifecms_user'@'%' IDENTIFIED BY 'lifecms_pass';
 
-GRANT ALL PRIVILEGES ON `socialite_production`.* TO 'socialite_user'@'%';
-GRANT ALL PRIVILEGES ON `socialite_identity`.* TO 'socialite_user'@'%';
-GRANT ALL PRIVILEGES ON `socialite_identity_server`.* TO 'socialite_user'@'%';
+GRANT ALL PRIVILEGES ON `lifecms_production`.* TO 'lifecms_user'@'%';
+GRANT ALL PRIVILEGES ON `lifecms_identity`.* TO 'lifecms_user'@'%';
+GRANT ALL PRIVILEGES ON `lifecms_identity_server`.* TO 'lifecms_user'@'%';
