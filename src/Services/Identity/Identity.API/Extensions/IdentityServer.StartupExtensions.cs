@@ -30,14 +30,6 @@ namespace LifeCMS.Services.Identity.API.Extensions
             .AddTransient<IRequestHandler<LoginIdentityUserCommand, BasicResponse>, LoginIdentityUserCommandHandler>()
             .AddTransient<IRequestHandler<LogoutIdentityUserCommand, BasicResponse>, LogoutIdentityUserCommandHandler>();
 
-            services.AddCors(options =>
-               {
-                   options.AddPolicy("CorsPolicy",
-                       builder => builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader());
-               });
-
             services
             .AddIdentityServer(options =>
             {

@@ -1,13 +1,11 @@
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using LifeCMS.Services.Identity.API.Application.Commands.Identity;
 using LifeCMS.Services.Identity.API.Filters;
 
 namespace LifeCMS.Services.Identity.API.Controllers
 {
-    [EnableCors("CorsPolicy")]
     [Route("api/v1/[controller]")]
     public class AccountsController : Controller
     {

@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 
 networks:
   lifecms_network:
@@ -21,12 +21,14 @@ services:
 
   identity.api:
     image: lifecms_identity.api:latest
+    entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/Identity.API.dll"
     ports:
       - "5002:80"
     build:
       context: ./
       dockerfile: ./src/Services/Identity/Identity.API/Dockerfile
     environment:
+      Logging__LogLevel__Default: Trace
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       ConnectionStrings__LifeCMSIdentityServer: Server=sql.data;Database=lifecms_identity_server;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
@@ -46,9 +48,17 @@ services:
       - sql.data
     networks:
       - lifecms_network
+    volumes:
+      - type: bind
+        source: ./docker/waitforit.sh
+        target: /usr/local/bin/waitforit.sh
+      - type: bind
+        source: ./docker/certificates/lifecms.pfx
+        target: /app/lifecms.pfx
 
   contentcreation.api:
     image: lifecms_contentcreation.api:latest
+    entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/ContentCreation.API.dll"
     ports:
       - "5001:80"
     build:
@@ -61,6 +71,10 @@ services:
       - sql.data
     networks:
       - lifecms_network
+    volumes:
+      - type: bind
+        source: ./docker/waitforit.sh
+        target: /usr/local/bin/waitforit.sh
 
   web.webspa:
     image: web.webspa:latest
@@ -69,6 +83,8 @@ services:
     build:
       context: ./
       dockerfile: ./src/Web/WebSPA/Dockerfile
+    volumes:
+      - ./docker:/usr/local/bin/docker
     environment:
       REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
       REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002

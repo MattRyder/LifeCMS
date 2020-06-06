@@ -24,7 +24,7 @@ namespace LifeCMS.Services.Identity.API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-            .AddControllersWithViews()
+            .AddControllers()
             .AddNewtonsoftJson(json =>
             {
                 json.SerializerSettings.ContractResolver = new DefaultContractResolver()
@@ -34,19 +34,19 @@ namespace LifeCMS.Services.Identity.API
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
-
             services.AddMediatR();
+
+            services.AddCors();
 
             services.AddLifeCMSIdentity(Configuration);
 
             services.AddLifeCMSIdentityServer(Configuration);
 
-            services.AddCors();
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,15 +70,11 @@ namespace LifeCMS.Services.Identity.API
                 .AllowAnyMethod();
             });
 
-            app.UseStaticFiles();
-
-            app.UseSpaStaticFiles();
+            app.UseLifeCMSIdentityServer(Configuration);
 
             app.UseRouting();
 
             app.UseLifeCMSIdentity();
-
-            app.UseLifeCMSIdentityServer(Configuration);
 
             app.UseEndpoints(endpoints =>
             {
@@ -86,6 +82,8 @@ namespace LifeCMS.Services.Identity.API
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseSpaStaticFiles();
 
             app.UseSpa(spa =>
             {
