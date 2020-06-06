@@ -28,7 +28,6 @@ services:
       context: ./
       dockerfile: ./src/Services/Identity/Identity.API/Dockerfile
     environment:
-      Logging__LogLevel__Default: Trace
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       ConnectionStrings__LifeCMSIdentityServer: Server=sql.data;Database=lifecms_identity_server;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
@@ -52,9 +51,6 @@ services:
       - type: bind
         source: ./docker/waitforit.sh
         target: /usr/local/bin/waitforit.sh
-      - type: bind
-        source: ./docker/certificates/lifecms.pfx
-        target: /app/lifecms.pfx
 
   contentcreation.api:
     image: lifecms_contentcreation.api:latest
