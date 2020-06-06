@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import userManager from '../../openid/UserManager';
 
 const mapDispatchToProps = (dispatch) => ({
-    redirectToHome: () => dispatch(push('/profile')),
+    redirectToHome: () => dispatch(push('/')),
     redirectToError: () => dispatch(push('/session/oauth_error')),
 });
 
@@ -15,7 +15,7 @@ export function CallbackComponent({ redirectToHome, redirectToError }) {
             <ReduxOidcCallbackComponent
                 userManager={userManager}
                 successCallback={() => redirectToHome()}
-                errorCallback={(error) => redirectToError(error)}
+                errorCallback={(error) => { throw error; }}
             >
                 <div />
             </ReduxOidcCallbackComponent>
