@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'reactstrap';
 import { withTranslation } from 'react-i18next';
 import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import PostPageComponent from './HomeView/PostPageComponent';
-
-import './HomeView.scss';
+import { fetchPosts } from '../../../redux/actions/PostActions';
 import MenuComponent from './HomeView/MenuComponent';
 import Icon, { Icons } from '../Iconography/Icon';
+import './HomeView.scss';
 
 const mapStateToProps = (state, { match: { params: { id: userId } } }) => ({
     user: state.oidc.user,
@@ -15,8 +14,11 @@ const mapStateToProps = (state, { match: { params: { id: userId } } }) => ({
     userPostState: state.post[userId],
 });
 
+const mapDispatchToProps = (dispatch) => ({
+    dispatchFetchPosts: (accessToken, userId) => dispatch(fetchPosts(accessToken, userId)),
+});
 
-const HomeView = ({ user, userPostState = [], t }) => {
+const HomeView = ({ user, userPostState = [], dispatchFetchPosts, t }) => {
     const menuItems = [
         {
             text: t(TextTranslationKeys.common.domain.newsFeed),
@@ -35,6 +37,16 @@ const HomeView = ({ user, userPostState = [], t }) => {
         },
     ];
 
+    const [isPostsLoading, setPostsLoading] = useState(false);
+
+    useEffect(() => {
+        if (!isPostsLoading && user) {
+            dispatchFetchPosts(user.access_token, user.id);
+
+            setPostsLoading(true);
+        }
+    }, [isPostsLoading, dispatchFetchPosts, user]);
+
     return (
         <div className="home-view">
             <MenuComponent menuItems={menuItems} />
@@ -48,4 +60,4 @@ const HomeView = ({ user, userPostState = [], t }) => {
     );
 };
 
-export default connect(mapStateToProps, null)(withTranslation()(HomeView));
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HomeView));

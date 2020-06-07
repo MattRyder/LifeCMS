@@ -31,7 +31,7 @@ export default (hubUrl, accessToken) => {
         (res) => console.log(`WebSocket: ${res}`)
     );
 
-    connection.onclose(() => setTimeout(startConnection(connection)));
+    connection.onclose(() => setTimeout(startConnection(connection), 1000));
 
     startConnection(connection);
 };

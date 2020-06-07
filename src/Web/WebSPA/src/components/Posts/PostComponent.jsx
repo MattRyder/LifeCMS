@@ -38,7 +38,6 @@ export default function PostComponent({ post, maxLines }) {
             <p className="created-at" title={post.createdAt}>
                 {strftime('%d %B %Y', new Date(post.createdAt))}
             </p>
-            <h2 className="title">{post.title}</h2>
             <div className="text">
                 {renderPostText(post.text)}
             </div>
