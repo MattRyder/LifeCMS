@@ -8,6 +8,7 @@ using Newtonsoft.Json.Serialization;
 using IdentityServer4.AccessTokenValidation;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Services;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket;
+using LifeCMS.Services.ContentCreation.API.Infrastructure.Policies;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -29,15 +30,13 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             services.AddCors(options =>
             {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder
-                        .WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                    }
+                options.AddPolicy(WebApiCorsPolicy.GetName(), WebApiCorsPolicy.GetPolicy());
+
+                options.AddPolicy(
+                    WebsocketCorsPolicy.GetName(),
+                    WebsocketCorsPolicy.GetPolicy(
+                        allowedOrigins: Configuration.GetSection("Cors:Websocket:AllowedOrigins").Get<string[]>()
+                    )
                 );
             });
 
@@ -90,7 +89,9 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                 app.UseHsts();
             }
 
-            app.UseCors();
+            app.UseCors(WebsocketCorsPolicy.GetName());
+
+            app.UseCors(WebApiCorsPolicy.GetName());
 
             app.UseStaticFiles();
 
@@ -102,12 +103,12 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<WebsocketClient>("/services/websocket");
-
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}"
+                ).RequireCors(WebApiCorsPolicy.GetName());
 
+                endpoints.MapHub<WebsocketClient>("/services/websocket");
             });
 
             app.UseLifeCMSWebApi();

@@ -17,7 +17,6 @@ export default (hubUrl, accessToken) => {
     const options = {
         transport,
         logMessageContent: true,
-        logger: LogLevel.Trace,
         // accessTokenFactory: () => accessToken,
     };
 
