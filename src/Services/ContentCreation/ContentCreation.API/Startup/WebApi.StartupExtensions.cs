@@ -18,6 +18,11 @@ using LifeCMS.Services.ContentCreation.Infrastructure.Repositories;
 using LifeCMS.Services.ContentCreation.Infrastructure.Responses;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Extensions;
 using System;
+using LifeCMS.Services.ContentCreation.API.Application.Events;
+using LifeCMS.Services.ContentCreation.Domain.Events.Posts;
+using LifeCMS.Services.ContentCreation.Infrastructure.Accessors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -45,12 +50,17 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             services.AddTransient<IPostRepository, PostRepository>()
                     .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
+                    .AddTransient<INotificationHandler<PostPublishedEvent>, PostPublishedEventHandler>()
                     .AddTransient<IPostQueries, PostQueries>();
 
             services.AddTransient<IAlbumRepository, AlbumRepository>()
                     .AddTransient<IRequestHandler<CreateAlbumCommand, bool>, CreateAlbumCommandHandler>()
                     .AddTransient<IRequestHandler<UploadPhotoCommand, bool>, UploadPhotoCommandHandler>()
                     .AddTransient<IAlbumQueries, AlbumQueries>();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<IUserAccessor, UserAccessor>();
         }
 
         public static void UseLifeCMSWebApi(this IApplicationBuilder app)

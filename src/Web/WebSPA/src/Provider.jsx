@@ -3,7 +3,10 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { OidcProvider, loadUser } from 'redux-oidc';
 
-export default ({ children, store, userManager, history }) => {
+
+export default ({
+    children, store, userManager, history,
+}) => {
     loadUser(store, userManager);
 
     return (

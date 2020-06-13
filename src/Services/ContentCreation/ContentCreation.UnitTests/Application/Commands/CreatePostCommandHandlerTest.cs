@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Posts;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
+using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.Services.ContentCreation.UnitTests.Factories;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -14,11 +15,15 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
         private readonly Mock<ILogger<CreatePostCommandHandler>> _loggerMock;
 
+        private readonly Mock<IUserAccessor> _userAccessorMock;
+
         public CreatePostCommandHandlerTest()
         {
             _postRepositoryMock = new Mock<IPostRepository>();
 
             _loggerMock = new Mock<ILogger<CreatePostCommandHandler>>();
+
+            _userAccessorMock = new Mock<IUserAccessor>();
         }
 
         [Fact]
@@ -32,7 +37,11 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
             _postRepositoryMock.Setup(p => p.UnitOfWork.SaveEntitiesAsync()).Returns(Task.FromResult(true));
 
-            var handler = new CreatePostCommandHandler(_postRepositoryMock.Object, _loggerMock.Object);
+            var handler = new CreatePostCommandHandler(
+                _postRepositoryMock.Object,
+                _loggerMock.Object,
+                _userAccessorMock.Object
+            );
 
             var result = await handler.Handle(createPostCmd, default);
 

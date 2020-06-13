@@ -1,24 +1,58 @@
-import { USER_FOUND } from 'redux-oidc';
-import CreateHubConnection from './CreateHubConnection';
-import RuntimeConfiguration from './RuntimeConfiguration';
+import {
+    JsonHubProtocol,
+    HttpTransportType,
+    HubConnectionBuilder,
+} from '@microsoft/signalr';
 
-const onLogin = (hubUrl, accessToken) => {
-    CreateHubConnection(hubUrl, accessToken);
+const startConnection = (connection) => connection.start();
+
+const getConnection = (hubUrl) => {
+    const protocol = new JsonHubProtocol();
+
+    // eslint-disable-next-line no-bitwise
+    const transport = HttpTransportType.WebSockets | HttpTransportType.LongPolling;
+
+    const options = {
+        transport,
+        logMessageContent: true,
+    };
+
+    return new HubConnectionBuilder()
+        .withUrl(hubUrl, options)
+        .withHubProtocol(protocol)
+        .build();
 };
 
-export default () => (next) => (action) => {
-    switch (action.type) {
-    case USER_FOUND: {
-        onLogin(
-            RuntimeConfiguration.json().websocket_host,
-            action.payload.access_token,
-        );
+const registerEvents = (store, connection, eventCallbacks) => {
+    eventCallbacks.forEach(({ eventName, eventCallback }) => {
+        connection.on(eventName, (...args) => {
+            eventCallback
+                .call(null, ...args)
+                .call(store, store.getState.bind(store), store.dispatch.bind(store));
+        });
+    });
+};
 
-        break;
-    }
-    default:
-        break;
-    }
+export default ({
+    eventCallbacks, url, onStart = () => { },
+}) => (store) => {
+    const connection = getConnection(url);
 
-    return next(action);
+    registerEvents(store, connection, eventCallbacks);
+
+    connection.onclose(() => setTimeout(startConnection(connection), 1000));
+
+    startConnection(connection)
+        .then(() => onStart())
+        .catch((err) => console.log(`Signalr Error: ${err}`));
+
+    return (next) => (action) => (
+        typeof action === 'function'
+            ? action(
+                store.dispatch.bind(store),
+                store.getState.bind(store),
+                connection.invoke.bind(connection),
+            )
+            : next(action)
+    );
 };

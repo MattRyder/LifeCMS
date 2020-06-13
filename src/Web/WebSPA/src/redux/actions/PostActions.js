@@ -35,8 +35,8 @@ export const fetchPosts = (accessToken, userId) => async (dispatch) => {
     }
 };
 
-export const createPost = async (accessToken, postParams) => {
+export const createPost = (accessToken, postParams) => {
     const lifecmsApi = getLifeCMSApi(accessToken);
 
-    await lifecmsApi.createPost(postParams);
+    return lifecmsApi.createPost(postParams);
 };

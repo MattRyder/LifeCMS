@@ -14,8 +14,6 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Domain
             var post = PostFactory.Create();
 
             Assert.NotNull(post);
-
-            Assert.Equal(1, post.Events.Count);
         }
 
         [Fact]
@@ -40,7 +38,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Domain
 
             post.SetPublishedState();
 
-            Assert.Equal(2, post.Events.Count);
+            Assert.Equal(1, post.Events.Count);
         }
 
         [Fact]

@@ -12,6 +12,10 @@
             }
         }
 
+        .invalid-feedback {
+            display: none;
+        }
+
         button {
             flex: 1;
             align-self: flex-start;

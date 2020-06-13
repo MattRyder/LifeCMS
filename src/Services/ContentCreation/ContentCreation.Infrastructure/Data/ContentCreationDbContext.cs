@@ -46,9 +46,9 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 
         public async Task<bool> SaveEntitiesAsync()
         {
-            await _mediator.DispatchDomainEventsAsync(this);
-
             await base.SaveChangesAsync();
+
+            await _mediator.DispatchDomainEventsAsync(this);
 
             return true;
         }

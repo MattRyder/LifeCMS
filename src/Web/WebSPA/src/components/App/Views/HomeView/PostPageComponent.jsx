@@ -1,5 +1,5 @@
 import React from 'react';
-import PostListComponent from '../../../Posts/PostListComponent';
+import PostListComponent from '../../../Posts/PostList/PostListComponent';
 import CreatePostComponent from '../../../Posts/CreatePost/CreatePostComponent';
 
 import './PostPageComponent.scss';
@@ -16,7 +16,7 @@ export default function PostPageComponent({
         <div className="post-page-component">
             {accessToken ? <CreatePostComponent accessToken={accessToken} /> : null}
 
-            <PostListComponent posts={sortedPosts} loading={loading} error={error} maxLines={2} />
+            <PostListComponent posts={sortedPosts} loading={loading} error={error} maxLines={4} />
         </div>
-    )
+    );
 };

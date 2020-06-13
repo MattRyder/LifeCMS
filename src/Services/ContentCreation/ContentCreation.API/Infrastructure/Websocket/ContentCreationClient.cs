@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket
 {
-    public class WebsocketClient : Hub<IClient>
+    public class ContentCreationClient : Hub<IContentCreationClient>
     {
-        public async Task SendMessage(string user, string message)
+        public async Task PostPublished(string user, string message)
         {
-            await Clients.All.RecieveMessage(user, message);
+            await Clients.All.PostPublished(user, message);
         }
 
         public override async Task OnConnectedAsync()

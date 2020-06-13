@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 namespace LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket
 {
-    public interface IClient
+    public interface IContentCreationClient
     {
-        Task RecieveMessage(string user, string message);
+        Task PostPublished(string user, string message);
     }
 }

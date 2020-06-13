@@ -14,8 +14,8 @@ import {
     DropdownItem,
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import jwtDecode from 'jwt-decode';
 import { withTranslation } from 'react-i18next';
+import decodeToken from '../../../openid/Token';
 import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import userManager from '../../../openid/UserManager';
 import { performLogout } from '../../../redux/actions/LogoutActions';
@@ -45,7 +45,7 @@ const AppTopNavigationComponent = ({ dispatchPerformLogout, t, user }) => {
 
     const getUserId = () => {
         if (user) {
-            const { sub } = jwtDecode(user.access_token);
+            const { sub } = decodeToken(user.access_token);
 
             return sub;
         }

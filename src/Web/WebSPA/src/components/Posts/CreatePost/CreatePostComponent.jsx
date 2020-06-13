@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Input, Button, FormFeedback } from 'reactstrap';
@@ -10,13 +9,7 @@ import { createPost } from '../../../redux/actions/PostActions';
 
 import './CreatePostComponent.scss';
 
-const mapDispatchToProps = (dispatch) => ({
-    dispatchCreatePost: (accessToken, postParams) => dispatch(
-        createPost(accessToken, postParams),
-    ),
-});
-
-function CreatePostComponent({ accessToken, dispatchCreatePost }) {
+export default function ({ accessToken }) {
     const formik = useFormik({
         initialValues: InitialValues,
         validationSchema: Schema,
@@ -26,7 +19,7 @@ function CreatePostComponent({ accessToken, dispatchCreatePost }) {
                 Text: values.text,
             };
 
-            dispatchCreatePost(accessToken, params);
+            createPost(accessToken, params).then(() => formik.resetForm());
         },
     });
 
@@ -53,8 +46,8 @@ function CreatePostComponent({ accessToken, dispatchCreatePost }) {
                     invalid={formik.errors.text}
                     value={formik.values.text}
                 />
-                <FormFeedback>{formik.errors.text}</FormFeedback>
-                <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
+                <FormFeedback />
+                <Button variant="default" type="submit" disabled={formik.isSubmitting}>
                     {t(TextTranslationKeys.common.post)}
                 </Button>
             </form>
@@ -74,5 +67,3 @@ function CreatePostComponent({ accessToken, dispatchCreatePost }) {
         </div>
     );
 }
-
-export default connect(null, mapDispatchToProps)(CreatePostComponent);

@@ -108,7 +108,7 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     pattern: "{controller}/{action=Index}/{id?}"
                 ).RequireCors(WebApiCorsPolicy.GetName());
 
-                endpoints.MapHub<WebsocketClient>("/services/websocket");
+                endpoints.MapHub<ContentCreationClient>("/services/websocket");
             });
 
             app.UseLifeCMSWebApi();
