@@ -23,6 +23,9 @@ using LifeCMS.Services.ContentCreation.Domain.Events.Posts;
 using LifeCMS.Services.ContentCreation.Infrastructure.Accessors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
+using LifeCMS.Services.ContentCreation.API.Application.Commands;
+using LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -57,6 +60,11 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     .AddTransient<IRequestHandler<CreateAlbumCommand, bool>, CreateAlbumCommandHandler>()
                     .AddTransient<IRequestHandler<UploadPhotoCommand, bool>, UploadPhotoCommandHandler>()
                     .AddTransient<IAlbumQueries, AlbumQueries>();
+
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>()
+                    .AddTransient<IRequestHandler<CreateUserProfileCommand, bool>, CreateUserProfileCommandHandler>()
+                    .AddTransient<IUserProfileQueries, UserProfileQueries>();
+
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

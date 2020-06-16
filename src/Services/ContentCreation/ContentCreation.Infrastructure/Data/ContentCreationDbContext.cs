@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.StatusAggregate;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Common;
 using LifeCMS.Services.ContentCreation.Infrastructure.EntityConfigurations;
 using LifeCMS.Services.ContentCreation.Infrastructure.Exensions;
@@ -25,8 +26,12 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 
         public DbSet<Photo> Photos { get; set; }
 
-        public ContentCreationDbContext(DbContextOptions<ContentCreationDbContext> contextOptions, IMediator mediator)
-            : base(contextOptions)
+        public DbSet<UserProfile> UserProfiles { get; set; }
+
+        public ContentCreationDbContext(
+            DbContextOptions<ContentCreationDbContext> contextOptions,
+            IMediator mediator
+        ) : base(contextOptions)
         {
             _mediator = mediator;
         }
@@ -42,6 +47,8 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new AlbumEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new PhotoEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UserProfileEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync()

@@ -17,7 +17,7 @@ $home_view_menu_background_color: #f4f4f4;
         background-color: $home_view_menu_background_color;
         display: flex;
         flex-direction: column;
-        flex: 0.2;
+        flex: 0.2 0.25;
         padding-top: 2rem;
         
         $shadow_color: rgba(0, 0, 0, 0.0125);
@@ -43,7 +43,7 @@ $home_view_menu_background_color: #f4f4f4;
     }
 
     .post-page-component {
-        flex: 0.5;
+        flex: 1;
         margin: 2rem;
     }
 }
