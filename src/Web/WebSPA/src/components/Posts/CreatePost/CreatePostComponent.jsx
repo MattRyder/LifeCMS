@@ -1,13 +1,12 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { useTranslation } from 'react-i18next';
 import { Input, Button, FormFeedback } from 'reactstrap';
 import Icon, { Icons } from '../../App/Iconography/Icon';
-import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import Schema, { InitialValues } from './CreatePostSchema';
 import { createPost } from '../../../redux/actions/PostActions';
 
 import './CreatePostComponent.scss';
+import { useTranslations } from '../../../hooks';
 
 export default function ({ accessToken }) {
     const formik = useFormik({
@@ -32,7 +31,7 @@ export default function ({ accessToken }) {
         }, 0);
     };
 
-    const { t } = useTranslation();
+    const { t, TextTranslationKeys } = useTranslations();
 
     return (
         <div className="create-post-component">

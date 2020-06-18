@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
+import { connect, useDispatch } from 'react-redux';
 import PostPageComponent from './HomeView/PostPageComponent';
 import { fetchPosts } from '../../../redux/actions/PostActions';
 import MenuComponent from './HomeView/MenuComponent';
 import decodeToken from '../../../openid/Token';
 import Icon, { Icons } from '../Iconography/Icon';
+import { useUser, useTranslations } from '../../../hooks';
+
 import './HomeView.scss';
 
 const mapStateToProps = (state) => {
@@ -15,52 +15,51 @@ const mapStateToProps = (state) => {
     const userId = token && token.sub;
 
     return ({
-        user: state.oidc.user,
-        userStatusState: state.status[userId],
         userPostState: state.post[userId],
     });
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    dispatchFetchPosts: (accessToken, userId) => dispatch(fetchPosts(accessToken, userId)),
-});
+const getMenuItems = (t, TextTranslationKeys) => [
+    {
+        text: t(TextTranslationKeys.common.domain.newsFeed),
+        icon: <Icon icon={Icons.newspaper} />,
+        path: '/news-feed',
+    },
+    {
+        text: t(TextTranslationKeys.common.domain.messages),
+        icon: <Icon icon={Icons.message} />,
+        path: '/messages',
+    },
+    {
+        text: t(TextTranslationKeys.common.domain.watch),
+        icon: <Icon icon={Icons.film} />,
+        path: '/photos',
+    },
+];
 
-const HomeView = ({ user, userPostState = [], dispatchFetchPosts, t }) => {
-    const menuItems = [
-        {
-            text: t(TextTranslationKeys.common.domain.newsFeed),
-            icon: <Icon icon={Icons.newspaper} />,
-            path: '/news-feed',
-        },
-        {
-            text: t(TextTranslationKeys.common.domain.messages),
-            icon: <Icon icon={Icons.message} />,
-            path: '/messages',
-        },
-        {
-            text: t(TextTranslationKeys.common.domain.watch),
-            icon: <Icon icon={Icons.film} />,
-            path: '/photos',
-        },
-    ];
+const HomeView = ({ userPostState = [] }) => {
+    const dispatch = useDispatch();
+
+    const { userId, accessToken } = useUser();
+
+    const { t, TextTranslationKeys } = useTranslations();
 
     const [isPostsLoading, setPostsLoading] = useState(false);
 
     useEffect(() => {
-        if (!isPostsLoading && user) {
-            const { sub: userId } = decodeToken(user.access_token);
-
-            dispatchFetchPosts(user.access_token, userId);
+        if (!isPostsLoading && userId) {
+            dispatch(fetchPosts(accessToken, userId));
 
             setPostsLoading(true);
         }
-    }, [isPostsLoading, dispatchFetchPosts, user]);
+    }, [isPostsLoading, dispatch, userId, accessToken]);
 
     return (
         <div className="home-view">
-            <MenuComponent menuItems={menuItems} />
+            <MenuComponent menuItems={getMenuItems(t, TextTranslationKeys)} />
+
             <PostPageComponent
-                accessToken={user && user.access_token}
+                accessToken={accessToken}
                 posts={userPostState.posts}
                 loading={userPostState.loading}
                 error={null}
@@ -69,4 +68,4 @@ const HomeView = ({ user, userPostState = [], dispatchFetchPosts, t }) => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withTranslation()(HomeView));
+export default connect(mapStateToProps, null)(HomeView);

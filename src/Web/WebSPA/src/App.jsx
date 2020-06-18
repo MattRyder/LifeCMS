@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router';
-import AppTopNaviationComponent from './components/App/Components/AppTopNavigationComponent';
+import AppTopNaviationComponent from './components/App/Components/AppTopNavigation/AppTopNavigationComponent';
 import { SessionView, HomeView } from './components/App/Views';
 
 import 'bootstrap/dist/css/bootstrap.css';

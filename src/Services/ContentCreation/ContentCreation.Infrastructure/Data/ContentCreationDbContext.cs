@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
-using LifeCMS.Services.ContentCreation.Domain.AggregateModels.StatusAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Common;
 using LifeCMS.Services.ContentCreation.Infrastructure.EntityConfigurations;
@@ -15,8 +14,6 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
     public class ContentCreationDbContext : DbContext, IUnitOfWork
     {
         private readonly IMediator _mediator;
-
-        public DbSet<Status> Statuses { get; set; }
 
         public DbSet<Post> Posts { get; set; }
 
@@ -38,8 +35,6 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new StatusEntityTypeConfiguration());
-
             modelBuilder.ApplyConfiguration(new PostStateEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new PostEntityTypeConfiguration());

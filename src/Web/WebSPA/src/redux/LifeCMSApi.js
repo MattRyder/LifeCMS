@@ -39,16 +39,8 @@ export default class LifeCMSApi {
         });
     }
 
-    getStatuses() {
-        return this.get('statuses');
-    }
-
     getPosts() {
         return this.get('posts');
-    }
-
-    createStatus(statusParams) {
-        return this.post('statuses', statusParams);
     }
 
     createPost(postParams) {

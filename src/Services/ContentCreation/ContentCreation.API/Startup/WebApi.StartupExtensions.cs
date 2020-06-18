@@ -5,17 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Albums;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Posts;
-using LifeCMS.Services.ContentCreation.API.Application.Commands.Statuses;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.Albums;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.Posts;
-using LifeCMS.Services.ContentCreation.API.Application.Queries.Statuses;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
-using LifeCMS.Services.ContentCreation.Domain.AggregateModels.StatusAggregate;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.Services.ContentCreation.Infrastructure.Data;
 using LifeCMS.Services.ContentCreation.Infrastructure.Repositories;
-using LifeCMS.Services.ContentCreation.Infrastructure.Responses;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Extensions;
 using System;
 using LifeCMS.Services.ContentCreation.API.Application.Events;
@@ -46,10 +42,6 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
                 opts.EnableSensitiveDataLogging();
             });
-
-            services.AddTransient<IStatusRepository, StatusRepository>()
-                    .AddTransient<IRequestHandler<CreateStatusCommand, BasicResponse>, CreateStatusCommandHandler>()
-                    .AddTransient<IStatusQueries, StatusQueries>();
 
             services.AddTransient<IPostRepository, PostRepository>()
                     .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()

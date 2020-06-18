@@ -1,19 +1,18 @@
 using System.Security.Claims;
+using LifeCMS.WebAPI.Authorization.Handlers;
+using LifeCMS.WebAPI.Authorization.Requirements;
 using Microsoft.AspNetCore.Authorization;
 using Moq;
-using LifeCMS.WebAPI.Authorization.Handlers;
 using Xunit;
 
 namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 {
     public class HasScopeHandlerTest
     {
-        private readonly Mock<Claim> _claimMock;
         private readonly Mock<AuthorizationHandlerContext> _authorizationHandlerContextMock;
 
         public HasScopeHandlerTest()
         {
-            _claimMock = new Mock<Claim>();
             _authorizationHandlerContextMock = new Mock<AuthorizationHandlerContext>();
         }
 
@@ -24,7 +23,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 
             var scopeClaimType = "scope";
 
-            var scopes = "status:read";
+            var scopes = "post:read";
 
             var requirements = new[] { new HasScopeRequirement(scopes, issuer) };
 
@@ -38,7 +37,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 
             var handler = new HasScopeHandler();
 
-            var result = handler.HandleAsync(authorizationHandlerContext);
+            handler.HandleAsync(authorizationHandlerContext);
 
             Assert.True(authorizationHandlerContext.HasSucceeded);
         }
@@ -50,7 +49,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 
             var scopeClaimType = "scope";
 
-            var scopes = "status:read";
+            var scopes = "post:read";
 
             var requirements = new[] { new HasScopeRequirement(scopes, invalidIssuer) };
 
@@ -64,7 +63,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 
             var handler = new HasScopeHandler();
 
-            var result = handler.HandleAsync(authorizationHandlerContext);
+            handler.HandleAsync(authorizationHandlerContext);
 
             Assert.False(authorizationHandlerContext.HasSucceeded);
         }
@@ -88,7 +87,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Authorization
 
             var handler = new HasScopeHandler();
 
-            var result = handler.HandleAsync(authorizationHandlerContext);
+            handler.HandleAsync(authorizationHandlerContext);
 
             Assert.False(authorizationHandlerContext.HasSucceeded);
         }

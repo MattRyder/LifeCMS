@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import Icon, { Icons } from '../../App/Iconography/Icon';
 import usePrevious from '../../../hooks/usePrevious';
-import TextTranslationKeys from '../../../i18n/TextTranslationKeys';
 import CenteredMessageComponent from '../../App/Components/CenteredMessageComponent';
 import PostPlaceholder from './PostPlaceholder';
 import PostComponent from '../PostComponent';
 
 import './PostListComponent.scss';
+import { useTranslations } from '../../../hooks';
 
-export default function PostListComponent({
-    posts, maxLines,
-}) {
-    const { t } = useTranslation();
+export default function ({ posts, maxLines }) {
+    const { t, TextTranslationKeys } = useTranslations();
 
     const [hasLoaded, setHasLoaded] = useState(false);
 

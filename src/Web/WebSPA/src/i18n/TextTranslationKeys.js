@@ -14,12 +14,6 @@ export default {
         login: 'login',
         logout: 'logout',
     },
-    status: {
-        noStatusesAvailable: 'noStatusesAvailable',
-        create: {
-            placeholder: 'statusCreatePlaceholder',
-        },
-    },
     post: {
         noPostsAvailable: 'noPostsAvailable',
         create: {
@@ -34,7 +28,6 @@ export default {
     profileView: {
         connect: 'connect',
         editDetails: 'editDetails',
-        menuItemStatuses: 'menuItemStatuses',
         menuItemPosts: 'menuItemPosts',
         menuItemPhotos: 'menuItemPhotos',
     },

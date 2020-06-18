@@ -38,7 +38,7 @@ namespace LifeCMS.Services.ContentCreation.IntegrationTests.Application.Queries
         }
 
         [Fact]
-        public void FindStatus_ReturnsOk()
+        public void FindPost_ReturnsOk()
         {
             RunWithDbContext(_dbContext, async (context) =>
             {

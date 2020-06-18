@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using LifeCMS.WebAPI.Authorization.Requirements;
 
 namespace LifeCMS.WebAPI.Authorization.Handlers
 {

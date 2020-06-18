@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace LifeCMS.WebAPI.Authorization.Handlers
+namespace LifeCMS.WebAPI.Authorization.Requirements
 {
     public class HasScopeRequirement : IAuthorizationRequirement
     {
