@@ -9,6 +9,7 @@ import {
     NavLink,
     NavbarToggler,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { useUser, useTranslations } from '../../../../hooks';
 import Dropdown from './Dropdown';
 import Icon, { Icons } from '../../Iconography/Icon';
@@ -27,7 +28,7 @@ export default function () {
     return (
         <Container fluid className="p-0">
             <Navbar className="navbar-application" expand="md">
-                <NavbarBrand href="/">
+                <NavbarBrand tag={Link} to="/">
                     <Icon icon={Icons.logo} />
                 </NavbarBrand>
 
@@ -37,26 +38,26 @@ export default function () {
                     <Nav className="col-md-12 navbar-options" navbar>
                         {userId ? (
                             <NavItem>
-                                <NavLink href={`/profile/${userId}`}>
+                                <NavLink tag={Link} to={`/profile/${userId}`}>
                                     {t(TextTranslationKeys.menu.profile)}
                                 </NavLink>
                             </NavItem>
                         ) : null}
 
                         <NavItem>
-                            <NavLink href="/notifications" className="dimmer">
+                            <NavLink tag={Link} to="/notifications" className="dimmer">
                                 <Icon icon={Icons.notification} />
                             </NavLink>
                         </NavItem>
 
                         <NavItem>
-                            <NavLink href="/messages" className="dimmer">
+                            <NavLink tag={Link} to="/messages" href="#" className="dimmer">
                                 <Icon icon={Icons.message} />
                             </NavLink>
                         </NavItem>
 
                         <NavItem>
-                            <NavLink href="/chat" className="dimmer">
+                            <NavLink tag={Link} to="/chat" className="dimmer">
                                 <Icon icon={Icons.chat} />
                             </NavLink>
                         </NavItem>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import PostComponent from '../components/Posts/PostComponent';
-import PostListComponent from '../components/Posts/PostListComponent';
+import PostListComponent from '../components/Posts/PostList/PostListComponent';
 import { createPost } from './factories/factories';
 
 storiesOf('Posts', module)

@@ -11,6 +11,16 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
 
         public EmailAddress EmailAddress { get; private set; }
 
+        public string Occupation { get; private set; }
+
+        public string Location { get; private set; }
+
+        public string Bio { get; private set; }
+
+        public Uri AvatarImageUri { get; private set; }
+
+        public Uri HeaderImageUri { get; private set; }
+
         // A constructor without a value object argument (EmailAddress) is required for EF Core right now
         // https://github.com/dotnet/efcore/issues/12078
         private UserProfile(Guid userId, string name)
@@ -20,10 +30,29 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
             Name = name ?? throw new UserProfileDomainException(nameof(name));
         }
 
-        public UserProfile(Guid userId, string name, EmailAddress emailAddress)
+        public UserProfile(
+            Guid userId,
+            string name,
+            EmailAddress emailAddress,
+            string occupation,
+            string location,
+            string bio,
+            Uri avatarImageUri,
+            Uri headerImageUri
+            )
         : this(userId, name)
         {
-            EmailAddress = emailAddress ?? throw new UserProfileDomainException(nameof(emailAddress));
+            EmailAddress = emailAddress;
+
+            Occupation = occupation;
+
+            Location = location;
+
+            Bio = bio;
+
+            AvatarImageUri = avatarImageUri;
+
+            HeaderImageUri = headerImageUri;
         }
     }
 }

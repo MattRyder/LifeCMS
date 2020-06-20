@@ -13,21 +13,5 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Domain
 
             Assert.NotNull(userProfile);
         }
-
-        [Fact]
-        public void Constructor_ThrowsException_GivenNullName()
-        {
-            var userProfile = UserProfileFactory.Create();
-
-            Assert.Throws<UserProfileDomainException>(() => new UserProfile(userProfile.UserId, null, userProfile.EmailAddress));
-        }
-
-        [Fact]
-        public void Constructor_ThrowsException_GivenNullEmail()
-        {
-            var userProfile = UserProfileFactory.Create();
-
-            Assert.Throws<UserProfileDomainException>(() => new UserProfile(userProfile.UserId, userProfile.Name, null));
-        }
     }
 }

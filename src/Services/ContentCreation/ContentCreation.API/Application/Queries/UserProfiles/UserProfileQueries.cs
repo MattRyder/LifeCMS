@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
@@ -17,13 +19,31 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
         public async Task<UserProfileViewModel> FindUserProfile(Guid userId)
         {
             using var connection = _dbConnectionFactory.CreateConnection();
-            
+
             var findUserProfileQuery = @"
-                    SELECT Id, Name, EmailAddress, CreatedAt, UpdatedAt
+                    SELECT  Id,
+                            UserId,
+                            Name,
+                            EmailAddress,
+                            Occupation,
+                            Location,
+                            Bio,
+                            AvatarImageUri,
+                            HeaderImageUri,
+                            CreatedAt,
+                            UpdatedAt
                     FROM UserProfiles
+                    WHERE UserProfiles.UserId = @UserId
                 ";
 
-            return await connection.QueryFirstAsync<UserProfileViewModel>(findUserProfileQuery);
+            var result = await connection.QueryAsync<UserProfileViewModel>(findUserProfileQuery, new { UserId = userId });
+
+            if (result.Count() == 0)
+            {
+                throw new KeyNotFoundException();
+            }
+
+            return result.First();
         }
     }
 }

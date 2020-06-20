@@ -46,6 +46,14 @@ export default class LifeCMSApi {
     createPost(postParams) {
         return this.post('posts', postParams);
     }
+
+    getUserProfile(userId) {
+        return this.get(`userProfiles/${userId}`);
+    }
+
+    createUserProfile(userProfileParams) {
+        return this.post('userProfiles', userProfileParams);
+    }
 }
 
 export function getLifeCMSApi(accessToken) {

@@ -1,0 +1,68 @@
+.user-profile-component {
+    height: 20rem;
+
+    .header {
+        height: 75%;
+        background-size: cover;
+    }
+
+    .avatar-container {
+        $avatar_size: 10em;
+        $avatar_offset: $avatar_size / 2;
+
+        height: $avatar_offset;
+
+        .avatar {
+            position: relative;
+            top: -$avatar_offset;
+            background-size: cover;
+            width: $avatar_size;
+            height: $avatar_size;
+            margin: 0 auto;
+            border-radius: 2.5em;
+            border: 2px solid white;
+        }
+    }
+
+    .info {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .name {
+            font-weight: bolder;
+        }
+
+        .what-where {
+            display: flex;
+            width: 100%;
+
+            div {
+                flex: 1;
+                display: flex;
+                padding: 0.5rem;
+                justify-content: center;
+                align-items: center;
+                color: lighten($color: #333333, $amount: 25%);
+            }
+
+            span {
+                text-align: center;
+            }
+
+            :first-child > span {
+                margin-left: auto;
+
+            }
+
+            :nth-child(2) {
+                flex: 0.05;
+            }
+
+            :last-child > span {
+                margin-right: auto;
+            }
+        }
+    }
+}

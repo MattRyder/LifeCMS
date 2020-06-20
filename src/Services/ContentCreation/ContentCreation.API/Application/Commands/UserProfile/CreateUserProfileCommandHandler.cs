@@ -5,7 +5,7 @@ using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace LifeCMS.Services.ContentCreation.API.Application.Commands
+namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
 {
     public class CreateUserProfileCommandHandler : IRequestHandler<CreateUserProfileCommand, bool>
     {
@@ -32,7 +32,16 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands
         {
             try
             {
-                var userProfile = new UserProfile(_userAccessor.Id, request.Name, request.EmailAddress);
+                var userProfile = new UserProfile(
+                    _userAccessor.Id,
+                    request.Name,
+                    request.EmailAddress,
+                    request.Occupation,
+                    request.Location,
+                    request.Bio,
+                    request.AvatarImageUri,
+                    request.HeaderImageUri
+                );
 
                 _userProfileRepository.AddAsync(userProfile);
 

@@ -20,8 +20,10 @@ using LifeCMS.Services.ContentCreation.Infrastructure.Accessors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
-using LifeCMS.Services.ContentCreation.API.Application.Commands;
+using LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles;
+using Dapper;
+using LifeCMS.Services.ContentCreation.API.Infrastructure.Dapper;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -42,6 +44,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
                 opts.EnableSensitiveDataLogging();
             });
+
+            SqlMapper.AddTypeHandler(new UriTypeHandler());
 
             services.AddTransient<IPostRepository, PostRepository>()
                     .AddTransient<IRequestHandler<CreatePostCommand, bool>, CreatePostCommandHandler>()
