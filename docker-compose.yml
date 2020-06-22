@@ -1,8 +1,11 @@
 version: "3.7"
 
 networks:
-  lifecms_network:
+  default:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
 
 services:
   sql.data:
@@ -10,11 +13,19 @@ services:
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    environment:
+      - VIRTUAL_HOST=sql.lifecms.local
+      - VIRTUAL_PORT=3306
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
     image: mysql/mysql-server:latest
     ports:
       - "3306:3306"
     networks:
-      - lifecms_network
+      - default
     restart: always
     volumes:
       - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
@@ -31,22 +42,29 @@ services:
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       ConnectionStrings__LifeCMSIdentityServer: Server=sql.data;Database=lifecms_identity_server;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
-      IdentityServerAuthentication__Authority: "http://localhost:5002"
+      IdentityServerAuthentication__Authority: "http://identity.lifecms.local"
       ApiResources_0_Name: WebApi
       ApiResources_0_Scopes_0_Name: post:read
       ApiResources_0_Scopes_0_DisplayName: "Read access to the Post resource"
-      Clients__WebApiClient__AllowedCorsOrigins__0: http://localhost:5000
+      Clients__WebApiClient__AllowedCorsOrigins__0: http://lifecms.local
       Clients__WebApiClient__AllowedScopes__0: post:read
       Clients__WebApiClient__ClientId: WebApiClient
       Clients__WebApiClient__ClientName: WebApiClient
-      Clients__WebApiClient__PostLogoutRedirectUris__0: http://localhost:5000/signout-callback-oidc
-      Clients__WebApiClient__RedirectUris__0: http://localhost:5000/session/oauth_callback
+      Clients__WebApiClient__PostLogoutRedirectUris__0: http://lifecms.local/signout-callback-oidc
+      Clients__WebApiClient__RedirectUris__0: http://lifecms.local/session/oauth_callback
       Clients__WebApiClient__RequireConsent: "false"
       Clients__WebApiClient__RequireClientSecret: "false"
+      VIRTUAL_HOST: identity.lifecms.local
+      VIRTUAL_PORT: 80
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
     depends_on:
       - sql.data
     networks:
-      - lifecms_network
+      - default
     volumes:
       - type: bind
         source: ./docker/waitforit.sh
@@ -63,10 +81,17 @@ services:
     environment:
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMS: Server=sql.data;Database=lifecms_production;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
+      VIRTUAL_HOST: contentcreation.lifecms.local
+      VIRTUAL_PORT: 80
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
     depends_on:
       - sql.data
     networks:
-      - lifecms_network
+      - default
     volumes:
       - type: bind
         source: ./docker/waitforit.sh
@@ -82,11 +107,47 @@ services:
     volumes:
       - ./docker:/usr/local/bin/docker
     environment:
-      REACT_APP_RUNTIME_API_HOST: http://localhost:5001/api
-      REACT_APP_RUNTIME_AUTHORITY: http://localhost:5002
+      REACT_APP_RUNTIME_API_HOST: http://contentcreation.lifecms.local/api
+      REACT_APP_RUNTIME_AUTHORITY: http://identity.lifecms.local
       REACT_APP_RUNTIME_CLIENT_ID: WebApiClient
-      REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://localhost:5000
-      REACT_APP_RUNTIME_REDIRECT_URI: http://localhost:5000/session/oauth_callback
+      REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://lifecms.local
+      REACT_APP_RUNTIME_REDIRECT_URI: http://lifecms.local/session/oauth_callback
       REACT_APP_RUNTIME_RESPONSE_TYPE: code
       REACT_APP_RUNTIME_SCOPE: post:read
-      REACT_APP_RUNTIME_WEBSOCKET_HOST: http://localhost:5001/services/websocket
+      REACT_APP_RUNTIME_WEBSOCKET_HOST: http://contentcreation.lifecms.local/services/websocket
+      VIRTUAL_HOST: lifecms.local
+      VIRTUAL_PORT: 80
+    networks:
+      - default
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
+
+  nginx:
+    container_name: nginx
+    image: nginx:alpine
+    # volumes:
+      # - ./docker/provision/openssl/server.crt:/usr/local/share/ca-certificates/ca.crt
+    environment:
+      - VIRTUAL_HOST=nginx.vcap.me
+      - VIRTUAL_PORT=80
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
+
+  nginx-proxy:
+    container_name: proxy
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      # - ./docker/provision/certificates:/etc/nginx/certs
+    networks:
+      default:
+        ipv4_address: 172.20.0.200

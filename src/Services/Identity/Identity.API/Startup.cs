@@ -72,6 +72,14 @@ namespace LifeCMS.Services.Identity.API
 
             app.UseLifeCMSIdentityServer(Configuration);
 
+            app.UseStaticFiles();
+            
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
+
             app.UseRouting();
 
             app.UseLifeCMSIdentity();
@@ -82,8 +90,6 @@ namespace LifeCMS.Services.Identity.API
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
-
-            app.UseSpaStaticFiles();
 
             app.UseSpa(spa =>
             {
