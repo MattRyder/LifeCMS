@@ -62,6 +62,13 @@ export default function () {
                             </NavLink>
                         </NavItem>
 
+
+                        <NavItem>
+                            <NavLink tag={Link} to="/settings" className="dimmer">
+                                <Icon icon={Icons.settings} />
+                            </NavLink>
+                        </NavItem>
+
                         <Dropdown />
                     </Nav>
                 </Collapse>

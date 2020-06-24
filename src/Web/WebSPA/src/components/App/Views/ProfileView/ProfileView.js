@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useUser } from '../../../hooks';
-import UserProfileComponent from '../../UserProfile/UserProfileComponent';
-import { fetchUserProfile } from '../../../redux/actions/UserProfileActions';
+import { useUser } from '../../../../hooks';
+import UserProfileComponent from '../../../UserProfile/UserProfileComponent';
+import { fetchUserProfile } from '../../../../redux/actions/UserProfileActions';
 
 import './ProfileView.scss';
 

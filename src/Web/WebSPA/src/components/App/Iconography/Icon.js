@@ -13,7 +13,8 @@ export const Icons = {
     message: FontAwesomeIcons.faEnvelope,
     film: FontAwesomeIcons.faFilm,
     photo: FontAwesomeIcons.faPhotoVideo,
-
+    settings: FontAwesomeIcons.faCogs,
+    userEdit: FontAwesomeIcons.faUserEdit,
 };
 
 export default ({ icon, size }) => <FontAwesomeIcon icon={icon} size={size} />;

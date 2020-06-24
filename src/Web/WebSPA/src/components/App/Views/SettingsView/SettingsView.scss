@@ -1,0 +1,42 @@
+@import "../../../../assets/styles/colors.scss";
+
+.settings-view {
+    background-color: $theme_main_background;
+    display: flex;
+    height: 100%;
+
+    .settings-menu-component {
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        flex-grow: 0.1;
+        padding: 1.25rem 0;
+        overflow-y: auto;
+
+        .menu-title {
+            text-align: center;
+            padding: 0.2rem 0;
+        }
+
+        .list-group {
+            + .list-group {
+                margin: 1rem 0;
+            }
+
+            .list-group-item {
+                padding: 0.35rem 1.25rem;
+                display: flex;
+                align-items: center;
+
+                svg {
+                    margin: 0 0.5rem;
+                }
+            }
+        }
+    }
+
+    .settings-pane-component {
+        flex: 1;
+        padding: 2rem;
+    }
+}

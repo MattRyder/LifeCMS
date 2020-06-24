@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import PostPageComponent from './HomeView/PostPageComponent';
-import { fetchPosts } from '../../../redux/actions/PostActions';
-import MenuComponent from './HomeView/MenuComponent';
-import decodeToken from '../../../openid/Token';
-import Icon, { Icons } from '../Iconography/Icon';
-import { useUser, useTranslations } from '../../../hooks';
+import PostPageComponent from './PostPageComponent';
+import { fetchPosts } from '../../../../redux/actions/PostActions';
+import MenuComponent from './MenuComponent';
+import decodeToken from '../../../../openid/Token';
+import Icon, { Icons } from '../../Iconography/Icon';
+import { useUser, useTranslations } from '../../../../hooks';
 
 import './HomeView.scss';
 

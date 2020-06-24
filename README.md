@@ -26,7 +26,8 @@ First download and install [Docker](https://www.docker.com/products/docker-deskt
 Once Docker is installed and running, enter the following commands into a terminal to setup the address of the system, download the repository and bring the LifeCMS system to life.
 
 ```bash
-echo '127.0.0.1 contentcreation.lifecms.local identity.lifecms.local lifecms.local' | sudo tee -a /etc/hosts
+echo '127.0.0.1 contentcreation.lifecms.local identity.lifecms.local lifecms.local
+' | sudo tee -a /etc/hosts
 
 git clone https://github.com/MattRyder/LifeCMS.git
 

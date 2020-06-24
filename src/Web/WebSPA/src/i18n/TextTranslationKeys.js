@@ -3,6 +3,7 @@ export default {
         save: 'commonSave',
         load: 'commonLoad',
         post: 'commonPost',
+        settings: 'commonSettings',
         domain: {
             newsFeed: 'commonDomainNewsFeed',
             messages: 'commonDomainMessages',
@@ -30,5 +31,11 @@ export default {
         editDetails: 'editDetails',
         menuItemPosts: 'menuItemPosts',
         menuItemPhotos: 'menuItemPhotos',
+    },
+    settingsView: {
+        menu: {
+            userProfiles: 'settingsViewMenuUserProfiles',
+            newsletters: 'settingsViewMenuNewsletters',
+        },
     },
 };
