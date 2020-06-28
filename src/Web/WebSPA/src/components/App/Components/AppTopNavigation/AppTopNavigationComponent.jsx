@@ -26,9 +26,9 @@ export default function () {
     const { t, TextTranslationKeys } = useTranslations();
 
     return (
-        <Container fluid className="p-0">
+        <Container fluid className="p-0" role="tablist">
             <Navbar className="navbar-application" expand="md">
-                <NavbarBrand tag={Link} to="/">
+                <NavbarBrand tag={Link} to="/" tabIndex="0">
                     <Icon icon={Icons.logo} />
                 </NavbarBrand>
 

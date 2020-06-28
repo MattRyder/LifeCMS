@@ -1,0 +1,11 @@
+.user-profile-pane-index {
+    .user-profile-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .user-profile-list-view-component {
+        padding: 1rem 0;
+    }
+}

@@ -1,19 +1,19 @@
 import React from 'react';
 import { ListGroup, ListGroupItem } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
-import Icon, { Icons } from '../../Iconography/Icon';
+import { Link } from 'react-router-dom';
+import Icon from '../../Iconography/Icon';
 import { useTranslations } from '../../../../hooks';
 
 export default function ({ groups }) {
     const { t, TextTranslationKeys } = useTranslations();
 
     const getListGroupItem = ({ icon, href, text }) => (
-        <NavLink className="text-dark" to={href} key={href}>
+        <Link className="text-dark" to={href} key={href}>
             <ListGroupItem>
                 <Icon icon={icon} />
                 {text}
             </ListGroupItem>
-        </NavLink>
+        </Link>
     );
 
     const getListGroup = (menuItems = []) => menuItems.map((menuItem, i) => (

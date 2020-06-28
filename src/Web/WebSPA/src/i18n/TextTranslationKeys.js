@@ -1,7 +1,9 @@
 export default {
     common: {
+        edit: 'commonEdit',
         save: 'commonSave',
         load: 'commonLoad',
+        delete: 'commonDelete',
         post: 'commonPost',
         settings: 'commonSettings',
         domain: {
@@ -24,6 +26,24 @@ export default {
             text: {
                 placeholder: 'postCreateTextPlaceholder',
             },
+        },
+    },
+    userProfile: {
+        create: {
+            name: {
+                label: 'userProfileCreateNameLabel',
+                hint: 'userProfileCreateNameHint',
+            },
+            emailAddress: 'userProfileCreateEmailAddressLabel',
+            occupation: 'userProfileCreateOccupationLabel',
+            location: 'userProfileCreateLocationLabel',
+            bio: 'userProfileCreateBioLabel',
+            avatarImageUri: 'userProfileCreateAvatarImageUriLabel',
+            headerImageUri: 'userProfileCreateHeaderImageUriLabel',
+        },
+        notification: {
+            createSuccess: 'userProfileNotificationCreateSuccess',
+            createFailure: 'userProfileNotificationCreateFailure',
         },
     },
     profileView: {

@@ -1,58 +1,32 @@
-import axios from 'axios';
-import camelcaseKeys from 'camelcase-keys';
 import WebApiConfiguration from './WebApiConfiguration';
-
-function getAxiosInstance() {
-    const instance = axios.create();
-
-    instance.interceptors.response.use((response) => {
-        response.data = camelcaseKeys(response.data);
-
-        return response;
-    });
-
-    return instance;
-}
+import LifeCMSApiClient from './LifeCMSApiClient';
 
 export default class LifeCMSApi {
     constructor(backendHost, accessToken) {
-        if (typeof this.backendHost === 'undefined') {
-            // throw new Error('Backend Host must be provided.');
-        }
-
-        this.backendHost = backendHost;
-
-        this.accessToken = accessToken;
-    }
-
-    get(route) {
-        return getAxiosInstance().get(`${this.backendHost}/${route}`, {
-            timeout: 2500,
-            responseType: 'json',
-            headers: { Authorization: `Bearer ${this.accessToken}` },
-        });
-    }
-
-    post(route, params) {
-        return getAxiosInstance().post(`${this.backendHost}/${route}`, params, {
-            headers: { Authorization: `Bearer ${this.accessToken}` },
-        });
+        this.client = new LifeCMSApiClient(
+            backendHost,
+            accessToken,
+        );
     }
 
     getPosts() {
-        return this.get('posts');
+        return this.client.get('posts');
     }
 
     createPost(postParams) {
-        return this.post('posts', postParams);
+        return this.client.post('posts', postParams);
     }
 
-    getUserProfile(userId) {
-        return this.get(`userProfiles/${userId}`);
+    getUserProfiles(userId) {
+        return this.client.get(`users/${userId}/userProfiles`);
     }
 
-    createUserProfile(userProfileParams) {
-        return this.post('userProfiles', userProfileParams);
+    createUserProfile(userId, userProfileParams) {
+        return this.client.post(`users/${userId}/userProfiles`, userProfileParams);
+    }
+
+    deleteUserProfile(userId, userProfileId) {
+        return this.client.delete(`users/${userId}/userProfiles/${userProfileId}`);
     }
 }
 

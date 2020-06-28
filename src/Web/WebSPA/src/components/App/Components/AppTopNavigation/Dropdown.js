@@ -7,7 +7,7 @@ import {
     DropdownMenu,
     DropdownItem,
 } from 'reactstrap';
-import { useTranslations } from '../../../../hooks'
+import { useTranslations } from '../../../../hooks';
 import userManager from '../../../../openid/UserManager';
 import { performLogout } from '../../../../redux/actions/LogoutActions';
 

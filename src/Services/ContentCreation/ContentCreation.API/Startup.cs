@@ -9,6 +9,7 @@ using IdentityServer4.AccessTokenValidation;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Services;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Policies;
+using Microsoft.IdentityModel.Logging;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -17,6 +18,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            IdentityModelEventSource.ShowPII = true;
         }
 
         public IConfiguration Configuration { get; }
@@ -66,6 +69,14 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                 opts.RequireHttpsMetadata = configuration.GetValue<bool>("RequireHttpsMetadata");
 
                 opts.SupportedTokens = SupportedTokens.Jwt;
+            });
+
+            services.AddAuthorization(configureOptions =>
+            {
+                configureOptions.AddPolicy(
+                    UserOwnsResourcePolicy.Name,
+                    UserOwnsResourcePolicy.GetPolicy()
+                );
             });
 
             services.AddLifeCMSWebApi(Configuration);

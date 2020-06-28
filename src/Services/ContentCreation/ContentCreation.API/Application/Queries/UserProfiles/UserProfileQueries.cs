@@ -16,7 +16,7 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
             _dbConnectionFactory = dbConnectionFactory;
         }
 
-        public async Task<UserProfileViewModel> FindUserProfile(Guid userId)
+        public async Task<IEnumerable<UserProfileViewModel>> FindUserProfiles(Guid userId)
         {
             using var connection = _dbConnectionFactory.CreateConnection();
 
@@ -43,7 +43,7 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
                 throw new KeyNotFoundException();
             }
 
-            return result.First();
+            return result;
         }
     }
 }

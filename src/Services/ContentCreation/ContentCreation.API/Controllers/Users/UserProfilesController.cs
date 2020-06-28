@@ -8,10 +8,10 @@ using LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Filters;
 
-namespace LifeCMS.Services.ContentCreation.API.Controllers
+namespace LifeCMS.Services.ContentCreation.API.Controllers.Users
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users/{userId:guid}/[controller]")]
     public class UserProfilesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,13 +24,13 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers
             _userProfileQueries = userProfileQueries;
         }
 
-        // GET: api/UserProfiles/5
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserProfile(Guid userId)
+        // GET: api/users/{userId:guid}/userprofiles
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfiles(Guid userId)
         {
             try
             {
-                var post = await _userProfileQueries.FindUserProfile(userId);
+                var post = await _userProfileQueries.FindUserProfiles(userId);
 
                 return Ok(post);
             }
@@ -40,7 +40,7 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers
             }
         }
 
-        // POST: api/UserProfiles
+        // POST: api/users/{userId:guid}/userprofiles
         [HttpPost]
         [Authorize]
         [ModelStateValidation]
@@ -54,6 +54,26 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers
             }
 
             return BadRequest(command);
+        }
+
+        // DELETE api/users/{userId:guid}/userprofiles/{id:guid}
+        [Authorize]
+        [ModelStateValidation]
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> DeleteUserProfile([FromRoute] Guid id)
+        {
+            var command = new DeleteUserProfileCommand(id);
+            
+            var result = await _mediator.Send(command);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(command);
+            }
         }
     }
 }

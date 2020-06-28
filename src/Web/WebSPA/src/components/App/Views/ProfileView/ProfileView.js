@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useUser } from '../../../../hooks';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useUser, useContentApi } from '../../../../hooks';
 import UserProfileComponent from '../../../UserProfile/UserProfileComponent';
-import { fetchUserProfile } from '../../../../redux/actions/UserProfileActions';
+import { fetchUserProfiles } from '../../../../redux/actions/UserProfileActions';
 
 import './ProfileView.scss';
 
 export default function ({ match: { params: { id: userId } } }) {
-    const dispatch = useDispatch();
-
-    const [isLoaded, setIsLoaded] = useState(false);
-
     const { accessToken } = useUser();
 
-    const userProfileState = useSelector((state) => state.userProfile[userId] && state.userProfile[userId].userProfile);
+    const userProfilesState = useSelector(
+        (state) => state.userProfile[userId] && state.userProfile[userId].userProfiles,
+    );
 
-    useEffect(() => {
-        if (!isLoaded) {
-            dispatch(fetchUserProfile(accessToken, userId));
-            setIsLoaded(true);
-        }
-    }, [dispatch, isLoaded, accessToken, userId]);
+    useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken, userId);
 
     const {
         name,
@@ -28,7 +21,7 @@ export default function ({ match: { params: { id: userId } } }) {
         location,
         avatarImageUri,
         headerImageUri,
-    } = userProfileState || {};
+    } = userProfilesState || {};
 
     return (
         <div className="profile-view">

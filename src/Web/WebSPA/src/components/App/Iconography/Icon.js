@@ -5,6 +5,7 @@ import * as FontAwesomeIcons from '@fortawesome/free-solid-svg-icons';
 export const Icons = {
     attentionTriangle: FontAwesomeIcons.faExclamationTriangle,
     chat: FontAwesomeIcons.faComment,
+    cog: FontAwesomeIcons.faCog,
     ellipsisHorizontal: FontAwesomeIcons.faEllipsisH,
     folder: FontAwesomeIcons.faFolderOpen,
     logo: FontAwesomeIcons.faCubes,

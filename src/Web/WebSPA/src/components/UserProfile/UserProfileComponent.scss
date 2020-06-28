@@ -1,12 +1,10 @@
 .user-profile-component {
-    height: 20rem;
-
     .header {
         height: 75%;
         background-size: cover;
     }
 
-    .avatar-container {
+    .user-avatar-component {
         $avatar_size: 10em;
         $avatar_offset: $avatar_size / 2;
 
@@ -21,10 +19,21 @@
             margin: 0 auto;
             border-radius: 2.5em;
             border: 2px solid white;
+
+            $trans_duration: 0.225s;
+            transition: width $trans_duration, height $trans_duration, top $trans_duration;
+
+            &.expanded {
+                $scaling_factor: 2;
+                top: -($scaling_factor * $avatar_offset);
+                background-size: cover;
+                width: (0.75 * $scaling_factor) * $avatar_size;
+                height: (0.75 * $scaling_factor) * $avatar_size;
+            }
         }
     }
 
-    .info {
+    .user-info-component {
         padding: 1rem;
         display: flex;
         flex-direction: column;
@@ -53,7 +62,6 @@
 
             :first-child > span {
                 margin-left: auto;
-
             }
 
             :nth-child(2) {

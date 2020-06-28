@@ -1,37 +1,51 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './UserProfileComponent.scss';
+import UserInfoComponent from './UserInfoComponent';
+import UserAvatarComponent from './UserAvatarComponent';
 
-export default function ({
-    name, avatarImageUri, headerImageUri, occupation, location,
+function UserProfileComponent({
+    name, avatarImageUri, headerImageUri, occupation, location, showHeader,
 }) {
-    return (
-        <div className="user-profile-component">
-            <div
-                className="header"
-                style={{ backgroundImage: `url('${headerImageUri}')` }}
-            />
-            <div className="avatar-container">
+    const getHeader = () => (
+        <div
+            className="header"
+            style={{ backgroundImage: `url('${headerImageUri}')` }}
+        />
+    );
 
-                <div
-                    className="avatar"
-                    style={{ backgroundImage: `url('${avatarImageUri}')` }}
-                />
-            </div>
-            <div className="info">
-                <p className="name">{name}</p>
-                <div className="what-where">
-                    <div>
-                        <span>{occupation}</span>
-                    </div>
-                    <div>
-                        <span>&bull;</span>
-                    </div>
-                    <div>
-                        <span>{location}</span>
-                    </div>
-                </div>
-            </div>
+    return (
+        <div className="user-profile-component" role="tabpanel">
+            {showHeader ? getHeader() : null}
+
+            <UserAvatarComponent avatarImageUri={avatarImageUri} />
+
+            <UserInfoComponent
+                name={name}
+                occupation={occupation}
+                location={location}
+            />
         </div>
     );
 }
+
+UserProfileComponent.propTypes = {
+    name: PropTypes.string,
+    avatarImageUri: PropTypes.string,
+    headerImageUri: PropTypes.string,
+    occupation: PropTypes.string,
+    location: PropTypes.string,
+    showHeader: PropTypes.bool,
+};
+
+UserProfileComponent.defaultProps = {
+    name: '',
+    avatarImageUri: '',
+    headerImageUri: '',
+    occupation: '',
+    location: '',
+    showHeader: true,
+};
+
+export default UserProfileComponent;

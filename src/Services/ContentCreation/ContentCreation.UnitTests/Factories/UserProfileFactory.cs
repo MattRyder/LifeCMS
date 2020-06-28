@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bogus;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 
@@ -6,11 +8,11 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
 {
     public class UserProfileFactory : FactoryBase<UserProfile>
     {
-        public static UserProfile Create()
+        public static UserProfile Create(Guid? userId)
         {
             return new Faker<UserProfile>().CustomInstantiator(
                 f => new UserProfile(
-                    f.Random.Guid(),
+                    userId != null ? userId.Value : f.Random.Guid(),
                     f.Name.FullName(),
                     CreateEmailAddress(f),
                     f.Name.JobTitle(),
@@ -21,6 +23,10 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
                 )
             );
         }
+
+        public static IEnumerable<UserProfile> CreateList(Guid? userId) => MakeList(
+            delegate { return Create(userId); }
+        );
 
         private static EmailAddress CreateEmailAddress(Faker faker)
         {

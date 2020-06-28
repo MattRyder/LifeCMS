@@ -4,14 +4,14 @@ import { routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import createRootReducer from './RootReducer';
 import RuntimeConfiguration from './middlewares/signalr/RuntimeConfiguration';
-import signalrMiddleware from './middlewares/signalr/SignalrMiddleware';
+import { SignalrMiddleware } from './middlewares';
 import { fetchPosts } from './actions/PostActions';
 
 export const history = createBrowserHistory();
 
 export const router = routerMiddleware(history);
 
-const signalr = signalrMiddleware({
+const signalr = SignalrMiddleware({
     url: RuntimeConfiguration.json().websocket_host,
     eventCallbacks: [
         {

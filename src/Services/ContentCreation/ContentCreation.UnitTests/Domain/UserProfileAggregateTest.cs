@@ -9,7 +9,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Domain
         [Fact]
         public void Constructor_ReturnsUserProfile_WhenValid()
         {
-            var userProfile = UserProfileFactory.Create();
+            var userProfile = UserProfileFactory.Create(null);
 
             Assert.NotNull(userProfile);
         }

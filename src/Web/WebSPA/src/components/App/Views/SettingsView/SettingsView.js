@@ -1,10 +1,11 @@
 import React from 'react';
-import SettingsMenuComponent from './SettingsMenuComponent';
+import { useRouteMatch } from 'react-router';
 import { useTranslations } from '../../../../hooks';
 import { Icons } from '../../Iconography/Icon';
+import SettingsMenuComponent from './SettingsMenuComponent';
+import SettingsPaneComponent from './SettingsPaneComponent';
 
 import './SettingsView.scss';
-import SettingsPaneComponent from './SettingsPaneComponent';
 
 const getMenuItemGroups = (path, t, TextTranslationKeys) => [
     [
@@ -23,15 +24,18 @@ const getMenuItemGroups = (path, t, TextTranslationKeys) => [
     ],
 ];
 
-export default function ({ match: { path } }) {
+export default function () {
     const { t, TextTranslationKeys } = useTranslations();
 
-    const menuItemGroups = getMenuItemGroups(path, t, TextTranslationKeys);
+    const match = useRouteMatch();
+
+    const menuItemGroups = getMenuItemGroups(match.path, t, TextTranslationKeys);
 
     return (
         <div className="settings-view">
             <SettingsMenuComponent groups={menuItemGroups} />
-            <SettingsPaneComponent path={path} />
+            <SettingsPaneComponent match={match} />
+            {/* Help container as a drawer in the final third, with the ability to be hidden */}
         </div>
     );
 }
