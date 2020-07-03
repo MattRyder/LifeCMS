@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
-# COPY ./docker/waitforit.sh .
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
@@ -26,7 +25,7 @@ COPY src/Services/Identity/Identity.Infrastructure/Identity.Infrastructure.cspro
 RUN dotnet restore LifeCMS.sln
 
 COPY . .
-WORKDIR /src/src/Services/ContentCreation/ContentCreation.API
+WORKDIR /src/src/Services/Email/Email.API
 
 RUN dotnet publish --no-restore -c Release -o /app
 
@@ -35,4 +34,4 @@ FROM build as publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT [ "dotnet", "ContentCreation.API.dll" ]
+ENTRYPOINT [ "dotnet", "Email.API.dll" ]

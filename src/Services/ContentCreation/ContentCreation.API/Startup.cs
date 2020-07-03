@@ -27,7 +27,7 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMediatR();
+            services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
 
@@ -82,6 +82,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             services.AddLifeCMSWebApi(Configuration);
 
             services.AddLifeCMSAws(Configuration);
+
+            services.AddEventBus(Configuration);
 
             services.AddLifeCMSSwagger();
         }

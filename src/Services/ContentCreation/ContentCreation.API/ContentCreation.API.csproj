@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ContentCreation.Infrastructure\ContentCreation.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\EventBus\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
   </ItemGroup>
 
   <ItemGroup>

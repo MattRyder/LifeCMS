@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using LifeCMS.EventBus.Common.Interfaces;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Posts;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
@@ -17,6 +18,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
         private readonly Mock<IUserAccessor> _userAccessorMock;
 
+        private readonly Mock<IEventBus> _eventBusMock;
+
         public CreatePostCommandHandlerTest()
         {
             _postRepositoryMock = new Mock<IPostRepository>();
@@ -24,6 +27,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
             _loggerMock = new Mock<ILogger<CreatePostCommandHandler>>();
 
             _userAccessorMock = new Mock<IUserAccessor>();
+
+            _eventBusMock = new Mock<IEventBus>();
         }
 
         [Fact]
@@ -40,7 +45,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
             var handler = new CreatePostCommandHandler(
                 _postRepositoryMock.Object,
                 _loggerMock.Object,
-                _userAccessorMock.Object
+                _userAccessorMock.Object,
+                _eventBusMock.Object
             );
 
             var result = await handler.Handle(createPostCmd, default);

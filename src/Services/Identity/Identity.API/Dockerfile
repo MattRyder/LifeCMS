@@ -8,6 +8,12 @@ WORKDIR /src
 COPY LifeCMS.sln .
 
 # Keep the project list equal to the solution file to maximize image cache use.
+COPY src/EventBus/EventBus.Common/EventBus.Common.csproj src/EventBus/EventBus.Common/
+COPY src/EventBus/EventBus.RabbitMQ/EventBus.RabbitMQ.csproj src/EventBus/EventBus.RabbitMQ/
+COPY src/Services/Email/Email.Infrastructure/Email.Infrastructure.csproj src/Services/Email/Email.Infrastructure/
+COPY src/Services/Email/Email.API/Email.API.csproj src/Services/Email/Email.API/
+COPY src/Services/Email/Email.Domain/Email.Domain.csproj src/Services/Email/Email.Domain/
+COPY src/Services/Email/Email.UnitTests/Email.UnitTests.csproj src/Services/Email/Email.UnitTests/
 COPY src/Services/ContentCreation/ContentCreation.API/ContentCreation.API.csproj src/Services/ContentCreation/ContentCreation.API/
 COPY src/Services/ContentCreation/ContentCreation.Domain/ContentCreation.Domain.csproj src/Services/ContentCreation/ContentCreation.Domain/
 COPY src/Services/ContentCreation/ContentCreation.Infrastructure/ContentCreation.Infrastructure.csproj src/Services/ContentCreation/ContentCreation.Infrastructure/

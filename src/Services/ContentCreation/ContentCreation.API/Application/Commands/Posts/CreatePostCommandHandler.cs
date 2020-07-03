@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Exceptions;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
+using LifeCMS.EventBus.Common.Interfaces;
+using LifeCMS.Services.ContentCreation.API.IntegrationEvents;
 
 namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Posts
 {
@@ -16,10 +18,13 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Posts
 
         private readonly IUserAccessor _userAccessor;
 
+        private readonly IEventBus _eventBus;
+
         public CreatePostCommandHandler(
             IPostRepository postRepository,
             ILogger<CreatePostCommandHandler> logger,
-            IUserAccessor userAccessor
+            IUserAccessor userAccessor,
+            IEventBus eventBus
         )
         {
             _postRepository = postRepository;
@@ -27,6 +32,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Posts
             _logger = logger;
 
             _userAccessor = userAccessor;
+
+            _eventBus = eventBus;
         }
 
         public async Task<bool> Handle(CreatePostCommand request, CancellationToken cancellationToken)

@@ -30,6 +30,16 @@ services:
     volumes:
       - ./docker/provision/mysql/init:/docker-entrypoint-initdb.d
 
+  rabbitmq.data:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   identity.api:
     image: lifecms_identity.api:latest
     entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/Identity.API.dll"
@@ -63,6 +73,33 @@ services:
       - "identity.lifecms.local:172.20.0.200"
     depends_on:
       - sql.data
+    networks:
+      - default
+    volumes:
+      - type: bind
+        source: ./docker/waitforit.sh
+        target: /usr/local/bin/waitforit.sh
+
+  email.api:
+    image: lifecms_email.api:latest
+    entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/Email.API.dll"
+    ports:
+      - "5003:80"
+    build:
+      context: ./
+      dockerfile: ./src/Services/Email/Email.API/Dockerfile
+    environment:
+      VIRTUAL_HOST: email.lifecms.local
+      VIRTUAL_PORT: 80
+      EventBus__HostName: rabbitmq.data
+      EventBus__Username: ${RABBITMQ_DEFAULT_USER}
+      EventBus__Password: ${RABBITMQ_DEFAULT_PASS}
+    extra_hosts:
+      - "lifecms.local:172.20.0.200"
+      - "sql.lifecms.local:172.20.0.200"
+      - "contentcreation.lifecms.local:172.20.0.200"
+      - "identity.lifecms.local:172.20.0.200"
+      - "email.lifecms.local:172.20.0.200"
     networks:
       - default
     volumes:
