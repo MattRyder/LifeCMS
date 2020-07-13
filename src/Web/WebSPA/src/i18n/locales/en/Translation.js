@@ -12,6 +12,7 @@ export default {
     [TextTranslationKeys.menu.login]: 'Sign in',
     [TextTranslationKeys.menu.logout]: 'Sign out',
     [TextTranslationKeys.menu.profile]: 'Profile',
+    [TextTranslationKeys.menu.newsletters]: 'Newsletters',
     [TextTranslationKeys.profileView.connect]: 'Connect',
     [TextTranslationKeys.post.create.text.placeholder]: 'Tell your story...',
     [TextTranslationKeys.post.create.title.placeholder]: 'Title',
@@ -28,7 +29,5 @@ export default {
     [TextTranslationKeys.userProfile.create.occupation]: 'What you do',
     [TextTranslationKeys.userProfile.notification.createFailure]: 'Failed to create a new identity.',
     [TextTranslationKeys.userProfile.notification.createSuccess]: 'Successfully created a new identity',
-    
-
 
 };

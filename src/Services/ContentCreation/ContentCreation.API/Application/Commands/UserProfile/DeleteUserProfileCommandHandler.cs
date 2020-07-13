@@ -43,13 +43,9 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
             {
                 var userProfile = await _userProfileRepository.FindAsync(request.Id);
 
-                var ownsResource = await _authorizationService.AuthorizeAsync(
-                    _userAccessor.User,
-                    userProfile,
-                    UserOwnsResourcePolicy.Name
-                );
+                var ownsResource = await OwnsResource(userProfile);
 
-                if (!ownsResource.Succeeded)
+                if (!ownsResource)
                 {
                     throw new UnauthorizedAccessException();
                 }
@@ -67,6 +63,17 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
 
                 return false;
             }
+        }
+
+        private async Task<bool> OwnsResource(UserProfile userProfile)
+        {
+            var ownsResource = await _authorizationService.AuthorizeAsync(
+                _userAccessor.User,
+                userProfile,
+                UserOwnsResourcePolicy.Name
+            );
+
+            return ownsResource.Succeeded;
         }
     }
 }

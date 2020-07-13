@@ -9,7 +9,18 @@ import ProviderWrapper from './Provider';
 
 const rootElement = document.getElementById('root');
 
-const store = configureStore();
+const persistedState = localStorage.getItem('reduxState')
+    ? JSON.parse(localStorage.getItem('reduxState'))
+    : {};
+
+const store = configureStore(persistedState);
+
+store.subscribe(() => {
+    localStorage.setItem(
+        'reduxState',
+        JSON.stringify(store.getState()),
+    );
+});
 
 ReactDOM.render(
     <ProviderWrapper store={store} userManager={userManager} history={history}>

@@ -16,6 +16,11 @@ export const Icons = {
     photo: FontAwesomeIcons.faPhotoVideo,
     settings: FontAwesomeIcons.faCogs,
     userEdit: FontAwesomeIcons.faUserEdit,
+    caretUp: FontAwesomeIcons.faCaretUp,
+    caretDown: FontAwesomeIcons.faCaretDown,
+    trash: FontAwesomeIcons.faTrashAlt,
+    clone: FontAwesomeIcons.faClone,
+    closeBox: FontAwesomeIcons.faWindowClose,
 };
 
 export default ({ icon, size }) => <FontAwesomeIcon icon={icon} size={size} />;

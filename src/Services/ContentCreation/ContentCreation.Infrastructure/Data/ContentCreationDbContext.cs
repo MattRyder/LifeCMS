@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Common;
@@ -25,6 +26,8 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 
         public DbSet<UserProfile> UserProfiles { get; set; }
 
+        public DbSet<Newsletter> Newsletters { get; set; }
+
         public ContentCreationDbContext(
             DbContextOptions<ContentCreationDbContext> contextOptions,
             IMediator mediator
@@ -44,6 +47,8 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new PhotoEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new UserProfileEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new NewsletterEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync()

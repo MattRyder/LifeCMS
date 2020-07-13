@@ -26,6 +26,9 @@ using Dapper;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Dapper;
 using Microsoft.AspNetCore.Authorization;
 using LifeCMS.Services.ContentCreation.API.Authorization.Handlers;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
+using LifeCMS.Services.ContentCreation.API.Application.Commands.Newsletters;
+using LifeCMS.Services.ContentCreation.API.Application.Queries.Newsletters;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -63,6 +66,10 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     .AddTransient<IRequestHandler<CreateUserProfileCommand, bool>, CreateUserProfileCommandHandler>()
                     .AddTransient<IUserProfileQueries, UserProfileQueries>();
 
+            services.AddTransient<INewsletterRepository, NewsletterRepository>()
+                    .AddTransient<IRequestHandler<CreateNewsletterCommand, bool>, CreateNewsletterCommandHandler>()
+                    .AddTransient<IRequestHandler<DeleteNewsletterCommand, bool>, DeleteNewsletterCommandHandler>()
+                    .AddTransient<INewsletterQueries, NewsletterQueries>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

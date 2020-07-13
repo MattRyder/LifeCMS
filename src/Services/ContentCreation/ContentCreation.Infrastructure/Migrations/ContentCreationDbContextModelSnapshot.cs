@@ -85,6 +85,34 @@ namespace ContentCreation.Infrastructure.Migrations
                     b.ToTable("Photos");
                 });
 
+            modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate.Newsletter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Newsletters");
+                });
+
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -196,6 +224,28 @@ namespace ContentCreation.Infrastructure.Migrations
                     b.HasOne("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate.Album", null)
                         .WithMany("Photos")
                         .HasForeignKey("AlbumId");
+                });
+
+            modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate.Newsletter", b =>
+                {
+                    b.OwnsOne("LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate.NewsletterBody", "Body", b1 =>
+                        {
+                            b1.Property<Guid>("NewsletterId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("DesignSource")
+                                .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                            b1.Property<string>("Html")
+                                .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                            b1.HasKey("NewsletterId");
+
+                            b1.ToTable("Newsletters");
+
+                            b1.WithOwner()
+                                .HasForeignKey("NewsletterId");
+                        });
                 });
 
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate.Post", b =>

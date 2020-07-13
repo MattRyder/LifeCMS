@@ -28,6 +28,18 @@ export default class LifeCMSApi {
     deleteUserProfile(userId, userProfileId) {
         return this.client.delete(`users/${userId}/userProfiles/${userProfileId}`);
     }
+
+    getNewsletters(userId) {
+        return this.client.get(`users/${userId}/newsletters`);
+    }
+
+    createNewsletter(userId, newsletterParams) {
+        return this.client.post(`users/${userId}/newsletters`, newsletterParams);
+    }
+
+    deleteNewsletter(userId, newsletterId) {
+        return this.client.delete(`users/${userId}/newsletters/${newsletterId}`);
+    }
 }
 
 export function getLifeCMSApi(accessToken) {

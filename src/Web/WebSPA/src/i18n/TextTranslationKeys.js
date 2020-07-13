@@ -13,9 +13,10 @@ export default {
         },
     },
     menu: {
-        profile: 'profile',
-        login: 'login',
-        logout: 'logout',
+        profile: 'menuProfile',
+        newsletters: 'menuNewsletters',
+        login: 'menuLogin',
+        logout: 'menuLogout',
     },
     post: {
         noPostsAvailable: 'noPostsAvailable',

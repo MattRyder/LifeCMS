@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craftjs/core": "git@github.com:prevwong/craft.js.git#v0.1.0-beta.8",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.10.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -32,6 +33,7 @@
     "react-scripts": "^3.1.1",
     "react-toastify": "^6.0.6",
     "react-toastify-redux": "^1.0.0-rc.2",
+    "react-toggle": "^4.1.1",
     "react-truncate": "^2.4.0",
     "reactstrap": "^8.5.1",
     "redux": "^4.0.1",

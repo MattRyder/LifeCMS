@@ -16,6 +16,35 @@ import Icon, { Icons } from '../../Iconography/Icon';
 
 import './AppTopNavigationComponent.scss';
 
+const createNavItem = ({ children, to }) => (
+    <NavItem>
+        <NavLink tag={Link} to={to} className="dimmer">
+            {children}
+        </NavLink>
+    </NavItem>
+);
+
+const navigationItems = ({ isMenuOpened, userId, t, TextTranslationKeys }) => [
+    userId ? [
+        createNavItem({
+            children: t(TextTranslationKeys.menu.profile),
+            to: `/profile/${userId}`,
+        }),
+        createNavItem({
+            children: t(TextTranslationKeys.menu.newsletters),
+            to: '/newsletters',
+        }),
+    ] : null,
+    createNavItem({
+        children: isMenuOpened ? <span>Notifications</span> : <Icon icon={Icons.notification} />,
+        to: '/notifications',
+    }),
+    createNavItem({
+        children: isMenuOpened ? <span>Settings</span> : <Icon icon={Icons.settings} />,
+        to: '/settings',
+    }),
+];
+
 export default function () {
     const [isMenuOpened, setMenuOpened] = useState(false);
 
@@ -36,39 +65,9 @@ export default function () {
 
                 <Collapse isOpen={isMenuOpened} navbar>
                     <Nav className="col-md-12 navbar-options" navbar>
-                        {userId ? (
-                            <NavItem>
-                                <NavLink tag={Link} to={`/profile/${userId}`}>
-                                    {t(TextTranslationKeys.menu.profile)}
-                                </NavLink>
-                            </NavItem>
-                        ) : null}
-
-                        <NavItem>
-                            <NavLink tag={Link} to="/notifications" className="dimmer">
-                                <Icon icon={Icons.notification} />
-                            </NavLink>
-                        </NavItem>
-
-                        <NavItem>
-                            <NavLink tag={Link} to="/messages" href="#" className="dimmer">
-                                <Icon icon={Icons.message} />
-                            </NavLink>
-                        </NavItem>
-
-                        <NavItem>
-                            <NavLink tag={Link} to="/chat" className="dimmer">
-                                <Icon icon={Icons.chat} />
-                            </NavLink>
-                        </NavItem>
-
-
-                        <NavItem>
-                            <NavLink tag={Link} to="/settings" className="dimmer">
-                                <Icon icon={Icons.settings} />
-                            </NavLink>
-                        </NavItem>
-
+                        {navigationItems({
+                            isMenuOpened, userId, t, TextTranslationKeys,
+                        })}
                         <Dropdown />
                     </Nav>
                 </Collapse>
