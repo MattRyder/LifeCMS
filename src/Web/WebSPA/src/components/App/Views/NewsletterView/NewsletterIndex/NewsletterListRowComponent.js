@@ -8,9 +8,9 @@ import {
 } from 'reactstrap';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { deleteNewsletter } from '../../../../../redux/actions/NewsletterActions';
 import { useTranslations, useUser, useConfirm } from '../../../../../hooks';
 import Icon, { Icons } from '../../../Iconography/Icon';
-import { deleteNewsletter } from '../../../../../redux/actions/NewsletterActions';
 
 const confirmNewsletterDelete = (sweetalert, onConfirm) => sweetalert.fire({
     title: 'Are you sure?',

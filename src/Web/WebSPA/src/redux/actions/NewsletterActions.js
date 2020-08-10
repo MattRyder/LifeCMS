@@ -79,6 +79,12 @@ export const createNewsletter = (
     }
 };
 
+export const editNewsletter = (
+    accessToken, userId, newsletterId, designSource,
+) => async (dispatch) => {
+    throw new Error('Not Implemented.');
+};
+
 export const deleteNewsletter = (
     accessToken, userId, newsletterId,
 ) => async (dispatch) => {

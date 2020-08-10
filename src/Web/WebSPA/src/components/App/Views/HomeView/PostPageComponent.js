@@ -4,7 +4,7 @@ import CreatePostComponent from '../../../Posts/CreatePost/CreatePostComponent';
 
 import './PostPageComponent.scss';
 
-export default function PostPageComponent({
+function PostPageComponent({
     accessToken,
     error,
     loading,
@@ -19,4 +19,13 @@ export default function PostPageComponent({
             <PostListComponent posts={sortedPosts} loading={loading} error={error} maxLines={4} />
         </div>
     );
+}
+
+PostPageComponent.defaultProps = {
+    accessToken: '',
+    error: null,
+    loading: false,
+    posts: [],
 };
+
+export default PostPageComponent;

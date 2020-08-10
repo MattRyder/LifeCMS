@@ -1,20 +1,17 @@
 import React from 'react';
 import { CallbackComponent as ReduxOidcCallbackComponent } from 'redux-oidc';
 import { push } from 'connected-react-router';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import userManager from '../../openid/UserManager';
 
-const mapDispatchToProps = (dispatch) => ({
-    redirectToHome: () => dispatch(push('/')),
-    redirectToError: () => dispatch(push('/session/oauth_error')),
-});
+export default function CallbackComponent() {
+    const dispatch = useDispatch();
 
-export function CallbackComponent({ redirectToHome, redirectToError }) {
     return (
         <div className="openid-connect-callback">
             <ReduxOidcCallbackComponent
                 userManager={userManager}
-                successCallback={() => redirectToHome()}
+                successCallback={() => dispatch(push('/'))}
                 errorCallback={(error) => { throw error; }}
             >
                 <div />
@@ -22,5 +19,3 @@ export function CallbackComponent({ redirectToHome, redirectToError }) {
         </div>
     );
 }
-
-export default connect(null, mapDispatchToProps)(CallbackComponent);

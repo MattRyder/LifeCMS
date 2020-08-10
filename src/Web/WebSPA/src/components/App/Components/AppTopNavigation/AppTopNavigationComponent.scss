@@ -13,7 +13,7 @@
 }
 
 nav.navbar-application {
-  background-color: #FFF;
+  background-color: #fff;
   padding: 1rem;
 
   .navbar-brand {
@@ -37,7 +37,6 @@ nav.navbar-application {
       filter: opacity(66%);
       max-height: 1em;
       width: auto;
-
     }
   }
 
@@ -56,22 +55,21 @@ nav.navbar-application {
     }
   }
 
-  .navbar-nav {
-    .nav-link {
-      @extend %hoverable;
-      @extend %focusable;
-      
-      transition: 0.34s;
+  .navbar-nav .nav-link,
+  .navbar-brand {
+    @extend %hoverable;
+    @extend %focusable;
 
-      color: $theme_main_link_color;
+    transition: 0.34s;
 
-      &.link-subdued {
-        color: $theme_main_link_subdued_color !important;
-      }
+    color: $theme_main_link_color;
 
-      &.dimmer {
-        color: lighten($theme_main_link_color, 35%);
-      }
+    &.link-subdued {
+      color: $theme_main_link_subdued_color !important;
+    }
+
+    &.dimmer {
+      color: lighten($theme_main_link_color, 35%);
     }
   }
 }

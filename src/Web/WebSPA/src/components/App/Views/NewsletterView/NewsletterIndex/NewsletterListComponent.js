@@ -1,16 +1,33 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Link, useRouteMatch } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
+import { useTranslations } from '../../../../../hooks';
 import NewsletterListRowComponent from './NewsletterListRowComponent';
 
+import './NewsletterListComponent.scss';
+
 function NewsletterListComponent({ newsletters }) {
+    const { path } = useRouteMatch();
+
+    const { t, TextTranslationKeys } = useTranslations();
+
     return (
         <div className="newsletter-list-component">
             <Table>
-                <caption className="a11y-visually-hidden">A list of newsletters</caption>
+                <caption className="a11y-visually-hidden">{t(TextTranslationKeys.newsletterView.listCaption)}</caption>
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th label="actions" />
+                        <th label="actions">
+                            <Button
+                                color="primary"
+                                outline
+                                to={`${path}/new`}
+                                tag={Link}
+                            >
+                                {t(TextTranslationKeys.newsletterView.createNewsletter)}
+                            </Button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

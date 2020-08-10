@@ -11,26 +11,26 @@ import './Message.scss';
 
 export const MessageType = {
     info: {
-        text: "info",
+        text: 'info',
         icon: faInfoCircle,
     },
     success: {
-        text: "success",
+        text: 'success',
         icon: faCheckCircle,
     },
     warn: {
-        text: "warn",
+        text: 'warn',
         icon: faExclamationCircle,
     },
     error: {
-        text: "error",
+        text: 'error',
         icon: faTimesCircle,
     },
 };
 
 export const MessageContainer = ({ type, title, messages = [] }) => (
     <div className={`message-container message-container-${type.text}`}>
-        <div className={`icon`}>
+        <div className="icon">
             <FontAwesomeIcon icon={type.icon} size="lg" />
         </div>
         <div>
@@ -39,5 +39,5 @@ export const MessageContainer = ({ type, title, messages = [] }) => (
                 {messages.map((message, i) => <li key={i}>{message}</li>)}
             </ul>
         </div>
-    </div >
+    </div>
 );

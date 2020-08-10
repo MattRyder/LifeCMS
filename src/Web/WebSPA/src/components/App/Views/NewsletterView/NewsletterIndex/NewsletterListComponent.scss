@@ -1,0 +1,10 @@
+.newsletter-list-component {
+    th[label="actions"] {
+        display: flex;
+        justify-content: right;
+    }
+
+    td .dropdown a {
+        text-align: right;
+    }
+}

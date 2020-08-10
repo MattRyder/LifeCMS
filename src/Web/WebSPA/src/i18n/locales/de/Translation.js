@@ -6,6 +6,7 @@ export default {
     [TextTranslationKeys.menu.login]: 'Einloggen',
     [TextTranslationKeys.menu.logout]: 'Ausloggen',
     [TextTranslationKeys.menu.profile]: 'Profil',
+    [TextTranslationKeys.homeView.pageTitle]: 'Meine Geschichte',
     [TextTranslationKeys.profileView.connect]: 'Verbinden',
     [TextTranslationKeys.profileView.editDetails]: 'Details bearbeiten',
     [TextTranslationKeys.profileView.menuItemPhotos]: 'Fotos',

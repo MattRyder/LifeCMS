@@ -6,15 +6,11 @@ export default {
         delete: 'commonDelete',
         post: 'commonPost',
         settings: 'commonSettings',
-        domain: {
-            newsFeed: 'commonDomainNewsFeed',
-            messages: 'commonDomainMessages',
-            watch: 'commonDomainWatch',
-        },
     },
     menu: {
         profile: 'menuProfile',
         newsletters: 'menuNewsletters',
+        settings: 'menuSettings',
         login: 'menuLogin',
         logout: 'menuLogout',
     },
@@ -47,6 +43,16 @@ export default {
             createFailure: 'userProfileNotificationCreateFailure',
         },
     },
+    homeView: {
+        pageTitle: 'homeViewPageTitle',
+    },
+    newsletterView: {
+        pageTitle: 'newsletterViewPageTitle',
+        createNewsletter: 'newsletterViewCreateNewsletter',
+        listCaption: 'newsletterViewListCaption',
+        editorTitleCreate: 'newsletterViewEditorTitleCreate',
+        editorTitleEdit: 'newsletterViewEditorTitleEdit',
+    },
     profileView: {
         connect: 'connect',
         editDetails: 'editDetails',
@@ -57,6 +63,9 @@ export default {
         menu: {
             userProfiles: 'settingsViewMenuUserProfiles',
             newsletters: 'settingsViewMenuNewsletters',
+        },
+        userProfiles: {
+            create: 'settingsViewUserProfileCreate',
         },
     },
 };

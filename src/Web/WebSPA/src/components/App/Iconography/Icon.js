@@ -8,7 +8,7 @@ export const Icons = {
     cog: FontAwesomeIcons.faCog,
     ellipsisHorizontal: FontAwesomeIcons.faEllipsisH,
     folder: FontAwesomeIcons.faFolderOpen,
-    logo: FontAwesomeIcons.faCubes,
+    home: FontAwesomeIcons.faHome,
     notification: FontAwesomeIcons.faBell,
     newspaper: FontAwesomeIcons.faNewspaper,
     message: FontAwesomeIcons.faEnvelope,

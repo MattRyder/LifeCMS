@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router';
-import useUser from '../../../../../hooks/useUser';
+import { editNewsletter } from '../../../../../redux/actions/NewsletterActions';
+import { useUser, useTranslations } from '../../../../../hooks';
 import Editor from '../../../../Newsletters/Editor/Editor';
-import { createNewsletter } from '../../../../../redux/actions/NewsletterActions';
 
-import './NewsletterEdit.scss';
 import '../Editor.scss';
+import './NewsletterEdit.scss';
 
 export default function NewsletterEdit() {
     const dispatch = useDispatch();
@@ -15,6 +15,8 @@ export default function NewsletterEdit() {
 
     const { accessToken, userId } = useUser();
 
+    const { t, TextTranslationKeys } = useTranslations();
+
     const newsletter = useSelector((state) => state.newsletter[userId]
             && state.newsletter[userId].newsletters
             && state.newsletter[userId].newsletters.find((n) => n.id === id));
@@ -22,18 +24,15 @@ export default function NewsletterEdit() {
     const onSave = (query) => {
         const json = query.serialize();
 
-        dispatch(createNewsletter(accessToken, userId, {
-            name: 'Newsletter Name',
-            body: json,
-        }));
+        dispatch(editNewsletter(accessToken, userId, id, json));
     };
 
     return (
-        <div className="newsletter-create">
+        <div className="newsletter-edit">
             <Editor
                 designSource={newsletter.designSource}
                 onSave={onSave}
-                title={`Editing a Newsletter: ${newsletter.name}`}
+                title={`${t(TextTranslationKeys.newsletterView.editorTitleEdit)}: ${newsletter.name}`}
             />
         </div>
     );

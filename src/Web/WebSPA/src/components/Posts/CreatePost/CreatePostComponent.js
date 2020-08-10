@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { Input, Button, FormFeedback } from 'reactstrap';
-import Icon, { Icons } from '../../App/Iconography/Icon';
 import Schema, { InitialValues } from './CreatePostSchema';
 import { createPost } from '../../../redux/actions/PostActions';
 
@@ -50,19 +49,6 @@ export default function ({ accessToken }) {
                     {t(TextTranslationKeys.common.post)}
                 </Button>
             </form>
-            <ul className="add-media-list">
-                <li>
-                    <Icon icon={Icons.photo} />
-                    <span>Add Picture or Video</span>
-                </li>
-                <li>
-                    <Icon icon={Icons.logo} />
-                    <span>Take thoughts</span>
-                </li>
-                <li>
-                    <Icon icon={Icons.ellipsisHorizontal} />
-                </li>
-            </ul>
         </div>
     );
 }

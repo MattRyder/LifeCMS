@@ -11,39 +11,40 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useUser, useTranslations } from '../../../../hooks';
-import Dropdown from './Dropdown';
 import Icon, { Icons } from '../../Iconography/Icon';
+import Dropdown from './Dropdown';
 
 import './AppTopNavigationComponent.scss';
 
-const createNavItem = ({ children, to }) => (
-    <NavItem>
+const createNavItem = ({ children, key, to }) => (
+    <NavItem key={key}>
         <NavLink tag={Link} to={to} className="dimmer">
             {children}
         </NavLink>
     </NavItem>
 );
 
-const navigationItems = ({ isMenuOpened, userId, t, TextTranslationKeys }) => [
+const navigationItems = ({
+    isMenuOpened, userId, t, TextTranslationKeys,
+}) => ([
     userId ? [
         createNavItem({
             children: t(TextTranslationKeys.menu.profile),
+            key: 'profile',
             to: `/profile/${userId}`,
         }),
         createNavItem({
             children: t(TextTranslationKeys.menu.newsletters),
+            key: 'newsletters',
             to: '/newsletters',
         }),
     ] : null,
     createNavItem({
-        children: isMenuOpened ? <span>Notifications</span> : <Icon icon={Icons.notification} />,
-        to: '/notifications',
-    }),
-    createNavItem({
-        children: isMenuOpened ? <span>Settings</span> : <Icon icon={Icons.settings} />,
+        children: isMenuOpened ? <span>{t(TextTranslationKeys.menu.settings)}</span> : <Icon icon={Icons.settings} />,
+        key: 'settings',
         to: '/settings',
     }),
-];
+]);
 
 export default function () {
     const [isMenuOpened, setMenuOpened] = useState(false);
@@ -57,8 +58,8 @@ export default function () {
     return (
         <Container fluid className="p-0" role="tablist">
             <Navbar className="navbar-application" expand="md">
-                <NavbarBrand tag={Link} to="/" tabIndex="0">
-                    <Icon icon={Icons.logo} />
+                <NavbarBrand tag={Link} to="/" className="dimmer" tabIndex="0">
+                    <Icon icon={Icons.home} />
                 </NavbarBrand>
 
                 <NavbarToggler onClick={toggleMenuOpened} />
@@ -68,6 +69,7 @@ export default function () {
                         {navigationItems({
                             isMenuOpened, userId, t, TextTranslationKeys,
                         })}
+
                         <Dropdown />
                     </Nav>
                 </Collapse>

@@ -24,10 +24,10 @@ export default function () {
             <AppTopNaviationComponent />
             <Switch>
                 <Route exact path="/">
-                    <Redirect to="/news-feed" />
+                    <Redirect to="/my-story" />
                 </Route>
                 <Route path="/profile/:id" component={ProfileView} />
-                <Route path="/news-feed" component={HomeView} />
+                <Route path="/my-story" component={HomeView} />
                 <Route path="/newsletters" component={NewsletterView} />
                 <Route path="/session" component={SessionView} />
                 <Route

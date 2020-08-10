@@ -1,6 +1,5 @@
 @import "../../../../assets/styles/colors.scss";
 
-
 $home_view_background_color: #f5f6f7;
 $home_view_menu_background_color: #f4f4f4;
 
@@ -8,38 +7,10 @@ $home_view_menu_background_color: #f4f4f4;
     background-color: $home_view_background_color;
     display: flex;
     flex: 1;
+    flex-direction: column;
 
     .height-100-pct {
         height: 100%;
-    }
-
-    .menu-component {
-        background-color: $home_view_menu_background_color;
-        display: flex;
-        flex-direction: column;
-        flex: 0.2 0.25;
-        padding-top: 2rem;
-        
-        $shadow_color: rgba(0, 0, 0, 0.0125);
-        box-shadow: inset -2px 0px 4px 0px $shadow_color,
-        inset -4px 0 0 0 $shadow_color, 
-        inset -6px 0 0 0 $shadow_color, 
-        inset -8px 0 0 0 $shadow_color,
-        inset -10px 0 0 0 $shadow_color;
-
-        .side-menu-item {
-            border-color: transparent;
-            border-style: solid;
-            border-width: 1px 0 1px 7.5px;
-        }
-
-        .side-menu-item-active {
-            background: $home_view_background_color;
-            border-top-color: rgba(0, 0, 0, 0.1);
-            border-bottom-color: rgba(0, 0, 0, 0.1);
-            border-left-color: rgba($theme_main_color, 1);
-            border-style: solid;
-        }
     }
 
     .post-page-component {

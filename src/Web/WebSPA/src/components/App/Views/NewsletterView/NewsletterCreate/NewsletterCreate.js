@@ -1,16 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import useUser from '../../../../../hooks/useUser';
-import Editor from '../../../../Newsletters/Editor/Editor';
 import { createNewsletter } from '../../../../../redux/actions/NewsletterActions';
+import { useUser, useTranslations } from '../../../../../hooks';
+import Editor from '../../../../Newsletters/Editor/Editor';
 
-import './NewsletterCreate.scss';
 import '../Editor.scss';
+import './NewsletterCreate.scss';
 
 export default function NewsletterCreate() {
     const dispatch = useDispatch();
 
     const { accessToken, userId } = useUser();
+
+    const { t, TextTranslationKeys } = useTranslations();
 
     const onSave = (query) => {
         const json = query.serialize();
@@ -23,7 +25,10 @@ export default function NewsletterCreate() {
 
     return (
         <div className="newsletter-create">
-            <Editor title="Create a Newsletter" onSave={onSave} />
+            <Editor
+                title={t(TextTranslationKeys.newsletterView.editorTitleCreate)}
+                onSave={onSave}
+            />
         </div>
     );
 }

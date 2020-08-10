@@ -6,14 +6,16 @@ import { fetchUserProfiles } from '../../../../redux/actions/UserProfileActions'
 
 import './ProfileView.scss';
 
-export default function ({ match: { params: { id: userId } } }) {
-    const { accessToken } = useUser();
+export default function () {
+    const { accessToken, userId } = useUser();
 
-    const userProfilesState = useSelector(
-        (state) => state.userProfile[userId] && state.userProfile[userId].userProfiles,
+    const userProfilesState = useSelector((state) => state.userProfile[userId]
+        && state.userProfile[userId].userProfiles);
+
+    useContentApi(
+        () => fetchUserProfiles(accessToken, userId),
+        accessToken,
     );
-
-    useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken, userId);
 
     const {
         name,
