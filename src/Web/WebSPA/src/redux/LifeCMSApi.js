@@ -37,6 +37,13 @@ export default class LifeCMSApi {
         return this.client.post(`users/${userId}/newsletters`, newsletterParams);
     }
 
+    editNewsletterBody(userId, newsletterId, body) {
+        return this.client.post(
+            `users/${userId}/newsletters/${newsletterId}/updateNewsletterBody`,
+            { id: newsletterId, body },
+        );
+    }
+
     deleteNewsletter(userId, newsletterId) {
         return this.client.delete(`users/${userId}/newsletters/${newsletterId}`);
     }

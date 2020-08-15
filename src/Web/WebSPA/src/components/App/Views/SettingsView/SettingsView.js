@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouteMatch } from 'react-router';
 import { useTranslations } from '../../../../hooks';
 import { Icons } from '../../Iconography/Icon';
+import PageTitleBar from '../../Components/PageTitleBar/PageTitleBar';
 import SettingsMenuComponent from './SettingsMenuComponent';
 import SettingsPaneComponent from './SettingsPaneComponent';
 
@@ -15,13 +16,6 @@ const getMenuItemGroups = (path, t, TextTranslationKeys) => [
             href: `${path}/user-profiles`,
         },
     ],
-    [
-        {
-            icon: Icons.attentionTriangle,
-            text: t(TextTranslationKeys.settingsView.menu.newsletters),
-            href: `${path}/newsletters`,
-        },
-    ],
 ];
 
 export default function () {
@@ -33,9 +27,13 @@ export default function () {
 
     return (
         <div className="settings-view">
-            <SettingsMenuComponent groups={menuItemGroups} />
-            <SettingsPaneComponent match={match} />
-            {/* Help container as a drawer in the final third, with the ability to be hidden */}
+            <PageTitleBar>
+                <span>{t(TextTranslationKeys.common.settings)}</span>
+            </PageTitleBar>
+            <div className="menu-pane">
+                <SettingsMenuComponent groups={menuItemGroups} />
+                <SettingsPaneComponent match={match} />
+            </div>
         </div>
     );
 }

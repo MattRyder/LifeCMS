@@ -20,7 +20,8 @@ export default function NewsletterCreate() {
         dispatch(createNewsletter(accessToken, userId, {
             name: 'Newsletter Name',
             body: json,
-        }));
+        },
+        '/newsletters'));
     };
 
     return (

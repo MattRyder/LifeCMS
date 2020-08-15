@@ -60,6 +60,22 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers.Users
             return BadRequest(command);
         }
 
+        // POST api/users/{userId:guid}/newsletters/{id:guid}/updateNewsletterBody
+        [Authorize]
+        [ModelStateValidation]
+        [HttpPost("{id:guid}/updateNewsletterBody")]
+        public async Task<IActionResult> UpdateNewsletterBody([FromBody] UpdateNewsletterBodyCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest(command);
+        }
+
         // DELETE api/users/{userId:guid}/newsletters/{id:guid}
         [Authorize]
         [ModelStateValidation]

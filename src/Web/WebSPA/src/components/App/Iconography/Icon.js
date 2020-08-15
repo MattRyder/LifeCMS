@@ -14,6 +14,7 @@ export const Icons = {
     message: FontAwesomeIcons.faEnvelope,
     film: FontAwesomeIcons.faFilm,
     photo: FontAwesomeIcons.faPhotoVideo,
+    plus: FontAwesomeIcons.faPlus,
     settings: FontAwesomeIcons.faCogs,
     userEdit: FontAwesomeIcons.faUserEdit,
     caretUp: FontAwesomeIcons.faCaretUp,

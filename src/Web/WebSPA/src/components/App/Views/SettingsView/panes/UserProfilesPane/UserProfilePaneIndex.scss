@@ -1,8 +1,9 @@
 .user-profile-pane-index {
+    padding: 1rem;
+
     .user-profile-header {
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        justify-content: right;
     }
 
     .user-profile-list-view-component {

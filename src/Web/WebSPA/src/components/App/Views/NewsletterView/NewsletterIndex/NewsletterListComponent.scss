@@ -2,9 +2,14 @@
     th[label="actions"] {
         display: flex;
         justify-content: right;
+
+        span {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
     }
 
-    td .dropdown a {
-        text-align: right;
+    td .dropdown .nav-link {
+        float: right;
     }
 }

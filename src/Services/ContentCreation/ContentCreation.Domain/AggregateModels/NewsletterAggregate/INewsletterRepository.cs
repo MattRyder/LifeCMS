@@ -10,6 +10,8 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggr
 
         void AddAsync(Newsletter newsletter);
 
+        void Update(Newsletter newsletter);
+
         void Delete(Newsletter newsletter);
     }
 }

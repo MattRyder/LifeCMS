@@ -28,16 +28,9 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers.Users
         [HttpGet]
         public async Task<IActionResult> GetUserProfiles(Guid userId)
         {
-            try
-            {
-                var post = await _userProfileQueries.FindUserProfiles(userId);
+            var post = await _userProfileQueries.FindUserProfiles(userId);
 
-                return Ok(post);
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound();
-            }
+            return Ok(post);
         }
 
         // POST: api/users/{userId:guid}/userprofiles
@@ -63,7 +56,7 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers.Users
         public async Task<IActionResult> DeleteUserProfile([FromRoute] Guid id)
         {
             var command = new DeleteUserProfileCommand(id);
-            
+
             var result = await _mediator.Send(command);
 
             if (result)

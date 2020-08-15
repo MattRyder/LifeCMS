@@ -24,7 +24,7 @@ const getInputFor = (formik, inputName, label, hint) => (
     </div>
 );
 
-export default function UserProfileFormComponent() {
+export default function UserProfileFormComponent({ userProfile = InitialValues }) {
     const { t, TextTranslationKeys } = useTranslations();
 
     const { accessToken, userId } = useUser();
@@ -32,7 +32,7 @@ export default function UserProfileFormComponent() {
     const dispatch = useDispatch();
 
     const formik = useFormik({
-        initialValues: InitialValues,
+        initialValues: userProfile,
         validationSchema: Schema,
         onSubmit: (values) => {
             const params = {
@@ -45,7 +45,7 @@ export default function UserProfileFormComponent() {
                 headerImageUri: values.headerImageUri,
             };
 
-            dispatch(createUserProfile(accessToken, userId, params));
+            dispatch(createUserProfile(accessToken, userId, params, '/settings/user-profiles'));
         },
     });
 

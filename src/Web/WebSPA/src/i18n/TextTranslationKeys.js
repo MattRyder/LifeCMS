@@ -66,6 +66,7 @@ export default {
         },
         userProfiles: {
             create: 'settingsViewUserProfileCreate',
+            edit: 'settingsViewUserProfileEdit',
         },
     },
 };

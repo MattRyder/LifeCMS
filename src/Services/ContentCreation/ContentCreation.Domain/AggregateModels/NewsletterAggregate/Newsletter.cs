@@ -1,5 +1,6 @@
 using System;
 using LifeCMS.Services.ContentCreation.Domain.Common;
+using LifeCMS.Services.ContentCreation.Domain.Events.Newsletters;
 
 namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate
 {
@@ -23,6 +24,13 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggr
         public Newsletter(Guid userId, string name, NewsletterBody body) : this(userId, name)
         {
             Body = body ?? throw new NewsletterDomainException(nameof(body));
+        }
+
+        public void UpdateNewsletterBody(NewsletterBody newsletterBody)
+        {
+            Body = newsletterBody ?? throw new NewsletterDomainException(nameof(newsletterBody));
+
+            AddEvent(new NewsletterBodyUpdatedEvent(this));
         }
     }
 }

@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { success as toastSuccess, error as toastError } from 'react-toastify-redux';
 import { getLifeCMSApi } from '../LifeCMSApi';
 
@@ -62,7 +63,9 @@ export const fetchUserProfiles = (accessToken, userId) => async (dispatch) => {
     }
 };
 
-export const createUserProfile = (accessToken, userId, userProfileParams) => async (dispatch) => {
+export const createUserProfile = (
+    accessToken, userId, userProfileParams, redirectTo,
+) => async (dispatch) => {
     try {
         const response = await getLifeCMSApi(accessToken)
             .createUserProfile(userId, userProfileParams);
@@ -71,7 +74,11 @@ export const createUserProfile = (accessToken, userId, userProfileParams) => asy
 
         dispatch(createUserProfileSuccess(userId, userProfile));
 
-        dispatch(toastSuccess('Successfully created an Identity.'));
+        dispatch(toastSuccess('Successfully created the User Profile.'));
+
+        if (redirectTo) {
+            dispatch(push(redirectTo));
+        }
     } catch (error) {
         dispatch(createUserProfileFailure(userId, error));
 
@@ -86,7 +93,7 @@ export const deleteUserProfile = (accessToken, userId, userProfileId) => async (
 
         dispatch(deleteUserProfileSuccess(userId, userProfileId));
 
-        dispatch(toastSuccess('Successfully deleted the Identity.'));
+        dispatch(toastSuccess('Successfully deleted the user profile.'));
     } catch (error) {
         dispatch(deleteUserProfileFailure(userId, userProfileId));
 

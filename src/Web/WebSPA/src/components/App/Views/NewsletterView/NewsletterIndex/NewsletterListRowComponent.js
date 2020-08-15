@@ -9,17 +9,9 @@ import {
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteNewsletter } from '../../../../../redux/actions/NewsletterActions';
-import { useTranslations, useUser, useConfirm } from '../../../../../hooks';
+import { useTranslations, useUser } from '../../../../../hooks';
+import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
-
-const confirmNewsletterDelete = (sweetalert, onConfirm) => sweetalert.fire({
-    title: 'Are you sure?',
-    text: "You won't be able to reverse this action.",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-}).then(onConfirm);
 
 function NewsletterListRowComponent({
     newsletter: {
@@ -27,8 +19,6 @@ function NewsletterListRowComponent({
     },
 }) {
     const dispatch = useDispatch();
-
-    const { SweetAlert } = useConfirm();
 
     const { accessToken, userId } = useUser();
 
@@ -44,6 +34,10 @@ function NewsletterListRowComponent({
         deleteNewsletter(accessToken, userId, newsletterId),
     );
 
+    const onDeleteClick = () => FireConfirmAlert(
+        () => dispatchDeleteNewsletter(id),
+    );
+
     return (
         <tr key={id}>
             <td>{name}</td>
@@ -53,24 +47,17 @@ function NewsletterListRowComponent({
                         <Icon icon={Icons.cog} />
                     </DropdownToggle>
                     <DropdownMenu right>
-                        <DropdownItem>
-                            <Link to={`${path}/${id}/edit`}>
-                                {t(TextTranslationKeys.common.edit)}
-                            </Link>
+                        <DropdownItem
+                            tag={Link}
+                            to={`${path}/${id}/edit`}
+                        >
+                            {t(TextTranslationKeys.common.edit)}
                         </DropdownItem>
-                        <DropdownItem>
-                            <a
-                                href="#"
-                                className="text-danger"
-                                onClick={() => {
-                                    confirmNewsletterDelete(
-                                        SweetAlert,
-                                        () => dispatchDeleteNewsletter(id),
-                                    );
-                                }}
-                            >
-                                {t(TextTranslationKeys.common.delete)}
-                            </a>
+                        <DropdownItem
+                            className="text-danger"
+                            onClick={onDeleteClick}
+                        >
+                            {t(TextTranslationKeys.common.delete)}
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>

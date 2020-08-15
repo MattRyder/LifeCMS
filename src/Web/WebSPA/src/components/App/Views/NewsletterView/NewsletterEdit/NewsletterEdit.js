@@ -1,8 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router';
-import { editNewsletter } from '../../../../../redux/actions/NewsletterActions';
-import { useUser, useTranslations } from '../../../../../hooks';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router';
+import { useUser, useTranslations, useStateSelector } from '../../../../../hooks';
+import { editNewsletterBody } from '../../../../../redux/actions/NewsletterActions';
 import Editor from '../../../../Newsletters/Editor/Editor';
 
 import '../Editor.scss';
@@ -11,20 +11,18 @@ import './NewsletterEdit.scss';
 export default function NewsletterEdit() {
     const dispatch = useDispatch();
 
-    const { params: { id } } = useRouteMatch();
+    const { id } = useParams();
 
     const { accessToken, userId } = useUser();
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const newsletter = useSelector((state) => state.newsletter[userId]
-            && state.newsletter[userId].newsletters
-            && state.newsletter[userId].newsletters.find((n) => n.id === id));
+    const newsletter = useStateSelector(userId, 'newsletter', 'newsletters', id);
 
     const onSave = (query) => {
         const json = query.serialize();
 
-        dispatch(editNewsletter(accessToken, userId, id, json));
+        dispatch(editNewsletterBody(accessToken, userId, id, json, '/newsletters'));
     };
 
     return (

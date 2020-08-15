@@ -38,11 +38,6 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
 
             var result = await connection.QueryAsync<UserProfileViewModel>(findUserProfileQuery, new { UserId = userId });
 
-            if (result.Count() == 0)
-            {
-                throw new KeyNotFoundException();
-            }
-
             return result;
         }
     }

@@ -3,7 +3,6 @@ import {
     FETCH_USER_PROFILES_SUCCESS,
     FETCH_USER_PROFILES_FAILURE,
     DELETE_USER_PROFILE_SUCCESS,
-    CREATE_USER_PROFILE_SUCCESS,
 } from '../actions/UserProfileActions';
 
 export default (state = {}, action) => {
@@ -31,16 +30,6 @@ export default (state = {}, action) => {
             [action.payload.userId]: {
                 loading: true,
                 error: action.payload.error,
-            },
-        };
-    case CREATE_USER_PROFILE_SUCCESS:
-        return {
-            ...state,
-            [action.payload.userId]: {
-                ...state[action.payload.userId],
-                userProfiles: state[action.payload.userId]
-                    .userProfiles
-                    .concat(action.payload.userProfile),
             },
         };
     case DELETE_USER_PROFILE_SUCCESS:

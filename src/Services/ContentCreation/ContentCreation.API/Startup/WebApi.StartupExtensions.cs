@@ -68,6 +68,7 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             services.AddTransient<INewsletterRepository, NewsletterRepository>()
                     .AddTransient<IRequestHandler<CreateNewsletterCommand, bool>, CreateNewsletterCommandHandler>()
+                    .AddTransient<IRequestHandler<UpdateNewsletterBodyCommand, bool>, UpdateNewsletterBodyCommandHandler>()
                     .AddTransient<IRequestHandler<DeleteNewsletterCommand, bool>, DeleteNewsletterCommandHandler>()
                     .AddTransient<INewsletterQueries, NewsletterQueries>();
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { Button, Table } from 'reactstrap';
+import { Table } from 'reactstrap';
 import { useTranslations } from '../../../../../hooks';
+import Icon, { Icons } from '../../../Iconography/Icon';
 import NewsletterListRowComponent from './NewsletterListRowComponent';
 
 import './NewsletterListComponent.scss';
@@ -14,19 +15,20 @@ function NewsletterListComponent({ newsletters }) {
     return (
         <div className="newsletter-list-component">
             <Table>
-                <caption className="a11y-visually-hidden">{t(TextTranslationKeys.newsletterView.listCaption)}</caption>
+                <caption className="a11y-visually-hidden">
+                    {t(TextTranslationKeys.newsletterView.listCaption)}
+                </caption>
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th label="actions">
-                            <Button
-                                color="primary"
-                                outline
+                            <Link
+                                color="link"
                                 to={`${path}/new`}
-                                tag={Link}
                             >
+                                <span><Icon icon={Icons.plus} /></span>
                                 {t(TextTranslationKeys.newsletterView.createNewsletter)}
-                            </Button>
+                            </Link>
                         </th>
                     </tr>
                 </thead>
@@ -34,7 +36,7 @@ function NewsletterListComponent({ newsletters }) {
                     {
                         newsletters.length > 0
                             ? newsletters.map((newsletter) => (
-                                <NewsletterListRowComponent newsletter={newsletter} />
+                                <NewsletterListRowComponent key={newsletter.id} newsletter={newsletter} />
                             )) : null
                     }
                 </tbody>

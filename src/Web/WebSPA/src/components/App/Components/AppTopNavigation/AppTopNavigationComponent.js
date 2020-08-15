@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Collapse,
     Container,
@@ -10,15 +10,26 @@ import {
     NavbarToggler,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useUser, useTranslations } from '../../../../hooks';
+import { useUser, useTranslations, useToggle } from '../../../../hooks';
+import UserManager from '../../../../openid/UserManager';
 import Icon, { Icons } from '../../Iconography/Icon';
 import Dropdown from './Dropdown';
 
 import './AppTopNavigationComponent.scss';
 
-const createNavItem = ({ children, key, to }) => (
+const createNavItemLink = ({
+    children, key, to,
+}) => (
     <NavItem key={key}>
         <NavLink tag={Link} to={to} className="dimmer">
+            {children}
+        </NavLink>
+    </NavItem>
+);
+
+const createNavItemClick = ({ children, key, onClick }) => (
+    <NavItem key={key}>
+        <NavLink onClick={onClick} className="dimmer">
             {children}
         </NavLink>
     </NavItem>
@@ -28,28 +39,35 @@ const navigationItems = ({
     isMenuOpened, userId, t, TextTranslationKeys,
 }) => ([
     userId ? [
-        createNavItem({
+        createNavItemLink({
             children: t(TextTranslationKeys.menu.profile),
             key: 'profile',
             to: `/profile/${userId}`,
         }),
-        createNavItem({
+        createNavItemLink({
             children: t(TextTranslationKeys.menu.newsletters),
             key: 'newsletters',
             to: '/newsletters',
         }),
-    ] : null,
-    createNavItem({
-        children: isMenuOpened ? <span>{t(TextTranslationKeys.menu.settings)}</span> : <Icon icon={Icons.settings} />,
-        key: 'settings',
-        to: '/settings',
-    }),
+        createNavItemLink({
+            children: isMenuOpened
+                ? <span>{t(TextTranslationKeys.menu.settings)}</span>
+                : <Icon icon={Icons.settings} />,
+            key: 'settings',
+            to: '/settings',
+        }),
+    ] : [
+        createNavItemClick({
+            children: t(TextTranslationKeys.menu.login),
+            key: 'login',
+            onClick: () => UserManager.signinRedirect(),
+        }),
+    ],
+
 ]);
 
-export default function () {
-    const [isMenuOpened, setMenuOpened] = useState(false);
-
-    const toggleMenuOpened = () => setMenuOpened(!isMenuOpened);
+export default function AppTopNavigationComponent() {
+    const [isMenuOpened, toggleMenuOpened] = useToggle(false);
 
     const { userId } = useUser();
 

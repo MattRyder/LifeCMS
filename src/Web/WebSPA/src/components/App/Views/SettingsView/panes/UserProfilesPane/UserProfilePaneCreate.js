@@ -2,7 +2,7 @@ import React from 'react';
 import UserProfileFormComponent from '../../../../../UserProfile/UserProfileForm/UserProfileFormComponent';
 import { useTranslations } from '../../../../../../hooks';
 
-import './UserProfilePaneIndex.scss';
+import './UserProfilePaneCreate.scss';
 
 export default function () {
     const { t, TextTranslationKeys } = useTranslations();

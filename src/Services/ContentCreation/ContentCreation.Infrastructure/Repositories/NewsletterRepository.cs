@@ -27,6 +27,11 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Repositories
             await DbContext.AddAsync(newsletter);
         }
 
+        public void Update(Newsletter newsletter)
+        {
+            DbContext.Set<Newsletter>().Update(newsletter);
+        }
+
         public void Delete(Newsletter newsletter)
         {
             DbContext.Set<Newsletter>().Remove(newsletter);

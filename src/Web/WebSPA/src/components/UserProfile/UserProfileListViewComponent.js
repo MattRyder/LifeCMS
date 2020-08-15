@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Table,
-} from 'reactstrap';
+import { Table } from 'reactstrap';
 import { useRouteMatch } from 'react-router-dom';
 
 import './UserProfileListViewComponent.scss';

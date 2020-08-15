@@ -23,7 +23,8 @@ export default {
     [TextTranslationKeys.newsletterView.editorTitleEdit]: 'Editing a Newsletter',
     [TextTranslationKeys.settingsView.menu.userProfiles]: 'User Profiles',
     [TextTranslationKeys.settingsView.menu.newsletters]: 'Newsletters',
-    [TextTranslationKeys.settingsView.userProfiles.create]: 'Create a new Identity',
+    [TextTranslationKeys.settingsView.userProfiles.create]: 'Create a new User Profile',
+    [TextTranslationKeys.settingsView.userProfiles.edit]: 'Edit an existing User Profile',
     [TextTranslationKeys.userProfile.create.avatarImageUri]: 'Avatar Picture',
     [TextTranslationKeys.userProfile.create.bio]: 'Personal Motto',
     [TextTranslationKeys.userProfile.create.emailAddress]: 'Email Address',
@@ -32,7 +33,7 @@ export default {
     [TextTranslationKeys.userProfile.create.name.label]: 'Name',
     [TextTranslationKeys.userProfile.create.name.hint]: 'This will be what we\'ll call you in the app. You can change it at any time.',
     [TextTranslationKeys.userProfile.create.occupation]: 'What you do',
-    [TextTranslationKeys.userProfile.notification.createFailure]: 'Failed to create a new identity.',
-    [TextTranslationKeys.userProfile.notification.createSuccess]: 'Successfully created a new identity',
+    [TextTranslationKeys.userProfile.notification.createFailure]: 'Failed to create a new User Profile.',
+    [TextTranslationKeys.userProfile.notification.createSuccess]: 'Successfully created a new User Profile.',
 
 };

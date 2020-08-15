@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
     Editor as CraftJSEditor, Frame, Element,
 } from '@craftjs/core';
@@ -10,12 +10,6 @@ import Topbar from './Topbar';
 export default function Editor({
     designSource, onSave, title,
 }) {
-    const [json, setJson] = useState(null);
-
-    useEffect(() => {
-        setJson(designSource);
-    }, [designSource]);
-
     return (
         <div className="editor">
             <CraftJSEditor
@@ -30,8 +24,8 @@ export default function Editor({
                     <Toolbox />
 
                     <div className="canvas">
-                        <Frame data={json}>
-                            <Element id="row-1" canvas className="page" />
+                        <Frame data={designSource}>
+                            <Element canvas className="page" />
                         </Frame>
                     </div>
 

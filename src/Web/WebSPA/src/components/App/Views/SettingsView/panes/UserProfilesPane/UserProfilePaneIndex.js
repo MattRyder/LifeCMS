@@ -14,15 +14,14 @@ export default function () {
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const userProfiles = useSelector((state) => state.userProfile[userId] && state.userProfile[userId].userProfiles);
+    const userProfiles = useSelector((state) => state.userProfile[userId]
+        && state.userProfile[userId].userProfiles);
 
     useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken, userId);
 
     return (
         <div className="user-profile-pane-index">
             <div className="user-profile-header">
-                <span>{t(TextTranslationKeys.settingsView.menu.userProfiles)}</span>
-
                 <Link to={`${path}/new`}>
                     {t(TextTranslationKeys.settingsView.userProfiles.create)}
                 </Link>
