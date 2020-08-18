@@ -26,12 +26,17 @@
             min-height: 50%;
 
             .page-component {
-                border-width: 3px;
-                border-color: transparent;
+                border-width: 2px;
+                border-color: rgba(25, 132, 255, 0.15);
                 border-style: solid;
 
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+
                 &.is-selected {
-                    border-color: #117cfa;
+                    border-color: #117cfa !important;
                 }
             }
 

@@ -16,6 +16,7 @@
     "formik": "^2.1.4",
     "i18next": "^19.3.2",
     "jwt-decode": "^2.2.0",
+    "lzutf8": "^0.5.6",
     "medium-editor": "^5.23.3",
     "node-sass": "^4.13.0",
     "oidc-client": "^1.9.1",

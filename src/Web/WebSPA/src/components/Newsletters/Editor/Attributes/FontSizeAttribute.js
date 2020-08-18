@@ -4,8 +4,8 @@ import AttributePanelContainer from '../Components/Interface/AttributePanelConta
 
 import 'react-toggle/style.css';
 
-export default function FontsizeAttribute({ handleChange }) {
-    const [fontSize, setFontSize] = useState(1);
+export default function FontsizeAttribute({ value, handleChange }) {
+    const [fontSize, setFontSize] = useState(value);
 
     useEffect(() => {
         handleChange(fontSize);

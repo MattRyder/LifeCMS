@@ -30,12 +30,16 @@ export default function Row({
 function RowAttributesPanel() {
     const {
         actions: { setProp },
-    } = useNode();
+        props,
+    } = useNode((node) => ({
+        props: node.data.props,
+    }));
 
     return (
         <div className="row-attributes-panel">
             <div>
                 <PaddingAttribute
+                    values={props.padding}
                     handleChange={(paddingValues) => {
                         setProp(
                             (props) => (props.padding = paddingValues),
@@ -49,7 +53,6 @@ function RowAttributesPanel() {
 
 Row.craft = {
     props: {
-        fontSize: 1,
         padding: [1, 1, 1, 1],
     },
     related: {

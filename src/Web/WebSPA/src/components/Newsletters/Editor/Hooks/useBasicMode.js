@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-export default function useBasicMode() {
-    const [isBasicMode, setIsBasicMode] = useState(true);
+export default function useBasicMode(value = true) {
+    const [isBasicMode, setIsBasicMode] = useState(value);
 
     const toggleBasicMode = () => setIsBasicMode(!isBasicMode);
 

@@ -4,23 +4,15 @@ import App from './App';
 import './i18n';
 import * as serviceWorker from './serviceWorker';
 import configureStore, { history } from './redux/AppStore';
+import { loadState, saveState } from './redux/PersistedState';
 import userManager from './openid/UserManager';
 import ProviderWrapper from './Provider';
 
 const rootElement = document.getElementById('root');
 
-const persistedState = localStorage.getItem('reduxState')
-    ? JSON.parse(localStorage.getItem('reduxState'))
-    : {};
+const store = configureStore(loadState());
 
-const store = configureStore(persistedState);
-
-store.subscribe(() => {
-    localStorage.setItem(
-        'reduxState',
-        JSON.stringify(store.getState()),
-    );
-});
+store.subscribe(() => saveState(store));
 
 ReactDOM.render(
     <ProviderWrapper store={store} userManager={userManager} history={history}>

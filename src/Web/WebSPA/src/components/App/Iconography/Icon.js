@@ -4,10 +4,12 @@ import * as FontAwesomeIcons from '@fortawesome/free-solid-svg-icons';
 
 export const Icons = {
     attentionTriangle: FontAwesomeIcons.faExclamationTriangle,
+    bold: FontAwesomeIcons.faBold,
     chat: FontAwesomeIcons.faComment,
     cog: FontAwesomeIcons.faCog,
     ellipsisHorizontal: FontAwesomeIcons.faEllipsisH,
     folder: FontAwesomeIcons.faFolderOpen,
+    italic: FontAwesomeIcons.faItalic,
     home: FontAwesomeIcons.faHome,
     notification: FontAwesomeIcons.faBell,
     newspaper: FontAwesomeIcons.faNewspaper,
@@ -17,6 +19,7 @@ export const Icons = {
     plus: FontAwesomeIcons.faPlus,
     settings: FontAwesomeIcons.faCogs,
     userEdit: FontAwesomeIcons.faUserEdit,
+    underline: FontAwesomeIcons.faUnderline,
     caretUp: FontAwesomeIcons.faCaretUp,
     caretDown: FontAwesomeIcons.faCaretDown,
     trash: FontAwesomeIcons.faTrashAlt,

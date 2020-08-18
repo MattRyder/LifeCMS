@@ -7,13 +7,15 @@ import useBasicMode from '../Hooks/useBasicMode';
 import 'react-toggle/style.css';
 import './PaddingAttribute.scss';
 
-export default function PaddingAttribute({ handleChange }) {
-    const [paddingTop, setPaddingTop] = useState(1);
-    const [paddingLeft, setPaddingLeft] = useState(1);
-    const [paddingRight, setPaddingRight] = useState(1);
-    const [paddingBottom, setPaddingBottom] = useState(1);
+export default function PaddingAttribute({ values, handleChange }) {
+    const [paddingTop, setPaddingTop] = useState(values[0]);
+    const [paddingLeft, setPaddingLeft] = useState(values[1]);
+    const [paddingRight, setPaddingRight] = useState(values[2]);
+    const [paddingBottom, setPaddingBottom] = useState(values[3]);
 
-    const [isBasicMode, toggleBasicMode] = useBasicMode();
+    const allValuesEqual = (paddingTop === paddingLeft) === (paddingRight === paddingBottom);
+
+    const [isBasicMode, toggleBasicMode] = useBasicMode(allValuesEqual);
 
     useEffect(() => {
         handleChange([paddingTop, paddingLeft, paddingRight, paddingBottom]);
@@ -26,6 +28,14 @@ export default function PaddingAttribute({ handleChange }) {
         setPaddingBottom(value);
     };
 
+    const toggleAndSet = () => {
+        if (isBasicMode) {
+            setAll(paddingTop);
+        }
+
+        toggleBasicMode();
+    };
+
     return (
         <div className="padding-attribute">
             <AttributePanelContainer title="Padding">
@@ -34,7 +44,7 @@ export default function PaddingAttribute({ handleChange }) {
                     <Toggle
                         icons={false}
                         defaultChecked={isBasicMode}
-                        onChange={toggleBasicMode}
+                        onChange={toggleAndSet}
                     />
                 </span>
                 <div className="controls">
