@@ -36,6 +36,7 @@ export default function AttributesPanel() {
                             id="delete"
                             icon={Icons.trash}
                             text="Delete"
+                            className="text-danger"
                             onClick={() => actions.delete(selected.id)}
                         />
                     </li>
@@ -44,13 +45,6 @@ export default function AttributesPanel() {
                             id="duplicate"
                             icon={Icons.clone}
                             text="Duplicate"
-                        />
-                    </li>
-                    <li>
-                        <AttributePanelButton
-                            id="close"
-                            icon={Icons.closeBox}
-                            text="Close"
                         />
                     </li>
                 </ul>

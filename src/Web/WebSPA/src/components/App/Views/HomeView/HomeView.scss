@@ -1,10 +1,7 @@
 @import "../../../../assets/styles/colors.scss";
 
-$home_view_background_color: #f5f6f7;
-$home_view_menu_background_color: #f4f4f4;
-
 .home-view {
-    background-color: $home_view_background_color;
+    background-color: $theme_main_background;
     display: flex;
     flex: 1;
     flex-direction: column;

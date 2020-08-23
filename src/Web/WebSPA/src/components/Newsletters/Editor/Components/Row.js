@@ -1,28 +1,25 @@
 import React from 'react';
-import { useNode } from '@craftjs/core';
+import { useNode, Element } from '@craftjs/core';
 import { PaddingAttribute } from '../Attributes';
+import ComponentWrapper from './ComponentWrapper';
 
-export default function Row({
-    padding,
-    children,
-}) {
+export default function Row() {
     const {
         connectors: { connect, drag },
         isSelected,
+        padding,
     } = useNode((node) => ({
         padding: node.data.props.padding,
         isSelected: node.events.selected,
     }));
     return (
         <div ref={(ref) => connect(drag(ref))}>
-            <div
-                className={`page-component ${isSelected ? 'is-selected' : ''}`}
-                style={{
-                    padding: `${padding[0]}rem ${padding[1]}rem ${padding[2]}rem ${padding[3]}rem`,
-                }}
+            <ComponentWrapper
+                padding={padding}
+                isSelected={isSelected}
             >
-                {children}
-            </div>
+                <Element canvas id="row-item" is="div" style={{ minHeight: '5rem' }} />
+            </ComponentWrapper>
         </div>
     );
 }
@@ -37,16 +34,14 @@ function RowAttributesPanel() {
 
     return (
         <div className="row-attributes-panel">
-            <div>
-                <PaddingAttribute
-                    values={props.padding}
-                    handleChange={(paddingValues) => {
-                        setProp(
-                            (props) => (props.padding = paddingValues),
-                        );
-                    }}
-                />
-            </div>
+            <PaddingAttribute
+                values={props.padding}
+                handleChange={(paddingValues) => {
+                    setProp(
+                        (props) => (props.padding = paddingValues),
+                    );
+                }}
+            />
         </div>
     );
 }

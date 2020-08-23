@@ -5,7 +5,7 @@ import Icon from '../../../../App/Iconography/Icon';
 import '../../../../../assets/styles/accessibility.scss';
 
 export default function AttributePanelButton({
-    id, icon, onClick, text, active,
+    id, icon, onClick, text, active, className,
 }) {
     const buttonId = `tooltip-${id}`;
 
@@ -20,6 +20,7 @@ export default function AttributePanelButton({
                 type="button"
                 active={active}
                 onClick={onClick}
+                className={className}
             >
                 <p className="a11y-visually-hidden">{text}</p>
                 <Icon icon={icon} />

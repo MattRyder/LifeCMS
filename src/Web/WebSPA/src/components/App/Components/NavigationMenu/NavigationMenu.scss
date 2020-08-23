@@ -1,0 +1,95 @@
+@import "assets/styles/colors.scss";
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 36px;
+    bottom: 36px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: darken($theme_main_color, 25%);
+}
+
+/* Color/shape of burger icon bars on hover*/
+.bm-burger-bars-hover {
+    background: $theme_main_color;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross {
+    background: #bdc3c7;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.navigation-menu {
+    background-color: #fff;
+
+    .sub-menu {
+        padding-top: 2rem;
+    }
+
+    header {
+        overflow: hidden;
+        padding: 0.25rem 0.75rem;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: $theme_main_menu_header_color;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0.05rem 0;
+        padding: 0;
+
+        li {
+            display: flex;
+
+            button {
+                margin: 0.25rem 0.5rem;
+                padding: 0.2rem 1rem;
+                width: 100%;
+
+                border-radius: 3.5px;
+                text-decoration: none;
+                text-align: left;
+
+                color: $theme_main_menu_header_color;
+
+                svg {
+                    font-size: 0.85rem;
+                    margin-right: 0.5rem;
+                    color: lighten($theme_main_link_color, 25%);
+                }
+
+                &:hover,
+                &:active,
+                &.active {
+                    background-color: $theme_main_menu_item_active_background_color;
+                    color: $theme_main_link_color;
+                    text-decoration: none;
+
+                    svg {
+                        background-color: $theme_main_menu_item_active_background_color;
+                        color: $theme_main_link_color;
+                    }
+                }
+            }
+        }
+    }
+}

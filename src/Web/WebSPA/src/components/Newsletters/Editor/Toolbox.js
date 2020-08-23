@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, Button } from 'reactstrap';
 import { useEditor } from '@craftjs/core';
-import { Row, Text } from './Components';
+import { Columns, Row, Text } from './Components';
 
 import './Toolbox.scss';
 
@@ -14,6 +14,10 @@ const elements = [
         component: <Text />,
         name: 'Free Text',
     },
+    {
+        component: <Columns />,
+        name: 'Columns',
+    },
 ];
 
 export default function Toolbox() {
@@ -24,11 +28,14 @@ export default function Toolbox() {
             <Nav vertical>
                 {
                     elements.map((element) => (
-                        <div key={element.name} className="toolbox-item" ref={(ref) => create(ref, element.component)}>
-                            <Button outline block color="primary">
+                        <Button key={element.name} outline block color="primary">
+                            <div
+                                className="toolbox-item"
+                                ref={(ref) => create(ref, element.component)}
+                            >
                                 {element.name}
-                            </Button>
-                        </div>
+                            </div>
+                        </Button>
                     ))
                 }
             </Nav>

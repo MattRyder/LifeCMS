@@ -1,0 +1,48 @@
+@import "assets/styles/colors.scss";
+@import "assets/styles/box-shadow.scss";
+
+.editor {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    .editor-designer {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+    }
+
+    .toolbox {
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .canvas {
+        flex: 1;
+
+        .page {
+            @include box-shadow-shorter(rgba(0, 0, 0, 0.05));
+            background-color: white;
+            margin: 1rem;
+            min-height: 50%;
+
+            .page-component {
+                border-width: 2px;
+                border-color: rgba(25, 132, 255, 0.15);
+                border-style: solid;
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                &.is-selected {
+                    border-color: #117cfa !important;
+                }
+            }
+
+            .editor-row {
+                min-height: 100px;
+            }
+        }
+    }
+}

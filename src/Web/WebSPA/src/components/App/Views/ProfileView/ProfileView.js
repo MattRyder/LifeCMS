@@ -6,7 +6,7 @@ import { fetchUserProfiles } from '../../../../redux/actions/UserProfileActions'
 
 import './ProfileView.scss';
 
-export default function () {
+export default function ProfileView() {
     const { accessToken, userId } = useUser();
 
     const userProfilesState = useSelector((state) => state.userProfile[userId]

@@ -1,12 +1,12 @@
 import React from 'react';
-import { ButtonGroup } from 'reactstrap';
+import { ButtonGroup, Input } from 'reactstrap';
 
 import { Icons } from '../../../App/Iconography/Icon';
 import AttributePanelButton from '../Components/Interface/AttributePanelButton';
 import AttributePanelContainer from '../Components/Interface/AttributePanelContainer';
 
 export default function TypographicAttribute({
-    bold, italic, underline, handleChange,
+    bold, italic, underline, text, handleChange,
 }) {
     return (
         <div className="typographic-attribute">
@@ -34,6 +34,16 @@ export default function TypographicAttribute({
                         onClick={() => handleChange('underline', !underline)}
                     />
                 </ButtonGroup>
+
+                <div className="controls">
+                    <Input
+                        placeholder="Text"
+                        type="textarea"
+                        value={text}
+                        onChange={(e) => handleChange('text', e.currentTarget.value)}
+                    />
+                </div>
+
             </AttributePanelContainer>
         </div>
     );

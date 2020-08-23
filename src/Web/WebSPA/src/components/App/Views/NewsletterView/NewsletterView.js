@@ -1,20 +1,21 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router';
-import NewsletterCreate from './NewsletterCreate/NewsletterCreate';
-import NewsletterIndex from './NewsletterIndex/NewsletterIndex';
-import NewsletterEdit from './NewsletterEdit/NewsletterEdit';
+import {
+    useRouteMatch, Switch, Route, Redirect,
+} from 'react-router';
+import NewsletterTemplateIndex from './TemplateIndex/NewsletterTemplateIndex';
 
-import './NewsletterView.scss';
-
-export default function NewsletterView() {
+export default function NewslettersView() {
     const { path } = useRouteMatch();
 
     return (
-        <div className="newsletter-view">
+        <div style={{ padding: '2rem', width: '100%' }}>
             <Switch>
-                <Route path={`${path}/new`} component={NewsletterCreate} />
-                <Route path={`${path}/:id/edit`} component={NewsletterEdit} />
-                <Route path={path} component={NewsletterIndex} />
+                <Route exact path={path}>
+                    <Redirect to={`${path}/templates`} />
+                </Route>
+                <Route path={`${path}/templates`} component={NewsletterTemplateIndex} />
+                <Route path={`${path}/mailing-lists`} />
+                <Route path={`${path}/mailings`} />
             </Switch>
         </div>
     );

@@ -46,12 +46,33 @@ export default {
     homeView: {
         pageTitle: 'homeViewPageTitle',
     },
+    navigationMenu: {
+        header: {
+            content: 'navigationMenuHeaderContent',
+            newsletters: 'navigationMenuHeaderNewsletters',
+            settings: 'navigationMenuHeaderSettings',
+        },
+        item: {
+            posts: 'navigationMenuItemPosts',
+            templates: 'navigationMenuItemTemplates',
+            userProfiles: 'navigationMenuItemUserProfiles',
+        },
+    },
     newsletterView: {
+        dashboard: {
+            pageTitle: 'newsletterViewDashboardPageTitle',
+            menu: {
+                templates: 'newsletterViewDashboardMenuTemplates',
+                mailingLists: 'newsletterViewDashboardMenuMailingLists',
+            },
+        },
         pageTitle: 'newsletterViewPageTitle',
         createNewsletter: 'newsletterViewCreateNewsletter',
         listCaption: 'newsletterViewListCaption',
+        listViewPreview: 'newsletterViewListViewPreview',
         editorTitleCreate: 'newsletterViewEditorTitleCreate',
         editorTitleEdit: 'newsletterViewEditorTitleEdit',
+        previewPageTitle: 'newsletterPreviewPageTitle',
     },
     profileView: {
         connect: 'connect',

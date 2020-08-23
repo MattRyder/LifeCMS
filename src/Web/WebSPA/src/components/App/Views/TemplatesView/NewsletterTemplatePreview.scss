@@ -1,0 +1,27 @@
+@import "assets/styles/colors.scss";
+@import "assets/styles/box-shadow.scss";
+
+.newsletter-template-preview {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+        }
+    }
+
+    .page {
+        @include box-shadow-shorter(rgba(0, 0, 0, 0.05));
+        background-color: white;
+        min-height: 50%;
+        padding: 1rem;
+    }
+}

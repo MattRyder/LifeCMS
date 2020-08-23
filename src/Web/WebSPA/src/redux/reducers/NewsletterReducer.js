@@ -3,7 +3,7 @@ import {
     FETCH_NEWSLETTERS_FAILURE,
     FETCH_NEWSLETTERS_SUCCESS,
     DELETE_NEWSLETTER_SUCCESS,
-} from '../actions/NewsletterActions';
+} from '../actions/NewsletterTemplateActions';
 
 const NewsletterReducer = (state = {}, action) => {
     switch (action.type) {

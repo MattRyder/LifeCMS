@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useUser, useContentApi, useTranslations } from '../../../../hooks';
+import { useUser, useContentApi } from '../../../../hooks';
 import { fetchPosts } from '../../../../redux/actions/PostActions';
-import PageTitleBar from '../../Components/PageTitleBar/PageTitleBar';
 import PostPageComponent from './PostPageComponent';
 
 import './HomeView.scss';
@@ -12,8 +11,6 @@ export default function HomeView() {
 
     const userPostState = useSelector((state) => state.post[userId] || []);
 
-    const { t, TextTranslationKeys } = useTranslations();
-
     useContentApi(
         () => fetchPosts(accessToken, userId),
         accessToken,
@@ -21,9 +18,6 @@ export default function HomeView() {
 
     return (
         <div className="home-view">
-            <PageTitleBar>
-                <span>{t(TextTranslationKeys.homeView.pageTitle)}</span>
-            </PageTitleBar>
             <PostPageComponent
                 accessToken={accessToken}
                 posts={userPostState.posts}

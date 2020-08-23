@@ -4,6 +4,10 @@
     font-family: sans-serif;
 }
 
+body {
+    background-color: $theme-main-background;
+}
+
 a {
     color: $theme_main_link_color;
 
@@ -14,6 +18,14 @@ a {
 
 #root > div {
     display: flex;
-    flex-direction: column;
     height: 100vh;
+
+    .navigation-menu {
+        flex: 1;
+        max-width: 12.5rem;
+    }
+
+    main {
+        width: 100%;
+    }
 }

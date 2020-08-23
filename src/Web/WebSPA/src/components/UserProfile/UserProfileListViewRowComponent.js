@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Dropdown,
     DropdownToggle,
@@ -8,14 +7,13 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { useTranslations, useUser } from '../../hooks';
+import { useTranslations, useUser, useToggle } from '../../hooks';
 import Icon, { Icons } from '../App/Iconography/Icon';
 import { FireConfirmAlert } from '../../FireAlert';
 import { deleteUserProfile } from '../../redux/actions/UserProfileActions';
 
 export default function UserProfileListViewRowComponent({
-    path,
-    userProfile: {
+    item: {
         id, name, occupation, location,
     },
 }) {
@@ -25,9 +23,7 @@ export default function UserProfileListViewRowComponent({
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const [isDropdownOpened, setDropdownOpened] = useState(false);
-
-    const toggleDropdownOpened = () => setDropdownOpened(!isDropdownOpened);
+    const [isDropdownOpen, toggleDropdownOpen] = useToggle();
 
     const dispatchDeleteUserProfile = (userProfileId) => dispatch(
         deleteUserProfile(accessToken, userId, userProfileId),
@@ -43,14 +39,14 @@ export default function UserProfileListViewRowComponent({
             <td>{occupation}</td>
             <td>{location}</td>
             <td>
-                <Dropdown isOpen={isDropdownOpened} toggle={toggleDropdownOpened}>
+                <Dropdown isOpen={isDropdownOpen} toggle={toggleDropdownOpen}>
                     <DropdownToggle nav className="link-subdued">
                         <Icon icon={Icons.cog} />
                     </DropdownToggle>
                     <DropdownMenu right>
                         <DropdownItem
                             tag={Link}
-                            to={`${path}/${id}/edit`}
+                            to={`/user-profiles/${id}/edit`}
                         >
                             {t(TextTranslationKeys.common.edit)}
                         </DropdownItem>

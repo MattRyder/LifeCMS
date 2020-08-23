@@ -3,10 +3,15 @@ import {
     InputGroup, InputGroupAddon, Button, Input,
 } from 'reactstrap';
 
-export default function IncrementalSpinner({ value, setValue }) {
-    const increment = () => setValue(value + 1);
+export default function IncrementalSpinner({
+    value,
+    setValue,
+    min = Number.MIN_SAFE_INTEGER,
+    max = Number.MAX_SAFE_INTEGER,
+}) {
+    const increment = () => setValue(value < max ? value + 1 : max);
 
-    const decrement = () => setValue(value - 1);
+    const decrement = () => setValue(value > min ? value - 1 : min);
 
     return (
         <div className="incremental-spinner">
@@ -21,6 +26,8 @@ export default function IncrementalSpinner({ value, setValue }) {
                     name="padding"
                     id="input-padding"
                     value={value}
+                    min="0"
+                    max="100"
                     onChange={(e) => setValue(e.currentTarget.value)}
                 />
 

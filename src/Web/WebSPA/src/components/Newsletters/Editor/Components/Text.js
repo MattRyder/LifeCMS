@@ -1,38 +1,41 @@
 import React from 'react';
 import { useNode } from '@craftjs/core';
-import { FontSizeAttribute, PaddingAttribute } from '../Attributes';
+import { css } from 'emotion';
+import { SingleSpinnerAttribute, PaddingAttribute } from '../Attributes';
 import TypographicAttribute from '../Attributes/TypographicAttribute';
+import ComponentWrapper from './ComponentWrapper';
 
 export default function Text({
-    bold, italic, underline, fontSize, padding, text,
+    bold, italic, underline, text,
 }) {
     const {
         connectors: { connect, drag },
         isSelected,
+        fontSize,
+        padding,
     } = useNode((state) => ({
-        dragged: state.events.dragged,
         isSelected: state.events.selected,
+        padding: state.data.props.padding,
+        fontSize: state.data.props.fontSize,
     }));
 
-    const styles = {
-        fontSize: `${fontSize}rem`,
-        padding: `${padding[0]}rem ${padding[1]}rem ${padding[2]}rem ${padding[3]}rem`,
-    };
-
-    if (bold) { styles.fontWeight = 'bold'; }
-
-    if (italic) { styles.fontStyle = 'italic'; }
-
-    if (underline) { styles.textDecoration = 'underline'; }
+    const className = css({
+        fontWeight: bold ? 'bold' : 'initial',
+        fontStyle: italic ? 'italic' : 'initial',
+        textDecoration: underline ? 'underline' : 'initial',
+    });
 
     return (
-        <div
-            ref={(ref) => connect(drag(ref))}
-            className={`page-component ${isSelected ? 'is-selected' : ''}`}
-        >
-            <p style={styles}>
-                {text}
-            </p>
+        <div ref={(ref) => connect(drag(ref))}>
+            <ComponentWrapper
+                padding={padding}
+                fontSize={fontSize}
+                isSelected={isSelected}
+            >
+                <p className={className}>
+                    {text}
+                </p>
+            </ComponentWrapper>
         </div>
     );
 }
@@ -47,9 +50,12 @@ export function TextAttributesPanel() {
 
     return (
         <div className="text-attributes-panel">
-            <FontSizeAttribute
+            <SingleSpinnerAttribute
+                title="Font Size"
+                min={1}
+                max={5}
                 value={props.fontSize}
-                handleChange={(value) => setProp(
+                setValue={(value) => setProp(
                     (props) => (props.fontSize = value),
                 )}
             />
@@ -65,6 +71,7 @@ export function TextAttributesPanel() {
                 bold={props.bold}
                 italic={props.italic}
                 underline={props.underline}
+                text={props.text}
                 handleChange={(propKey, value) => setProp(
                     (props) => (props[propKey] = value),
                 )}
@@ -80,7 +87,7 @@ Text.craft = {
         underline: false,
         fontSize: 1,
         padding: [1, 1, 1, 1],
-        text: 'Hello, World!',
+        text: '',
     },
     related: {
         attributesPanel: TextAttributesPanel,

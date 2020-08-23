@@ -1,2 +1,2 @@
-export { default as FontSizeAttribute } from './FontSizeAttribute';
+export { default as SingleSpinnerAttribute } from './SingleSpinnerAttribute';
 export { default as PaddingAttribute } from './PaddingAttribute';

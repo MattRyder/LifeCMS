@@ -7,7 +7,9 @@ import useBasicMode from '../Hooks/useBasicMode';
 import 'react-toggle/style.css';
 import './PaddingAttribute.scss';
 
-export default function PaddingAttribute({ values, handleChange }) {
+export default function PaddingAttribute({
+    values, handleChange,
+}) {
     const [paddingTop, setPaddingTop] = useState(values[0]);
     const [paddingLeft, setPaddingLeft] = useState(values[1]);
     const [paddingRight, setPaddingRight] = useState(values[2]);
