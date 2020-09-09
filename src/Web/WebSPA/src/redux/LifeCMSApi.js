@@ -47,6 +47,32 @@ export default class LifeCMSApi {
     deleteNewsletter(userId, newsletterId) {
         return this.client.delete(`users/${userId}/newsletters/${newsletterId}`);
     }
+
+    getCampaigns(userId) {
+        return this.client.get(`users/${userId}/campaigns`);
+    }
+
+    createCampaign(params) {
+        return this.client.post('campaigns', params);
+    }
+
+    updateCampaignSubject(campaignId, params) {
+        return this.client.post(
+            `campaigns/${campaignId}/updateSubject`,
+            params,
+        );
+    }
+
+    updateCampaignName(campaignId, params) {
+        return this.client.post(
+            `campaigns/${campaignId}/updateName`,
+            params,
+        );
+    }
+
+    deleteCampaign(campaignId) {
+        return this.client.delete(`campaigns/${campaignId}`);
+    }
 }
 
 export function getLifeCMSApi(accessToken) {

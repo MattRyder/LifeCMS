@@ -4,9 +4,16 @@ using LifeCMS.Services.ContentCreation.API.Authorization.Requirements;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
+using System;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
 
 namespace LifeCMS.Services.ContentCreation.API.Authorization.Handlers
 {
+    public class UserOwnsResourceException : Exception
+    {
+        public UserOwnsResourceException(string message) : base(message) { }
+    }
+
     public class UserOwnsResourceHandler : AuthorizationHandler<UserOwnsResourceRequirement>
     {
         private readonly IUserAccessor _userAccessor;
@@ -23,17 +30,13 @@ namespace LifeCMS.Services.ContentCreation.API.Authorization.Handlers
         {
             var userId = _userAccessor.Id;
 
-            var shouldSucceedContext = false;
-
-            switch (context.Resource)
+            var shouldSucceedContext = context.Resource switch
             {
-                case UserProfile userProfile:
-                    shouldSucceedContext = userProfile.UserId.Equals(userId);
-                    break;
-                case Newsletter newsletter:
-                    shouldSucceedContext = newsletter.UserId.Equals(userId);
-                    break;
-            }
+                UserProfile userProfile => userProfile.UserId.Equals(userId),
+                Newsletter newsletter => newsletter.UserId.Equals(userId),
+                Campaign campaign => campaign.UserId.Equals(userId),
+                _ => throw new UserOwnsResourceException("Resource not registered with this handler."),
+            };
 
             if (shouldSucceedContext)
             {

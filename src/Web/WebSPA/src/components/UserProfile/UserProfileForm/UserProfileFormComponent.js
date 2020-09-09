@@ -1,28 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import {
-    Input, Button, FormFeedback, Label,
-} from 'reactstrap';
+import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import Schema, { InitialValues } from './UserProfileFormSchema';
+import getInputFor from 'components/Util/Form';
 import { useTranslations, useUser } from '../../../hooks';
 import { createUserProfile } from '../../../redux/actions/UserProfileActions';
+import Schema, { InitialValues } from './UserProfileFormSchema';
 
 import './UserProfileFormComponent.scss';
-
-const getInputFor = (formik, inputName, label, hint) => (
-    <div className={`input-${inputName}`}>
-        <Label for={inputName}>{label}</Label>
-        <Input
-            name={inputName}
-            onChange={formik.handleChange}
-            invalid={formik.errors[inputName] && formik.errors[inputName].length > 0}
-            value={formik.values[inputName]}
-        />
-        <FormFeedback valid={formik.errors[inputName] && formik.errors[inputName].length === 0} />
-        { hint ? <span className="hint">{hint}</span> : null }
-    </div>
-);
 
 export default function UserProfileFormComponent({ userProfile = InitialValues }) {
     const { t, TextTranslationKeys } = useTranslations();

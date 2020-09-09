@@ -11,13 +11,14 @@ import {
     NewsletterView,
     UserProfileView,
     NewsletterTemplatesView,
+    CampaignView,
 } from './components/App/Views';
 import AuthenticatedRoute from './components/Util/AuthenticatedRoute';
+import NavigationMenu from './components/App/Components/NavigationMenu/NavigationMenu';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
-import NavigationMenu from './components/App/Components/NavigationMenu/NavigationMenu';
 
 export default function App() {
     return (
@@ -29,6 +30,7 @@ export default function App() {
                     <Route path="/profile/:id" component={ProfileView} />
                     <Route path="/session" component={SessionView} />
                     <AuthenticatedRoute path="/content" component={HomeView} />
+                    <AuthenticatedRoute path="/campaigns" component={CampaignView} />
                     <AuthenticatedRoute path="/newsletter" component={NewsletterView} />
                     <AuthenticatedRoute path="/templates" component={NewsletterTemplatesView} />
                     <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />

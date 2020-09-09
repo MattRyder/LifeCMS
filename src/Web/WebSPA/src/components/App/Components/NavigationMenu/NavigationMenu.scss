@@ -37,6 +37,11 @@
 .navigation-menu {
     background-color: #fff;
 
+    & > div {
+        position: sticky;
+        top: 0;
+    }
+
     .sub-menu {
         padding-top: 2rem;
     }

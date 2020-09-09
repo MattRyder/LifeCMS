@@ -6,13 +6,16 @@ export default {
         delete: 'commonDelete',
         post: 'commonPost',
         settings: 'commonSettings',
+        details: 'commonDetails',
+        update: 'commonUpdate',
+        createdAt: 'commonCreatedAt',
+        updatedAt: 'commonUpdatedAt',
     },
-    menu: {
-        profile: 'menuProfile',
-        newsletters: 'menuNewsletters',
-        settings: 'menuSettings',
-        login: 'menuLogin',
-        logout: 'menuLogout',
+    confirm: {
+        areYouSure: 'confirmAreYouSure',
+        message: 'confirmMessage',
+        ok: 'confirmOk',
+        cancel: 'confirmCancel',
     },
     post: {
         noPostsAvailable: 'noPostsAvailable',
@@ -23,6 +26,17 @@ export default {
             text: {
                 placeholder: 'postCreateTextPlaceholder',
             },
+        },
+    },
+    campaign: {
+        properties: {
+            newsletterTemplate: 'campaignPropertiesNewsletterTemplate',
+            userProfile: 'campaignPropertiesUserProfile',
+            name: 'campaignPropertiesName',
+            subjectLineText: 'campaignPropertiesSubjectLineText',
+            previewText: 'campaignPropertiesPreviewText',
+            scheduledDate: 'campaignPropertiesScheduledDate',
+            useSubscriberTimeZone: 'campaignPropertiesUseSubTimeZone',
         },
     },
     userProfile: {
@@ -54,8 +68,36 @@ export default {
         },
         item: {
             posts: 'navigationMenuItemPosts',
+            campaigns: 'navigationMenuItemCampaigns',
             templates: 'navigationMenuItemTemplates',
             userProfiles: 'navigationMenuItemUserProfiles',
+            login: 'navigationMenuItemLogin',
+            logout: 'navigationMenuItemLogout',
+        },
+    },
+    campaignView: {
+        index: {
+            pageTitle: 'campaignViewIndexTitle',
+            createCampaign: 'campaignViewIndexCreateCampaign',
+            scheduledFor: 'campaignViewIndexScheduledFor',
+            createdAt: 'campaignViewIndexCreatedAt',
+        },
+        create: {
+            pageTitle: 'campaignViewCreateTitle',
+            form: {
+                subscriberHint: 'campaignViewCreateSubscriberTimeZoneHint',
+                scheduledDatePlaceholder: 'campaignViewCreateScheduledDatePlaceholder',
+            },
+        },
+        detail: {
+            pageTitle: 'campaignViewDetailTitle',
+            subjectDetailTitle: 'campaignViewDetailSubjectDetailTitle',
+        },
+        updateSubject: {
+            pageTitle: 'campaignViewUpdateSubject',
+        },
+        updateName: {
+            pageTitle: 'campaignViewUpdateName',
         },
     },
     newsletterView: {

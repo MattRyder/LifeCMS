@@ -1,0 +1,50 @@
+form.campaign-form-component {
+    .hint {
+        font-size: smaller;
+        color: lighten(gray, 5%);
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    label {
+        display: block;
+    }
+
+    .toggle-container {
+        display: flex;
+
+        label {
+            margin-bottom: 0;
+        }
+
+        .react-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+    }
+
+    $datepicker-time-width: 125px;
+    .react-datepicker-wrapper,
+    input#scheduledDate {
+        width: 100%;
+    }
+
+    .react-datepicker-wrapper {
+        width: 100%;
+    }
+
+    .react-datepicker__time-container {
+        .react-datepicker__time .react-datepicker__time-box {
+            width: $datepicker-time-width;
+        }
+
+        width: $datepicker-time-width;
+    }
+
+    .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
+        right: $datepicker-time-width + 15px;
+    }
+}

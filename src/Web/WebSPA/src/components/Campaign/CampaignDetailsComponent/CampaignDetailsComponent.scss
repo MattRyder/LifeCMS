@@ -1,0 +1,36 @@
+@import "assets/styles/colors.scss";
+
+.campaign-details-component {
+    background-color: #fff;
+    padding: 2rem 1rem;
+    width: 75%;
+
+    .detail {
+        padding: 1.5rem 0.85rem;
+
+        p {
+            align-self: center;
+            margin-bottom: 0;
+            flex: 1;
+        }
+
+        & > div {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+}
+
+.meta {
+    padding: 1rem 0;
+    text-align: right;
+    width: 75%;
+
+    p {
+        color: lighten($theme_main_link_color, 33%);
+        font-size: 0.75rem;
+        margin: 0.25rem;
+    }
+}

@@ -63,6 +63,11 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                 <header>{t(TextTranslationKeys.navigationMenu.header.newsletters)}</header>
                 <ul>
                     {createNavLink(
+                        Icons.bullhorn,
+                        t(TextTranslationKeys.navigationMenu.item.campaigns),
+                        () => closeMenuAndNavigateTo('/campaigns'),
+                    )}
+                    {createNavLink(
                         Icons.message,
                         t(TextTranslationKeys.navigationMenu.item.templates),
                         () => closeMenuAndNavigateTo('/newsletter/templates'),
@@ -88,14 +93,14 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                                     color="Link"
                                     onClick={onLoginClick}
                                 >
-                                    {t(TextTranslationKeys.menu.login)}
+                                    {t(TextTranslationKeys.navigationMenu.item.login)}
                                 </Button>
                             ) : (
                                 <Button
                                     color="Link"
                                     onClick={onLogoutClick}
                                 >
-                                    {t(TextTranslationKeys.menu.logout)}
+                                    {t(TextTranslationKeys.navigationMenu.item.logout)}
                                 </Button>
                             )
                         }

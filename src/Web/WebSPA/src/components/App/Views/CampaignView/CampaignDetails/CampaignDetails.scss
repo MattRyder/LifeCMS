@@ -1,0 +1,22 @@
+@import "assets/styles/box-shadow.scss";
+
+.campaign-details {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .view-navigation-bar {
+        width: 100%;
+    }
+
+    .header {
+        font-size: 1.5rem;
+        line-height: 3rem;
+        width: 75%;
+    }
+
+    .campaign-details-component {
+        @include box-shadow-shorter(rgba(0, 0, 0, 0.05));
+    }
+}

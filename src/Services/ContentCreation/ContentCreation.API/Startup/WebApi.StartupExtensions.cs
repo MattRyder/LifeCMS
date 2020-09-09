@@ -29,6 +29,10 @@ using LifeCMS.Services.ContentCreation.API.Authorization.Handlers;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Newsletters;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.Newsletters;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
+using LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns;
+using LifeCMS.Services.ContentCreation.API.Application.Queries.Campaigns;
+using LifeCMS.Services.ContentCreation.API.Services.Campaigns;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -71,6 +75,15 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     .AddTransient<IRequestHandler<UpdateNewsletterBodyCommand, bool>, UpdateNewsletterBodyCommandHandler>()
                     .AddTransient<IRequestHandler<DeleteNewsletterCommand, bool>, DeleteNewsletterCommandHandler>()
                     .AddTransient<INewsletterQueries, NewsletterQueries>();
+
+            services.AddTransient<ICampaignRepository, CampaignRepository>()
+                    .AddTransient<IRequestHandler<CreateCampaignCommand, bool>, CreateCampaignCommandHandler>()
+                    .AddTransient<IRequestHandler<DeleteCampaignCommand, bool>, DeleteCampaignCommandHandler>()
+                    .AddTransient<IRequestHandler<UpdateCampaignNameCommand, bool>, UpdateCampaignNameCommandHandler>()
+                    .AddTransient<IRequestHandler<UpdateCampaignSubjectCommand, bool>, UpdateCampaignSubjectCommandHandler>()
+                    .AddTransient<ICampaignLookupService, CampaignLookupService>()
+                    .AddTransient<ICampaignValidationService, CampaignValidationService>()
+                    .AddTransient<ICampaignQueries, CampaignQueries>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
