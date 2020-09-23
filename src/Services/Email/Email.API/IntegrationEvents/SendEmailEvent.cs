@@ -5,6 +5,8 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
 {
     public class SendEmailEvent : IntegrationEvent
     {
+        public string From { get; set; }
+
         public IEnumerable<string> To { get; set; }
 
         public IEnumerable<string> Cc { get; set; }

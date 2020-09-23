@@ -1,4 +1,5 @@
-﻿using LifeCMS.Services.Identity.Infrastructure;
+﻿using System;
+using LifeCMS.Services.Identity.Infrastructure;
 using LifeCMS.Services.Identity.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,15 @@ namespace LifeCMS.Services.Identity.API.Extensions
             })
             .AddEntityFrameworkStores<LifeCMSIdentityDbContext>()
             .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                var tokenLifespanHours = configuration.GetValue<int>(
+                    "Identity:PasswordResetTokenLifetimeHours", 3
+                );
+
+                options.TokenLifespan = TimeSpan.FromHours(tokenLifespanHours);
+            });
         }
 
         public static void UseLifeCMSIdentity(this IApplicationBuilder app)

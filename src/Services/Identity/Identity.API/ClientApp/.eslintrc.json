@@ -25,6 +25,12 @@
             "error",
             4
         ],
+        "no-return-assign": [
+            "off"
+        ],
+        "react/jsx-filename-extension": [
+            "off"
+        ],
         "react/jsx-indent": [
             "error",
             4

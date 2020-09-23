@@ -25,7 +25,7 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
             _logger = logger;
         }
 
-        public bool Handle(SendEmailEvent @event)
+        public Task<bool> Handle(SendEmailEvent @event)
         {
             var message = CreateEmailMessage(@event);
 
@@ -33,13 +33,13 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
             {
                 _emailClient.Send(message);
 
-                return true;
+                return Task.FromResult(true);
             }
             catch (EmailClientException ex)
             {
                 _logger.LogError(ex, ex.Message);
 
-                return false;
+                return Task.FromResult(false);
             }
         }
 
@@ -47,11 +47,14 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
         {
             var to = @event.To ?? new List<string>();
 
+            var from = @event.From;
+
             var cc = @event.Cc ?? new List<string>();
 
             var bcc = @event.Bcc ?? new List<string>();
 
             return new EmailMessage(
+                from: from,
                 to: to,
                 cc: cc,
                 bcc: bcc,

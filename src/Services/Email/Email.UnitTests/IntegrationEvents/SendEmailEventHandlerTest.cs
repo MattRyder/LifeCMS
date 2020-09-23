@@ -22,7 +22,7 @@ namespace LifeCMS.Services.Email.UnitTests.IntegrationEvents
         }
 
         [Fact]
-        public void Handle_ReturnsTrue_GivenValidEvent()
+        public async void Handle_ReturnsTrue_GivenValidEvent()
         {
             var handler = new SendEmailEventHandler(
                 _emailClientMock.Object,
@@ -31,21 +31,23 @@ namespace LifeCMS.Services.Email.UnitTests.IntegrationEvents
 
             var sendEmailEvent = new SendEmailEvent()
             {
+                From = "noreply@example.com",
                 To = new[] { "test@example.com" },
                 Subject = "Email Subject",
                 Body = "Email Body"
             };
 
-            var result = handler.Handle(sendEmailEvent);
+            var result = await handler.Handle(sendEmailEvent);
 
             Assert.True(result);
         }
 
         [Fact]
-        public void Handle_ReturnsFalse_WhenEmailClientThrows()
+        public async void Handle_ReturnsFalse_WhenEmailClientThrows()
         {
             var sendEmailEvent = new SendEmailEvent()
             {
+                From = "noreply@example.com",
                 To = new[] { "test@example.com" },
                 Subject = "Email Subject",
                 Body = "Email Body"
@@ -60,7 +62,7 @@ namespace LifeCMS.Services.Email.UnitTests.IntegrationEvents
                 _loggerMock.Object
             );
 
-            var result = handler.Handle(sendEmailEvent);
+            var result = await handler.Handle(sendEmailEvent);
 
             Assert.False(result);
         }

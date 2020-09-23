@@ -6,6 +6,8 @@ namespace LifeCMS.Services.ContentCreation.API.IntegrationEvents
 {
     public class SendEmailEvent : IntegrationEvent
     {
+        public string From { get; set; }
+
         public IEnumerable<string> To { get; private set; }
 
         public IEnumerable<string> Cc { get; private set; }
@@ -17,6 +19,7 @@ namespace LifeCMS.Services.ContentCreation.API.IntegrationEvents
         public string Body { get; private set; }
 
         public SendEmailEvent(
+            string from,
             IEnumerable<string> to,
             IEnumerable<string> cc,
             IEnumerable<string> bcc,
@@ -24,6 +27,8 @@ namespace LifeCMS.Services.ContentCreation.API.IntegrationEvents
             string body
         )
         {
+            From = from ?? throw new ArgumentNullException(nameof(from));
+
             To = to ?? throw new ArgumentNullException(nameof(to));
 
             Cc = cc ?? default;

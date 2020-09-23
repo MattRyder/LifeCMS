@@ -1,20 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Col, Row } from 'reactstrap';
+import LanguageSelect from './Util/LanguageSelect/LanguageSelect';
 
 import './Layout.scss';
 
-export class Layout extends Component {
-  render() {
+export default function Layout({ children }) {
+    const colProps = {
+        xs: '12',
+        sm: { size: 10, offset: 1 },
+        md: { size: 8, offset: 2 },
+        lg: { size: 6, offset: 3 },
+    };
     return (
-      <div className="layout-view">
-        <Container fluid>
-          <Row>
-            <Col xs="12" sm={{size: 8, offset: 2}} md={{ size: 6, offset: 3 }}>
-              {this.props.children}
-            </Col>
-          </Row>
-        </Container>
-      </div>
+        <div className="layout-view">
+            <Container fluid>
+                <Row>
+                    <Col {...colProps}>
+                        {children}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col {...colProps}>
+                        <LanguageSelect />
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     );
-  }
 }

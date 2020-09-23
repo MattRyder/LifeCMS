@@ -25,7 +25,7 @@ namespace LifeCMS.Services.Email.API
 
             services.AddEventBus(Configuration);
 
-            services.AddSendGrid(Configuration);
+            services.AddEmailClient(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

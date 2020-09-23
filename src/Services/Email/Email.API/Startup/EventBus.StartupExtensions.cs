@@ -48,7 +48,7 @@ namespace LifeCMS.Services.Email.API
                     connection,
                     subscriptionManager,
                     logger,
-                    "content_creation"
+                    queueName: configuration["EventBus:QueueName"]
                 );
             });
 

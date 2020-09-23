@@ -46,7 +46,7 @@ namespace LifeCMS.Services.ContentCreation.API
                     connection,
                     subscriptionManager,
                     logger,
-                    queueName: "content_creation"
+                    queueName: configuration["EventBus:QueueName"]
                 );
             });
 

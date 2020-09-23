@@ -7,30 +7,30 @@ import {
 const InitialState = {
     authentication: {},
     errors: [],
-    isLoading: true,
+    isLoading: false,
 };
 
 export default (state = InitialState, action) => {
-    switch(action.type) {
-        case PERFORM_AUTHENTICATION_BEGIN:
-            return {
-                ...state,
-                isLoading: true,
-                errors: [],
-            };
-        case PERFORM_AUTHENTICATION_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                authentication: action.payload.authentication,
-            };
-        case PERFORM_AUTHENTICATION_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                errors: action.payload.errors,
-            };
-        default:
-            return state;
+    switch (action.type) {
+    case PERFORM_AUTHENTICATION_BEGIN:
+        return {
+            ...state,
+            isLoading: true,
+            errors: [],
+        };
+    case PERFORM_AUTHENTICATION_SUCCESS:
+        return {
+            ...state,
+            isLoading: false,
+            authentication: action.payload.authentication,
+        };
+    case PERFORM_AUTHENTICATION_FAILURE:
+        return {
+            ...state,
+            isLoading: false,
+            errors: action.payload.errors,
+        };
+    default:
+        return state;
     }
 };

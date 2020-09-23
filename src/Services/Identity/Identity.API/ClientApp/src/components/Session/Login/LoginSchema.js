@@ -1,5 +1,10 @@
 import * as Yup from 'yup';
 
+export const InitialValues = {
+    emailAddress: '',
+    password: '',
+};
+
 export default Yup.object().shape({
     emailAddress: Yup
         .string()
@@ -9,4 +14,3 @@ export default Yup.object().shape({
         .string()
         .required('Please enter your password'),
 });
-

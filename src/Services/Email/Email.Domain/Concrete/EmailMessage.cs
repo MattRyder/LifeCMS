@@ -5,6 +5,8 @@ namespace LifeCMS.Services.Email.Domain.Concrete
 {
     public class EmailMessage
     {
+        public string From { get; private set; }
+
         public IEnumerable<string> To { get; private set; }
 
         public IEnumerable<string> Cc { get; private set; }
@@ -16,6 +18,7 @@ namespace LifeCMS.Services.Email.Domain.Concrete
         public string Body { get; private set; }
 
         public EmailMessage(
+            string from,
             IEnumerable<string> to,
             IEnumerable<string> cc,
             IEnumerable<string> bcc,
@@ -23,6 +26,8 @@ namespace LifeCMS.Services.Email.Domain.Concrete
             string body
         )
         {
+            From = from ?? throw new ArgumentNullException(nameof(from));
+
             To = to ?? throw new ArgumentNullException(nameof(to));
 
             Cc = cc ?? new List<string>();

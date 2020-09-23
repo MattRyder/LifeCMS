@@ -1,3 +1,4 @@
+using LifeCMS.Services.Identity.API.Application.Commands.Password;
 using LifeCMS.Services.Identity.API.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +43,18 @@ namespace LifeCMS.Services.Identity.API
 
             services.AddLifeCMSIdentityServer(Configuration);
 
+            services.AddEventBus(Configuration);
+
+            services.AddTransient<
+                IRequestHandler<RequestPasswordResetCommand, bool>,
+                RequestPasswordResetCommandHandler
+            >();
+
+            services.AddTransient<
+                IRequestHandler<ConfirmPasswordResetCommand, bool>,
+                ConfirmPasswordResetCommandHandler
+            >();
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -73,7 +86,7 @@ namespace LifeCMS.Services.Identity.API
             app.UseLifeCMSIdentityServer(Configuration);
 
             app.UseStaticFiles();
-            
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();

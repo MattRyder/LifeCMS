@@ -1,0 +1,13 @@
+.language-select {
+    button.dropdown-toggle {
+        margin: 1rem 0;
+
+        &:after {
+            margin-left: 1rem;
+        }
+    }
+
+    .dropdown-item img {
+        margin-right: 0.5rem;
+    }
+}

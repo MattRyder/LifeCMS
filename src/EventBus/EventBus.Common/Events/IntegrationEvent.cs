@@ -13,7 +13,7 @@ namespace LifeCMS.EventBus.Common.Events
 
         public IntegrationEvent()
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
 
             CreatedAt = DateTime.UtcNow;
         }
