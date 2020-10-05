@@ -9,7 +9,6 @@ using IdentityServer4.AccessTokenValidation;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Services;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Policies;
-using Microsoft.IdentityModel.Logging;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -18,8 +17,6 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            IdentityModelEventSource.ShowPII = true;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,6 +24,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
+
             services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
@@ -116,6 +115,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}"

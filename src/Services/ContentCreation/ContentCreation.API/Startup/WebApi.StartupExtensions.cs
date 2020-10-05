@@ -50,8 +50,6 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             .AddDbContext<ContentCreationDbContext>(opts =>
             {
                 opts.UseMySql(connectionString);
-
-                opts.EnableSensitiveDataLogging();
             });
 
             SqlMapper.AddTypeHandler(new UriTypeHandler());

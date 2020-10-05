@@ -24,6 +24,8 @@ namespace LifeCMS.Services.Identity.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
+
             services
             .AddControllers()
             .AddNewtonsoftJson(json =>
@@ -99,6 +101,8 @@ namespace LifeCMS.Services.Identity.API
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
