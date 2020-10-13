@@ -13,14 +13,6 @@ services:
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-    environment:
-      - VIRTUAL_HOST=sql.lifecms.local
-      - VIRTUAL_PORT=3306
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
     image: mysql/mysql-server:latest
     ports:
       - "3306:3306"
@@ -33,9 +25,8 @@ services:
   rabbitmq.data:
     image: rabbitmq:3-management
     environment:
-      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: ${LIFECMS_RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${LIFECMS_RABBITMQ_PASSWORD}
     ports:
       - 5672:5672
       - 15672:15672
@@ -52,25 +43,26 @@ services:
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       ConnectionStrings__LifeCMSIdentityServer: Server=sql.data;Database=lifecms_identity_server;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
-      IdentityServerAuthentication__Authority: "http://identity.lifecms.local"
+      IdentityServerAuthentication__Authority: ${LIFECMS_VHOST_IDENTITY}
       ApiResources_0_Name: WebApi
       ApiResources_0_Scopes_0_Name: post:read
       ApiResources_0_Scopes_0_DisplayName: "Read access to the Post resource"
-      Clients__WebApiClient__AllowedCorsOrigins__0: http://lifecms.local
+      Clients__WebApiClient__AllowedCorsOrigins__0: ${LIFECMS_VHOST_WEBSPA}
       Clients__WebApiClient__AllowedScopes__0: post:read
       Clients__WebApiClient__ClientId: WebApiClient
       Clients__WebApiClient__ClientName: WebApiClient
-      Clients__WebApiClient__PostLogoutRedirectUris__0: http://lifecms.local/signout-callback-oidc
-      Clients__WebApiClient__RedirectUris__0: http://lifecms.local/session/oauth_callback
+      Clients__WebApiClient__PostLogoutRedirectUris__0: ${LIFECMS_VHOST_WEBSPA}/signout-callback-oidc
+      Clients__WebApiClient__RedirectUris__0: ${LIFECMS_VHOST_WEBSPA}/session/oauth_callback
       Clients__WebApiClient__RequireConsent: "false"
       Clients__WebApiClient__RequireClientSecret: "false"
-      VIRTUAL_HOST: identity.lifecms.local
+      Certificates__SigningCredential: ${LIFECMS_CERTIFICATE_SIGNING_CREDENTIAL}
+      EventBus__HostName: rabbitmq.data
+      EventBus__Username: ${LIFECMS_RABBITMQ_USERNAME}
+      EventBus__Password: ${LIFECMS_RABBITMQ_PASSWORD}
+      EventBus__QueueName: ${LIFECMS_EVENTBUS_QUEUENAME}
+      ApiHost__Identity: http://${LIFECMS_VHOST_IDENTITY}
+      VIRTUAL_HOST: ${LIFECMS_VHOST_IDENTITY}
       VIRTUAL_PORT: 80
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
     depends_on:
       - sql.data
     networks:
@@ -82,26 +74,29 @@ services:
 
   email.api:
     image: lifecms_email.api:latest
-    entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/Email.API.dll"
+    entrypoint: /bin/sh -c "waitforit.sh rabbitmq.data:5672 -- dotnet /app/Email.API.dll"
     ports:
       - "5003:80"
     build:
       context: ./
       dockerfile: ./src/Services/Email/Email.API/Dockerfile
     environment:
-      VIRTUAL_HOST: email.lifecms.local
+      VIRTUAL_HOST: ${LIFECMS_VHOST_EMAIL}
       VIRTUAL_PORT: 80
       EventBus__HostName: rabbitmq.data
-      EventBus__Username: ${RABBITMQ_DEFAULT_USER}
-      EventBus__Password: ${RABBITMQ_DEFAULT_PASS}
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
-      - "email.lifecms.local:172.20.0.200"
+      EventBus__Username: ${LIFECMS_RABBITMQ_USERNAME}
+      EventBus__Password: ${LIFECMS_RABBITMQ_PASSWORD}
+      EventBus__QueueName: ${LIFECMS_EVENTBUS_QUEUENAME}
+      Email__Provider: ${LIFECMS_EMAIL_PROVIDER}
+      Email__Smtp__Host: ${LIFECMS_EMAIL_SMTP_HOST}
+      Email__Smtp__Port: ${LIFECMS_EMAIL_SMTP_PORT}
+      Email__SendGrid__ApiKey: "${LIFECMS_EMAIL_SENDGRID_APIKEY}"
+      Email__SendGrid__From__EmailAddress: "${LIFECMS_EMAIL_SENDGRID_FROM_EMAIL}"
+      Email__SendGrid__From__Name: "${LIFECMS_EMAIL_SENDGRID_FROM_NAME}"
     networks:
       - default
+    depends_on:
+      - rabbitmq.data
     volumes:
       - type: bind
         source: ./docker/waitforit.sh
@@ -117,16 +112,22 @@ services:
       dockerfile: ./src/Services/ContentCreation/ContentCreation.API/Dockerfile
     environment:
       SQL_DB_HOST: sql.data
+      VIRTUAL_HOST: ${LIFECMS_VHOST_CONTENTCREATION}
+      EventBus__HostName: rabbitmq.data
+      EventBus__Username: ${LIFECMS_RABBITMQ_USERNAME}
+      EventBus__Password: ${LIFECMS_RABBITMQ_PASSWORD}
+      EventBus__QueueName: ${LIFECMS_EVENTBUS_QUEUENAME}
+      Cors__Websocket__AllowedOrigins__0: ${LIFECMS_CORS_WEBSOCKET_ALLOWED_ORIGIN}
+      IdentityServerAuthentication__ApiName: "WebApi"
+      IdentityServerAuthentication__RequireHttpsMetadata: "false"
+      IdentityServerAuthentication__Authority: ${LIFECMS_IDENTITY_SERVER_AUTHORITY}
       ConnectionStrings__LifeCMS: Server=sql.data;Database=lifecms_production;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
-      VIRTUAL_HOST: contentcreation.lifecms.local
+      Certificates__SigningCredential: ${LIFECMS_CERTIFICATE_SIGNING_CREDENTIAL}
       VIRTUAL_PORT: 80
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
     depends_on:
       - sql.data
+    extra_hosts:
+      - "${LIFECMS_VHOST_IDENTITY}:172.20.0.200"
     networks:
       - default
     volumes:
@@ -144,37 +145,18 @@ services:
     volumes:
       - ./docker:/usr/local/bin/docker
     environment:
-      REACT_APP_RUNTIME_API_HOST: http://contentcreation.lifecms.local/api
-      REACT_APP_RUNTIME_AUTHORITY: http://identity.lifecms.local
+      REACT_APP_RUNTIME_API_HOST: ${LIFECMS_ORIGIN_CONTENTCREATION}/api
+      REACT_APP_RUNTIME_AUTHORITY: ${LIFECMS_IDENTITY_SERVER_AUTHORITY}
       REACT_APP_RUNTIME_CLIENT_ID: WebApiClient
-      REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: http://lifecms.local
-      REACT_APP_RUNTIME_REDIRECT_URI: http://lifecms.local/session/oauth_callback
+      REACT_APP_RUNTIME_POST_LOGOUT_REDIRECT_URI: ${LIFECMS_ORIGIN_WEBSPA}
+      REACT_APP_RUNTIME_REDIRECT_URI: ${LIFECMS_ORIGIN_WEBSPA}/session/oauth_callback
       REACT_APP_RUNTIME_RESPONSE_TYPE: code
       REACT_APP_RUNTIME_SCOPE: post:read
-      REACT_APP_RUNTIME_WEBSOCKET_HOST: http://contentcreation.lifecms.local/services/websocket
-      VIRTUAL_HOST: lifecms.local
+      REACT_APP_RUNTIME_WEBSOCKET_HOST: ${LIFECMS_ORIGIN_CONTENTCREATION}/services/websocket
+      VIRTUAL_HOST: ${LIFECMS_VHOST_WEBSPA}
       VIRTUAL_PORT: 80
     networks:
       - default
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
-
-  nginx:
-    container_name: nginx
-    image: nginx:alpine
-    # volumes:
-      # - ./docker/provision/openssl/server.crt:/usr/local/share/ca-certificates/ca.crt
-    environment:
-      - VIRTUAL_HOST=nginx.vcap.me
-      - VIRTUAL_PORT=80
-    extra_hosts:
-      - "lifecms.local:172.20.0.200"
-      - "sql.lifecms.local:172.20.0.200"
-      - "contentcreation.lifecms.local:172.20.0.200"
-      - "identity.lifecms.local:172.20.0.200"
 
   nginx-proxy:
     container_name: proxy
@@ -184,7 +166,6 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      # - ./docker/provision/certificates:/etc/nginx/certs
     networks:
       default:
         ipv4_address: 172.20.0.200

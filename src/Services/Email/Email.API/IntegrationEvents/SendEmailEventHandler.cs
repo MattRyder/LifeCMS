@@ -33,6 +33,10 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
             {
                 _emailClient.Send(message);
 
+                _logger.LogInformation(
+                    $"Email has been sent. Event: {@event.Id}"
+                );
+
                 return Task.FromResult(true);
             }
             catch (EmailClientException ex)
