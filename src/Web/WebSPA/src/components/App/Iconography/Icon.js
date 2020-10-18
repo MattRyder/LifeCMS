@@ -7,6 +7,7 @@ export const Icons = {
     bullhorn: FontAwesomeIcons.faBullhorn,
     bold: FontAwesomeIcons.faBold,
     chat: FontAwesomeIcons.faComment,
+    check: FontAwesomeIcons.faCheckCircle,
     cog: FontAwesomeIcons.faCog,
     ellipsisHorizontal: FontAwesomeIcons.faEllipsisH,
     folder: FontAwesomeIcons.faFolderOpen,

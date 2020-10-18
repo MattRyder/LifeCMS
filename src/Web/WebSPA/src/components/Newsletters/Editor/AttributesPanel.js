@@ -1,11 +1,31 @@
 import React from 'react';
+import { cx, css } from 'emotion';
 import { useEditor } from '@craftjs/core';
 import { Icons } from '../../App/Iconography/Icon';
 import AttributePanelButton from './Components/Interface/AttributePanelButton';
 
 import './AttributesPanel.scss';
+import { useTranslations } from 'hooks';
+
+const styles = {
+    headerRow: css`
+        background-color: darken(#f5f5f5, 10%);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        display: flex;
+        list-style-type: none;
+        margin-bottom: 0;
+        padding: 0;
+        justify-content: space-evenly;
+
+        li {
+            padding: 0.25rem 0.5rem;
+        }
+    `,
+};
 
 export default function AttributesPanel() {
+    const { t, TextTranslationKeys } = useTranslations();
+
     const { actions, selected } = useEditor((state, query) => {
         const currentNodeId = state.events.selected;
 
@@ -30,12 +50,12 @@ export default function AttributesPanel() {
     return (
         <div className="attributes-panel">
             { selected ? (
-                <ul className="header-row">
+                <ul className={cx(styles.headerRow)}>
                     <li>
                         <AttributePanelButton
                             id="delete"
                             icon={Icons.trash}
-                            text="Delete"
+                            text={t(TextTranslationKeys.common.delete)}
                             className="text-danger"
                             onClick={() => actions.delete(selected.id)}
                         />
@@ -44,7 +64,7 @@ export default function AttributesPanel() {
                         <AttributePanelButton
                             id="duplicate"
                             icon={Icons.clone}
-                            text="Duplicate"
+                            text={t(TextTranslationKeys.common.duplicate)}
                         />
                     </li>
                 </ul>

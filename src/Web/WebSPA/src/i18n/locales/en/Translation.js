@@ -1,6 +1,7 @@
 import TextTranslationKeys from '../../TextTranslationKeys';
 
 export default {
+    [TextTranslationKeys.common.duplicate]: 'Duplicate',
     [TextTranslationKeys.common.edit]: 'Edit',
     [TextTranslationKeys.common.post]: 'Post',
     [TextTranslationKeys.common.save]: 'Save',
@@ -46,6 +47,12 @@ export default {
     [TextTranslationKeys.newsletterView.editorTitleCreate]: 'Create a Newsletter',
     [TextTranslationKeys.newsletterView.editorTitleEdit]: 'Editing a Newsletter',
     [TextTranslationKeys.newsletterView.previewPageTitle]: 'Preview Newsletter',
+    [TextTranslationKeys.newsletterView.editor.title]: 'Title:',
+    [TextTranslationKeys.newsletterView.editor.mode.advanced]: 'Advanced',
+    [TextTranslationKeys.newsletterView.editor.mode.basic]: 'Basic',
+    [TextTranslationKeys.newsletterView.editor.toolbox.columns]: 'Columns',
+    [TextTranslationKeys.newsletterView.editor.toolbox.freeText]: 'Free Text',
+    [TextTranslationKeys.newsletterView.editor.toolbox.row]: 'Row',
     [TextTranslationKeys.navigationMenu.header.content]: 'Content',
     [TextTranslationKeys.navigationMenu.header.newsletters]: 'Newsletter',
     [TextTranslationKeys.navigationMenu.header.settings]: 'Settings',

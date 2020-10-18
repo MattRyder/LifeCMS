@@ -1,40 +1,55 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     InputGroup, InputGroupAddon, Button, Input,
 } from 'reactstrap';
 
-export default function IncrementalSpinner({
+function IncrementalSpinner({
     value,
     setValue,
-    min = Number.MIN_SAFE_INTEGER,
-    max = Number.MAX_SAFE_INTEGER,
+    min,
+    max,
 }) {
     const increment = () => setValue(value < max ? value + 1 : max);
 
     const decrement = () => setValue(value > min ? value - 1 : min);
 
     return (
-        <div className="incremental-spinner">
-            <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                    <Button onClick={decrement}>-</Button>
-                </InputGroupAddon>
+        <InputGroup>
+            <InputGroupAddon addonType="prepend">
+                <Button size="sm" onClick={decrement}>-</Button>
+            </InputGroupAddon>
 
-                <Input
-                    type="text"
-                    pattern="\d*"
-                    name="padding"
-                    id="input-padding"
-                    value={value}
-                    min="0"
-                    max="100"
-                    onChange={(e) => setValue(e.currentTarget.value)}
-                />
+            <Input
+                bsSize="sm"
+                type="text"
+                pattern="\d*"
+                name="padding"
+                id="input-padding"
+                value={value}
+                min="0"
+                max="100"
+                onChange={(e) => setValue(e.currentTarget.value)}
+            />
 
-                <InputGroupAddon addonType="append">
-                    <Button onClick={increment}>+</Button>
-                </InputGroupAddon>
-            </InputGroup>
-        </div>
+            <InputGroupAddon addonType="append">
+                <Button size="sm" onClick={increment}>+</Button>
+            </InputGroupAddon>
+        </InputGroup>
     );
 }
+
+IncrementalSpinner.propTypes = {
+    min: PropTypes.number,
+    max: PropTypes.number,
+    value: PropTypes.number,
+    setValue: PropTypes.func.isRequired,
+};
+
+IncrementalSpinner.defaultProps = {
+    min: Number.MIN_SAFE_INTEGER,
+    max: Number.MAX_SAFE_INTEGER,
+    value: 0,
+};
+
+export default IncrementalSpinner;

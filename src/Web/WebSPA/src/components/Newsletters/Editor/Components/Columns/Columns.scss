@@ -1,9 +1,0 @@
-.editor-columns-component > .page-component {
-    display: flex;
-    flex-direction: row;
-
-    & > div {
-        border: 1px solid rgba(0, 0, 0, 0.55);
-        flex: 1;
-    }
-}

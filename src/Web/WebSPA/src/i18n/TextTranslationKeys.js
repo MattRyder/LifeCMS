@@ -1,5 +1,6 @@
 export default {
     common: {
+        duplicate: 'commonDuplicate',
         edit: 'commonEdit',
         save: 'commonSave',
         load: 'commonLoad',
@@ -107,6 +108,19 @@ export default {
                 templates: 'newsletterViewDashboardMenuTemplates',
                 mailingLists: 'newsletterViewDashboardMenuMailingLists',
             },
+        },
+        editor: {
+            title: 'newsletterViewEditorTitle',
+            mode: {
+                basic: 'newsletterViewEditorModeBasic',
+                advanced: 'newsletterViewEditorModeAdvanced',
+            },
+            toolbox: {
+                row: 'newsletterViewEditorToolboxRow',
+                freeText: 'newsletterViewEditorToolboxFreeText',
+                columns: 'newsletterViewEditorToolboxColumns',
+            },
+
         },
         pageTitle: 'newsletterViewPageTitle',
         createNewsletter: 'newsletterViewCreateNewsletter',

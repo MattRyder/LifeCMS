@@ -1,11 +1,15 @@
 import React from 'react';
+import { cx, css } from 'emotion';
 import { useDispatch } from 'react-redux';
-import { createNewsletterTemplate } from '../../../../redux/actions/NewsletterTemplateActions';
-import { useUser, useTranslations } from '../../../../hooks';
-import Editor from '../../../Newsletters/Editor/Editor';
+import { createNewsletterTemplate } from 'redux/actions/NewsletterTemplateActions';
+import Editor from 'components/Newsletters/Editor/Editor';
+import { useUser, useTranslations } from 'hooks';
 
-import './Editor.scss';
-import './NewsletterTemplateCreate.scss';
+const style = css`
+    display: flex;
+    flex: 1;
+    height: 100%;
+`;
 
 export default function NewsletterTemplateCreate() {
     const dispatch = useDispatch();
@@ -14,18 +18,24 @@ export default function NewsletterTemplateCreate() {
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const onSave = (query) => {
-        const json = query.serialize();
+    const onSave = (title, query) => {
+        const params = {
+            name: title,
+            body: query.serialize(),
+        };
 
-        dispatch(createNewsletterTemplate(accessToken, userId, {
-            name: 'Newsletter Template Name',
-            body: json,
-        },
-        '/newsletter/templates'));
+        dispatch(
+            createNewsletterTemplate(
+                accessToken,
+                userId,
+                params,
+                '/newsletter/templates',
+            ),
+        );
     };
 
     return (
-        <div className="newsletter-template-create">
+        <div className={cx(style)}>
             <Editor
                 title={t(TextTranslationKeys.newsletterView.editorTitleCreate)}
                 onSave={onSave}

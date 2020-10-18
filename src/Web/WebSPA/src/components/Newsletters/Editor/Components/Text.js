@@ -49,7 +49,7 @@ export function TextAttributesPanel() {
     }));
 
     return (
-        <div className="text-attributes-panel">
+        <div>
             <SingleSpinnerAttribute
                 title="Font Size"
                 min={1}

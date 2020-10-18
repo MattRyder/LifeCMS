@@ -1,9 +1,22 @@
 import React from 'react';
 import { useNode, Element } from '@craftjs/core';
-import { PaddingAttribute, SingleSpinnerAttribute } from '../../Attributes';
-import ComponentWrapper from '../ComponentWrapper';
+import { cx, css } from 'emotion';
+import { PaddingAttribute, SingleSpinnerAttribute } from '../Attributes';
+import ComponentWrapper from './ComponentWrapper';
 
-import './Columns.scss';
+const styles = {
+    componentWrapper: css`
+        > div {
+            display: flex;
+            flex-direction: row;
+
+            > div {
+                border: 1px solid rgba(0, 0, 0, 0.55);
+                flex: 1;
+            }
+        }
+`,
+};
 
 export default function Columns({ columnCount = 1 }) {
     const {
@@ -16,7 +29,7 @@ export default function Columns({ columnCount = 1 }) {
     }));
 
     return (
-        <div className="editor-columns-component" ref={(ref) => connect(drag(ref))}>
+        <div className={cx(styles.componentWrapper)} ref={(ref) => connect(drag(ref))}>
             <ComponentWrapper
                 padding={padding}
                 isSelected={isSelected}
