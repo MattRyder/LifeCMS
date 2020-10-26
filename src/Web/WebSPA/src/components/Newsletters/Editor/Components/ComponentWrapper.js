@@ -4,6 +4,7 @@ import { css, cx } from 'emotion';
 
 const styles = {
     pageComponent: css`
+        min-height: 5rem;
         border-width: 2px;
         border-color: rgba(25, 132, 255, 0.15);
         border-style: solid;

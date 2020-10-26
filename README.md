@@ -33,18 +33,21 @@ LifeCMS is multilingual, the platform is available in five languages:
 * Deutsch
 * Italiano
 
-## Installing LifeCMS
+## Can LifeCMS be self-hosted?
 
-LifeCMS is available on Windows, Mac OS X or Linux.
+Yes, LifeCMS was built to be self-hosted, which is why this product is free, open-source, and comes with a maintained docker-compose.yml file to start the system with all required dependencies.
 
-First download and install [Docker](https://www.docker.com/products/docker-desktop), a tool that makes installing and updating LifeCMS really simple.
+The only difference between the commercial deployment and a self-hosted deployment is that you will have to manage the infrastructure you run LifeCMS on.
 
-Once Docker is installed and running, enter the following commands into a terminal to download the repository and bring the LifeCMS system up.
+For more information on self-hosting LifeCMS, [check out the installation guide](docs/installation.md).
 
-```bash
-git clone https://github.com/MattRyder/LifeCMS.git
 
-cd LifeCMS/
+## Technology
 
-docker-compose up
-```
+LifeCMS is an ASP.NET Core microservice product, using React to power the front-end user experiences.
+
+A Dockerfile is provided in order to build each service, and a docker-compose.yml file has been produced to aid the operation and management of the product.
+
+## Licence
+
+LifeCMS is open-sourced under the GNU Affero General Public License Version 3 (AGPLv3). You can find the terms of APGLv3 in [LICENCE.md](LICENCE.md).

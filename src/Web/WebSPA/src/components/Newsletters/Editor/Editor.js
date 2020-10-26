@@ -4,7 +4,10 @@ import {
 } from '@craftjs/core';
 import { cx, css } from 'emotion';
 import anime from 'animejs';
-import { Row, Text, Columns } from './Components';
+import ErrorBoundary from 'components/Util/ErrorBoundary';
+import {
+    Row, Text, Columns,
+} from './Components';
 import Topbar from './Topbar';
 import EditorMenu from './EditorMenu';
 
@@ -62,27 +65,28 @@ export default function Editor({
     }, [animeRef, canvasRef]);
 
     return (
-        <div className={cx(styles.editor)}>
-            <CraftJSEditor
-                resolver={{
-                    Columns,
-                    Row,
-                    Text,
-                }}
-            >
-                <div className={cx(styles.designer)}>
-                    <Topbar onSave={onSave} title={title} />
+        <ErrorBoundary>
+            <div className={cx(styles.editor)}>
+                <CraftJSEditor
+                    resolver={{
+                        Columns,
+                        Row,
+                        Text,
+                    }}
+                >
+                    <div className={cx(styles.designer)}>
+                        <Topbar onSave={onSave} title={title} />
 
-                    <div className={cx(styles.canvas)} ref={canvasRef}>
-                        <Frame data={designSource}>
-                            <Element canvas className={cx(styles.page)} />
-                        </Frame>
+                        <div className={cx(styles.canvas)} ref={canvasRef}>
+                            <Frame data={designSource}>
+                                <Element canvas className={cx(styles.page)} />
+                            </Frame>
+                        </div>
                     </div>
-                </div>
 
-                <EditorMenu />
-
-            </CraftJSEditor>
-        </div>
+                    <EditorMenu />
+                </CraftJSEditor>
+            </div>
+        </ErrorBoundary>
     );
 }

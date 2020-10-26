@@ -1,5 +1,7 @@
 import React from 'react';
-import { useNode, Element } from '@craftjs/core';
+import {
+    useNode, Element,
+} from '@craftjs/core';
 import { PaddingAttribute } from '../Attributes';
 import ComponentWrapper from './ComponentWrapper';
 
@@ -14,11 +16,8 @@ export default function Row() {
     }));
     return (
         <div ref={(ref) => connect(drag(ref))}>
-            <ComponentWrapper
-                padding={padding}
-                isSelected={isSelected}
-            >
-                <Element canvas id="row-item" is="div" style={{ minHeight: '5rem' }} />
+            <ComponentWrapper padding={padding} isSelected={isSelected}>
+                <Element canvas id="row-item" is="div" />
             </ComponentWrapper>
         </div>
     );

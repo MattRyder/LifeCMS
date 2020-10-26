@@ -26,7 +26,7 @@ export default function NewsletterTemplateEdit() {
         id,
     );
 
-    const onSave = (query) => {
+    const onSave = (title, query) => {
         const json = query.serialize();
 
         dispatch(editNewsletterBody(

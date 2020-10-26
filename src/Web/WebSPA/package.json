@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craftjs/core": "git@github.com:prevwong/craft.js.git#v0.1.0-beta.8",
+    "@craftjs/core": "git@github.com:prevwong/craft.js.git#v0.1.0-beta.11",
     "@emotion/core": "^10.0.35",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",

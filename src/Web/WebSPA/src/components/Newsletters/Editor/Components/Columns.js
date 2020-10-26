@@ -29,7 +29,10 @@ export default function Columns({ columnCount = 1 }) {
     }));
 
     return (
-        <div className={cx(styles.componentWrapper)} ref={(ref) => connect(drag(ref))}>
+        <div
+            className={cx(styles.componentWrapper)}
+            ref={(ref) => connect(drag(ref))}
+        >
             <ComponentWrapper
                 padding={padding}
                 isSelected={isSelected}

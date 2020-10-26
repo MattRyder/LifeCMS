@@ -1140,12 +1140,12 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craftjs/core@git@github.com:prevwong/craft.js.git#v0.1.0-beta.8":
-  version "0.1.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@craftjs/core/-/core-0.1.0-beta.8.tgz#fc8f0f4825f6b1e23d2bc14d6ea522d8b598f7f4"
-  integrity sha512-N5iNScHkho+8pZDBetOpymwicVTSgb1qFYQi15A2OxFPwoFu/a+Z7HQNjVDXg6Uyz5a/+zh03jASTpXEkvpxQA==
+"@craftjs/core@git@github.com:prevwong/craft.js.git#v0.1.0-beta.11":
+  version "0.1.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@craftjs/core/-/core-0.1.0-beta.11.tgz#c4346cf8dd9dd8640f7e7a6210464ef788bd73b8"
+  integrity sha512-VO0EXJOz8CDQf0xF/cA1MVREMBn/s/QkDonE/cghjCyuwtSTgie9bAoYRImosYvsYrz4jblviklTrPFquEJkbw==
   dependencies:
-    "@craftjs/utils" "^0.1.0-beta.8"
+    "@craftjs/utils" "^0.1.0-beta.11"
     "@types/react" "^16.9.11"
     debounce "^1.2.0"
     immer "^3.1.3"
@@ -1153,10 +1153,10 @@
     shortid "^2.2.15"
     tiny-invariant "^1.0.6"
 
-"@craftjs/utils@^0.1.0-beta.8":
-  version "0.1.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@craftjs/utils/-/utils-0.1.0-beta.8.tgz#c92201090fc1b0a6dbff6d7a5ed945cca4083461"
-  integrity sha512-YbDtGbOnTYVq7tjJDwzTntAsK/CeTfhcIiFkpMnLkXWNFf4jH8b/HvE7H/UorHbj1nhkqiCLPMUoe0ywWrHRXg==
+"@craftjs/utils@^0.1.0-beta.11":
+  version "0.1.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@craftjs/utils/-/utils-0.1.0-beta.11.tgz#1f25c6c87750d917b507d52fa817ea1b74453c73"
+  integrity sha512-bH4IxMoJbXDwdcRwJkC6TXf2vvF7qYofDmpgUbEmrDBYGL5uTSva9kyE3sm89CxHgLYQaUHLs++t+FW8NMsv7Q==
   dependencies:
     "@types/react" "^16.9.11"
     immer "^3.1.3"
