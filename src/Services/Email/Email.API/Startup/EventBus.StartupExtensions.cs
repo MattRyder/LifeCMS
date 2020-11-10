@@ -1,13 +1,14 @@
-using LifeCMS.EventBus.Common.Interfaces;
-using LifeCMS.EventBus.RabbitMQ.Interfaces;
-using LifeCMS.EventBus.RabbitMQ.Concrete;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
-using LifeCMS.Services.Email.API.IntegrationEvents;
+using LifeCMS.EventBus.Common.Interfaces;
+using LifeCMS.EventBus.RabbitMQ.Interfaces;
+using LifeCMS.EventBus.RabbitMQ.Concrete;
 using LifeCMS.EventBus.Common.Concrete;
-using Microsoft.AspNetCore.Builder;
+using LifeCMS.EventBus.IntegrationEvents.Email;
+using LifeCMS.Services.Email.API.IntegrationEvents;
 
 namespace LifeCMS.Services.Email.API
 {

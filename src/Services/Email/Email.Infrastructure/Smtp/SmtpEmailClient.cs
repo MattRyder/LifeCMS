@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Mail;
-using LifeCMS.Services.Email.Domain.Concrete;
 using LifeCMS.Services.Email.Infrastructure.Interfaces;
 
 namespace LifeCMS.Services.Email.Infrastructure.Smtp
@@ -27,17 +26,9 @@ namespace LifeCMS.Services.Email.Infrastructure.Smtp
             };
         }
 
-        public void Send(EmailMessage emailMessage)
+        public void Send(MailMessage mailMessage)
         {
-            var recipients = string.Join(",", emailMessage.To);
-
-            _smtpClient.SendAsync(
-                from: emailMessage.From,
-                recipients: recipients,
-                subject: emailMessage.Subject,
-                body: emailMessage.Body,
-                userToken: emailMessage.To
-            );
+            _smtpClient.SendAsync(mailMessage, mailMessage.ToString());
         }
     }
 }

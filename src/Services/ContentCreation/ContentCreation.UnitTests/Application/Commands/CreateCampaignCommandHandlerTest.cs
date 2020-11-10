@@ -1,6 +1,7 @@
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using LifeCMS.EventBus.Common.Interfaces;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns;
 using LifeCMS.Services.ContentCreation.API.Services.Campaigns;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
@@ -22,6 +23,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
         private readonly Mock<ICampaignValidationService> _campaignValidationServiceMock;
 
+        private readonly Mock<ICampaignDeliveryService> _campaignDeliveryServiceMock;
+
         public CreateCampaignCommandHandlerTest()
         {
             _campaignRepositoryMock = new Mock<ICampaignRepository>();
@@ -31,6 +34,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
             _userAccessorMock = new Mock<IUserAccessor>();
 
             _campaignValidationServiceMock = new Mock<ICampaignValidationService>();
+
+            _campaignDeliveryServiceMock = new Mock<ICampaignDeliveryService>();
         }
 
         [Fact]
@@ -74,7 +79,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         }
 
         [Fact]
-        public async void Handle_ShouldReturnFalse_GivenInvalidCommand()
+        public async void Handle_ShouldReturnFalse_WhenValidationServiceThrows()
         {
             var userId = new Guid();
 
@@ -90,13 +95,13 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
             var command = BuildCommand(campaign);
 
-            _campaignRepositoryMock
-                .Setup(p => p.Add(campaign))
-                .Returns(campaign);
-
-            _campaignRepositoryMock
-                .Setup(p => p.UnitOfWork.SaveEntitiesAsync())
-                .ReturnsAsync(false);
+            _campaignValidationServiceMock
+                .Setup(v => v.ValidateDependencyOwnership(
+                    _userAccessorMock.Object.User,
+                    newsletterTemplateId,
+                    userProfileId
+                ))
+                .Throws(new CampaignValidationServiceException(""));
 
             var handler = BuildHandler();
 
@@ -125,7 +130,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
                 _campaignRepositoryMock.Object,
                 _loggerMock.Object,
                 _userAccessorMock.Object,
-                _campaignValidationServiceMock.Object
+                _campaignValidationServiceMock.Object,
+                _campaignDeliveryServiceMock.Object
             );
         }
     }

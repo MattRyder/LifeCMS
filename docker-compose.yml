@@ -30,6 +30,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    volumes:
+      - ./docker/provision/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
 
   identity.api:
     image: lifecms_identity.api:latest
@@ -47,12 +49,12 @@ services:
       ApiResources_0_Name: WebApi
       ApiResources_0_Scopes_0_Name: post:read
       ApiResources_0_Scopes_0_DisplayName: "Read access to the Post resource"
-      Clients__WebApiClient__AllowedCorsOrigins__0: ${LIFECMS_VHOST_WEBSPA}
+      Clients__WebApiClient__AllowedCorsOrigins__0: http://${LIFECMS_VHOST_WEBSPA}
       Clients__WebApiClient__AllowedScopes__0: post:read
       Clients__WebApiClient__ClientId: WebApiClient
       Clients__WebApiClient__ClientName: WebApiClient
-      Clients__WebApiClient__PostLogoutRedirectUris__0: ${LIFECMS_VHOST_WEBSPA}/signout-callback-oidc
-      Clients__WebApiClient__RedirectUris__0: ${LIFECMS_VHOST_WEBSPA}/session/oauth_callback
+      Clients__WebApiClient__PostLogoutRedirectUris__0: http://${LIFECMS_VHOST_WEBSPA}/signout-callback-oidc
+      Clients__WebApiClient__RedirectUris__0: http://${LIFECMS_VHOST_WEBSPA}/session/oauth_callback
       Clients__WebApiClient__RequireConsent: "false"
       Clients__WebApiClient__RequireClientSecret: "false"
       Certificates__SigningCredential: ${LIFECMS_CERTIFICATE_SIGNING_CREDENTIAL}
@@ -93,6 +95,7 @@ services:
       Email__SendGrid__ApiKey: "${LIFECMS_EMAIL_SENDGRID_APIKEY}"
       Email__SendGrid__From__EmailAddress: "${LIFECMS_EMAIL_SENDGRID_FROM_EMAIL}"
       Email__SendGrid__From__Name: "${LIFECMS_EMAIL_SENDGRID_FROM_NAME}"
+      Identity__Email__FromEmailAddress: "${LIFECMS_IDENTITY_EMAIL_FROM_EMAIL_ADDRESS}"
     networks:
       - default
     depends_on:
@@ -123,6 +126,7 @@ services:
       IdentityServerAuthentication__Authority: ${LIFECMS_IDENTITY_SERVER_AUTHORITY}
       ConnectionStrings__LifeCMS: Server=sql.data;Database=lifecms_production;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       Certificates__SigningCredential: ${LIFECMS_CERTIFICATE_SIGNING_CREDENTIAL}
+      ContentCreation__Email__FromEmailAddress: "${LIFECMS_CONTENTCREATION_EMAIL_FROM_EMAIL_ADDRESS}"
       VIRTUAL_PORT: 80
     depends_on:
       - sql.data

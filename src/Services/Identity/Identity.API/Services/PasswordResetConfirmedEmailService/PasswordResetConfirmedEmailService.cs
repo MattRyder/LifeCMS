@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using LifeCMS.Services.Identity.API.IntegrationEvents;
+using LifeCMS.EventBus.IntegrationEvents.Email;
 using Scriban;
 
 namespace LifeCMS.Services.Identity.API.Services.PasswordResetConfirmedEmailService
@@ -13,23 +13,29 @@ namespace LifeCMS.Services.Identity.API.Services.PasswordResetConfirmedEmailServ
 
     public class PasswordResetConfirmedEmailService
     {
-        private readonly string _emailAddress;
+        private readonly string _fromEmailAddress;
+
+        private readonly string _toEmailAddress;
 
         public PasswordResetConfirmedEmailService(
-            string emailAddress)
+            string fromEmailAddress,
+            string toEmailAddress)
         {
-            _emailAddress = emailAddress ??
-                throw new PasswordResetConfirmedEmailServiceException(nameof(emailAddress));
+            _fromEmailAddress = fromEmailAddress ??
+                throw new PasswordResetConfirmedEmailServiceException(nameof(fromEmailAddress));
+
+            _toEmailAddress = toEmailAddress ??
+                throw new PasswordResetConfirmedEmailServiceException(nameof(toEmailAddress));
         }
 
         public async Task<SendEmailEvent> CreateIntegrationEventAsync()
         {
-            var body = await CreateEmailBodyTextAsync(_emailAddress);
+            var body = await CreateEmailBodyTextAsync(_toEmailAddress);
 
             return new SendEmailEvent()
             {
-                From = PasswordResetConfirmedEmailTemplate.From,
-                To = new[] { _emailAddress },
+                From = _fromEmailAddress,
+                To = new[] { _toEmailAddress },
                 Subject = PasswordResetConfirmedEmailTemplate.Subject,
                 Body = body
             };

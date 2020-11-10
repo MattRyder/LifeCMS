@@ -1,5 +1,6 @@
+using System.Net.Mail;
+using LifeCMS.EventBus.IntegrationEvents.Email;
 using LifeCMS.Services.Email.API.IntegrationEvents;
-using LifeCMS.Services.Email.Domain.Concrete;
 using LifeCMS.Services.Email.Infrastructure.Interfaces;
 using LifeCMS.Services.Email.Infrastructure.Smtp;
 using Microsoft.Extensions.Logging;
@@ -54,7 +55,7 @@ namespace LifeCMS.Services.Email.UnitTests.IntegrationEvents
             };
 
             _emailClientMock
-                .Setup(x => x.Send(It.IsAny<EmailMessage>()))
+                .Setup(x => x.Send(It.IsAny<MailMessage>()))
                 .Throws(new EmailClientException(""));
 
             var handler = new SendEmailEventHandler(

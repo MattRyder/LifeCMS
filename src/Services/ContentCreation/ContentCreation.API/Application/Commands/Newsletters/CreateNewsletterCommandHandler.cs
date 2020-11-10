@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Exceptions;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;

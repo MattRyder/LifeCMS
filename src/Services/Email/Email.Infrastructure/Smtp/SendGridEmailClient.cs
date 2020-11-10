@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using LifeCMS.Services.Email.Domain.Concrete;
 using LifeCMS.Services.Email.Infrastructure.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -21,16 +20,18 @@ namespace LifeCMS.Services.Email.Infrastructure.Smtp
             MailAddress fromEmailAddress
         )
         {
-            _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+            _apiKey = apiKey ??
+                throw new ArgumentNullException(nameof(apiKey));
 
-            _fromEmailAddress = fromEmailAddress ?? throw new ArgumentNullException(nameof(fromEmailAddress));
+            _fromEmailAddress = fromEmailAddress ??
+                throw new ArgumentNullException(nameof(fromEmailAddress));
         }
 
-        public async void Send(EmailMessage emailMessage)
+        public async void Send(MailMessage mailMessage)
         {
             var sendGridClient = GetSendGridClient();
 
-            var sendGridMessage = BuildSendGridMessage(emailMessage);
+            var sendGridMessage = BuildSendGridMessage(mailMessage);
 
             var response = await sendGridClient
                 .SendEmailAsync(sendGridMessage)
@@ -63,37 +64,40 @@ namespace LifeCMS.Services.Email.Infrastructure.Smtp
             }
         }
 
-        private List<EmailAddress> GetEmailAddresses(IEnumerable<string> emailAddressStrings)
-            => emailAddressStrings.Select(e => new EmailAddress(e)).ToList();
+        private List<EmailAddress> GetEmailAddresses(
+            IEnumerable<MailAddress> mailAddresses
+        ) => mailAddresses
+            .Select(e => new EmailAddress(e.Address, e.DisplayName))
+            .ToList();
 
-        private SendGridMessage BuildSendGridMessage(EmailMessage emailMessage)
+        private void AddRecipients(
+            SendGridMessage message,
+            MailMessage mailMessage
+        )
         {
-            var message = new SendGridMessage()
+            message.AddTos(GetEmailAddresses(mailMessage.To));
+
+            message.AddCcs(GetEmailAddresses(mailMessage.CC));
+
+            message.AddBccs(GetEmailAddresses(mailMessage.Bcc));
+
+        }
+
+        private SendGridMessage BuildSendGridMessage(MailMessage mailMessage)
+        {
+            var sendGridMessage = new SendGridMessage()
             {
                 From = new EmailAddress(
                     _fromEmailAddress.Address,
                     _fromEmailAddress.DisplayName
                 ),
-                Subject = emailMessage.Subject,
-                PlainTextContent = emailMessage.Body
+                Subject = mailMessage.Subject,
+                PlainTextContent = mailMessage.Body
             };
 
-            if (emailMessage.To.Count() > 0)
-            {
-                message.AddTos(GetEmailAddresses(emailMessage.To));
-            }
+            AddRecipients(sendGridMessage, mailMessage);
 
-            if (emailMessage.Cc.Count() > 0)
-            {
-                message.AddCcs(GetEmailAddresses(emailMessage.Cc));
-            }
-
-            if (emailMessage.Bcc.Count() > 0)
-            {
-                message.AddBccs(GetEmailAddresses(emailMessage.Bcc));
-            }
-
-            return message;
+            return sendGridMessage;
         }
     }
 }

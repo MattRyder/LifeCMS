@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using LifeCMS.EventBus.Common.Events;
 
-namespace LifeCMS.Services.Identity.API.IntegrationEvents
+namespace LifeCMS.EventBus.IntegrationEvents.Email
 {
     public class SendEmailEvent : IntegrationEvent
     {
@@ -16,5 +17,9 @@ namespace LifeCMS.Services.Identity.API.IntegrationEvents
         public string Subject { get; set; }
 
         public string Body { get; set; }
+
+        public bool IsBodyHtml { get; set; }
+
+        public DateTime DeliverAt { get; set; }
     }
 }

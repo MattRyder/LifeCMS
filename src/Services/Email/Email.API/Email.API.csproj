@@ -5,14 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\EventBus\EventBus.IntegrationEvents\EventBus.IntegrationEvents.csproj" />
     <ProjectReference Include="..\..\..\EventBus\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\Email.Infrastructure\Email.Infrastructure.csproj" />
     <ProjectReference Include="..\Email.Domain\Email.Domain.csproj" />
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.17" />
+    <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.17" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,6 @@ using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
 using LifeCMS.Services.ContentCreation.Domain.Exceptions;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.EventBus.Common.Interfaces;
-using LifeCMS.Services.ContentCreation.API.IntegrationEvents;
 
 namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Posts
 {

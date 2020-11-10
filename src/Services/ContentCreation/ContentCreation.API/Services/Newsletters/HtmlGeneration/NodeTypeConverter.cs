@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
 {
     class NodeTypeConverter : JsonConverter
     {

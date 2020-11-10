@@ -40,7 +40,10 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
     {
         public static void AddLifeCMSWebApi(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = GetConnectionString(configuration);
+            var connectionString = GetConnectionString(
+                configuration,
+                "LifeCMS"
+            );
 
             services
             .AddTransient<IDbConnectionFactory, MySqlDbConnectionFactory>(f =>
@@ -81,6 +84,7 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     .AddTransient<IRequestHandler<UpdateCampaignSubjectCommand, bool>, UpdateCampaignSubjectCommandHandler>()
                     .AddTransient<ICampaignLookupService, CampaignLookupService>()
                     .AddTransient<ICampaignValidationService, CampaignValidationService>()
+                    .AddTransient<ICampaignDeliveryService, CampaignDeliveryService>()
                     .AddTransient<ICampaignQueries, CampaignQueries>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -93,18 +97,6 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         public static void UseLifeCMSWebApi(this IApplicationBuilder app)
         {
             app.ApplyMigrations<ContentCreationDbContext>();
-        }
-
-        private static string GetConnectionString(IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("LifeCMS");
-
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new Exception("The connection string `LifeCMS' was not provided.");
-            }
-
-            return connectionString;
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Policies;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
-using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

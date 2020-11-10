@@ -1,7 +1,7 @@
 using System;
 using System.Xml;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
 {
     public class HtmlGenerationService : IHtmlGenerationService
     {

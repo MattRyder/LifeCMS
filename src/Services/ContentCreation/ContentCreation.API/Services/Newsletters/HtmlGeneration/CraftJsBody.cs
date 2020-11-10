@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
 {
     public class CraftJsObject : Dictionary<string, CraftJsNode> { }
     public class CraftJsProps

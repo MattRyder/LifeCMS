@@ -2,7 +2,6 @@ namespace LifeCMS.Services.Identity.API.Services.PasswordResetConfirmedEmailServ
 {
     public class PasswordResetConfirmedEmailTemplate
     {
-        public static readonly string From = "noreply@lifecms.local";
         public static readonly string Subject = "Your password has been reset";
 
         public static readonly string Template = @"

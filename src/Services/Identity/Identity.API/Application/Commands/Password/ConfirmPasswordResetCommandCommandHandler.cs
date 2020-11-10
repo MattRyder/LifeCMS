@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using LifeCMS.EventBus.Common.Interfaces;
-using LifeCMS.Services.Identity.API.IntegrationEvents;
 using LifeCMS.Services.Identity.API.Services.PasswordResetConfirmedEmailService;
 using LifeCMS.Services.Identity.Infrastructure;
 using MediatR;
@@ -16,14 +15,19 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
 
         private readonly IEventBus _eventBus;
 
+        private readonly IConfiguration _configuration;
+
         public ConfirmPasswordResetCommandHandler(
             UserManager<LifeCMSIdentityUser> userManager,
-            IEventBus eventBus
+            IEventBus eventBus,
+            IConfiguration configuration
         )
         {
             _userManager = userManager;
 
             _eventBus = eventBus;
+
+            _configuration = configuration;
         }
 
 
@@ -32,6 +36,8 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
             CancellationToken cancellationToken
         )
         {
+            var fromEmailAddress = GetFromEmailAddress();
+
             var user = await FindUserAsync(request.EmailAddress);
 
             var result = await ResetPasswordAsync(
@@ -45,7 +51,7 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
                 return false;
             }
 
-            SendEmailAsync(user.Email);
+            SendEmailAsync(fromEmailAddress, user.Email);
 
             return true;
         }
@@ -55,6 +61,11 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
         )
         {
             return await _userManager.FindByEmailAsync(emailAddress);
+        }
+
+        private string GetFromEmailAddress()
+        {
+            return _configuration["Identity:Email:FromEmailAddress"];
         }
 
         private async Task<bool> ResetPasswordAsync(
@@ -72,9 +83,15 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
             return result.Succeeded;
         }
 
-        private async void SendEmailAsync(string emailAddress)
+        private async void SendEmailAsync(
+            string fromEmailAddress,
+            string toEmailAddress
+        )
         {
-            var service = new PasswordResetConfirmedEmailService(emailAddress);
+            var service = new PasswordResetConfirmedEmailService(
+                fromEmailAddress,
+                toEmailAddress
+            );
 
             var @event = await service.CreateIntegrationEventAsync();
 

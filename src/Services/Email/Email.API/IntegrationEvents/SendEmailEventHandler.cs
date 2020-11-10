@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+using System.Net.Mail;
 using System.Linq;
 using System.Threading.Tasks;
 using LifeCMS.EventBus.Common.Interfaces;
-using LifeCMS.Services.Email.Domain.Concrete;
+using LifeCMS.EventBus.IntegrationEvents.Email;
 using LifeCMS.Services.Email.Infrastructure.Interfaces;
 using LifeCMS.Services.Email.Infrastructure.Smtp;
 using Microsoft.Extensions.Logging;
@@ -27,11 +27,11 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
 
         public Task<bool> Handle(SendEmailEvent @event)
         {
-            var message = CreateEmailMessage(@event);
-
             try
             {
-                _emailClient.Send(message);
+                var emailMessage = CreateMailMessage(@event);
+
+                _emailClient.Send(emailMessage);
 
                 _logger.LogInformation(
                     $"Email has been sent. Event: {@event.Id}"
@@ -47,24 +47,23 @@ namespace LifeCMS.Services.Email.API.IntegrationEvents
             }
         }
 
-        private EmailMessage CreateEmailMessage(SendEmailEvent @event)
+        private MailMessage CreateMailMessage(SendEmailEvent @event)
         {
-            var to = @event.To ?? new List<string>();
+            var message = new MailMessage()
+            {
+                Body = @event.Body,
+                From = new MailAddress(@event.From),
+                Subject = @event.Subject,
+                IsBodyHtml = @event.IsBodyHtml,
+            };
 
-            var from = @event.From;
+            @event.To?.ToList().ForEach((address) => message.To.Add(address));
 
-            var cc = @event.Cc ?? new List<string>();
+            @event.Cc?.ToList().ForEach((address) => message.CC.Add(address));
 
-            var bcc = @event.Bcc ?? new List<string>();
+            @event.Bcc?.ToList().ForEach((address) => message.Bcc.Add(address));
 
-            return new EmailMessage(
-                from: from,
-                to: to,
-                cc: cc,
-                bcc: bcc,
-                subject: @event.Subject,
-                body: @event.Body
-            );
+            return message;
         }
     }
 }

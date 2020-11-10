@@ -1,4 +1,4 @@
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletter
+namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters
 {
     interface IHtmlGenerationService
     {

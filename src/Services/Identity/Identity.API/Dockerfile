@@ -9,6 +9,7 @@ COPY LifeCMS.sln .
 
 # Keep the project list equal to the solution file to maximize image cache use.
 COPY src/EventBus/EventBus.Common/EventBus.Common.csproj src/EventBus/EventBus.Common/
+COPY src/EventBus/EventBus.IntegrationEvents/EventBus.IntegrationEvents.csproj src/EventBus/EventBus.IntegrationEvents/
 COPY src/EventBus/EventBus.RabbitMQ/EventBus.RabbitMQ.csproj src/EventBus/EventBus.RabbitMQ/
 COPY src/Services/Email/Email.Infrastructure/Email.Infrastructure.csproj src/Services/Email/Email.Infrastructure/
 COPY src/Services/Email/Email.API/Email.API.csproj src/Services/Email/Email.API/

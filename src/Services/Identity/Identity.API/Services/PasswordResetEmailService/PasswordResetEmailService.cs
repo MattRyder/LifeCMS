@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using LifeCMS.Services.Identity.API.IntegrationEvents;
+using LifeCMS.EventBus.IntegrationEvents.Email;
 using Scriban;
 
 namespace LifeCMS.Services.Identity.API.Services.PasswordResetEmailService
@@ -15,17 +15,23 @@ namespace LifeCMS.Services.Identity.API.Services.PasswordResetEmailService
     {
         private readonly string _identityApiHost;
 
+        private readonly string _fromEmailAddress;
+
         private readonly string _emailAddress;
 
         private readonly string _token;
 
         public PasswordResetEmailService(
             string identityApiHost,
+            string fromEmailAddress,
             string emailAddress,
             string token)
         {
             _identityApiHost = identityApiHost ??
                 throw new PasswordResetEmailServiceException(nameof(identityApiHost));
+
+            _fromEmailAddress = fromEmailAddress ??
+                throw new PasswordResetEmailServiceException(nameof(fromEmailAddress));
 
             _emailAddress = emailAddress ??
                 throw new PasswordResetEmailServiceException(nameof(emailAddress));
@@ -44,7 +50,7 @@ namespace LifeCMS.Services.Identity.API.Services.PasswordResetEmailService
 
             return new SendEmailEvent()
             {
-                From = PasswordResetEmailTemplate.From,
+                From = _fromEmailAddress,
                 To = new[] { _emailAddress },
                 Subject = PasswordResetEmailTemplate.Subject,
                 Body = body

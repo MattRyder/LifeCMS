@@ -44,6 +44,8 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
         {
             var identityApiHost = GetIdentityApiHost();
 
+            var fromEmailAddress = GetFromEmailAddress();
+
             var user = await FindUser(request.EmailAddress);
 
             if (user == null)
@@ -55,7 +57,7 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
 
             var token = await GenerateResetToken(user);
 
-            SendEmail(identityApiHost, user.Email, token);
+            SendEmail(identityApiHost, fromEmailAddress, user.Email, token);
 
             return true;
         }
@@ -63,6 +65,11 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
         private string GetIdentityApiHost()
         {
             return _configuration["ApiHost:Identity"];
+        }
+
+        private string GetFromEmailAddress()
+        {
+            return _configuration["Identity:Email:FromEmailAddress"];
         }
 
         private async Task<LifeCMSIdentityUser> FindUser(string emailAddress)
@@ -79,12 +86,14 @@ namespace LifeCMS.Services.Identity.API.Application.Commands.Password
 
         private async void SendEmail(
             string identityApiHost,
+            string fromEmailAddress,
             string emailAddress,
             string token
         )
         {
             var service = new PasswordResetEmailService(
                 identityApiHost,
+                fromEmailAddress,
                 emailAddress,
                 token
             );

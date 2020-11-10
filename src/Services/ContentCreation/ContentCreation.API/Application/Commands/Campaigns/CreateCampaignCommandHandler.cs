@@ -19,11 +19,14 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns
 
         private readonly ICampaignValidationService _campaignValidationService;
 
+        private readonly ICampaignDeliveryService _campaignDeliveryService;
+
         public CreateCampaignCommandHandler(
             ICampaignRepository campaignRepository,
             ILogger<CreateCampaignCommandHandler> logger,
             IUserAccessor userAccessor,
-            ICampaignValidationService campaignValidationService
+            ICampaignValidationService campaignValidationService,
+            ICampaignDeliveryService campaignDeliveryService
         )
         {
             _campaignRepository = campaignRepository;
@@ -33,6 +36,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns
             _userAccessor = userAccessor;
 
             _campaignValidationService = campaignValidationService;
+
+            _campaignDeliveryService = campaignDeliveryService;
         }
 
         public async Task<bool> Handle(CreateCampaignCommand request, CancellationToken cancellationToken)
@@ -45,29 +50,45 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns
                     request.UserProfileId
                 );
 
-                var campaign = new Campaign(
-                    _userAccessor.Id,
-                    request.NewsletterTemplateId,
-                    request.UserProfileId,
-                    request.Name,
-                    request.Subject,
-                    request.ScheduledDate,
-                    request.UseSubscriberTimeZone
-                );
+                var campaign = CreateCampaign(request);
 
-                _campaignRepository.Add(campaign);
+                await SaveCampaign(campaign);
 
-                return await _campaignRepository.UnitOfWork.SaveEntitiesAsync();
+                RaiseCampaignDeliveryEvent(campaign.Id);
+
+                return true;
             }
-            catch (Exception ex) when (
-                ex is CampaignDomainException ||
-                ex is CampaignValidationServiceException
-            )
+            catch (CampaignValidationServiceException ex)
             {
                 _logger.LogError(ex, null);
 
                 return false;
             }
+        }
+
+        private Campaign CreateCampaign(CreateCampaignCommand request)
+        {
+            return new Campaign(
+                _userAccessor.Id,
+                request.NewsletterTemplateId,
+                request.UserProfileId,
+                request.Name,
+                request.Subject,
+                request.ScheduledDate,
+                request.UseSubscriberTimeZone
+            );
+        }
+
+        private async Task<bool> SaveCampaign(Campaign campaign)
+        {
+            _campaignRepository.Add(campaign);
+
+            return await _campaignRepository.UnitOfWork.SaveEntitiesAsync();
+        }
+
+        private void RaiseCampaignDeliveryEvent(Guid campaignId)
+        {
+            _campaignDeliveryService.Execute(campaignId);
         }
     }
 }

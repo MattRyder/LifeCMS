@@ -1,6 +1,6 @@
 using HtmlAgilityPack;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
 {
     public class HtmlAstParser
     {

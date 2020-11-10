@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using LifeCMS.Services.ContentCreation.API.Services.Newsletter.HtmlGeneration;
+using LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
 using MediatR;
 

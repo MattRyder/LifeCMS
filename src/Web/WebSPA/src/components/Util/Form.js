@@ -28,6 +28,7 @@ export const getSelectFor = (formik, inputName, label, collection, hint) => (
             invalid={formik.errors[inputName] && formik.errors[inputName].length > 0}
             value={formik.values[inputName]}
         >
+            <option selected value label="" />
             {collection && collection.map((obj, i) => (
                 <option key={i} value={obj.id}>
                     {obj.name}

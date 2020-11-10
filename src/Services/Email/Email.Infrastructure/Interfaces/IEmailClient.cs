@@ -1,9 +1,9 @@
-using LifeCMS.Services.Email.Domain.Concrete;
+using System.Net.Mail;
 
 namespace LifeCMS.Services.Email.Infrastructure.Interfaces
 {
     public interface IEmailClient
     {
-        void Send(EmailMessage emailMessage);
+        void Send(MailMessage mailMessage);
     }
 }
