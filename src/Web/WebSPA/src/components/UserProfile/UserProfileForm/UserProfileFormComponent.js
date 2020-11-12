@@ -3,11 +3,33 @@ import { useFormik } from 'formik';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import getInputFor from 'components/Util/Form';
+import { css, cx } from 'emotion';
+import { boxShadow } from 'theme';
 import { useTranslations, useUser } from '../../../hooks';
 import { createUserProfile } from '../../../redux/actions/UserProfileActions';
 import Schema, { InitialValues } from './UserProfileFormSchema';
 
-import './UserProfileFormComponent.scss';
+const styles = {
+    main: css`
+        background-color: #fff;
+        padding: 1rem;
+        ${boxShadow('rgba(0, 0, 0, 0.05)')}
+
+    `,
+    hint: css`
+        font-size: smaller;
+        color: lighten(gray, 5%);
+    `,
+    form: css`
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        > div {
+            padding: 0.5rem 0;
+        }
+    `,
+};
 
 export default function UserProfileFormComponent({ userProfile = InitialValues }) {
     const { t, TextTranslationKeys } = useTranslations();
@@ -30,13 +52,16 @@ export default function UserProfileFormComponent({ userProfile = InitialValues }
                 headerImageUri: values.headerImageUri,
             };
 
-            dispatch(createUserProfile(accessToken, userId, params, '/settings/user-profiles'));
+            dispatch(createUserProfile(accessToken, userId, params, '/user-profiles'));
         },
     });
 
     return (
-        <div className="user-profile-form-component">
-            <form onSubmit={formik.handleSubmit}>
+        <div className={cx(styles.main)}>
+            <form
+                className={cx(styles.form)}
+                onSubmit={formik.handleSubmit}
+            >
                 { getInputFor(
                     formik,
                     'name',
@@ -56,19 +81,17 @@ export default function UserProfileFormComponent({ userProfile = InitialValues }
                     t(TextTranslationKeys.userProfile.create.bio),
                 ) }
 
-                <div className="what-where">
-                    { getInputFor(
-                        formik,
-                        'occupation',
-                        t(TextTranslationKeys.userProfile.create.occupation),
-                    ) }
+                { getInputFor(
+                    formik,
+                    'occupation',
+                    t(TextTranslationKeys.userProfile.create.occupation),
+                ) }
 
-                    { getInputFor(
-                        formik,
-                        'location',
-                        t(TextTranslationKeys.userProfile.create.location),
-                    ) }
-                </div>
+                { getInputFor(
+                    formik,
+                    'location',
+                    t(TextTranslationKeys.userProfile.create.location),
+                ) }
 
                 { getInputFor(
                     formik,

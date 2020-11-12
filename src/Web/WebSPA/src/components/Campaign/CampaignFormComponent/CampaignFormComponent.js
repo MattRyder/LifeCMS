@@ -3,19 +3,75 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import Toggle from 'react-toggle';
+import { css, cx } from 'emotion';
 import { useFormik } from 'formik';
 import {
     useTranslations, useUser, useContentApi,
 } from 'hooks';
-import getInputFor, { getSelectFor } from 'components/Util/Form';
+import getInputFor, { FormikSelect } from 'components/Util/Form';
 import { Button, Label, FormGroup } from 'reactstrap';
 import { fetchNewsletters } from 'redux/actions/NewsletterTemplateActions';
 import { fetchUserProfiles } from 'redux/actions/UserProfileActions';
+import { boxShadow } from 'theme';
 import Schema, { InitialValues } from './CampaignSchema';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import './CampaignFormComponent.scss';
+const styles = {
+    hint: css`
+        color: #999;
+        font-size: smaller;
+    `,
+    form: css`
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 1rem;
+        ${boxShadow('rgba(0, 0, 0, 0.05)')}
+
+        > div {
+            padding: 0.5rem 0;
+        }
+    `,
+    toggleContainer: {
+        parent: css`
+            display: flex;
+
+            label {
+                margin-bottom: 0;
+            }
+        `,
+        reactToggle: css`
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        `,
+    },
+    datePicker: css`
+        --datepicker-width: 175px;
+        .react-datepicker-wrapper,
+        input#scheduledDate {
+            width: 100%;
+        }
+
+        .react-datepicker-wrapper {
+            width: 100%;
+        }
+
+        .react-datepicker__time-container {
+            .react-datepicker__time .react-datepicker__time-box {
+                width: var(--datepicker-width);
+            }
+
+            width: var(--datepicker-width);
+        }
+
+        .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
+            right: calc(var(--datepicker-width) + 15px);
+        }
+    `,
+};
 
 function CampaignFormComponent({ campaign, onFormSubmit }) {
     const { t, TextTranslationKeys } = useTranslations();
@@ -63,22 +119,22 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
 
     return (
         <form
-            className="campaign-form-component"
+            className={cx(styles.form)}
             onSubmit={formik.handleSubmit}
         >
-            {getSelectFor(
-                formik,
-                'newsletterTemplateId',
-                t(TextTranslationKeys.campaign.properties.newsletterTemplate),
-                selectedState.newsletter && selectedState.newsletter.newsletters,
-            )}
+            <FormikSelect
+                formik={formik}
+                inputName="newsletterTemplateId"
+                label={t(TextTranslationKeys.campaign.properties.newsletterTemplate)}
+                collection={selectedState.newsletter && selectedState.newsletter.newsletters}
+            />
 
-            {getSelectFor(
-                formik,
-                'userProfileId',
-                t(TextTranslationKeys.campaign.properties.userProfile),
-                selectedState.userProfile && selectedState.userProfile.userProfiles,
-            )}
+            <FormikSelect
+                formik={formik}
+                inputName="userProfileId"
+                label={t(TextTranslationKeys.campaign.properties.userProfile)}
+                collection={selectedState.userProfile && selectedState.userProfile.userProfiles}
+            />
 
             { getInputFor(
                 formik,
@@ -100,31 +156,31 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
 
             <FormGroup>
                 <Label for="scheduledDate">
-                    {
-                        t(TextTranslationKeys.campaign.properties.scheduledDate)
-                    }
+                    {t(TextTranslationKeys.campaign.properties.scheduledDate)}
                 </Label>
-                <DatePicker
-                    id="scheduledDate"
-                    selected={formik.values.scheduledDate}
-                    onChange={(date) => formik.setFieldValue('scheduledDate', date)}
-                    showTimeSelect
-                    placeholderText={
-                        t(TextTranslationKeys.campaignView.create.form.scheduledDatePlaceholder)
-                    }
-                    timeIntervals={15}
-                    dateFormat="MMMM d, yyyy h:mm aa"
-                />
+                <div className={styles.datePicker}>
+                    <DatePicker
+                        id="scheduledDate"
+                        selected={formik.values.scheduledDate}
+                        onChange={(date) => formik.setFieldValue('scheduledDate', date)}
+                        showTimeSelect
+                        placeholderText={
+                            t(TextTranslationKeys.campaignView.create.form.scheduledDatePlaceholder)
+                        }
+                        timeIntervals={15}
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                    />
+                </div>
             </FormGroup>
 
             <FormGroup>
-                <div className="toggle-container">
+                <div className={cx(styles.toggleContainer.parent)}>
                     <Label for="useSubscriberTimeZone">
                         <span>
                             {t(TextTranslationKeys.campaign.properties.useSubscriberTimeZone)}
                         </span>
                     </Label>
-                    <div className="react-toggle-container">
+                    <div className={cx(styles.toggleContainer.reactToggle)}>
                         <Toggle
                             id="useSubscriberTimeZone"
                             defaultChecked={formik.values.useSubscriberTimeZone}
@@ -135,7 +191,7 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
                         />
                     </div>
                 </div>
-                <span className="hint">
+                <span className={cx(styles.hint)}>
                     {t(TextTranslationKeys.campaignView.create.form.subscriberHint)}
                 </span>
             </FormGroup>

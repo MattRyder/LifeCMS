@@ -4,6 +4,7 @@ import { push as Menu } from 'react-burger-menu';
 import { useMediaQuery } from 'react-responsive';
 import { useDispatch } from 'react-redux';
 import { Button } from 'reactstrap';
+import LanguageSelect from 'components/Util/LanguageSelect/LanguageSelect';
 import Icon, { Icons } from '../../Iconography/Icon';
 import UserManager from '../../../../openid/UserManager';
 import { useTranslations, useUser } from '../../../../hooks';
@@ -70,7 +71,7 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                     {createNavLink(
                         Icons.message,
                         t(TextTranslationKeys.navigationMenu.item.templates),
-                        () => closeMenuAndNavigateTo('/newsletter/templates'),
+                        () => closeMenuAndNavigateTo('/templates'),
                     )}
                 </ul>
             </div>
@@ -80,7 +81,7 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                     {createNavLink(
                         Icons.userEdit,
                         t(TextTranslationKeys.navigationMenu.item.userProfiles),
-                        () => closeMenuAndNavigateTo('/settings/user-profiles'),
+                        () => closeMenuAndNavigateTo('/user-profiles'),
                     )}
                 </ul>
             </div>
@@ -124,11 +125,14 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
             width={350}
         >
             {menuContent}
+            <LanguageSelect />
         </Menu>
 
     ) : (
         <div className="navigation-menu">
             {menuContent}
+            <LanguageSelect />
+
         </div>
     );
 }

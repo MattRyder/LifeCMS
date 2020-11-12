@@ -1,33 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { cx, css } from 'emotion';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 
-function ViewNavigationBar({
-    showBackLink,
-}) {
+const style = css`
+    padding: 1rem;
+`;
+
+export default function ViewNavigationBar() {
     const history = useHistory();
 
     return (
-        <div className="view-navigation-bar">
-            { showBackLink && (
-                <Button
-                    onClick={() => history.goBack()}
-                    color="Link"
-                >
-                    &lsaquo; Back
-                </Button>
-            )}
+        <div className={cx(style)}>
+            <Button
+                onClick={() => history.goBack()}
+                color="Link"
+            >
+                &lsaquo; Back
+            </Button>
         </div>
     );
 }
-
-ViewNavigationBar.propTypes = {
-    showBackLink: PropTypes.bool,
-};
-
-ViewNavigationBar.defaultProps = {
-    showBackLink: true,
-};
-
-export default ViewNavigationBar;

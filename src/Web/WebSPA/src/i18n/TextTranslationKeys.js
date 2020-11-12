@@ -30,6 +30,8 @@ export default {
         },
     },
     campaign: {
+        displayName: 'campaignDisplayName',
+        description: 'campaignDescription',
         properties: {
             newsletterTemplate: 'campaignPropertiesNewsletterTemplate',
             userProfile: 'campaignPropertiesUserProfile',
@@ -40,7 +42,25 @@ export default {
             useSubscriberTimeZone: 'campaignPropertiesUseSubTimeZone',
         },
     },
+    template: {
+        displayName: 'templateDisplayName',
+        description: 'templateDescription',
+        properties: {
+            name: 'templatePropertiesName',
+        },
+    },
     userProfile: {
+        displayName: 'userProfileDisplayName',
+        description: 'userProfileDescription',
+        properties: {
+            name: 'userProfilePropertiesName',
+            emailAddress: 'userProfilePropertiesEmailAddress',
+            occupation: 'userProfilePropertiesOccupation',
+            location: 'userProfilePropertiesLocation',
+            bio: 'userProfilePropertiesBio',
+            avatarImage: 'userProfilePropertiesAvatarImage',
+            headerImage: 'userProfilePropertiesHeaderImage',
+        },
         create: {
             name: {
                 label: 'userProfileCreateNameLabel',
@@ -82,6 +102,8 @@ export default {
             createCampaign: 'campaignViewIndexCreateCampaign',
             scheduledFor: 'campaignViewIndexScheduledFor',
             createdAt: 'campaignViewIndexCreatedAt',
+            createCampaignCta: 'campaignViewIndexCreateCampaignCta',
+
         },
         create: {
             pageTitle: 'campaignViewCreateTitle',
@@ -111,6 +133,7 @@ export default {
         },
         editor: {
             title: 'newsletterViewEditorTitle',
+            toolboxHelp: 'newsletterViewEditorToolboxHelp',
             mode: {
                 basic: 'newsletterViewEditorModeBasic',
                 advanced: 'newsletterViewEditorModeAdvanced',
@@ -121,6 +144,9 @@ export default {
                 columns: 'newsletterViewEditorToolboxColumns',
             },
 
+        },
+        index: {
+            createTemplateCta: 'newsletterViewIndexCreateTemplateCta',
         },
         pageTitle: 'newsletterViewPageTitle',
         createNewsletter: 'newsletterViewCreateNewsletter',
@@ -144,6 +170,11 @@ export default {
         userProfiles: {
             create: 'settingsViewUserProfileCreate',
             edit: 'settingsViewUserProfileEdit',
+        },
+    },
+    userProfileView: {
+        index: {
+            createUserProfileCta: 'userProfileViewIndexCreateUserProfileCta',
         },
     },
 };

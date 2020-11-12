@@ -1,18 +1,26 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { de, en, es } from './i18n/locales';
+import {
+    de, en, es, fr, it,
+} from './i18n/locales';
 
-export const supportedLocales = ['en', 'de', 'es'];
+export const supportedLocales = [de, en, es, fr, it];
 
 const resources = {
-    en: {
-        translation: en,
-    },
     de: {
         translation: de,
     },
+    en: {
+        translation: en,
+    },
     es: {
         translation: es,
+    },
+    fr: {
+        translation: fr,
+    },
+    it: {
+        translation: it,
     },
 };
 

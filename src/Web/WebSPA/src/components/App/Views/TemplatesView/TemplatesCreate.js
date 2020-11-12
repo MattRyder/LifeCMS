@@ -29,7 +29,7 @@ export default function NewsletterTemplateCreate() {
                 accessToken,
                 userId,
                 params,
-                '/newsletter/templates',
+                '/templates',
             ),
         );
     };

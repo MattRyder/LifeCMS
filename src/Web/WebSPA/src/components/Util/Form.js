@@ -18,25 +18,38 @@ const getInputFor = (formik, inputName, label, hint) => (
     </FormGroup>
 );
 
-export const getSelectFor = (formik, inputName, label, collection, hint) => (
-    <FormGroup>
-        <Label for={inputName}>{label}</Label>
-        <Input
-            type="select"
-            name={inputName}
-            onChange={formik.handleChange}
-            invalid={formik.errors[inputName] && formik.errors[inputName].length > 0}
-            value={formik.values[inputName]}
-        >
-            <option selected value label="" />
-            {collection && collection.map((obj, i) => (
-                <option key={i} value={obj.id}>
-                    {obj.name}
-                </option>
-            ))}
-        </Input>
-        { hint ? <span className="hint">{hint}</span> : null }
-    </FormGroup>
-);
+export const FormikSelect = ({
+    formik,
+    inputName,
+    label,
+    collection,
+    hint,
+    inputClassName,
+}) => {
+    const isInvalid = formik.errors[inputName]
+        && formik.errors[inputName].length > 0;
+
+    return (
+        <FormGroup>
+            <Label for={inputName}>{label}</Label>
+            <Input
+                type="select"
+                name={inputName}
+                className={inputClassName}
+                onChange={formik.handleChange}
+                invalid={isInvalid}
+                value={formik.values[inputName]}
+            >
+                <option selected value />
+                {collection && collection.map((obj, i) => (
+                    <option key={i} value={obj.id}>
+                        {obj.name}
+                    </option>
+                ))}
+            </Input>
+            { hint ? <span className="hint">{hint}</span> : null }
+        </FormGroup>
+    );
+};
 
 export default getInputFor;

@@ -7,10 +7,8 @@ import {
     SessionView,
     HomeView,
     ProfileView,
-    SettingsView,
-    NewsletterView,
     UserProfileView,
-    NewsletterTemplatesView,
+    TemplatesView,
     CampaignView,
 } from './components/App/Views';
 import AuthenticatedRoute from './components/Util/AuthenticatedRoute';
@@ -31,10 +29,8 @@ export default function App() {
                     <Route path="/session" component={SessionView} />
                     <AuthenticatedRoute path="/content" component={HomeView} />
                     <AuthenticatedRoute path="/campaigns" component={CampaignView} />
-                    <AuthenticatedRoute path="/newsletter" component={NewsletterView} />
-                    <AuthenticatedRoute path="/templates" component={NewsletterTemplatesView} />
+                    <AuthenticatedRoute path="/templates" component={TemplatesView} />
                     <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />
-                    <AuthenticatedRoute path="/settings" component={SettingsView} />
                 </Switch>
                 <ToastContainer position="bottom-right" />
             </main>

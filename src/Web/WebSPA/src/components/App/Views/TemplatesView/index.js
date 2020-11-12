@@ -1,3 +1,3 @@
-export { default as NewsletterTemplateCreate } from './NewsletterTemplateCreate';
-export { default as NewsletterTemplateEdit } from './NewsletterTemplateEdit';
-export { default as NewsletterTemplatePreview } from './NewsletterTemplatePreview';
+export { default as TemplatesCreate } from './TemplatesCreate';
+export { default as TemplatesEdit } from './TemplatesEdit';
+export { default as TemplatesPreview } from './TemplatesPreview';

@@ -1,26 +1,16 @@
 import React from 'react';
 import { useTranslations } from 'hooks';
 import UpdateSubjectComponent from 'components/Campaign/UpdateSubjectComponent/UpdateSubjectComponent';
-import ViewNavigationBar from 'components/App/Components/ViewNavigationBar/ViewNavigationBar';
+import FormPage from 'components/Util/FormPage';
 
 export default function CampaignUpdateSubject() {
     const { t, TextTranslationKeys } = useTranslations();
 
     return (
-        <>
-            <ViewNavigationBar showBackLink />
-
-            <div className="campaign-form-container">
-                <>
-                    <div className="header">
-                        <span>
-                            {t(TextTranslationKeys.campaignView.updateSubject.pageTitle)}
-                        </span>
-                    </div>
-
-                    <UpdateSubjectComponent />
-                </>
-            </div>
-        </>
+        <FormPage
+            title={t(TextTranslationKeys.campaignView.updateSubject.pageTitle)}
+        >
+            <UpdateSubjectComponent />
+        </FormPage>
     );
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslations, useUser } from 'hooks';
 import { createCampaign } from 'redux/actions/CampaignActions';
 import CampaignFormComponent from 'components/Campaign/CampaignFormComponent/CampaignFormComponent';
-import ViewNavigationBar from 'components/App/Components/ViewNavigationBar/ViewNavigationBar';
+import FormPage from 'components/Util/FormPage';
 
 export default function CampaignCreate() {
     const { t, TextTranslationKeys } = useTranslations();
@@ -17,20 +17,8 @@ export default function CampaignCreate() {
     );
 
     return (
-        <div className="campaign-create">
-            <>
-                <ViewNavigationBar showBackLink />
-
-                <div className="campaign-form-container">
-                    <div className="header">
-                        <span>
-                            {t(TextTranslationKeys.campaignView.create.pageTitle)}
-                        </span>
-                    </div>
-
-                    <CampaignFormComponent onFormSubmit={handleSubmit} />
-                </div>
-            </>
-        </div>
+        <FormPage title={t(TextTranslationKeys.campaignView.create.pageTitle)}>
+            <CampaignFormComponent onFormSubmit={handleSubmit} />
+        </FormPage>
     );
 }

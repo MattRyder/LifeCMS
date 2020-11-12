@@ -1,33 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { useContentApi, useUser, useTranslations } from '../../../../../hooks';
 import { fetchCampaigns } from '../../../../../redux/actions/CampaignActions';
 import TableComponent from '../../../../Util/Table/TableComponent';
 import CampaignRowComponent from './CampaignRowComponent';
+import CampaignIndexIntro from './CampaignIndexIntro';
+import ListView from '../../ListView';
 
-import './CampaignIndex.scss';
-
-export default function CampaignIndex() {
-    const { accessToken, userId } = useUser();
-
+function CampaignList({ collection }) {
     const { t, TextTranslationKeys } = useTranslations();
 
-    const campaignState = useSelector(
-        (state) => state.campaign[userId],
-    );
-
-    useContentApi(() => fetchCampaigns(accessToken, userId), accessToken, userId);
-
     return (
-        <div className="campaign-index padded">
-            <div className="title">
-                <h2>{t(TextTranslationKeys.campaignView.index.pageTitle)}</h2>
-                <Button tag={Link} size="sm" color="primary" to="/campaigns/new">
-                    {t(TextTranslationKeys.campaignView.index.createCampaign)}
-                </Button>
-            </div>
+        <ListView
+            title={t(TextTranslationKeys.campaignView.index.pageTitle)}
+            ctaText={t(TextTranslationKeys.campaignView.index.createCampaign)}
+            ctaLinkTo="/campaigns/new"
+        >
             <TableComponent
                 headings={[
                     t(TextTranslationKeys.campaign.properties.name),
@@ -36,8 +24,26 @@ export default function CampaignIndex() {
                     '',
                 ]}
                 rowComponent={CampaignRowComponent}
-                collection={campaignState && campaignState.campaigns}
+                collection={collection}
             />
-        </div>
+        </ListView>
     );
+}
+
+export default function CampaignIndex() {
+    const { accessToken, userId } = useUser();
+
+    const campaignState = useSelector((state) => state.campaign[userId]);
+
+    const hasCampaigns = campaignState.campaigns && campaignState.campaigns.length > 0;
+
+    useContentApi(
+        () => fetchCampaigns(accessToken, userId),
+        accessToken,
+        userId,
+    );
+
+    return hasCampaigns
+        ? <CampaignList collection={campaignState && campaignState.campaigns} />
+        : <CampaignIndexIntro />;
 }

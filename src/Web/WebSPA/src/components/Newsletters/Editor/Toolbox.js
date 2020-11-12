@@ -2,10 +2,15 @@ import React from 'react';
 import { useEditor } from '@craftjs/core';
 import { css, cx } from 'emotion';
 import { useTranslations } from 'hooks';
+import { Alert } from 'reactstrap';
 import { Columns, Row, Text } from './Components';
 import { RowIcon, ColumnsIcon, FreeTextIcon } from './Toolbox/Icons';
 
 const style = {
+    helpAlert: css`
+        font-size: 0.85em;
+        margin: 0.5em;
+    `,
     button: css`
         font-size: 14px;
         padding: 6px 12px;
@@ -94,27 +99,33 @@ export default function Toolbox() {
     const { t, TextTranslationKeys } = useTranslations();
 
     return (
-        <div className={cx(style.toolbox)}>
-            {
-                elements(t, TextTranslationKeys).map((element) => (
-                    <button
-                        type="button"
-                        key={element.key}
-                        className={cx(style.button, style.toolboxItem)}
-                        ref={(ref) => create(ref, element.component)}
-                    >
-                        <span className={cx(style.buttonText)}>
-                            <img
-                                tabIndex="-1"
-                                className={cx(style.buttonIcon)}
-                                src={element.icon}
-                                alt=""
-                            />
-                            {element.name}
-                        </span>
-                    </button>
-                ))
-            }
-        </div>
+        <>
+            <Alert className={cx(style.helpAlert)} color="info">
+                {t(TextTranslationKeys.newsletterView.editor.toolboxHelp)}
+            </Alert>
+
+            <div className={cx(style.toolbox)}>
+                {
+                    elements(t, TextTranslationKeys).map((element) => (
+                        <button
+                            type="button"
+                            key={element.key}
+                            className={cx(style.button, style.toolboxItem)}
+                            ref={(ref) => create(ref, element.component)}
+                        >
+                            <span className={cx(style.buttonText)}>
+                                <img
+                                    tabIndex="-1"
+                                    className={cx(style.buttonIcon)}
+                                    src={element.icon}
+                                    alt=""
+                                />
+                                {element.name}
+                            </span>
+                        </button>
+                    ))
+                }
+            </div>
+        </>
     );
 }

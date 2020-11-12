@@ -34,7 +34,7 @@ export default function NewsletterTemplateEdit() {
             userId,
             id,
             json,
-            '/newsletter/templates',
+            '/templates',
         ));
     };
 
