@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useContentApi, useUser, useTranslations } from '../../../../../hooks';
 import { fetchCampaigns } from '../../../../../redux/actions/CampaignActions';
-import TableComponent from '../../../../Util/Table/TableComponent';
+import Table from '../../../../Util/Table/Table';
 import CampaignRowComponent from './CampaignRowComponent';
 import CampaignIndexIntro from './CampaignIndexIntro';
 import ListView from '../../ListView';
@@ -16,7 +16,7 @@ function CampaignList({ collection }) {
             ctaText={t(TextTranslationKeys.campaignView.index.createCampaign)}
             ctaLinkTo="/campaigns/new"
         >
-            <TableComponent
+            <Table
                 headings={[
                     t(TextTranslationKeys.campaign.properties.name),
                     t(TextTranslationKeys.campaignView.index.scheduledFor),
@@ -35,7 +35,7 @@ export default function CampaignIndex() {
 
     const campaignState = useSelector((state) => state.campaign[userId]);
 
-    const hasCampaigns = campaignState.campaigns && campaignState.campaigns.length > 0;
+    const hasCampaigns = campaignState && campaignState.campaigns && campaignState.campaigns.length > 0;
 
     useContentApi(
         () => fetchCampaigns(accessToken, userId),

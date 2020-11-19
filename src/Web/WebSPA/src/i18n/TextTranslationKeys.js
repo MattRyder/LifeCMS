@@ -175,6 +175,7 @@ export default {
     userProfileView: {
         index: {
             createUserProfileCta: 'userProfileViewIndexCreateUserProfileCta',
+            listCaption: 'userProfileViewIndexListCaption',
         },
     },
 };

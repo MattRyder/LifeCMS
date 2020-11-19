@@ -77,6 +77,7 @@ export default {
     [TextTranslationKeys.userProfile.displayName]: 'User Profile',
     [TextTranslationKeys.userProfile.description]: 'Give a background to your email messages with personalised author biographies.',
     [TextTranslationKeys.userProfileView.index.createUserProfileCta]: 'Create your first user profile',
+    [TextTranslationKeys.userProfileView.index.listCaption]: 'A list of user profiles',
     [TextTranslationKeys.userProfile.properties.avatarImage]: 'Avatar Picture',
     [TextTranslationKeys.userProfile.properties.bio]: 'Personal Motto',
     [TextTranslationKeys.userProfile.properties.emailAddress]: 'Email Address',

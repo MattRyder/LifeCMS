@@ -11,7 +11,7 @@ const styles = {
         width: 100%;
     `,
     page: css`
-        padding: 2rem;
+        padding: 0 2rem;
     `,
     header: css`
         font-size: 1.5rem;

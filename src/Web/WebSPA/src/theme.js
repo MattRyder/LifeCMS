@@ -20,8 +20,17 @@ export const boxShadow = (color) => css`
                 0 8px 16px ${color};
 `;
 
-const theme = () => ({
-
+const theme = ({
+    colors: {
+        main: '#07729d',
+        mainLink: '#2f393d',
+        mainBackground: '#f5f5f5',
+        mainMenuHeader: '#686e70',
+        mainMenuItemActiveBackground: '#e2eaf3',
+        editorSelected: '#117cfa',
+        tableBackground: '#fff',
+        tableHeaderBackground: '#e4e4e4',
+    },
 });
 
 export default theme;

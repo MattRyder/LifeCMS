@@ -1,9 +1,5 @@
 @import "./assets/styles/colors.scss";
 
-* {
-    font-family: sans-serif;
-}
-
 html,
 body {
     height: 100%;
@@ -28,16 +24,5 @@ a {
         display: flex;
         flex-direction: row;
         min-height: 100%;
-
-        .navigation-menu {
-            flex: 1;
-            max-width: 16.5rem;
-            order: -1;
-        }
-
-        main {
-            width: 100%;
-            order: 1;
-        }
     }
 }

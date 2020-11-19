@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useContentApi, useUser, useTranslations } from '../../../../../hooks';
 import { fetchNewsletters } from '../../../../../redux/actions/NewsletterTemplateActions';
-import TableComponent from '../../../../Util/Table/TableComponent';
+import Table from '../../../../Util/Table/Table';
 import NewsletterListRowComponent from './NewsletterListRowComponent';
 import TemplatesIndexIntro from './TemplatesIndexIntro';
 import ListView from '../../ListView';
@@ -16,7 +16,7 @@ function NewsletterIndexList({ collection }) {
             ctaText={t(TextTranslationKeys.newsletterView.createNewsletter)}
             ctaLinkTo="/templates/new"
         >
-            <TableComponent
+            <Table
                 headings={[
                     t(TextTranslationKeys.template.properties.name),
                 ]}
@@ -34,7 +34,8 @@ export default function TemplatesIndex() {
         (state) => state.newsletter[userId],
     );
 
-    const hasTemplates = templatesState.newsletters
+    const hasTemplates = templatesState
+        && templatesState.newsletters
         && templatesState.newsletters.length > 0;
 
     useContentApi(

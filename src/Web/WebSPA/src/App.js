@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Route, Switch,
 } from 'react-router';
+import { css, cx } from 'emotion';
 import { ToastContainer } from 'react-toastify-redux';
 import {
     SessionView,
@@ -18,12 +19,29 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.scss';
 
+const styles = {
+    appOuter: css`        
+        height: 100%;
+        font-family: sans-serif;
+    `,
+    main: css`
+        display: flex;
+        flex: 1; 
+        order: 1;
+        width: 100%;
+        overflow-y: auto;
+    `,
+};
+
 export default function App() {
     return (
-        <div id="app-outer">
-            <NavigationMenu outerContainerId="app-outer" pageWrapId="page-main" />
+        <div className={cx(styles.appOuter)} id="app-outer">
+            <NavigationMenu
+                outerContainerId="app-outer"
+                pageWrapId="page-main"
+            />
 
-            <main id="page-main" style={{ display: 'flex', flex: 1 }}>
+            <main id="page-main" className={styles.main}>
                 <Switch>
                     <Route path="/profile/:id" component={ProfileView} />
                     <Route path="/session" component={SessionView} />

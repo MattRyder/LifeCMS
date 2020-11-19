@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import detector from 'i18next-browser-languagedetector';
 import {
     de, en, es, fr, it,
 } from './i18n/locales';
@@ -24,11 +25,14 @@ const resources = {
     },
 };
 
+const fallbackLng = process.env.NODE_ENV === 'production' ? 'en' : undefined;
+
 i18n
+    .use(detector)
     .use(initReactI18next)
     .init({
         resources,
-        lng: 'en',
+        fallbackLng,
         keySeparator: false,
         interpolation: {
             escapeValue: false,

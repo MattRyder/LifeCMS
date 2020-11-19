@@ -22,6 +22,7 @@ const styles = {
     `,
     globalizationIcon: css`
         padding: 0.5rem;
+
     `,
     flagIcon: css`
         margin-right: 0.5rem;
@@ -81,7 +82,7 @@ export default function LanguageSelect() {
         const lang = langSet.find((l) => l.language === userLang) || langSet[0];
 
         setCurrentLangName(lang.displayName);
-    }, []);
+    }, [i18n.language]);
 
     return (
         <div className={cx(styles.main)}>

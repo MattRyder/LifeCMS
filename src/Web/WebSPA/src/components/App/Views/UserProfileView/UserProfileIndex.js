@@ -4,7 +4,7 @@ import { ReactComponent as UserProfileIllustration } from 'assets/illustrations/
 import { fetchUserProfiles } from '../../../../redux/actions/UserProfileActions';
 import { useContentApi, useUser, useTranslations } from '../../../../hooks';
 import UserProfileListViewRowComponent from '../../../UserProfile/UserProfileListViewRowComponent';
-import TableComponent from '../../../Util/Table/TableComponent';
+import Table from '../../../Util/Table/Table';
 import ListView from '../ListView';
 import IntroView from '../IntroView';
 
@@ -19,7 +19,7 @@ const UserProfileIndexList = ({ collection }) => {
             ctaLinkTo={newUserProfileRoute}
             ctaText={t(TextTranslationKeys.settingsView.userProfiles.create)}
         >
-            <TableComponent
+            <Table
                 headings={[
                     t(TextTranslationKeys.userProfile.properties.name),
                     t(TextTranslationKeys.userProfile.properties.occupation),
@@ -27,6 +27,7 @@ const UserProfileIndexList = ({ collection }) => {
                 ]}
                 rowComponent={UserProfileListViewRowComponent}
                 collection={collection}
+                accessibilityDescription={t(TextTranslationKeys.userProfileView.index.listCaption)}
             />
         </ListView>
     );
