@@ -1,5 +1,5 @@
 using System;
-using System.Xml;
+using LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration;
 
 namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
 {
@@ -8,6 +8,7 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGenerati
         protected string Body { get; private set; }
 
         private CraftJsBody _craftJsBody;
+
         protected CraftJsBody CraftJsBody
         {
             get
@@ -34,7 +35,7 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGenerati
         {
             var craftJsBody = CraftJsBody.Parse(Body);
 
-            var document = new HtmlAstParser(craftJsBody);
+            var document = new HtmlTagParser(craftJsBody);
 
             return document.Parse().DocumentNode.InnerHtml;
         }

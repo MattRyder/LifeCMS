@@ -7,6 +7,8 @@ import {
 
 export const supportedLocales = [de, en, es, fr, it];
 
+export const getCurrentLanguage = () => i18n.language;
+
 const resources = {
     de: {
         translation: de,

@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
 {
     class JsonValueOrArrayConverter<T> : JsonConverter
     {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object existingValue,
+            JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
 
@@ -41,7 +45,10 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGenerati
             return objectType.Equals(typeof(List<T>));
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(
+            JsonWriter writer,
+            object value,
+            JsonSerializer serializer)
         {
             throw new NotImplementedException();
         }

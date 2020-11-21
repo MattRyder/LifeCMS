@@ -1,9 +1,9 @@
-using LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration;
+using LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration;
 using Xunit;
 
-namespace LifeCMS.Services.ContentCreation.UnitTests.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.UnitTests.HtmlGeneration
 {
-    public class HtmlAstParserTest
+    public class HtmlTagParserTest
     {
         [Fact]
         public void Parse_ReturnsHtml_GivenEmptyBody()
@@ -37,15 +37,26 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Services.Newsletter.HtmlGen
             }
             );
 
-            var parser = new HtmlAstParser(body);
+            var parser = new HtmlTagParser(body);
 
-            var expected = "<body><div classname=\"page\" id=\"row-1\" style=\"\"><div style=\"\">Hello, World!</div></div></body>";
+            var expected = @"
+            <html>
+                <head>
+                    <title></title>
+                    <meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">
+                    <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
+                </head>
+                <body>
+                    <div classname=""page"" id=""row-1"" style="""">
+                    <div style="""">Hello, World!</div>
+                    </div>
+                </body>
+            </html>
+            ";
 
             var result = parser.Parse();
 
-            var actual = result.DocumentNode.InnerHtml;
-
-            Assert.Equal(expected, actual);
+            HtmlNodeAssert.HtmlEqual(expected, result.DocumentNode);
         }
     }
 }

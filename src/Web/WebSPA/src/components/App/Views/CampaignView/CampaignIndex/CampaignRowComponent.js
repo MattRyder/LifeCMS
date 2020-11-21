@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import {
     Dropdown,
@@ -6,15 +5,13 @@ import {
     DropdownMenu,
     DropdownItem,
 } from 'reactstrap';
-import { format, parseISO } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteCampaign } from 'redux/actions/CampaignActions';
+import formatTimestampDate from 'components/Util/Date';
 import { useTranslations, useUser } from '../../../../../hooks';
 import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
-
-const DATE_FORMAT = 'E, MMMM dd hh:mm a';
 
 function CampaignRowComponent({
     item: {
@@ -42,8 +39,8 @@ function CampaignRowComponent({
     return (
         <tr key={id}>
             <td>{name}</td>
-            <td>{format(parseISO(scheduledDate), DATE_FORMAT)}</td>
-            <td>{format(parseISO(createdAt), DATE_FORMAT)}</td>
+            <td>{formatTimestampDate(scheduledDate)}</td>
+            <td>{formatTimestampDate(createdAt)}</td>
             <td>
                 <Link to={`/campaigns/${id}/details`}>
                     {t(TextTranslationKeys.common.details)}

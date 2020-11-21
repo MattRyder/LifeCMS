@@ -25,6 +25,7 @@ const theme = ({
         main: '#07729d',
         mainLink: '#2f393d',
         mainBackground: '#f5f5f5',
+        mainUnderBackground: '#bababa',
         mainMenuHeader: '#686e70',
         mainMenuItemActiveBackground: '#e2eaf3',
         editorSelected: '#117cfa',

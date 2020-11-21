@@ -1,11 +1,34 @@
 import React from 'react';
 import { useParams } from 'react-router';
-import SanitizedHTML from 'react-sanitized-html';
+import { cx, css } from 'emotion';
+import { rgba } from 'polished';
+import { boxShadow } from 'theme';
 import { fetchNewsletters } from 'redux/actions/NewsletterTemplateActions';
 import {
     useContentApi, useUser, useStateSelector, useTranslations,
 } from 'hooks';
-import FormPage from 'components/Util/FormPage';
+import DetailPage from 'components/Util/DetailPage/DetailPage';
+import Meta from 'components/Util/DetailPage/Meta';
+import formatTimestampDate from 'components/Util/Date';
+
+const styles = {
+    wrapper: css`
+        display: flex;
+        flex-direction: column;
+    `,
+    iframe: css`
+        background-color: #fff;
+        border: none;
+        flex: 1;
+        ${boxShadow(rgba(0, 0, 0, 0.05))}
+        width: 100%;
+
+        & > div {
+            height: 100%;
+            width: 100%;
+        }
+    `,
+};
 
 export default function NewsletterTemplatePreview() {
     const { id } = useParams();
@@ -32,11 +55,24 @@ export default function NewsletterTemplatePreview() {
     }: ${newsletter && newsletter.name}`;
 
     return (
-        <FormPage title={title}>
-            <SanitizedHTML
-                html={newsletter && newsletter.html}
-                allowedAttributes={{ div: ['style'] }}
+        <DetailPage title={title}>
+            <iframe
+                className={cx(styles.iframe)}
+                title={title}
+                srcDoc={newsletter && newsletter.html}
+                sandbox="allow-scripts"
             />
-        </FormPage>
+            <Meta keyValues={[
+                {
+                    label: t(TextTranslationKeys.common.createdAt),
+                    value: formatTimestampDate(newsletter && newsletter.createdAt),
+                },
+                {
+                    label: t(TextTranslationKeys.common.updatedAt),
+                    value: formatTimestampDate(newsletter && newsletter.updatedAt),
+                },
+            ]}
+            />
+        </DetailPage>
     );
 }

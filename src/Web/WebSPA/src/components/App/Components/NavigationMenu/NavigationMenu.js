@@ -14,13 +14,16 @@ import { useTranslations, useUser } from '../../../../hooks';
 import { performLogout } from '../../../../redux/actions/LogoutActions';
 
 const styles = {
+    wrapper: css`
+        overflow-y: auto;
+    `,
     burgerMenu: css`
         .bm-burger-button {
             position: fixed;
             width: 36px;
             height: 30px;
-            left: 36px;
-            bottom: 36px;
+            left: 20px;
+            bottom: 24px;
         }
         
         /* Color/shape of burger icon bars */
@@ -126,7 +129,7 @@ const NavLink = ({ icon, text, onClick }) => (
 
 export default function NavigationMenu({ pageWrapId, outerContainerId }) {
     const isTabletOrMobile = useMediaQuery({
-        query: '(max-width: 1200px)',
+        query: '(max-width: 1199px)',
     });
 
     const dispatch = useDispatch();
@@ -151,75 +154,78 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
 
     const onLogoutClick = () => dispatch(performLogout());
 
-    const menuContent = (
-        <div>
-            <div className={cx(styles.subMenu)}>
-                <header className={cx(styles.header)}>
-                    {t(TextTranslationKeys.navigationMenu.header.content)}
-                </header>
-                <ul className={cx(styles.ul)}>
-                    <NavLink
-                        icon={Icons.newspaper}
-                        text={t(TextTranslationKeys.navigationMenu.item.posts)}
-                        onClick={() => closeMenuAndNavigateTo('/content')}
-                    />
-                </ul>
+    const MenuContent = () => (
+        <>
+            <div className={cx(styles.wrapper)}>
+                <div className={cx(styles.subMenu)}>
+                    <header className={cx(styles.header)}>
+                        {t(TextTranslationKeys.navigationMenu.header.content)}
+                    </header>
+                    <ul className={cx(styles.ul)}>
+                        <NavLink
+                            icon={Icons.newspaper}
+                            text={t(TextTranslationKeys.navigationMenu.item.posts)}
+                            onClick={() => closeMenuAndNavigateTo('/content')}
+                        />
+                    </ul>
+                </div>
+                <div className={cx(styles.subMenu)}>
+                    <header className={cx(styles.header)}>
+                        {t(TextTranslationKeys.navigationMenu.header.newsletters)}
+                    </header>
+                    <ul className={cx(styles.ul)}>
+                        <NavLink
+                            icon={Icons.bullhorn}
+                            text={t(TextTranslationKeys.navigationMenu.item.campaigns)}
+                            onClick={() => closeMenuAndNavigateTo('/campaigns')}
+                        />
+                        <NavLink
+                            icon={Icons.message}
+                            text={t(TextTranslationKeys.navigationMenu.item.templates)}
+                            onClick={() => closeMenuAndNavigateTo('/templates')}
+                        />
+                    </ul>
+                </div>
+                <div className={cx(styles.subMenu)}>
+                    <header className={cx(styles.header)}>
+                        {t(TextTranslationKeys.navigationMenu.header.settings)}
+                    </header>
+                    <ul className={cx(styles.ul)}>
+                        <NavLink
+                            icon={Icons.userEdit}
+                            text={t(TextTranslationKeys.navigationMenu.item.userProfiles)}
+                            onClick={() => closeMenuAndNavigateTo('/user-profiles')}
+                        />
+                    </ul>
+                </div>
+                <div className={cx(styles.subMenu)}>
+                    <ul className={cx(styles.ul)}>
+                        <li>
+                            {
+                                !userId ? (
+                                    <Button
+                                        color="Link"
+                                        className={cx(styles.link)}
+                                        onClick={onLoginClick}
+                                    >
+                                        {t(TextTranslationKeys.navigationMenu.item.login)}
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        color="Link"
+                                        className={cx(styles.link)}
+                                        onClick={onLogoutClick}
+                                    >
+                                        {t(TextTranslationKeys.navigationMenu.item.logout)}
+                                    </Button>
+                                )
+                            }
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div className={cx(styles.subMenu)}>
-                <header className={cx(styles.header)}>
-                    {t(TextTranslationKeys.navigationMenu.header.newsletters)}
-                </header>
-                <ul className={cx(styles.ul)}>
-                    <NavLink
-                        icon={Icons.bullhorn}
-                        text={t(TextTranslationKeys.navigationMenu.item.campaigns)}
-                        onClick={() => closeMenuAndNavigateTo('/campaigns')}
-                    />
-                    <NavLink
-                        icon={Icons.message}
-                        text={t(TextTranslationKeys.navigationMenu.item.templates)}
-                        onClick={() => closeMenuAndNavigateTo('/templates')}
-                    />
-                </ul>
-            </div>
-            <div className={cx(styles.subMenu)}>
-                <header className={cx(styles.header)}>
-                    {t(TextTranslationKeys.navigationMenu.header.settings)}
-                </header>
-                <ul className={cx(styles.ul)}>
-                    <NavLink
-                        icon={Icons.userEdit}
-                        text={t(TextTranslationKeys.navigationMenu.item.userProfiles)}
-                        onClick={() => closeMenuAndNavigateTo('/user-profiles')}
-                    />
-                </ul>
-            </div>
-            <div className={cx(styles.subMenu)}>
-                <ul className={cx(styles.ul)}>
-                    <li>
-                        {
-                            !userId ? (
-                                <Button
-                                    color="Link"
-                                    className={cx(styles.link)}
-                                    onClick={onLoginClick}
-                                >
-                                    {t(TextTranslationKeys.navigationMenu.item.login)}
-                                </Button>
-                            ) : (
-                                <Button
-                                    color="Link"
-                                    className={cx(styles.link)}
-                                    onClick={onLogoutClick}
-                                >
-                                    {t(TextTranslationKeys.navigationMenu.item.logout)}
-                                </Button>
-                            )
-                        }
-                    </li>
-                </ul>
-            </div>
-        </div>
+            <LanguageSelect />
+        </>
     );
 
     return isTabletOrMobile ? (
@@ -235,14 +241,12 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                 outerContainerId={outerContainerId}
                 width={350}
             >
-                {menuContent}
-                <LanguageSelect />
+                <MenuContent />
             </Menu>
         </div>
     ) : (
         <div className={cx(styles.menu)}>
-            {menuContent}
-            <LanguageSelect />
+            <MenuContent />
         </div>
     );
 }

@@ -9,6 +9,7 @@ const style = {
         border-left: 1px solid rgba(0, 0, 0, 0.2);
         height: 100%;
         flex: 0.275;
+        overflow-y: auto;
     `,
     titlebar: css`
         background-color: #cdc9c3;

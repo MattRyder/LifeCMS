@@ -11,6 +11,7 @@ using LifeCMS.Services.Identity.Infrastructure.Exensions;
 using LifeCMS.Services.Identity.Infrastructure.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ namespace LifeCMS.Services.Identity.API.Extensions
             .AddTransient<IRequestHandler<LoginIdentityUserCommand, BasicResponse>, LoginIdentityUserCommandHandler>()
             .AddTransient<IRequestHandler<LogoutIdentityUserCommand, BasicResponse>, LogoutIdentityUserCommandHandler>();
 
-            services
+            var builder = services
             .AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -64,6 +65,19 @@ namespace LifeCMS.Services.Identity.API.Extensions
                         identityServerDbConnectionString,
                         sql => sql.MigrationsAssembly(migrationsAssembly)
                     );
+            });
+
+
+            builder.Services.ConfigureExternalCookie(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Unspecified;
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Unspecified;
             });
         }
 

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Newtonsoft.Json;
 
-namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
 {
     public class CraftJsObject : Dictionary<string, CraftJsNode> { }
+
     public class CraftJsProps
     {
         [JsonProperty("id")]
@@ -18,9 +18,19 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGenerati
         [JsonProperty("fontSize")]
         public int FontSize { get; set; }
 
+        [JsonProperty("backgroundColor")]
+        public string BackgroundColor { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
         [JsonProperty("padding")]
         [JsonConverter(typeof(JsonValueOrArrayConverter<int>))]
         public Tuple<int, int, int, int> Padding { get; set; }
+
+        [JsonProperty("file")]
+        [JsonConverter(typeof(FileConverter))]
+        public CraftJsFile File { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }
@@ -76,6 +86,16 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGenerati
             if (FontSize > 0)
             {
                 props.Add("font-size", $"{FontSize}rem");
+            }
+
+            if (!string.IsNullOrEmpty(BackgroundColor))
+            {
+                props.Add("background-color", $"{BackgroundColor}");
+            }
+
+            if (!string.IsNullOrEmpty(Color))
+            {
+                props.Add("color", $"{Color}");
             }
 
             return props;

@@ -19,12 +19,16 @@ const styles = {
 };
 
 export default function ComponentWrapper({
+    backgroundColor,
+    color,
     fontSize,
     padding,
     isSelected,
     children,
 }) {
     const userDefinedStyle = css({
+        backgroundColor,
+        color,
         fontSize: `${fontSize}rem`,
         padding: `${padding[0]}rem ${padding[1]}rem ${padding[2]}rem ${padding[3]}rem`,
     });

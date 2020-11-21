@@ -4,19 +4,28 @@ import {
 } from '@craftjs/core';
 import { PaddingAttribute } from '../Attributes';
 import ComponentWrapper from './ComponentWrapper';
+import ColorAttribute from '../Attributes/ColorAttribute';
 
 export default function Row() {
     const {
         connectors: { connect, drag },
         isSelected,
-        padding,
+        props: {
+            backgroundColor,
+            padding,
+        },
     } = useNode((node) => ({
-        padding: node.data.props.padding,
         isSelected: node.events.selected,
+        props: node.data.props,
     }));
+
     return (
         <div ref={(ref) => connect(drag(ref))}>
-            <ComponentWrapper padding={padding} isSelected={isSelected}>
+            <ComponentWrapper
+                backgroundColor={backgroundColor}
+                padding={padding}
+                isSelected={isSelected}
+            >
                 <Element canvas id="row-item" is="div" />
             </ComponentWrapper>
         </div>
@@ -33,6 +42,14 @@ function RowAttributesPanel() {
 
     return (
         <div className="row-attributes-panel">
+            <ColorAttribute
+                color={props.backgroundColor}
+                title="Background Colour"
+                handleChange={(color) => {
+                    setProp((props) => (props.backgroundColor = color));
+                }}
+            />
+
             <PaddingAttribute
                 values={props.padding}
                 handleChange={(paddingValues) => {
@@ -47,6 +64,7 @@ function RowAttributesPanel() {
 
 Row.craft = {
     props: {
+        backgroundColor: '#FFF',
         padding: [1, 1, 1, 1],
     },
     related: {

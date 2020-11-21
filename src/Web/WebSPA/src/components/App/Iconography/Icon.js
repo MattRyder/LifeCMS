@@ -10,6 +10,7 @@ export const Icons = {
     check: FontAwesomeIcons.faCheckCircle,
     cog: FontAwesomeIcons.faCog,
     ellipsisHorizontal: FontAwesomeIcons.faEllipsisH,
+    eyedropper: FontAwesomeIcons.faEyeDropper,
     folder: FontAwesomeIcons.faFolderOpen,
     italic: FontAwesomeIcons.faItalic,
     home: FontAwesomeIcons.faHome,

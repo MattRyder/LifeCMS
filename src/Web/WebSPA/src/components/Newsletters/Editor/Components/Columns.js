@@ -3,8 +3,12 @@ import { useNode, Element } from '@craftjs/core';
 import { cx, css } from 'emotion';
 import { PaddingAttribute, SingleSpinnerAttribute } from '../Attributes';
 import ComponentWrapper from './ComponentWrapper';
+import ColorAttribute from '../Attributes/ColorAttribute';
 
 const styles = {
+    columnElement: css`
+        min-height: 5rem;
+    `,
     componentWrapper: css`
         > div {
             display: flex;
@@ -18,13 +22,17 @@ const styles = {
 `,
 };
 
-export default function Columns({ columnCount = 1 }) {
+export default function Columns() {
     const {
         connectors: { connect, drag },
         isSelected,
-        padding,
+        props: {
+            columnCount,
+            backgroundColor,
+            padding,
+        },
     } = useNode((node) => ({
-        padding: node.data.props.padding,
+        props: node.data.props,
         isSelected: node.events.selected,
     }));
 
@@ -34,16 +42,17 @@ export default function Columns({ columnCount = 1 }) {
             ref={(ref) => connect(drag(ref))}
         >
             <ComponentWrapper
+                backgroundColor={backgroundColor}
                 padding={padding}
                 isSelected={isSelected}
             >
                 {Array.from(Array(columnCount).keys()).map((i) => (
                     <Element
                         canvas
+                        className={cx(styles.columnElement)}
                         key={`row-item-${i}`}
                         id={`row-item-${i}`}
                         is="div"
-                        style={{ minHeight: '5rem' }}
                     />
                 ))}
             </ComponentWrapper>
@@ -61,6 +70,14 @@ function ColumnsAttributesPanel() {
 
     return (
         <div className="columns-attributes-panel">
+            <ColorAttribute
+                color={props.backgroundColor}
+                title="Background Colour"
+                handleChange={(color) => {
+                    setProp((props) => (props.backgroundColor = color));
+                }}
+            />
+
             <PaddingAttribute
                 values={props.padding}
                 handleChange={(paddingValues) => {
@@ -72,8 +89,8 @@ function ColumnsAttributesPanel() {
 
             <SingleSpinnerAttribute
                 title="Columns"
-                min={0}
-                max={3}
+                min={2}
+                max={4}
                 value={props.columnCount}
                 setValue={(columnCount) => {
                     setProp((props) => (props.columnCount = columnCount));
@@ -85,8 +102,9 @@ function ColumnsAttributesPanel() {
 
 Columns.craft = {
     props: {
+        backgroundColor: '#fff',
         padding: [1, 1, 1, 1],
-        columnCount: 1,
+        columnCount: 2,
     },
     related: {
         attributesPanel: ColumnsAttributesPanel,

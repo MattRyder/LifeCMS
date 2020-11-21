@@ -25,7 +25,7 @@ export default function AttributePanelContainer({ title, children }) {
     const [isOpen, toggleOpen] = useToggle(true);
 
     return (
-        <div>
+        <div className={cx(styles.container)}>
             <div className={cx(styles.header)}>
                 <button
                     type="button"

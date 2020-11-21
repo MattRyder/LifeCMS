@@ -9,6 +9,8 @@ export default {
         settings: 'commonSettings',
         details: 'commonDetails',
         update: 'commonUpdate',
+        clear: 'commonClear',
+        upload: 'commonUpload',
         createdAt: 'commonCreatedAt',
         updatedAt: 'commonUpdatedAt',
     },
@@ -142,11 +144,24 @@ export default {
                 row: 'newsletterViewEditorToolboxRow',
                 freeText: 'newsletterViewEditorToolboxFreeText',
                 columns: 'newsletterViewEditorToolboxColumns',
+                image: 'newsletterViewEditorToolboxImage',
             },
-
+            imageAttribute: {
+                noImageSelected: 'newsletterViewEditorImageAttributeNoImageSelected',
+            },
         },
         index: {
             createTemplateCta: 'newsletterViewIndexCreateTemplateCta',
+        },
+        templateSelector: {
+            pageTitle: 'newsletterViewTemplateSelectorPageTitle',
+            pageDescription: 'newsletterViewTemplateSelectorPageDescription',
+            templates: {
+                blank: {
+                    title: 'newsletterViewTemplateSelectorTemplatesBlankTitle',
+                    description: 'newsletterViewTemplateSelectorTemplatesBlankDescription',
+                },
+            },
         },
         pageTitle: 'newsletterViewPageTitle',
         createNewsletter: 'newsletterViewCreateNewsletter',

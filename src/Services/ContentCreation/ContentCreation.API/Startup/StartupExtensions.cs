@@ -21,5 +21,20 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
 
             return connectionString;
         }
+
+        private static string GetConfigurationValue(
+            IConfiguration configuration,
+            string key)
+        {
+            var value = configuration[key];
+
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException(
+                    $"The environment variable `{key}` was not provided.");
+            }
+
+            return value;
+        }
     }
 }

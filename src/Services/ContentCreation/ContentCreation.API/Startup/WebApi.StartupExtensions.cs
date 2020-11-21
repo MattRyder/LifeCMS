@@ -33,6 +33,10 @@ using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Campaigns;
 using LifeCMS.Services.ContentCreation.API.Application.Queries.Campaigns;
 using LifeCMS.Services.ContentCreation.API.Services.Campaigns;
+using LifeCMS.Services.ContentCreation.Infrastructure.Services.Aws;
+using Amazon.S3;
+using LifeCMS.Services.ContentCreation.API.Application.Commands.Files;
+using LifeCMS.Services.ContentCreation.Infrastructure.Responses;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -86,6 +90,16 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     .AddTransient<ICampaignValidationService, CampaignValidationService>()
                     .AddTransient<ICampaignDeliveryService, CampaignDeliveryService>()
                     .AddTransient<ICampaignQueries, CampaignQueries>();
+
+            services.AddTransient<IRequestHandler<CreatePresignedPostUrlCommand, BasicResponse>, CreatePresignedPostUrlCommandHandler>();
+
+            services.AddSingleton<IPresignedPostService>(x =>
+            {
+                return new S3PresignedPostService(
+                    x.GetRequiredService<IAmazonS3>(),
+                    GetConfigurationValue(configuration, "AWS:BucketName")
+                );
+            });
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

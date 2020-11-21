@@ -1,9 +1,9 @@
 using System;
 using DeepEqual.Syntax;
-using LifeCMS.Services.ContentCreation.API.Services.Newsletters.HtmlGeneration;
+using LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration;
 using Xunit;
 
-namespace LifeCMS.Services.ContentCreation.UnitTests.Services.Newsletter.HtmlGeneration
+namespace LifeCMS.Services.ContentCreation.UnitTests.HtmlGeneration
 {
     public class CraftJsBodyTest
     {

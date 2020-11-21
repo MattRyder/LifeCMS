@@ -1,13 +1,17 @@
 import React from 'react';
 import { cx, css } from 'emotion';
+import { rgba } from 'polished';
 import { useEditor } from '@craftjs/core';
+import { useTranslations } from 'hooks';
 import { Icons } from '../../App/Iconography/Icon';
 import AttributePanelButton from './Components/Interface/AttributePanelButton';
 
 import './AttributesPanel.scss';
-import { useTranslations } from 'hooks';
 
 const styles = {
+    content: css`
+        border-bottom: 3px dotted ${rgba(0, 0, 0, 0.25)};
+    `,
     headerRow: css`
         background-color: darken(#f5f5f5, 10%);
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -69,7 +73,9 @@ export default function AttributesPanel() {
                     </li>
                 </ul>
             ) : null}
-            { selected.attributesPanel && React.createElement(selected.attributesPanel) }
+            <div className={cx(styles.content)}>
+                { selected.attributesPanel && React.createElement(selected.attributesPanel) }
+            </div>
         </div>
     );
 }

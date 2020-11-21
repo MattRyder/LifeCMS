@@ -4,6 +4,7 @@ import { css } from 'emotion';
 import { SingleSpinnerAttribute, PaddingAttribute } from '../Attributes';
 import TypographicAttribute from '../Attributes/TypographicAttribute';
 import ComponentWrapper from './ComponentWrapper';
+import ColorAttribute from '../Attributes/ColorAttribute';
 
 export default function Text({
     bold, italic, underline, text,
@@ -11,12 +12,15 @@ export default function Text({
     const {
         connectors: { connect, drag },
         isSelected,
-        fontSize,
-        padding,
+        props: {
+            backgroundColor,
+            color,
+            fontSize,
+            padding,
+        },
     } = useNode((state) => ({
         isSelected: state.events.selected,
-        padding: state.data.props.padding,
-        fontSize: state.data.props.fontSize,
+        props: state.data.props,
     }));
 
     const className = css({
@@ -28,6 +32,8 @@ export default function Text({
     return (
         <div ref={(ref) => connect(drag(ref))}>
             <ComponentWrapper
+                backgroundColor={backgroundColor}
+                color={color}
                 padding={padding}
                 fontSize={fontSize}
                 isSelected={isSelected}
@@ -50,6 +56,20 @@ export function TextAttributesPanel() {
 
     return (
         <div>
+            <ColorAttribute
+                color={props.backgroundColor}
+                title="Background Colour"
+                handleChange={(color) => {
+                    setProp((props) => (props.backgroundColor = color));
+                }}
+            />
+            <ColorAttribute
+                color={props.color}
+                title="Text Colour"
+                handleChange={(color) => {
+                    setProp((props) => (props.color = color));
+                }}
+            />
             <SingleSpinnerAttribute
                 title="Font Size"
                 min={1}

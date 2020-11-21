@@ -66,24 +66,34 @@ function PaddingAttribute({
                 { isBasicMode ? (
                     <IncrementalSpinner
                         value={paddingTop}
+                        min={0}
+                        max={5}
                         setValue={setAll}
                     />
                 ) : (
                     <div className={styles.advanced}>
                         <IncrementalSpinner
                             value={paddingTop}
+                            min={0}
+                            max={5}
                             setValue={(value) => setPaddingTop(value)}
                         />
                         <IncrementalSpinner
                             value={paddingLeft}
+                            min={0}
+                            max={5}
                             setValue={(value) => setPaddingLeft(value)}
                         />
                         <IncrementalSpinner
                             value={paddingRight}
+                            min={0}
+                            max={5}
                             setValue={(value) => setPaddingRight(value)}
                         />
                         <IncrementalSpinner
                             value={paddingBottom}
+                            min={0}
+                            max={5}
                             setValue={(value) => setPaddingBottom(value)}
                         />
                     </div>

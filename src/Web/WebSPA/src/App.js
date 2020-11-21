@@ -4,6 +4,7 @@ import {
 } from 'react-router';
 import { css, cx } from 'emotion';
 import { ToastContainer } from 'react-toastify-redux';
+import theme from 'theme';
 import {
     SessionView,
     HomeView,
@@ -30,6 +31,12 @@ const styles = {
         order: 1;
         width: 100%;
         overflow-y: auto;
+        margin-left: 4rem;
+        background-color: ${theme.colors.mainBackground};
+
+        @media(min-width: 1199px) {
+            margin-left: 0;
+        }
     `,
 };
 

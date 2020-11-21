@@ -15,7 +15,7 @@ const styles = {
     title: css`
         display: flex;
         justify-content: space-between;
-        padding: 0.5rem 0;
+        padding: 1rem 0;
     `,
     titleText: css`
         font-size: 1.25rem;

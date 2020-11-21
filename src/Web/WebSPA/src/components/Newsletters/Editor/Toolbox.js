@@ -3,8 +3,12 @@ import { useEditor } from '@craftjs/core';
 import { css, cx } from 'emotion';
 import { useTranslations } from 'hooks';
 import { Alert } from 'reactstrap';
-import { Columns, Row, Text } from './Components';
-import { RowIcon, ColumnsIcon, FreeTextIcon } from './Toolbox/Icons';
+import {
+    Columns, Image, Row, Text,
+} from './Components';
+import {
+    RowIcon, ColumnsIcon, FreeTextIcon, ImageIcon,
+} from './Toolbox/Icons';
 
 const style = {
     helpAlert: css`
@@ -90,6 +94,12 @@ const elements = (t, ttk) => [
         icon: ColumnsIcon,
         component: <Columns />,
         name: t(ttk.newsletterView.editor.toolbox.columns),
+    },
+    {
+        key: 'image',
+        icon: ImageIcon,
+        component: <Image />,
+        name: t(ttk.newsletterView.editor.toolbox.image),
     },
 ];
 

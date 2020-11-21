@@ -11,7 +11,9 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
         {
             services.Configure<S3ImageUploadOptions>(configuration.GetSection("AmazonS3"));
 
-            services.AddDefaultAWSOptions(configuration.GetAWSOptions());
+            var options = configuration.GetAWSOptions();
+
+            services.AddDefaultAWSOptions(options);
 
             services.AddAWSService<IAmazonS3>();
         }

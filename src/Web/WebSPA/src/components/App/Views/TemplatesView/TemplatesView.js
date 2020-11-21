@@ -1,10 +1,13 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router';
 import {
-    TemplatesCreate,
+    Switch, Route, useRouteMatch,
+} from 'react-router';
+import {
+    TemplatesSelector,
     TemplatesEdit,
     TemplatesPreview,
 } from '.';
+import { TemplateCreateFromSlug } from './TemplatesCreate';
 import TemplatesIndex from './TemplatesIndex/TemplatesIndex';
 
 export default function TemplatesView() {
@@ -22,7 +25,11 @@ export default function TemplatesView() {
             />
             <Route
                 path={`${path}/new`}
-                component={TemplatesCreate}
+                component={TemplatesSelector}
+            />
+            <Route
+                path={`${path}/from/:designSourceSlug`}
+                component={TemplateCreateFromSlug}
             />
             <Route
                 path={`${path}/`}

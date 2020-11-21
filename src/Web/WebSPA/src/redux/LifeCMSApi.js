@@ -73,6 +73,10 @@ export default class LifeCMSApi {
     deleteCampaign(campaignId) {
         return this.client.delete(`campaigns/${campaignId}`);
     }
+
+    createPresignUrl(params) {
+        return this.client.post('files', params);
+    }
 }
 
 export function getLifeCMSApi(accessToken) {

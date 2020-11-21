@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { Button } from 'reactstrap';
 
 const style = css`
-    padding: 1rem;
+    padding: 1rem 0;
 `;
 
 export default function ViewNavigationBar() {
