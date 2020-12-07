@@ -39,7 +39,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         [Fact]
         public async void Handle_ReturnsFalse_GivenNonExistentId()
         {
-            var publishCmd = new PublishPostCommand(new Guid());
+            var publishCmd = new PublishPostCommand(Guid.NewGuid());
 
             _postRepositoryMock.Setup(x => x.FindAsync(It.IsAny<Guid>())).Returns(new ValueTask<Post>((Post)null));
 

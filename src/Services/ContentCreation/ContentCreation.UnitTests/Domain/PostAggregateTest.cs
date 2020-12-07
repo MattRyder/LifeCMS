@@ -19,13 +19,13 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Domain
         [Fact]
         public void Constructor_ThrowsException_GivenInvalidTextParam()
         {
-            Assert.Throws<PostDomainException>(() => new Post(new Guid(), "Title", null));
+            Assert.Throws<PostDomainException>(() => new Post(Guid.NewGuid(), "Title", null));
         }
 
         [Fact]
         public void Constructor_ThrowsException_GivenInvalidTitleParam()
         {
-            Assert.Throws<PostDomainException>(() => new Post(new Guid(), null, "Text"));
+            Assert.Throws<PostDomainException>(() => new Post(Guid.NewGuid(), null, "Text"));
         }
 
 

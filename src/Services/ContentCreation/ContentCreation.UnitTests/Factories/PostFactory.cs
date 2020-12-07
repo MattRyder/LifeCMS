@@ -11,7 +11,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
         {
             return new Faker<Post>().CustomInstantiator(f =>
             {
-                return new Post(new Guid(), f.Lorem.Sentence(), f.Lorem.Paragraphs());
+                return new Post(Guid.NewGuid(), f.Lorem.Sentence(), f.Lorem.Paragraphs());
             });
         }
 

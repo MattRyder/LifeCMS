@@ -23,7 +23,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         [Fact]
         public async Task Handle_ReturnsSuccess_GivenValidCommandAsync()
         {
-            var postId = new Guid();
+            var postId = Guid.NewGuid();
 
             var post = PostFactory.Create();
 
@@ -47,7 +47,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         [Fact]
         public async Task Handle_ReturnsNotFound_GivenInvalidId()
         {
-            var deletePostCmd = new DeletePostCommand(new Guid());
+            var deletePostCmd = new DeletePostCommand(Guid.NewGuid());
 
             _postRepositoryMock.Setup(p => p.FindAsync(It.IsAny<Guid>())).Returns(new ValueTask<Post>((Post)null));
 

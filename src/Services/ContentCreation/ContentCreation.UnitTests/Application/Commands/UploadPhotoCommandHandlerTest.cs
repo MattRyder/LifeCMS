@@ -51,7 +51,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
 
             var album = AlbumFactory.Create();
 
-            var uploadPhotoCmd = new UploadPhotoCommand(new Guid(), null, null, null);
+            var uploadPhotoCmd = new UploadPhotoCommand(Guid.NewGuid(), null, null, null);
 
             _imageUploadServiceMock.Setup(s => s.UploadAsync(It.IsAny<IFormFile>())).ReturnsAsync(new System.Uri(new Faker().Internet.UrlWithPath()));
 
@@ -71,7 +71,7 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         {
             var f = new Faker();
 
-            var uploadPhotoCmd = new UploadPhotoCommand(new Guid(), f.Lorem.Word(), null, f.Lorem.Sentence());
+            var uploadPhotoCmd = new UploadPhotoCommand(Guid.NewGuid(), f.Lorem.Word(), null, f.Lorem.Sentence());
 
             _imageUploadServiceMock.Setup(s => s.UploadAsync(It.IsAny<IFormFile>())).ReturnsAsync(new System.Uri(new Faker().Internet.UrlWithPath()));
 

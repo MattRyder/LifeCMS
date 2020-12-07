@@ -18,8 +18,8 @@ namespace LifeCMS.Services.ContentCreation.IntegrationTests.Application.Queries
 
             RunWithDbContext(_dbContext, async (context) =>
             {
-                var userId = new Guid();
-                
+                var userId = Guid.NewGuid();
+
                 var userProfileList = UserProfileFactory.CreateList(userId);
 
                 await context.Set<UserProfile>().AddRangeAsync(userProfileList);

@@ -81,11 +81,11 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Application.Commands
         [Fact]
         public async void Handle_ShouldReturnFalse_WhenValidationServiceThrows()
         {
-            var userId = new Guid();
+            var userId = Guid.NewGuid();
 
-            var newsletterTemplateId = new Guid();
+            var newsletterTemplateId = Guid.NewGuid();
 
-            var userProfileId = new Guid();
+            var userProfileId = Guid.NewGuid();
 
             var campaign = CampaignFactory.Create(
                 userId,
