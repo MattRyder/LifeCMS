@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Dropdown,
     DropdownToggle,
@@ -9,11 +10,11 @@ import {
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteNewsletter } from '../../../../../redux/actions/NewsletterTemplateActions';
-import { useTranslations, useUser } from '../../../../../hooks';
+import { useToggle, useTranslations, useUser } from '../../../../../hooks';
 import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
 
-function NewsletterListRowComponent({
+export default function NewsletterListRowComponent({
     item: {
         id, name,
     },
@@ -24,9 +25,7 @@ function NewsletterListRowComponent({
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const [isDropdownOpened, setDropdownOpened] = useState(false);
-
-    const toggleDropdownOpened = () => setDropdownOpened(!isDropdownOpened);
+    const [isDropdownOpened, toggleDropdownOpened] = useToggle(false);
 
     const dispatchDeleteNewsletter = (newsletterId) => dispatch(
         deleteNewsletter(accessToken, userId, newsletterId),
@@ -51,12 +50,20 @@ function NewsletterListRowComponent({
                         >
                             {t(TextTranslationKeys.newsletterView.listViewPreview)}
                         </DropdownItem>
+                        <DropdownItem divider />
                         <DropdownItem
                             tag={Link}
                             to={`/templates/${id}/edit`}
                         >
                             {t(TextTranslationKeys.common.edit)}
                         </DropdownItem>
+                        <DropdownItem
+                            tag={Link}
+                            to={`/templates/${id}/duplicate`}
+                        >
+                            {t(TextTranslationKeys.common.duplicate)}
+                        </DropdownItem>
+                        <DropdownItem divider />
                         <DropdownItem
                             className="text-danger"
                             onClick={onDeleteClick}
@@ -70,8 +77,9 @@ function NewsletterListRowComponent({
     );
 }
 
-NewsletterListRowComponent.defaultProps = {
-    newsletter: {},
+NewsletterListRowComponent.propTypes = {
+    item: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
 };
-
-export default NewsletterListRowComponent;

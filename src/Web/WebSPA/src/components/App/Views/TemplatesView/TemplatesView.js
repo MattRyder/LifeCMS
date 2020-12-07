@@ -8,6 +8,7 @@ import {
     TemplatesPreview,
 } from '.';
 import { TemplateCreateFromSlug } from './TemplatesCreate';
+import TemplatesDuplicate from './TemplatesDuplicate';
 import TemplatesIndex from './TemplatesIndex/TemplatesIndex';
 
 export default function TemplatesView() {
@@ -22,6 +23,10 @@ export default function TemplatesView() {
             <Route
                 path={`${path}/:id/preview`}
                 component={TemplatesPreview}
+            />
+            <Route
+                path={`${path}/:id/duplicate`}
+                component={TemplatesDuplicate}
             />
             <Route
                 path={`${path}/new`}

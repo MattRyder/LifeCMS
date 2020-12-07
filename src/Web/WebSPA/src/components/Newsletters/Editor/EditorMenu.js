@@ -55,7 +55,7 @@ const EditorMenuButton = ({ isActive, item, handleClick }) => (
     </button>
 );
 
-export default function EditorMenu({ title = 'Editorial Board' }) {
+export default function EditorMenu({ title }) {
     const editorMenuItems = [
         {
             key: 'create',
