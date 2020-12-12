@@ -1,4 +1,5 @@
 window.runtime = {
+    product_name: '',
     authority: '',
     client_id: '',
     redirect_uri: '',

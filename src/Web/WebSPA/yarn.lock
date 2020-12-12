@@ -1147,12 +1147,12 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craftjs/core@git@github.com:prevwong/craft.js.git#v0.1.0-beta.11":
-  version "0.1.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@craftjs/core/-/core-0.1.0-beta.11.tgz#c4346cf8dd9dd8640f7e7a6210464ef788bd73b8"
-  integrity sha512-VO0EXJOz8CDQf0xF/cA1MVREMBn/s/QkDonE/cghjCyuwtSTgie9bAoYRImosYvsYrz4jblviklTrPFquEJkbw==
+"@craftjs/core@^0.1.0-beta.13":
+  version "0.1.0-beta.13"
+  resolved "https://registry.yarnpkg.com/@craftjs/core/-/core-0.1.0-beta.13.tgz#68f930c495727a9bd519a976c46e731c6dc7d03a"
+  integrity sha512-uY7utMVEQQejrOY1TB7d4b1UE3SOgJdbOcELu9mYCc58xGgkeoQ9eRfAZEAsvWRDo9AtwxrPTPB7YfWKwuoPCQ==
   dependencies:
-    "@craftjs/utils" "^0.1.0-beta.11"
+    "@craftjs/utils" "^0.1.0-beta.13"
     "@types/react" "^16.9.11"
     debounce "^1.2.0"
     immer "^3.1.3"
@@ -1160,10 +1160,10 @@
     shortid "^2.2.15"
     tiny-invariant "^1.0.6"
 
-"@craftjs/utils@^0.1.0-beta.11":
-  version "0.1.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@craftjs/utils/-/utils-0.1.0-beta.11.tgz#1f25c6c87750d917b507d52fa817ea1b74453c73"
-  integrity sha512-bH4IxMoJbXDwdcRwJkC6TXf2vvF7qYofDmpgUbEmrDBYGL5uTSva9kyE3sm89CxHgLYQaUHLs++t+FW8NMsv7Q==
+"@craftjs/utils@^0.1.0-beta.13":
+  version "0.1.0-beta.13"
+  resolved "https://registry.yarnpkg.com/@craftjs/utils/-/utils-0.1.0-beta.13.tgz#9c15ccf20adc4636a0caec7283a91bee91890143"
+  integrity sha512-iyeY+Tm4f2NQvw4yir9bjphUstpFP+uEMOy/o4NfLT3Ivrif/lXckEnO0v+SM/A1GzYADcwilvtMvpqLyksK2Q==
   dependencies:
     "@types/react" "^16.9.11"
     immer "^3.1.3"
@@ -11621,7 +11621,7 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-fast-compare@^3.0.1:
+react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
@@ -11663,6 +11663,16 @@ react-helmet-async@^1.0.2:
     prop-types "^15.7.2"
     react-fast-compare "^3.0.1"
     shallowequal "^1.1.0"
+
+react-helmet@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+  integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.7.2"
+    react-fast-compare "^3.1.1"
+    react-side-effect "^2.1.0"
 
 react-hotkeys@2.0.0:
   version "2.0.0"
@@ -11859,6 +11869,11 @@ react-scripts@^3.1.1:
     workbox-webpack-plugin "4.3.1"
   optionalDependencies:
     fsevents "2.1.2"
+
+react-side-effect@^2.1.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.1.tgz#66c5701c3e7560ab4822a4ee2742dee215d72eb3"
+  integrity sha512-2FoTQzRNTncBVtnzxFOk2mCpcfxQpenBMbk5kSVBg5UcPqV9fRbgY2zhb7GTWWOlpFmAxhClBDlIq8Rsubz1yQ==
 
 react-sizeme@^2.6.7:
   version "2.6.12"

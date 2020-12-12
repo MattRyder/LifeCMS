@@ -5,6 +5,7 @@ import {
 import { css, cx } from 'emotion';
 import { ToastContainer } from 'react-toastify-redux';
 import theme from 'theme';
+import AppMeta from 'AppMeta';
 import {
     SessionView,
     HomeView,
@@ -40,25 +41,28 @@ const styles = {
     `,
 };
 
-export default function App() {
+export default function App({ productName }) {
     return (
-        <div className={cx(styles.appOuter)} id="app-outer">
-            <NavigationMenu
-                outerContainerId="app-outer"
-                pageWrapId="page-main"
-            />
+        <>
+            <AppMeta title={productName} />
+            <div className={cx(styles.appOuter)} id="app-outer">
+                <NavigationMenu
+                    outerContainerId="app-outer"
+                    pageWrapId="page-main"
+                />
 
-            <main id="page-main" className={styles.main}>
-                <Switch>
-                    <Route path="/profile/:id" component={ProfileView} />
-                    <Route path="/session" component={SessionView} />
-                    <AuthenticatedRoute path="/content" component={HomeView} />
-                    <AuthenticatedRoute path="/campaigns" component={CampaignView} />
-                    <AuthenticatedRoute path="/templates" component={TemplatesView} />
-                    <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />
-                </Switch>
-                <ToastContainer position="bottom-right" />
-            </main>
-        </div>
+                <main id="page-main" className={styles.main}>
+                    <Switch>
+                        <Route path="/profile/:id" component={ProfileView} />
+                        <Route path="/session" component={SessionView} />
+                        <AuthenticatedRoute path="/content" component={HomeView} />
+                        <AuthenticatedRoute path="/campaigns" component={CampaignView} />
+                        <AuthenticatedRoute path="/templates" component={TemplatesView} />
+                        <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />
+                    </Switch>
+                    <ToastContainer position="bottom-right" />
+                </main>
+            </div>
+        </>
     );
 }

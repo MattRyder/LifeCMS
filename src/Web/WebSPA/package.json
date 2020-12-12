@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craftjs/core": "git@github.com:prevwong/craft.js.git#v0.1.0-beta.11",
+    "@craftjs/core": "^0.1.0-beta.13",
     "@emotion/core": "^10.0.35",
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
@@ -34,6 +34,7 @@
     "react-dom": "^16.8.5",
     "react-dropzone": "11.2.0",
     "react-flagkit": "^2.0.4",
+    "react-helmet": "^6.1.0",
     "react-i18next": "^11.3.3",
     "react-image-gallery": "^1.0.7",
     "react-popper": "^2.2.3",
