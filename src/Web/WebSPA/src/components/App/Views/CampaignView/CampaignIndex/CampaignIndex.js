@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { findUserCampaigns } from 'redux/redux-orm/ORM';
 import { useContentApi, useUser, useTranslations } from '../../../../../hooks';
 import { fetchCampaigns } from '../../../../../redux/actions/CampaignActions';
 import Table from '../../../../Util/Table/Table';
@@ -33,9 +34,9 @@ function CampaignList({ collection }) {
 export default function CampaignIndex() {
     const { accessToken, userId } = useUser();
 
-    const campaignState = useSelector((state) => state.campaign[userId]);
+    const userCampaigns = useSelector((state) => findUserCampaigns(state, userId));
 
-    const hasCampaigns = campaignState && campaignState.campaigns && campaignState.campaigns.length > 0;
+    const hasCampaigns = userCampaigns.length > 0;
 
     useContentApi(
         () => fetchCampaigns(accessToken, userId),
@@ -44,6 +45,6 @@ export default function CampaignIndex() {
     );
 
     return hasCampaigns
-        ? <CampaignList collection={campaignState && campaignState.campaigns} />
+        ? <CampaignList collection={userCampaigns} />
         : <CampaignIndexIntro />;
 }

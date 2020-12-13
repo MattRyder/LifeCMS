@@ -12,6 +12,9 @@ import getInputFor, { FormikSelect } from 'components/Util/Form';
 import { Button, Label, FormGroup } from 'reactstrap';
 import { fetchNewsletters } from 'redux/actions/NewsletterTemplateActions';
 import { fetchUserProfiles } from 'redux/actions/UserProfileActions';
+import {
+    findUserNewsletterTemplates, findUserUserProfiles,
+} from 'redux/redux-orm/ORM';
 import { boxShadow } from 'theme';
 import Schema, { InitialValues } from './CampaignSchema';
 
@@ -79,13 +82,13 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
     const { accessToken, userId } = useUser();
 
     const selectedState = useSelector((state) => ({
-        newsletter: state.newsletter[userId],
-        userProfile: state.userProfile[userId],
+        newsletterTemplates: findUserNewsletterTemplates(state, userId),
+        userProfiles: findUserUserProfiles(state, userId),
     }));
 
-    useContentApi(() => fetchNewsletters(accessToken, userId), accessToken, userId);
+    useContentApi(() => fetchNewsletters(accessToken, userId), accessToken);
 
-    useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken, userId);
+    useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken);
 
     const formik = useFormik({
         initialValues: campaign,
@@ -126,14 +129,14 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
                 formik={formik}
                 inputName="newsletterTemplateId"
                 label={t(TextTranslationKeys.campaign.properties.newsletterTemplate)}
-                collection={selectedState.newsletter && selectedState.newsletter.newsletters}
+                collection={selectedState.newsletterTemplates && selectedState.newsletterTemplates}
             />
 
             <FormikSelect
                 formik={formik}
                 inputName="userProfileId"
                 label={t(TextTranslationKeys.campaign.properties.userProfile)}
-                collection={selectedState.userProfile && selectedState.userProfile.userProfiles}
+                collection={selectedState.userProfiles && selectedState.userProfiles}
             />
 
             { getInputFor(

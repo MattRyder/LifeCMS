@@ -3,7 +3,7 @@ import { useTranslations } from 'hooks';
 import DetailRow from 'components/Util/DetailPage/DetailRow';
 import Meta from 'components/Util/DetailPage/Meta';
 import Paper from 'components/Util/Paper';
-import formatTimestampDate from 'components/Util/Date';
+import { formatTimestampDate } from 'components/Util/Date';
 
 export default function CampaignDetailsComponent({
     campaign: {

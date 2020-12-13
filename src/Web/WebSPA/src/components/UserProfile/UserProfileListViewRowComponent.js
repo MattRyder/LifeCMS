@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslations, useUser, useToggle } from '../../hooks';
 import Icon, { Icons } from '../App/Iconography/Icon';
 import { FireConfirmAlert } from '../../FireAlert';
-import { deleteUserProfile } from '../../redux/actions/UserProfileActions';
+import { performUserProfileDelete } from '../../redux/actions/UserProfileActions';
 
 export default function UserProfileListViewRowComponent({
     item: {
@@ -26,7 +26,7 @@ export default function UserProfileListViewRowComponent({
     const [isDropdownOpen, toggleDropdownOpen] = useToggle();
 
     const dispatchDeleteUserProfile = (userProfileId) => dispatch(
-        deleteUserProfile(accessToken, userId, userProfileId),
+        performUserProfileDelete(accessToken, userId, userProfileId),
     );
 
     const onDeleteClick = () => FireConfirmAlert(

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as FontAwesomeIcons from '@fortawesome/free-solid-svg-icons';
 
@@ -21,6 +22,7 @@ export const Icons = {
     photo: FontAwesomeIcons.faPhotoVideo,
     plus: FontAwesomeIcons.faPlus,
     settings: FontAwesomeIcons.faCogs,
+    sync: FontAwesomeIcons.faSync,
     userEdit: FontAwesomeIcons.faUserEdit,
     underline: FontAwesomeIcons.faUnderline,
     caretUp: FontAwesomeIcons.faCaretUp,
@@ -30,4 +32,15 @@ export const Icons = {
     closeBox: FontAwesomeIcons.faWindowClose,
 };
 
-export default ({ icon, size }) => <FontAwesomeIcon icon={icon} size={size} />;
+export default function Icon({ icon, size }) {
+    return <FontAwesomeIcon icon={icon} size={size} />;
+}
+
+Icon.propTypes = {
+    icon: PropTypes.oneOf(Object.values(Icons)).isRequired,
+    size: PropTypes.string,
+};
+
+Icon.defaultProps = {
+    size: '1x',
+};

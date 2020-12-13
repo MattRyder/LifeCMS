@@ -158,6 +158,15 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
         <>
             <div className={cx(styles.wrapper)}>
                 <div className={cx(styles.subMenu)}>
+                    <ul className={cx(styles.ul)}>
+                        <NavLink
+                            icon={Icons.home}
+                            text={t(TextTranslationKeys.navigationMenu.item.home)}
+                            onClick={() => closeMenuAndNavigateTo('/')}
+                        />
+                    </ul>
+                </div>
+                <div className={cx(styles.subMenu)}>
                     <header className={cx(styles.header)}>
                         {t(TextTranslationKeys.navigationMenu.header.content)}
                     </header>

@@ -23,6 +23,7 @@ export const boxShadow = (color) => css`
 const theme = ({
     colors: {
         main: '#07729d',
+        mainAccent: '#117cfa',
         mainLink: '#2f393d',
         mainBackground: '#f5f5f5',
         mainUnderBackground: '#bababa',

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Route, Switch,
 } from 'react-router';
@@ -55,6 +56,7 @@ export default function App({ productName }) {
                     <Switch>
                         <Route path="/profile/:id" component={ProfileView} />
                         <Route path="/session" component={SessionView} />
+                        <AuthenticatedRoute exact path="/" component={HomeView} />
                         <AuthenticatedRoute path="/content" component={HomeView} />
                         <AuthenticatedRoute path="/campaigns" component={CampaignView} />
                         <AuthenticatedRoute path="/templates" component={TemplatesView} />
@@ -66,3 +68,7 @@ export default function App({ productName }) {
         </>
     );
 }
+
+App.propTypes = {
+    productName: PropTypes.string.isRequired,
+};

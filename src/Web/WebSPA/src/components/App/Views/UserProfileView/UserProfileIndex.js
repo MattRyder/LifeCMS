@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { ReactComponent as UserProfileIllustration } from 'assets/illustrations/user-profile-illustration.svg';
+import { findUserUserProfiles } from 'redux/redux-orm/ORM';
 import { fetchUserProfiles } from '../../../../redux/actions/UserProfileActions';
 import { useContentApi, useUser, useTranslations } from '../../../../hooks';
 import UserProfileListViewRowComponent from '../../../UserProfile/UserProfileListViewRowComponent';
@@ -51,22 +52,16 @@ const UserProfileIntro = () => {
 export default function UserProfileIndex() {
     const { accessToken, userId } = useUser();
 
-    const userProfileState = useSelector(
-        (state) => state.userProfile[userId],
-    );
+    const userProfiles = useSelector((state) => findUserUserProfiles(state, userId));
 
-    const hasUserProfiles = userProfileState.userProfiles
-        && userProfileState.userProfiles.length > 0;
+    const hasUserProfiles = userProfiles && userProfiles.length > 0;
 
     useContentApi(
         () => fetchUserProfiles(accessToken, userId),
         accessToken,
-        userId,
     );
 
-    return hasUserProfiles ? (
-        <UserProfileIndexList
-            collection={userProfileState && userProfileState.userProfiles}
-        />
-    ) : <UserProfileIntro />;
+    return hasUserProfiles
+        ? <UserProfileIndexList collection={userProfiles} />
+        : <UserProfileIntro />;
 }

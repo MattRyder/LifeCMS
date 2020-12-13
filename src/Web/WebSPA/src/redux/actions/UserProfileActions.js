@@ -1,31 +1,16 @@
+import { createAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { success as toastSuccess, error as toastError } from 'react-toastify-redux';
 import { getLifeCMSApi } from '../LifeCMSApi';
 
-export const FETCH_USER_PROFILES_BEGIN = 'FETCH_USER_PROFILES_BEGIN';
-export const FETCH_USER_PROFILES_SUCCESS = 'FETCH_USER_PROFILES_SUCCESS';
-export const FETCH_USER_PROFILES_FAILURE = 'FETCH_USER_PROFILES_FAILURE';
+export const FETCH_USER_PROFILE = 'userProfile/FETCH_USER_PROFILE';
+export const DELETE_USER_PROFILE = 'userProfile/DELETE_USER_PROFILE';
+
+export const fetchUserProfile = createAction(FETCH_USER_PROFILE);
+export const deleteUserProfile = createAction(DELETE_USER_PROFILE);
 
 export const CREATE_USER_PROFILE_SUCCESS = 'CREATE_USER_PROFILE_SUCCESS';
 export const CREATE_USER_PROFILE_FAILURE = 'CREATE_USER_PROFILE_FAILURE';
-
-export const DELETE_USER_PROFILE_SUCCESS = 'DELETE_USER_PROFILE_SUCCESS';
-export const DELETE_USER_PROFILE_FAILURE = 'DELETE_USER_PROFILE_FAILURE';
-
-export const fetchUserProfilesBegin = (userId) => ({
-    type: FETCH_USER_PROFILES_BEGIN,
-    payload: { userId },
-});
-
-export const fetchUserProfilesSuccess = (userId, userProfiles) => ({
-    type: FETCH_USER_PROFILES_SUCCESS,
-    payload: { userId, userProfiles },
-});
-
-export const fetchUserProfilesFailure = (userId, error) => ({
-    type: FETCH_USER_PROFILES_FAILURE,
-    payload: { userId, error },
-});
 
 export const createUserProfileSuccess = (userId, userProfile) => ({
     type: CREATE_USER_PROFILE_SUCCESS,
@@ -37,29 +22,15 @@ export const createUserProfileFailure = (userId, error) => ({
     payload: { userId, error },
 });
 
-export const deleteUserProfileSuccess = (userId, userProfileId) => ({
-    type: DELETE_USER_PROFILE_SUCCESS,
-    payload: { userId, userProfileId },
-});
-
-export const deleteUserProfileFailure = (userId, userProfileId) => ({
-    type: DELETE_USER_PROFILE_SUCCESS,
-    payload: { userId, userProfileId },
-});
-
 export const fetchUserProfiles = (accessToken, userId) => async (dispatch) => {
     const lifecmsApi = getLifeCMSApi(accessToken);
-
-    dispatch(fetchUserProfilesBegin(userId));
 
     try {
         const response = await lifecmsApi.getUserProfiles(userId);
 
-        const { data } = response;
-
-        dispatch(fetchUserProfilesSuccess(userId, data));
+        response.data.map((profile) => dispatch(fetchUserProfile(profile)));
     } catch (error) {
-        dispatch(fetchUserProfilesFailure(userId, error));
+        console.error(error);
     }
 };
 
@@ -86,17 +57,17 @@ export const createUserProfile = (
     }
 };
 
-export const deleteUserProfile = (accessToken, userId, userProfileId) => async (dispatch) => {
+export const performUserProfileDelete = (
+    accessToken, userId, userProfileId,
+) => async (dispatch) => {
     try {
         await getLifeCMSApi(accessToken)
             .deleteUserProfile(userId, userProfileId);
 
-        dispatch(deleteUserProfileSuccess(userId, userProfileId));
+        dispatch(deleteUserProfile(userProfileId));
 
         dispatch(toastSuccess('Successfully deleted the user profile.'));
     } catch (error) {
-        dispatch(deleteUserProfileFailure(userId, userProfileId));
-
         dispatch(toastError(error.message));
     }
 };

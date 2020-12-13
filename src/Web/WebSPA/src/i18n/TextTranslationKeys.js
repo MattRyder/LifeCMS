@@ -82,6 +82,15 @@ export default {
     },
     homeView: {
         pageTitle: 'homeViewPageTitle',
+        greeting: 'homeViewGreeting',
+        sinceLastWeek: 'homeViewSinceLastWeek',
+        activeUserProfileTitle: 'homeViewActiveUserProfileTitle',
+        activeUserProfileCta: 'homeViewActiveUserProfileCta',
+        statistics: {
+            campaignCreated: 'homeViewStatisticsCampaignCreated',
+            userProfilesCreated: 'homeViewStatisticsUserProfilesCreated',
+            templatesCreated: 'homeViewStatisticsTemplatesCreated',
+        },
     },
     navigationMenu: {
         header: {
@@ -90,6 +99,7 @@ export default {
             settings: 'navigationMenuHeaderSettings',
         },
         item: {
+            home: 'navigationMenuItemHome',
             posts: 'navigationMenuItemPosts',
             campaigns: 'navigationMenuItemCampaigns',
             templates: 'navigationMenuItemTemplates',

@@ -10,10 +10,10 @@ export default function CampaignCreate() {
 
     const dispatch = useDispatch();
 
-    const { accessToken, userId } = useUser();
+    const { accessToken } = useUser();
 
     const handleSubmit = (params) => dispatch(
-        createCampaign(accessToken, userId, params, '/campaigns'),
+        createCampaign(accessToken, params, '/campaigns'),
     );
 
     return (

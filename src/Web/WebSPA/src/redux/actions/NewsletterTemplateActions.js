@@ -1,6 +1,13 @@
 import { success as toastSuccess, error as toastError } from 'react-toastify-redux';
 import { push } from 'connected-react-router';
+import { createAction } from '@reduxjs/toolkit';
 import { getLifeCMSApi } from '../LifeCMSApi';
+
+export const FETCH_NEWSLETTER_TEMPLATE = 'newsletterTemplate/FETCH_NEWSLETTER_TEMPLATE';
+export const DELETE_NEWSLETTER_TEMPLATE = 'newsletterTemplate/FETCH_NEWSLETTER_TEMPLATE';
+
+export const fetchNewsletterTemplateAction = createAction(FETCH_NEWSLETTER_TEMPLATE);
+export const deleteNewsletterTemplateAction = createAction(DELETE_NEWSLETTER_TEMPLATE);
 
 export const CREATE_NEWSLETTER_BEGIN = 'CREATE_NEWSLETTER_BEGIN';
 export const CREATE_NEWSLETTER_SUCCESS = 'CREATE_NEWSLETTER_SUCCESS';
@@ -8,12 +15,8 @@ export const CREATE_NEWSLETTER_FAILURE = 'CREATE_NEWSLETTER_FAILURE';
 
 export const EDIT_NEWSLETTER_SUCCESS = 'EDIT_NEWSLETTER_SUCCESS';
 
-export const FETCH_NEWSLETTERS_BEGIN = 'FETCH_NEWSLETTERS_BEGIN';
-export const FETCH_NEWSLETTERS_SUCCESS = 'FETCH_NEWSLETTERS_SUCCESS';
-export const FETCH_NEWSLETTERS_FAILURE = 'FETCH_NEWSLETTERS_FAILURE';
-
-export const DELETE_NEWSLETTER_SUCCESS = 'DELETE_NEWSLETTER_SUCCESS';
-export const DELETE_NEWSLETTER_FAILURE = 'DELETE_NEWSLETTER_FAILURE';
+// export const DELETE_NEWSLETTER_SUCCESS = 'DELETE_NEWSLETTER_SUCCESS';
+// export const DELETE_NEWSLETTER_FAILURE = 'DELETE_NEWSLETTER_FAILURE';
 
 export const createNewsletterTemplateBegin = () => ({
     type: CREATE_NEWSLETTER_BEGIN,
@@ -37,42 +40,25 @@ export const editNewsletterBodyFailure = (userId, newsletterId) => ({
     payload: { userId, newsletterId },
 });
 
-export const fetchNewslettersBegin = (userId) => ({
-    type: FETCH_NEWSLETTERS_BEGIN,
-    payload: { userId },
-});
+// export const deleteNewsletterSuccess = (userId, newsletterId) => ({
+//     type: 'DELETE_NEWSLETTER_SUCCESS',
+//     payload: { userId, newsletterId },
+// });
 
-export const fetchNewslettersSuccess = (userId, newsletters) => ({
-    type: FETCH_NEWSLETTERS_SUCCESS,
-    payload: { userId, newsletters },
-});
-
-export const fetchNewslettersFailure = (userId, error) => ({
-    type: FETCH_NEWSLETTERS_FAILURE,
-    payload: { userId, error },
-});
-
-export const deleteNewsletterSuccess = (userId, newsletterId) => ({
-    type: 'DELETE_NEWSLETTER_SUCCESS',
-    payload: { userId, newsletterId },
-});
-
-export const deleteNewsletterFailure = (userId, newsletterId) => ({
-    type: 'DELETE_NEWSLETTER_FAILURE',
-    payload: { userId, newsletterId },
-});
+// export const deleteNewsletterFailure = (userId, newsletterId) => ({
+//     type: 'DELETE_NEWSLETTER_FAILURE',
+//     payload: { userId, newsletterId },
+// });
 
 export const fetchNewsletters = (accessToken, userId) => async (dispatch) => {
-    dispatch(fetchNewslettersBegin(userId));
-
     try {
         const response = await getLifeCMSApi(accessToken)
             .getNewsletters(userId);
 
-        dispatch(fetchNewslettersSuccess(userId, response.data));
+        response.data.map((newsletterTemplate) => dispatch(
+            fetchNewsletterTemplateAction(newsletterTemplate),
+        ));
     } catch (error) {
-        dispatch(fetchNewslettersFailure(userId, error.message));
-
         dispatch(toastError(error.message));
     }
 };
@@ -130,12 +116,10 @@ export const deleteNewsletter = (
         await getLifeCMSApi(accessToken)
             .deleteNewsletter(userId, newsletterId);
 
-        dispatch(deleteNewsletterSuccess(userId, newsletterId));
+        dispatch(deleteNewsletterTemplateAction(newsletterId));
 
         dispatch(toastSuccess('Successfully deleted the newsletter.'));
     } catch (error) {
-        dispatch(deleteNewsletterFailure(userId, error.message));
-
         dispatch(toastError(error.message));
     }
 };

@@ -5,11 +5,13 @@ import { rgba } from 'polished';
 import { boxShadow } from 'theme';
 import { fetchNewsletters } from 'redux/actions/NewsletterTemplateActions';
 import {
-    useContentApi, useUser, useStateSelector, useTranslations,
+    useContentApi, useUser, useTranslations,
 } from 'hooks';
 import DetailPage from 'components/Util/DetailPage/DetailPage';
 import Meta from 'components/Util/DetailPage/Meta';
-import formatTimestampDate from 'components/Util/Date';
+import { formatTimestampDate } from 'components/Util/Date';
+import { findUserNewsletterTemplate } from 'redux/redux-orm/ORM';
+import { useSelector } from 'react-redux';
 
 const styles = {
     wrapper: css`
@@ -37,17 +39,11 @@ export default function NewsletterTemplatePreview() {
 
     const { t, TextTranslationKeys } = useTranslations();
 
-    const newsletter = useStateSelector(
-        userId,
-        'newsletter',
-        'newsletters',
-        id,
-    );
+    const newsletter = useSelector((state) => findUserNewsletterTemplate(id)(state, userId));
 
     useContentApi(
         () => fetchNewsletters(accessToken, userId),
         accessToken,
-        userId,
     );
 
     const title = `${

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { findUserNewsletterTemplates } from 'redux/redux-orm/ORM';
 import { useContentApi, useUser, useTranslations } from '../../../../../hooks';
 import { fetchNewsletters } from '../../../../../redux/actions/NewsletterTemplateActions';
 import Table from '../../../../Util/Table/Table';
@@ -30,24 +31,16 @@ function NewsletterIndexList({ collection }) {
 export default function TemplatesIndex() {
     const { accessToken, userId } = useUser();
 
-    const templatesState = useSelector(
-        (state) => state.newsletter[userId],
-    );
+    const newsletterTemplates = useSelector((state) => findUserNewsletterTemplates(state, userId));
 
-    const hasTemplates = templatesState
-        && templatesState.newsletters
-        && templatesState.newsletters.length > 0;
+    const hasTemplates = newsletterTemplates.length > 0;
 
     useContentApi(
         () => fetchNewsletters(accessToken, userId),
         accessToken,
-        userId,
     );
 
     return hasTemplates
-        ? (
-            <NewsletterIndexList
-                collection={templatesState && templatesState.newsletters}
-            />
-        ) : <TemplatesIndexIntro />;
+        ? <NewsletterIndexList collection={newsletterTemplates} />
+        : <TemplatesIndexIntro />;
 }

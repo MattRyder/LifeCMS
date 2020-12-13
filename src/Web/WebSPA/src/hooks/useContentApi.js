@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-export default function (fetchFunc, accessToken) {
+export default function useContentApi(fetchFunc, accessToken) {
     const dispatch = useDispatch();
 
     const [isLoaded, setIsLoaded] = useState(false);

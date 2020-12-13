@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteCampaign } from 'redux/actions/CampaignActions';
-import formatTimestampDate from 'components/Util/Date';
+import { formatTimestampDate } from 'components/Util/Date';
 import { useTranslations, useUser } from '../../../../../hooks';
 import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
@@ -20,7 +20,7 @@ function CampaignRowComponent({
 }) {
     const dispatch = useDispatch();
 
-    const { accessToken, userId } = useUser();
+    const { accessToken } = useUser();
 
     const { t, TextTranslationKeys } = useTranslations();
 
@@ -29,7 +29,7 @@ function CampaignRowComponent({
     const toggleDropdownOpened = () => setDropdownOpened(!isDropdownOpened);
 
     const dispatchDeleteCampaign = (campaignId) => dispatch(
-        deleteCampaign(accessToken, userId, campaignId),
+        deleteCampaign(accessToken, campaignId),
     );
 
     const onDeleteClick = () => FireConfirmAlert(

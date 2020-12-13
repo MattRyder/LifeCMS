@@ -1,13 +1,14 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { useFormik } from 'formik';
 import { updateCampaignName } from 'redux/actions/CampaignActions';
 import {
-    useTranslations, useUser, useStateSelector,
+    useTranslations, useUser,
 } from 'hooks';
 import getInputFor from 'components/Util/Form';
+import { findUserCampaign } from 'redux/redux-orm/ORM';
 import Schema from './UpdateNameSchema';
 
 export default function UpdateNameComponent() {
@@ -19,7 +20,7 @@ export default function UpdateNameComponent() {
 
     const dispatch = useDispatch();
 
-    const campaign = useStateSelector(userId, 'campaign', 'campaigns', id);
+    const campaign = useSelector((state) => findUserCampaign(id)(state, userId));
 
     const formik = useFormik({
         initialValues: {
@@ -36,7 +37,7 @@ export default function UpdateNameComponent() {
             };
 
             dispatch(
-                updateCampaignName(accessToken, userId, id, params, '/campaigns'),
+                updateCampaignName(accessToken, id, params, '/campaigns'),
             );
         },
     });

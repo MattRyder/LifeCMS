@@ -1,10 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { cx, css } from 'emotion';
-import { useUser, useStateSelector } from 'hooks';
+import { useUser } from 'hooks';
 import { editNewsletterBody } from 'redux/actions/NewsletterTemplateActions';
 import Editor from 'components/Newsletters/Editor/Editor';
+import { findUserNewsletterTemplate } from 'redux/redux-orm/ORM';
 
 const style = css`
     display: flex;
@@ -19,12 +20,7 @@ export default function NewsletterTemplateEdit() {
 
     const { accessToken, userId } = useUser();
 
-    const newsletter = useStateSelector(
-        userId,
-        'newsletter',
-        'newsletters',
-        id,
-    );
+    const newsletter = useSelector((state) => findUserNewsletterTemplate(id)(state, userId));
 
     const onSave = (title, query) => {
         const json = query.serialize();

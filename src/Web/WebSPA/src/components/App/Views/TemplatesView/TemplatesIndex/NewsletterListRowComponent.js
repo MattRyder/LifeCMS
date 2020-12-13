@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteNewsletter } from '../../../../../redux/actions/NewsletterTemplateActions';
+import { deleteNewsletter } from 'redux/actions/NewsletterTemplateActions';
 import { useToggle, useTranslations, useUser } from '../../../../../hooks';
 import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
