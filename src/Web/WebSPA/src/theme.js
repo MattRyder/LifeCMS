@@ -1,4 +1,5 @@
 import { css } from 'emotion';
+import { rgba } from 'polished';
 
 export const accessibility = {
     visuallyHidden: css`
@@ -22,6 +23,10 @@ export const boxShadow = (color) => css`
 
 const theme = ({
     colors: {
+        modal: {
+            background: '#d8f3fd',
+            message: '#fffff4',
+        },
         main: '#07729d',
         mainAccent: '#117cfa',
         mainLink: '#2f393d',
@@ -32,6 +37,33 @@ const theme = ({
         editorSelected: '#117cfa',
         tableBackground: '#fff',
         tableHeaderBackground: '#e4e4e4',
+        textPlaceholder: '#bababa',
+        textMuted: '#a1a1a1',
+        tableBorder: '#686e70',
+        subscriberListHeaderBackground: '#fafafa',
+    },
+    components: {
+        pageStyleForm: css`
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 1rem;
+            ${boxShadow(rgba(0, 0, 0, 0.05))}
+
+            > div {
+                padding: 0.5rem 0;
+            }
+        `,
+        link: css`
+            vertical-align: middle;
+            font-weight: 400;
+            color: #117cfa;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        `,
     },
 });
 

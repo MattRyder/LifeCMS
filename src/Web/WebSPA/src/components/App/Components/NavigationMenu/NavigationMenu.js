@@ -184,6 +184,11 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                     </header>
                     <ul className={cx(styles.ul)}>
                         <NavLink
+                            icon={Icons.users}
+                            text={t(TextTranslationKeys.navigationMenu.item.audiences)}
+                            onClick={() => closeMenuAndNavigateTo('/audiences')}
+                        />
+                        <NavLink
                             icon={Icons.bullhorn}
                             text={t(TextTranslationKeys.navigationMenu.item.campaigns)}
                             onClick={() => closeMenuAndNavigateTo('/campaigns')}
@@ -193,19 +198,17 @@ export default function NavigationMenu({ pageWrapId, outerContainerId }) {
                             text={t(TextTranslationKeys.navigationMenu.item.templates)}
                             onClick={() => closeMenuAndNavigateTo('/templates')}
                         />
-                    </ul>
-                </div>
-                <div className={cx(styles.subMenu)}>
-                    <header className={cx(styles.header)}>
-                        {t(TextTranslationKeys.navigationMenu.header.settings)}
-                    </header>
-                    <ul className={cx(styles.ul)}>
                         <NavLink
                             icon={Icons.userEdit}
                             text={t(TextTranslationKeys.navigationMenu.item.userProfiles)}
                             onClick={() => closeMenuAndNavigateTo('/user-profiles')}
                         />
                     </ul>
+                </div>
+                <div className={cx(styles.subMenu)}>
+                    <header className={cx(styles.header)}>
+                        {t(TextTranslationKeys.navigationMenu.header.settings)}
+                    </header>
                 </div>
                 <div className={cx(styles.subMenu)}>
                     <ul className={cx(styles.ul)}>

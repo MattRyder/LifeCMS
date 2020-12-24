@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.PostAggregate;
@@ -31,6 +32,10 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 
         public DbSet<Campaign> Campaigns { get; set; }
 
+        public DbSet<Audience> Audiences { get; set; }
+
+        public DbSet<Subscriber> Subscribers { get; set; }
+
         public ContentCreationDbContext(
             DbContextOptions<ContentCreationDbContext> contextOptions,
             IMediator mediator
@@ -54,6 +59,10 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new NewsletterEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new CampaignEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new SubscriberEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new AudienceEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync()

@@ -24,9 +24,19 @@ function CampaignList({ collection }) {
                     t(TextTranslationKeys.campaignView.index.createdAt),
                     '',
                 ]}
-                rowComponent={CampaignRowComponent}
-                collection={collection}
-            />
+            >
+                { collection && collection.map(({
+                    id, name, scheduledDate, createdAt,
+                }) => (
+                    <CampaignRowComponent
+                        key={name}
+                        id={id}
+                        name={name}
+                        scheduledDate={scheduledDate}
+                        createdAt={createdAt}
+                    />
+                ))}
+            </Table>
         </ListView>
     );
 }

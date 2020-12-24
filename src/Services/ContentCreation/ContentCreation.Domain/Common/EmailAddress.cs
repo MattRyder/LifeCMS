@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using LifeCMS.Services.ContentCreation.Domain.Common;
 
-namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate
+namespace LifeCMS.Services.ContentCreation.Domain.Common
 {
     public class EmailAddress : ValueObject
     {
@@ -9,7 +10,7 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
 
         public EmailAddress(string value)
         {
-            Value = value ?? throw new UserProfileDomainException(nameof(value));
+            Value = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         protected override IEnumerable<object> GetAtomicValues()

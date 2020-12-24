@@ -228,7 +228,7 @@ export default function HomeView() {
                     />
                     <ActiveUserProfileCard
                         className={cx(styles.card)}
-                        name={userProfiles.length > 0 && userProfiles[0].name}
+                        name={userProfiles.length > 0 ? userProfiles[0].name : ''}
                     />
                 </div>
 

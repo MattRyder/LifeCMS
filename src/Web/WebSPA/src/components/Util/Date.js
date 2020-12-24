@@ -17,7 +17,7 @@ import {
 import { getCurrentLanguage } from '../../i18n';
 
 export const DateFormats = {
-    timestamp: 'E, MMMM dd hh:mm a',
+    timestamp: 'E, MMMM dd yyyy hh:mm a',
     shortDayOfWeek: 'iii',
     month: 'MMMM',
     year: 'yyyy',

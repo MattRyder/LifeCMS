@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
-    public static partial class StartupExtensions
+    public static class ConfigurationHelper
     {
-        private static string GetConnectionString(
+        public static string GetConnectionString(
             IConfiguration configuration,
             string connectionStringName
         )
@@ -22,7 +22,7 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             return connectionString;
         }
 
-        private static string GetConfigurationValue(
+        public static string GetConfigurationValue(
             IConfiguration configuration,
             string key)
         {

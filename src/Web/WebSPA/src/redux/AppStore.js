@@ -1,11 +1,18 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import createRootReducer from './RootReducer';
 import RuntimeConfiguration from './middlewares/signalr/RuntimeConfiguration';
 import { SignalrMiddleware } from './middlewares';
 import { fetchPosts } from './actions/PostActions';
+
+const persistConfig = {
+    key: 'root',
+    storage,
+};
 
 export const history = createBrowserHistory();
 
@@ -29,9 +36,14 @@ const signalr = SignalrMiddleware({
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
+const persistedReducer = persistReducer(
+    persistConfig,
+    createRootReducer(history),
+);
+
 export default function configureStore(preloadedState) {
     const store = createStore(
-        createRootReducer(history),
+        persistedReducer,
         preloadedState,
         composeEnhancers(
             applyMiddleware(thunk),
@@ -40,5 +52,7 @@ export default function configureStore(preloadedState) {
         ),
     );
 
-    return store;
+    const persistor = persistStore(store);
+
+    return { store, persistor };
 }

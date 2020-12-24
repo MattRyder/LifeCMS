@@ -8,6 +8,7 @@ const styles = {
     table: css`
         ${boxShadow(rgba(0, 0, 0, 0.05))}
         background-color: ${theme.colors.tableBackground};
+
         td {
             vertical-align: middle !important;
 
@@ -39,13 +40,13 @@ const styles = {
 };
 
 export default function Table({
+    className,
     headings,
-    rowComponent: RowComponent,
-    collection,
     accessibilityDescription,
+    children,
 }) {
     return (
-        <ReactstrapTable responsive className={cx(styles.table)}>
+        <ReactstrapTable className={cx(styles.table, className)}>
             <caption className={cx(accessibility.visuallyHidden)}>
                 {accessibilityDescription}
             </caption>
@@ -56,10 +57,7 @@ export default function Table({
                 </tr>
             </thead>
             <tbody>
-                {
-                    collection && collection.map((item) => (
-                        <RowComponent key={item.id} item={item} />))
-                }
+                {children}
             </tbody>
         </ReactstrapTable>
     );

@@ -5,3 +5,4 @@ export { default as useContentApi } from './useContentApi';
 export { default as useToggle } from './useToggle';
 export { default as useConfirm } from './useConfirm';
 export { default as useResize } from './useResize';
+export { default as useQuery } from './useQuery';

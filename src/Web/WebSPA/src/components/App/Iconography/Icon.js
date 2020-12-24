@@ -30,17 +30,21 @@ export const Icons = {
     trash: FontAwesomeIcons.faTrashAlt,
     clone: FontAwesomeIcons.faClone,
     closeBox: FontAwesomeIcons.faWindowClose,
+    users: FontAwesomeIcons.faUsers,
+    info: FontAwesomeIcons.faInfoCircle,
 };
 
-export default function Icon({ icon, size }) {
-    return <FontAwesomeIcon icon={icon} size={size} />;
+export default function Icon({ className, icon, size }) {
+    return <FontAwesomeIcon className={className} icon={icon} size={size} />;
 }
 
 Icon.propTypes = {
+    className: PropTypes.string,
     icon: PropTypes.oneOf(Object.values(Icons)).isRequired,
     size: PropTypes.string,
 };
 
 Icon.defaultProps = {
+    className: '',
     size: '1x',
 };

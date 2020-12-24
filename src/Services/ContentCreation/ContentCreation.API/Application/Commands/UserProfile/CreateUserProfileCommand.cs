@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
+using LifeCMS.Services.ContentCreation.Domain.Common;
 using MediatR;
 
 namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles

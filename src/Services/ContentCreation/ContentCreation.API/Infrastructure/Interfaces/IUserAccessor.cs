@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Security.Claims;
 
 namespace LifeCMS.Services.ContentCreation.Infrastructure.Interfaces
@@ -8,5 +9,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Interfaces
         ClaimsPrincipal User { get; }
 
         Guid Id { get; }
+
+        IPAddress RemoteIpAddress { get; }
     }
 }

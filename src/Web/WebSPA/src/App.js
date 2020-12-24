@@ -7,6 +7,7 @@ import { css, cx } from 'emotion';
 import { ToastContainer } from 'react-toastify-redux';
 import theme from 'theme';
 import AppMeta from 'AppMeta';
+import SubscriberConfirmView from 'components/App/Views/SubscriberView/SubscriberConfirm/SubscriberConfirmView';
 import {
     SessionView,
     HomeView,
@@ -14,6 +15,7 @@ import {
     UserProfileView,
     TemplatesView,
     CampaignView,
+    AudienceView,
 } from './components/App/Views';
 import AuthenticatedRoute from './components/Util/AuthenticatedRoute';
 import NavigationMenu from './components/App/Components/NavigationMenu/NavigationMenu';
@@ -42,29 +44,38 @@ const styles = {
     `,
 };
 
+const AppWithSidebarMenu = () => (
+    <div className={cx(styles.appOuter)} id="app-outer">
+        <NavigationMenu
+            outerContainerId="app-outer"
+            pageWrapId="page-main"
+        />
+
+        <main id="page-main" className={styles.main}>
+            <Switch>
+                <Route path="/profile/:id" component={ProfileView} />
+                <Route path="/session" component={SessionView} />
+                <AuthenticatedRoute exact path="/" component={HomeView} />
+                <AuthenticatedRoute path="/audiences" component={AudienceView} />
+                <AuthenticatedRoute path="/content" component={HomeView} />
+                <AuthenticatedRoute path="/campaigns" component={CampaignView} />
+                <AuthenticatedRoute path="/templates" component={TemplatesView} />
+                <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />
+            </Switch>
+            <ToastContainer position="bottom-right" />
+        </main>
+    </div>
+);
+
 export default function App({ productName }) {
     return (
         <>
             <AppMeta title={productName} />
-            <div className={cx(styles.appOuter)} id="app-outer">
-                <NavigationMenu
-                    outerContainerId="app-outer"
-                    pageWrapId="page-main"
-                />
+            <Switch>
+                <Route path="/subscribers/confirm" component={SubscriberConfirmView} />
+                <Route component={AppWithSidebarMenu} />
+            </Switch>
 
-                <main id="page-main" className={styles.main}>
-                    <Switch>
-                        <Route path="/profile/:id" component={ProfileView} />
-                        <Route path="/session" component={SessionView} />
-                        <AuthenticatedRoute exact path="/" component={HomeView} />
-                        <AuthenticatedRoute path="/content" component={HomeView} />
-                        <AuthenticatedRoute path="/campaigns" component={CampaignView} />
-                        <AuthenticatedRoute path="/templates" component={TemplatesView} />
-                        <AuthenticatedRoute path="/user-profiles" component={UserProfileView} />
-                    </Switch>
-                    <ToastContainer position="bottom-right" />
-                </main>
-            </div>
         </>
     );
 }

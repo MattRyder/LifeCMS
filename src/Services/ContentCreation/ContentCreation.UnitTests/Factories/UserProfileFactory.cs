@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Bogus;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate;
+using LifeCMS.Services.ContentCreation.Domain.Common;
 
 namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
 {

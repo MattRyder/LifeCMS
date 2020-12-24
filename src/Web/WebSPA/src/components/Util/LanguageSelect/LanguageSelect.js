@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Flag from 'react-flagkit';
 import {
     Dropdown, DropdownItem, DropdownMenu, DropdownToggle,
@@ -71,7 +72,7 @@ const menuItems = langSet.map(({ language, flagCountry, displayName }) => (
     </DropdownItem>
 ));
 
-export default function LanguageSelect() {
+export default function LanguageSelect({ showGlobeIcon }) {
     const [isOpen, toggleOpen] = useToggle(false);
 
     const [currentLangName, setCurrentLangName] = useState('');
@@ -86,13 +87,15 @@ export default function LanguageSelect() {
 
     return (
         <div className={cx(styles.main)}>
-            <span
-                role="img"
-                aria-label="globe-icon"
-                className={cx(styles.globalizationIcon)}
-            >
-                &#x1F310;
-            </span>
+            {showGlobeIcon && (
+                <span
+                    role="img"
+                    aria-label="globe-icon"
+                    className={cx(styles.globalizationIcon)}
+                >
+                    &#x1F310;
+                </span>
+            )}
             <Dropdown isOpen={isOpen} size="sm" toggle={toggleOpen}>
                 <DropdownToggle color="link" caret>
                     {currentLangName}
@@ -104,3 +107,11 @@ export default function LanguageSelect() {
         </div>
     );
 }
+
+LanguageSelect.propTypes = {
+    showGlobeIcon: PropTypes.bool,
+};
+
+LanguageSelect.defaultProps = {
+    showGlobeIcon: true,
+};

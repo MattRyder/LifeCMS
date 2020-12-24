@@ -13,9 +13,7 @@ import { FireConfirmAlert } from '../../FireAlert';
 import { performUserProfileDelete } from '../../redux/actions/UserProfileActions';
 
 export default function UserProfileListViewRowComponent({
-    item: {
-        id, name, occupation, location,
-    },
+    id, name, occupation, location,
 }) {
     const dispatch = useDispatch();
 

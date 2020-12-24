@@ -4,21 +4,23 @@ import AppRuntimeConfiguration from 'AppRuntimeConfiguration';
 import './i18n';
 import * as serviceWorker from './serviceWorker';
 import configureStore, { history } from './redux/AppStore';
-import { loadState, saveState } from './redux/PersistedState';
 import userManager from './openid/UserManager';
 import ProviderWrapper from './Provider';
 import App from './App';
 
 const rootElement = document.getElementById('root');
 
-const store = configureStore(loadState());
-
-store.subscribe(() => saveState(store));
+const { store, persistor } = configureStore();
 
 const RUNTIME_PRODUCT_NAME = AppRuntimeConfiguration.json().product_name;
 
 ReactDOM.render(
-    <ProviderWrapper store={store} userManager={userManager} history={history}>
+    <ProviderWrapper
+        store={store}
+        userManager={userManager}
+        history={history}
+        persistor={persistor}
+    >
         <App productName={RUNTIME_PRODUCT_NAME} />
     </ProviderWrapper>,
     rootElement,

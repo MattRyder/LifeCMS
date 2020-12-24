@@ -6,6 +6,7 @@ using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.NewsletterAggregate;
 using System;
 using LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate;
+using LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate;
 
 namespace LifeCMS.Services.ContentCreation.API.Authorization.Handlers
 {
@@ -35,6 +36,8 @@ namespace LifeCMS.Services.ContentCreation.API.Authorization.Handlers
                 UserProfile userProfile => userProfile.UserId.Equals(userId),
                 Newsletter newsletter => newsletter.UserId.Equals(userId),
                 Campaign campaign => campaign.UserId.Equals(userId),
+                Audience audience => audience.UserId.Equals(userId),
+                null => throw new UserOwnsResourceException("Resource must not be null."),
                 _ => throw new UserOwnsResourceException("Resource not registered with this handler."),
             };
 

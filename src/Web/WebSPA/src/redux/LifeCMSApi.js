@@ -77,6 +77,34 @@ export default class LifeCMSApi {
     createPresignUrl(params) {
         return this.client.post('files', params);
     }
+
+    getAudiences() {
+        return this.client.get('audiences');
+    }
+
+    createAudience(params) {
+        return this.client.post('audiences', params);
+    }
+
+    deleteAudience(audienceId) {
+        return this.client.delete(`audiences/${audienceId}`);
+    }
+
+    addSubscriber(params) {
+        return this.client.post('audiences/addSubscriber', params);
+    }
+
+    confirmSubscriber(params) {
+        return this.client.post('subscribers/confirm', params);
+    }
+
+    updateAudienceName(audienceId, params) {
+        return this.client.post(`audiences/${audienceId}/updateName`, params);
+    }
+
+    getAudienceSubscribers(audienceId) {
+        return this.client.get(`audiences/${audienceId}/subscribers`);
+    }
 }
 
 export function getLifeCMSApi(accessToken) {

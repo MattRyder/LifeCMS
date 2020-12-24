@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
 using IdentityModel;
 using System;
+using System.Net;
 
 namespace LifeCMS.Services.ContentCreation.Infrastructure.Accessors
 {
@@ -12,7 +13,11 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Accessors
 
         public ClaimsPrincipal User => _httpContextAccessor.HttpContext.User;
 
-        public Guid Id => new Guid(User.FindFirstValue(JwtClaimTypes.Subject));
+        public Guid Id =>
+            new Guid(User.FindFirstValue(JwtClaimTypes.Subject));
+
+        public IPAddress RemoteIpAddress =>
+            _httpContextAccessor.HttpContext.Connection.RemoteIpAddress;
 
         public UserAccessor(IHttpContextAccessor httpContextAccessor)
         {

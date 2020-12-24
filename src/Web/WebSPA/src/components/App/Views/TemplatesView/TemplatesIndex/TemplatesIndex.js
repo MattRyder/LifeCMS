@@ -21,9 +21,17 @@ function NewsletterIndexList({ collection }) {
                 headings={[
                     t(TextTranslationKeys.template.properties.name),
                 ]}
-                rowComponent={NewsletterListRowComponent}
-                collection={collection}
-            />
+            >
+                { collection && collection.map(({
+                    id, name,
+                }) => (
+                    <NewsletterListRowComponent
+                        key={id}
+                        id={id}
+                        name={name}
+                    />
+                ))}
+            </Table>
         </ListView>
     );
 }

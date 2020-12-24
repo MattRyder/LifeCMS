@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     FormFeedback, Input, Label, FormGroup,
 } from 'reactstrap';
@@ -17,6 +18,37 @@ const getInputFor = (formik, inputName, label, hint) => (
         { hint ? <span className="hint">{hint}</span> : null }
     </FormGroup>
 );
+
+export const FormikInput = ({
+    formik, inputName, label, hint,
+}) => (
+    <FormGroup>
+        <Label for={inputName}>{label}</Label>
+        <Input
+            name={inputName}
+            onChange={formik.handleChange}
+            invalid={formik.errors[inputName] && formik.errors[inputName].length > 0}
+            value={formik.values && formik.values[inputName]}
+        />
+        <FormFeedback valid={formik.errors[inputName] && formik.errors[inputName].length === 0} />
+        { hint ? <span className="hint">{hint}</span> : null }
+    </FormGroup>
+);
+
+FormikInput.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    formik: PropTypes.object,
+    inputName: PropTypes.string,
+    label: PropTypes.string,
+    hint: PropTypes.string,
+};
+
+FormikInput.defaultProps = {
+    formik: {},
+    inputName: '',
+    label: '',
+    hint: '',
+};
 
 export const FormikSelect = ({
     formik,

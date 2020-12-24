@@ -15,9 +15,7 @@ import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
 
 export default function NewsletterListRowComponent({
-    item: {
-        id, name,
-    },
+    id, name,
 }) {
     const dispatch = useDispatch();
 

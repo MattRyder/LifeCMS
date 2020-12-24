@@ -26,10 +26,20 @@ const UserProfileIndexList = ({ collection }) => {
                     t(TextTranslationKeys.userProfile.properties.occupation),
                     t(TextTranslationKeys.userProfile.properties.location),
                 ]}
-                rowComponent={UserProfileListViewRowComponent}
-                collection={collection}
                 accessibilityDescription={t(TextTranslationKeys.userProfileView.index.listCaption)}
-            />
+            >
+                { collection && collection.map(({
+                    id, name, occupation, location,
+                }) => (
+                    <UserProfileListViewRowComponent
+                        key={name}
+                        id={id}
+                        name={name}
+                        occupation={occupation}
+                        location={location}
+                    />
+                ))}
+            </Table>
         </ListView>
     );
 };

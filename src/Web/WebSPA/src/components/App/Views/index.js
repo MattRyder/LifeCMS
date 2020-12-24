@@ -5,3 +5,4 @@ export { default as CampaignView } from './CampaignView/CampaignView';
 export { default as TemplatesView } from './TemplatesView/TemplatesView';
 export { default as ProfileView } from './ProfileView/ProfileView';
 export { default as UserProfileView } from './UserProfileView/UserProfileView';
+export { default as AudienceView } from './AudienceView/AudienceView';

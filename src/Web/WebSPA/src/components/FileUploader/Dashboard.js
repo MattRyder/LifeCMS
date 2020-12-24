@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { cx, css } from 'emotion';
 import { useDropzone } from 'react-dropzone';
+import { useTranslations } from 'hooks';
 
 const styles = {
     baseStyle: css({
@@ -32,6 +33,8 @@ const styles = {
 export default function Dashboard({
     acceptedTypes, setAcceptedFiles, maxFiles,
 }) {
+    const { t, TextTranslationKeys } = useTranslations();
+
     const { getRootProps, getInputProps } = useDropzone({
         maxFiles,
         accept: acceptedTypes,
@@ -43,7 +46,7 @@ export default function Dashboard({
             <input {...getInputProps()} />
 
             <p className={cx(styles.text)}>
-                Drop files here, or click to select files.
+                {t(TextTranslationKeys.fileUploader.cta)}
             </p>
         </div>
     );

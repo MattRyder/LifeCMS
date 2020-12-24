@@ -14,9 +14,7 @@ import { FireConfirmAlert } from '../../../../../FireAlert';
 import Icon, { Icons } from '../../../Iconography/Icon';
 
 function CampaignRowComponent({
-    item: {
-        id, name, scheduledDate, createdAt,
-    },
+    id, name, scheduledDate, createdAt,
 }) {
     const dispatch = useDispatch();
 

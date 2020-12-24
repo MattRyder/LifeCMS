@@ -14,7 +14,7 @@ namespace ContentCreation.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AlbumAggregate.Album", b =>
@@ -83,6 +83,79 @@ namespace ContentCreation.Infrastructure.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Photos");
+                });
+
+            modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate.Audience", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Audiences");
+                });
+
+            modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate.Subscriber", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AudienceId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("SubscribedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("SubscribedIpAddress")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("SubscriberToken")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UnsubscribedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UnsubscribedIpAddress")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime(6)")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AudienceId");
+
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate.Campaign", b =>
@@ -265,6 +338,33 @@ namespace ContentCreation.Infrastructure.Migrations
                         .HasForeignKey("AlbumId");
                 });
 
+            modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate.Subscriber", b =>
+                {
+                    b.HasOne("LifeCMS.Services.ContentCreation.Domain.AggregateModels.AudienceAggregate.Audience", null)
+                        .WithMany("Subscribers")
+                        .HasForeignKey("AudienceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("LifeCMS.Services.ContentCreation.Domain.Common.EmailAddress", "EmailAddress", b1 =>
+                        {
+                            b1.Property<Guid>("SubscriberId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnName("EmailAddress")
+                                .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                            b1.HasKey("SubscriberId");
+
+                            b1.ToTable("Subscribers");
+
+                            b1.WithOwner()
+                                .HasForeignKey("SubscriberId");
+                        });
+                });
+
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate.Campaign", b =>
                 {
                     b.OwnsOne("LifeCMS.Services.ContentCreation.Domain.AggregateModels.CampaignAggregate.Subject", "Subject", b1 =>
@@ -321,7 +421,7 @@ namespace ContentCreation.Infrastructure.Migrations
 
             modelBuilder.Entity("LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate.UserProfile", b =>
                 {
-                    b.OwnsOne("LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAggregate.EmailAddress", "EmailAddress", b1 =>
+                    b.OwnsOne("LifeCMS.Services.ContentCreation.Domain.Common.EmailAddress", "EmailAddress", b1 =>
                         {
                             b1.Property<Guid>("UserProfileId")
                                 .HasColumnType("char(36)");

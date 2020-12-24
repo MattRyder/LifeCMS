@@ -7,14 +7,16 @@ import { boxShadow } from 'theme';
 const styles = {
     main: css`
         display: flex;
+        height: 100%;
         flex-direction: column;
+        padding: 1rem;
         width: 100%;
     `,
     page: css`
-        padding: 0 2rem;
+        padding: 0 1rem;
     `,
     header: css`
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         line-height: 3rem;
     `,
     form: css`

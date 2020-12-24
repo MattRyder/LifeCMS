@@ -1,5 +1,7 @@
 export default {
     common: {
+        add: 'commonAdd',
+        back: 'commonBack',
         duplicate: 'commonDuplicate',
         edit: 'commonEdit',
         save: 'commonSave',
@@ -31,6 +33,21 @@ export default {
             },
         },
     },
+    audience: {
+        displayName: 'audienceDisplayName',
+        description: 'audienceDescription',
+        properties: {
+            name: 'audiencePropertiesName',
+        },
+    },
+    subscriber: {
+        properties: {
+            name: 'subscriberPropertiesName',
+            emailAddress: 'subscriberPropertiesEmailAddress',
+            subscribedAt: 'subscriberPropertiesSubscribedAt',
+            unsubscribedAt: 'subscriberPropertiesUnsubscribedAt',
+        },
+    },
     campaign: {
         displayName: 'campaignDisplayName',
         description: 'campaignDescription',
@@ -50,6 +67,12 @@ export default {
         properties: {
             name: 'templatePropertiesName',
         },
+    },
+    fileUploader: {
+        cta: 'fileUploaderCta',
+    },
+    editableText: {
+        placeholder: 'editableTextPlaceholder',
     },
     userProfile: {
         displayName: 'userProfileDisplayName',
@@ -101,11 +124,51 @@ export default {
         item: {
             home: 'navigationMenuItemHome',
             posts: 'navigationMenuItemPosts',
+            audiences: 'navigationMenuItemAudiences',
             campaigns: 'navigationMenuItemCampaigns',
             templates: 'navigationMenuItemTemplates',
             userProfiles: 'navigationMenuItemUserProfiles',
             login: 'navigationMenuItemLogin',
             logout: 'navigationMenuItemLogout',
+        },
+    },
+    audienceView: {
+        create: {
+            pageTitle: 'audienceViewCreatePageTitle',
+            subscriberUploader: {
+                title: 'audienceViewCreateSubscriberUploaderTitle',
+                downloadCSV: 'audienceViewCreateSubscriberUploaderDownloadCSV',
+                importCSV: 'audienceViewCreateSubscriberUploaderImportCSV',
+                fileModalTitle: 'audienceViewCreateSubscriberUploaderFileModalTitle',
+            },
+        },
+        addSubscribers: {
+            pageTitle: 'audienceViewAddSubscribersPageTitle',
+        },
+        intro: {
+            ctaText: 'audienceViewIntroCtaText',
+        },
+        index: {
+            pageTitle: 'audienceViewIndexPageTitle',
+            createAudience: 'audienceViewIndexCreateAudience',
+            addSubscribers: 'audienceViewIndexCreateAddSubscribers',
+        },
+        details: {
+            pageTitle: 'audienceViewDetailsPageTitle',
+            subscriberList: {
+                title: 'audienceViewDetailsSubscriberListTitle',
+                previousPageButton: 'audienceViewDetailSubscriberListPreviousPage',
+                nextPageButton: 'audienceViewDetailSubscriberListNextPage',
+                pageText: 'audienceViewDetailSubscriberListPageText',
+                notConfirmedText: 'audienceViewDetailSubscriberListNotConfirmedText',
+            },
+            noSubscribersNotice: {
+                title: 'audienceViewDetailsNoSubscribersNoticeTitle',
+                cta: 'audienceViewDetailsNoSubscribersNoticeCta',
+            },
+        },
+        updateName: {
+            pageTitle: 'audienceViewUpdateNamePageTitle',
         },
     },
     campaignView: {
@@ -186,6 +249,12 @@ export default {
         editDetails: 'editDetails',
         menuItemPosts: 'menuItemPosts',
         menuItemPhotos: 'menuItemPhotos',
+    },
+    subscriberConfirmView: {
+        title: 'subscriberConfirmViewTitle',
+        text: 'subscriberConfirmViewText',
+        loadingText: 'subscriberConfirmViewLoadingText',
+        warningText: 'subscriberConfirmViewWarningText',
     },
     settingsView: {
         menu: {
