@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  identity.api:
+    build:
+      context: ./
+      dockerfile: ./src/Services/Identity/Identity.API/Dockerfile
+
+  email.api:
+    build:
+      context: ./
+      dockerfile: ./src/Services/Email/Email.API/Dockerfile
+
+  contentcreation.api:
+    build:
+      context: ./
+      dockerfile: ./src/Services/ContentCreation/ContentCreation.API/Dockerfile
+
+  web.webspa:
+    build:
+      context: ./
+      dockerfile: ./src/Web/WebSPA/Dockerfile

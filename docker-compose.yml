@@ -34,13 +34,10 @@ services:
       - ./docker/provision/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
 
   identity.api:
-    image: lifecms_identity.api:latest
+    image: lifecms/identity.api:latest
     entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/Identity.API.dll"
     ports:
       - "5002:80"
-    build:
-      context: ./
-      dockerfile: ./src/Services/Identity/Identity.API/Dockerfile
     environment:
       SQL_DB_HOST: sql.data
       ConnectionStrings__LifeCMSIdentity: Server=sql.data;Database=lifecms_identity;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
@@ -63,6 +60,7 @@ services:
       EventBus__Password: ${LIFECMS_RABBITMQ_PASSWORD}
       EventBus__QueueName: ${LIFECMS_EVENTBUS_QUEUENAME}
       ApiHost__Identity: http://${LIFECMS_VHOST_IDENTITY}
+      Host__WebSpa: http://${LIFECMS_VHOST_WEBSPA}
       VIRTUAL_HOST: ${LIFECMS_VHOST_IDENTITY}
       VIRTUAL_PORT: 80
     depends_on:
@@ -75,13 +73,10 @@ services:
         target: /usr/local/bin/waitforit.sh
 
   email.api:
-    image: lifecms_email.api:latest
+    image: lifecms/email.api:latest
     entrypoint: /bin/sh -c "waitforit.sh rabbitmq.data:5672 -- dotnet /app/Email.API.dll"
     ports:
       - "5003:80"
-    build:
-      context: ./
-      dockerfile: ./src/Services/Email/Email.API/Dockerfile
     environment:
       VIRTUAL_HOST: ${LIFECMS_VHOST_EMAIL}
       VIRTUAL_PORT: 80
@@ -106,13 +101,10 @@ services:
         target: /usr/local/bin/waitforit.sh
 
   contentcreation.api:
-    image: lifecms_contentcreation.api:latest
+    image: lifecms/contentcreation.api:latest
     entrypoint: /bin/sh -c "waitforit.sh sql.data:3306 -- dotnet /app/ContentCreation.API.dll"
     ports:
       - "5001:80"
-    build:
-      context: ./
-      dockerfile: ./src/Services/ContentCreation/ContentCreation.API/Dockerfile
     environment:
       SQL_DB_HOST: sql.data
       VIRTUAL_HOST: ${LIFECMS_VHOST_CONTENTCREATION}
@@ -140,12 +132,9 @@ services:
         target: /usr/local/bin/waitforit.sh
 
   web.webspa:
-    image: web.webspa:latest
+    image: lifecms/web-spa:latest
     ports:
       - "5000:80"
-    build:
-      context: ./
-      dockerfile: ./src/Web/WebSPA/Dockerfile
     volumes:
       - ./docker:/usr/local/bin/docker
     environment:
