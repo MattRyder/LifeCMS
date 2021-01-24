@@ -9,6 +9,7 @@ using IdentityServer4.AccessTokenValidation;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Services;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Websocket;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Policies;
+using Microsoft.Extensions.FileProviders;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -29,6 +30,10 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IImageUploadService, S3ImageUploadService>();
+
+            services.AddSingleton<IFileProvider, ManifestEmbeddedFileProvider>(
+                (sp) => new ManifestEmbeddedFileProvider(typeof(Program).Assembly)
+            );
 
             services.AddCors(options =>
             {

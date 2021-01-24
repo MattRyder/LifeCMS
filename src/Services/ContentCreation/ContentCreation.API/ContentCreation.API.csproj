@@ -3,12 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ContentCreation.Infrastructure\ContentCreation.Infrastructure.csproj" />
     <ProjectReference Include="..\..\..\EventBus\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\..\..\EventBus\EventBus.IntegrationEvents\EventBus.IntegrationEvents.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include=".\Services\Messaging\EmailTemplates\HeroTemplate.html.liquid" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +29,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.11" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="MediatR" Version="6.0.0" />

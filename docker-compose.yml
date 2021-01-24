@@ -119,6 +119,7 @@ services:
       ConnectionStrings__LifeCMS: Server=sql.data;Database=lifecms_production;Uid=lifecms_user;Password=lifecms_pass;AllowUserVariables=True;
       Certificates__SigningCredential: ${LIFECMS_CERTIFICATE_SIGNING_CREDENTIAL}
       ContentCreation__Email__FromEmailAddress: "${LIFECMS_CONTENTCREATION_EMAIL_FROM_EMAIL_ADDRESS}"
+      Host__WebSpa: http://${LIFECMS_VHOST_WEBSPA}
       VIRTUAL_PORT: 80
     depends_on:
       - sql.data

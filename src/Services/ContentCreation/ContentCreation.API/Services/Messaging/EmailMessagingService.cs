@@ -1,18 +1,25 @@
-using System.IO;
 using System.Threading.Tasks;
 using LifeCMS.EventBus.Common.Interfaces;
 using LifeCMS.EventBus.IntegrationEvents.Email;
 using LifeCMS.Services.ContentCreation.Domain.Common;
+using Microsoft.Extensions.FileProviders;
 using Scriban;
 
 namespace LifeCMS.Services.ContentCreation.API.Services.Messaging
 {
     public class EmailMessagingService : IEmailMessagingService
     {
+        private readonly IFileProvider _fileProvider;
+
         private readonly IEventBus _eventBus;
 
-        public EmailMessagingService(IEventBus eventBus)
+        public EmailMessagingService(
+            IFileProvider fileProvider,
+            IEventBus eventBus
+        )
         {
+            _fileProvider = fileProvider;
+
             _eventBus = eventBus;
         }
 
@@ -72,9 +79,21 @@ namespace LifeCMS.Services.ContentCreation.API.Services.Messaging
                 _ => "HeroTemplate"
             };
 
-            var templateFilePath = $"Services/Messaging/EmailTemplates/{fileName}.html.liquid";
+            var templateFilePath =
+                $"Services/Messaging/EmailTemplates/{fileName}.html.liquid";
 
-            return File.OpenText(templateFilePath).ReadToEndAsync();
+            return GetTemplateResourceAsync(templateFilePath);
+        }
+
+        private async Task<string> GetTemplateResourceAsync(string path)
+        {
+            var file = _fileProvider.GetFileInfo(path).CreateReadStream();
+
+            var buffer = new byte[file.Length];
+
+            await file.ReadAsync(buffer, 0, (int)file.Length);
+
+            return System.Text.Encoding.UTF8.GetString(buffer);
         }
     }
 }
