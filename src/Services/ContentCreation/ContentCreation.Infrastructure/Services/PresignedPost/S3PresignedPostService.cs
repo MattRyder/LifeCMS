@@ -17,14 +17,27 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Services.Aws
             _bucketName = bucketName;
         }
 
-        public string CreatePresignedUrl(string filename, string contentType)
+        public PresignedPostRequest CreatePresignedUrl(
+            string filename,
+            string contentType)
         {
             var request = GenerateRequest(filename, contentType);
 
-            return _awsClient.GetPreSignedURL(request);
+            return new PresignedPostRequest()
+            {
+                RequestUrl = _awsClient.GetPreSignedURL(request),
+                RequestUrn = CreateFileUrn(request.Key),
+            };
         }
 
-        public GetPreSignedUrlRequest GenerateRequest(
+        private string CreateFileUrn(string key)
+        {
+            var region = _awsClient.Config.RegionEndpoint.SystemName;
+
+            return $"urn:lifecms:aws:s3:{region}:{_bucketName}:{key}";
+        }
+
+        private GetPreSignedUrlRequest GenerateRequest(
             string key,
             string contentType)
         {
@@ -34,7 +47,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Services.Aws
                 ContentType = contentType,
                 Key = key,
                 Expires = DateTime.UtcNow.AddMinutes(5),
-                Verb = HttpVerb.PUT
+                Verb = HttpVerb.PUT,
             };
         }
     }

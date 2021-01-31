@@ -11,7 +11,6 @@ import SubscriberConfirmView from 'components/App/Views/SubscriberView/Subscribe
 import {
     SessionView,
     HomeView,
-    ProfileView,
     UserProfileView,
     TemplatesView,
     CampaignView,
@@ -53,7 +52,6 @@ const AppWithSidebarMenu = () => (
 
         <main id="page-main" className={styles.main}>
             <Switch>
-                <Route path="/profile/:id" component={ProfileView} />
                 <Route path="/session" component={SessionView} />
                 <AuthenticatedRoute exact path="/" component={HomeView} />
                 <AuthenticatedRoute path="/audiences" component={AudienceView} />

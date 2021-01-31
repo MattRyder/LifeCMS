@@ -28,8 +28,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
                             Occupation,
                             Location,
                             Bio,
-                            AvatarImageUri,
-                            HeaderImageUri,
+                            AvatarImageUrn,
+                            HeaderImageUrn,
                             CreatedAt,
                             UpdatedAt
                     FROM UserProfiles

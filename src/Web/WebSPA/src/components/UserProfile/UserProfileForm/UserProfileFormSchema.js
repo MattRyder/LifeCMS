@@ -6,16 +6,16 @@ export const InitialValues = {
     occupation: '',
     location: '',
     bio: '',
-    avatarImageUri: '',
-    headerImageUri: '',
+    avatarImageUrn: '',
+    headerImageUrn: '',
 };
 
 export default Yup.object().shape({
     name: Yup.string().trim().required(),
-    email: Yup.string().trim().email(),
-    occupation: Yup.string().trim(),
-    location: Yup.string().trim(),
-    bio: Yup.string().trim().max(250),
-    avatarImageUri: Yup.string().trim().url(),
-    headerImageUri: Yup.string().trim().url(),
+    email: Yup.string().trim().email().nullable(),
+    occupation: Yup.string().trim().nullable(),
+    location: Yup.string().trim().nullable(),
+    bio: Yup.string().trim().max(250).nullable(),
+    avatarImageUrn: Yup.string().trim().nullable(),
+    headerImageUrn: Yup.string().trim().nullable(),
 });

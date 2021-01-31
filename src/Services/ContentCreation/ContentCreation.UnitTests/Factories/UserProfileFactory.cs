@@ -18,8 +18,8 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
                     f.Name.JobTitle(),
                     f.Address.City(),
                     f.Random.Words(4),
-                    CreateImageUri(f),
-                    CreateImageUri(f)
+                    "urn:lifecms:aws:s3:test:avatar-test",
+                    "urn:lifecms:aws:s3:test:header-test"
                 )
             );
         }
@@ -31,11 +31,6 @@ namespace LifeCMS.Services.ContentCreation.UnitTests.Factories
         private static EmailAddress CreateEmailAddress(Faker faker)
         {
             return new EmailAddress(faker.Internet.Email());
-        }
-
-        private static Uri CreateImageUri(Faker faker)
-        {
-            return new Uri(faker.Image.LoremFlickrUrl());
         }
     }
 }

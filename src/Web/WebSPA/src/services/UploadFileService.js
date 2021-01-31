@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { getLifeCMSApi } from 'redux/LifeCMSApi';
 
-export const FETCH_PRESIGN_URL_SUCCESS = 'FETCH_PRESIGN_URL_SUCCESS';
-export const FETCH_PRESIGN_URL_FAILURE = 'FETCH_PRESIGN_URL_FAILURE';
-
 export default async function UploadFileService(
     accessToken,
     filename,
@@ -17,26 +14,28 @@ export default async function UploadFileService(
     try {
         const {
             data: {
-                data: presignedUrl,
-            } = {},
+                data: {
+                    requestUrl,
+                    requestUrn,
+                },
+            },
         } = await lifecmsApi.createPresignUrl({
             Filename: filename,
             Content_Type: fileType,
         });
 
-        const { status } = await axios.put(presignedUrl, fileBlob, {
+        const { status } = await axios.put(requestUrl, fileBlob, {
             headers: {
                 'Content-Type': fileType,
             },
         });
 
         if (status === 200) {
-            const { origin, pathname } = new URL(presignedUrl);
-
-            return new URL(pathname, origin).href;
+            return requestUrn;
         }
+
+        return null;
     } catch (error) {
         console.error(error);
-        // dispatch(fetchPresignUrlFailure(error.message));
     }
 }

@@ -4,6 +4,7 @@ import Icon, { Icons } from 'components/App/Iconography/Icon';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useTranslations } from 'hooks';
+import { getMonthDay } from 'components/Util/Date';
 
 const styles = {
     header: css`
@@ -78,7 +79,9 @@ export default function Header() {
                         color="primary"
                         to="#"
                     >
-                        Today: Jan 01
+                        Today:
+                        &nbsp;
+                        {`${getMonthDay(new Date())}`}
                         &nbsp;
                         <Icon icon={Icons.caretDown} />
                     </Button>

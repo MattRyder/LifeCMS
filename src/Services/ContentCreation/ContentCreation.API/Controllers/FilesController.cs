@@ -16,6 +16,22 @@ namespace LifeCMS.Services.ContentCreation.API.Controllers
             _mediator = mediator;
         }
 
+        // POST: api/files/{fileUrn}
+        [HttpPost("{fileUrn}")]
+        public async Task<IActionResult> GetFileUrl(string fileUrn)
+        {
+            var command = new CreateFileUrlCommand(fileUrn);
+
+            var result = await _mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
         // POST: api/files
         [HttpPost]
         public async Task<IActionResult> CreatePresignedPostUrl(

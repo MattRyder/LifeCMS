@@ -5,7 +5,10 @@ function getAxiosInstance(accessToken) {
     const instance = axios.create();
 
     instance.interceptors.response.use((response) => {
-        response.data = camelcaseKeys(response.data);
+        response.data = camelcaseKeys(
+            response.data,
+            { deep: true },
+        );
 
         return response;
     });
@@ -27,6 +30,14 @@ export default class LifeCMSApiClient {
     get(route) {
         return getAxiosInstance(this.accessToken)
             .get(`${this.backendHost}/${route}`, {
+                timeout: 2500,
+                responseType: 'json',
+            });
+    }
+
+    put(route, params) {
+        return getAxiosInstance(this.accessToken)
+            .put(`${this.backendHost}/${route}`, params, {
                 timeout: 2500,
                 responseType: 'json',
             });

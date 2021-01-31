@@ -21,9 +21,9 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
 
         public string Bio { get; set; }
 
-        public Uri AvatarImageUri { get; set; }
+        public string AvatarImageUrn { get; set; }
 
-        public Uri HeaderImageUri { get; set; }
+        public string HeaderImageUrn { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -38,8 +38,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
             yield return Occupation;
             yield return Location;
             yield return Bio;
-            yield return AvatarImageUri;
-            yield return HeaderImageUri;
+            yield return AvatarImageUrn;
+            yield return HeaderImageUrn;
             yield return CreatedAt;
             yield return UpdatedAt;
         }
@@ -55,8 +55,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Queries.UserProfiles
                 Occupation = userProfile.Occupation,
                 Location = userProfile.Location,
                 Bio = userProfile.Bio,
-                AvatarImageUri = userProfile.AvatarImageUri,
-                HeaderImageUri = userProfile.HeaderImageUri,
+                AvatarImageUrn = userProfile.AvatarImageUrn,
+                HeaderImageUrn = userProfile.HeaderImageUrn,
                 CreatedAt = userProfile.CreatedAt,
                 UpdatedAt = userProfile.UpdatedAt
             };

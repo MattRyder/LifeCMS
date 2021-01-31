@@ -17,14 +17,14 @@ export default function UserProfileListViewRowComponent({
 }) {
     const dispatch = useDispatch();
 
-    const { accessToken, userId } = useUser();
+    const { accessToken } = useUser();
 
     const { t, TextTranslationKeys } = useTranslations();
 
     const [isDropdownOpen, toggleDropdownOpen] = useToggle();
 
     const dispatchDeleteUserProfile = (userProfileId) => dispatch(
-        performUserProfileDelete(accessToken, userId, userProfileId),
+        performUserProfileDelete(accessToken, userProfileId),
     );
 
     const onDeleteClick = () => FireConfirmAlert(

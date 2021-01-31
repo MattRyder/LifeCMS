@@ -9,6 +9,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Repositories
     public class UserProfileRepository : IUserProfileRepository
     {
         public ContentCreationDbContext DbContext { get; private set; }
+
         public IUnitOfWork UnitOfWork => DbContext;
 
         public UserProfileRepository(ContentCreationDbContext dbContext)
@@ -16,14 +17,19 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.Repositories
             DbContext = dbContext;
         }
 
-        public async Task<UserProfile> FindAsync(Guid userId)
+        public async ValueTask<UserProfile> FindAsync(Guid id)
         {
-            return await DbContext.Set<UserProfile>().FindAsync(userId);
+            return await DbContext.Set<UserProfile>().FindAsync(id);
         }
 
         public async void AddAsync(UserProfile userProfile)
         {
             await DbContext.Set<UserProfile>().AddAsync(userProfile);
+        }
+
+        public void Update(UserProfile userProfile)
+        {
+            DbContext.Set<UserProfile>().Update(userProfile);
         }
 
         public void Delete(UserProfile userProfile)

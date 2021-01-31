@@ -17,6 +17,11 @@ LifeCMS
     ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/lifecms/web-spa?label=docker%3A%20web-spa)
 ](https://hub.docker.com/repository/docker/lifecms/web-spa)
 
+<img
+width="75%"
+src="docs/screenshots/dashboard-screenshot.png"
+alt="screenshot of the lifecms dashboard">
+
 LifeCMS is a web-based application for recording events,  curating engaging newsletters, and sharing them with a close audience.
 
 LifeCMS was built from the ground-up as a secure system to store personal goals, successes, and memories.
@@ -47,6 +52,8 @@ For more information on self-hosting LifeCMS, [check out the installation guide]
 LifeCMS is an ASP.NET Core microservice product, using React to power the front-end user experiences.
 
 A Dockerfile is provided in order to build each service, and a docker-compose.yml file has been produced to aid the operation and management of the product.
+
+To find out more about the architecture of the platform, check out [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ## Licence
 

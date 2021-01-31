@@ -6,9 +6,9 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
 {
     public interface IUserProfileRepository : IRepository<UserProfile>
     {
-        Task<UserProfile> FindAsync(Guid userId);
-
         void AddAsync(UserProfile userProfile);
+
+        void Update(UserProfile userProfile);
 
         void Delete(UserProfile userProfile);
     }

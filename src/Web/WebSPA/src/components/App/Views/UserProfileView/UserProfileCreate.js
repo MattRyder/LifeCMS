@@ -1,14 +1,28 @@
 import React from 'react';
 import FormPage from 'components/Util/FormPage';
+import { useDispatch } from 'react-redux';
+import { createUserProfile } from 'redux/actions/UserProfileActions';
 import UserProfileFormComponent from '../../../UserProfile/UserProfileForm/UserProfileFormComponent';
-import { useTranslations } from '../../../../hooks';
+import { useTranslations, useUser } from '../../../../hooks';
 
 export default function UserProfileCreate() {
     const { t, TextTranslationKeys } = useTranslations();
 
+    const dispatch = useDispatch();
+
+    const { accessToken } = useUser();
+
+    const onSave = (params) => dispatch(createUserProfile(
+        accessToken,
+        params,
+        '/user-profiles',
+    ));
+
     return (
-        <FormPage title={t(TextTranslationKeys.settingsView.userProfiles.create)}>
-            <UserProfileFormComponent />
+        <FormPage
+            title={t(TextTranslationKeys.settingsView.userProfiles.create)}
+        >
+            <UserProfileFormComponent handleSave={onSave} />
         </FormPage>
     );
 }

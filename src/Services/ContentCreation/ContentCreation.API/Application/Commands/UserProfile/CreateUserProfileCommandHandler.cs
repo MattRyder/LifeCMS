@@ -39,8 +39,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
                     request.Occupation,
                     request.Location,
                     request.Bio,
-                    request.AvatarImageUri,
-                    request.HeaderImageUri
+                    request.AvatarImageUrn,
+                    request.HeaderImageUrn
                 );
 
                 _userProfileRepository.AddAsync(userProfile);

@@ -14,10 +14,13 @@ using LifeCMS.Services.ContentCreation.API.Infrastructure.Extensions;
 using LifeCMS.Services.ContentCreation.Infrastructure.Accessors;
 using LifeCMS.Services.ContentCreation.API.Infrastructure.Dapper;
 using LifeCMS.Services.ContentCreation.API.Authorization.Handlers;
+using LifeCMS.Services.ContentCreation.Infrastructure.Services;
 using LifeCMS.Services.ContentCreation.Infrastructure.Services.Aws;
 using LifeCMS.Services.ContentCreation.API.Application.Commands.Files;
 using LifeCMS.Services.ContentCreation.Infrastructure.Responses;
 using LifeCMS.Services.ContentCreation.API.Services.Messaging;
+using LifeCMS.Services.ContentCreation.API.Services.Lookup;
+using LifeCMS.Services.ContentCreation.Infrastructure.Services.DeleteFileService;
 
 namespace LifeCMS.Services.ContentCreation.API.Startup
 {
@@ -58,6 +61,8 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
                     bucketName);
             });
 
+            services.AddSingleton<IDeleteFileService, S3DeleteFileService>();
+
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserAccessor, UserAccessor>();
@@ -65,6 +70,11 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             services.AddSingleton<IAuthorizationHandler, UserOwnsResourceHandler>();
 
             services.AddTransient<IEmailMessagingService, EmailMessagingService>();
+
+            services.AddScoped(typeof(ILookupService<>), typeof(LookupService<>));
+
+            services.AddTransient<IFileUriService, S3FileUriService>()
+                    .AddTransient<IRequestHandler<CreateFileUrlCommand, BasicResponse>, CreateFileUrlCommandHandler>();
         }
 
         public static void UseLifeCMSWebApi(this IApplicationBuilder app)

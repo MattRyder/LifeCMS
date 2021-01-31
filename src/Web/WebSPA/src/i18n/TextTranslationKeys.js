@@ -271,5 +271,9 @@ export default {
             createUserProfileCta: 'userProfileViewIndexCreateUserProfileCta',
             listCaption: 'userProfileViewIndexListCaption',
         },
+        create: {
+            avatarModalTitle: 'userProfileViewCreateAvatarModalTitle',
+            headerModalTitle: 'userProfileViewCreateHeaderModalTitle',
+        },
     },
 };

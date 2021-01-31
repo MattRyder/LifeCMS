@@ -141,6 +141,8 @@ export default {
     [TextTranslationKeys.userProfile.create.emailAddress]: 'Email Address',
     [TextTranslationKeys.userProfile.create.headerImageUri]: 'Header Picture',
     [TextTranslationKeys.userProfile.create.location]: 'Where you are',
+    [TextTranslationKeys.userProfileView.create.avatarModalTitle]: 'Select your profile picture',
+    [TextTranslationKeys.userProfileView.create.headerModalTitle]: 'Select your header picture',
     [TextTranslationKeys.userProfile.create.name.label]: 'Name',
     [TextTranslationKeys.userProfile.create.name.hint]: 'This will be what we\'ll call you in the app. You can change it at any time.',
     [TextTranslationKeys.userProfile.create.occupation]: 'What you do',

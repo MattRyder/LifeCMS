@@ -23,6 +23,7 @@ export const DateFormats = {
     year: 'yyyy',
     monthYear: 'MMMM yyyy',
     shortDayMonth: 'dd/MM',
+    monthDay: 'MMM dd',
 };
 
 export const DateRange = {
@@ -84,6 +85,10 @@ export function getDayOfMonth(date) {
 
 export function getStartOfWeek(date) {
     return date ? startOfWeek(date) : undefined;
+}
+
+export function getMonthDay(date) {
+    return date ? parseDate(date, DateFormats.monthDay) : '';
 }
 
 export function getDateRange(startDate, endDate) {

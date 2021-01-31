@@ -17,9 +17,9 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
 
         public string Bio { get; private set; }
 
-        public Uri AvatarImageUri { get; private set; }
+        public string AvatarImageUrn { get; private set; }
 
-        public Uri HeaderImageUri { get; private set; }
+        public string HeaderImageUrn { get; private set; }
 
         // A constructor without a value object argument (EmailAddress) is required for EF Core right now
         // https://github.com/dotnet/efcore/issues/12078
@@ -37,8 +37,8 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
             string occupation,
             string location,
             string bio,
-            Uri avatarImageUri,
-            Uri headerImageUri
+            string avatarImageUrn,
+            string headerImageUrn
             )
         : this(userId, name)
         {
@@ -50,9 +50,50 @@ namespace LifeCMS.Services.ContentCreation.Domain.AggregateModels.UserProfileAgg
 
             Bio = bio;
 
-            AvatarImageUri = avatarImageUri;
+            AvatarImageUrn = avatarImageUrn;
 
-            HeaderImageUri = headerImageUri;
+            HeaderImageUrn = headerImageUrn;
         }
+
+        public void UpdateName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new UserProfileDomainException(nameof(name));
+            }
+
+            Name = name;
+        }
+
+        public void UpdateEmailAddress(EmailAddress emailAddress)
+        {
+            EmailAddress = emailAddress;
+        }
+
+        public void UpdateOccupation(string occupation)
+        {
+            Occupation = occupation;
+        }
+
+        public void UpdateLocation(string location)
+        {
+            Location = location;
+        }
+
+        public void UpdateBio(string bio)
+        {
+            Bio = bio;
+        }
+
+        public void UpdateAvatarUrn(string avatarImageUrn)
+        {
+            AvatarImageUrn = avatarImageUrn;
+        }
+
+        public void UpdateHeaderImageUrn(string headerImageUrn)
+        {
+            HeaderImageUrn = headerImageUrn;
+        }
+
     }
 }

@@ -18,9 +18,9 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
 
         public string Bio { get; private set; }
 
-        public Uri AvatarImageUri { get; private set; }
+        public string AvatarImageUrn { get; private set; }
 
-        public Uri HeaderImageUri { get; private set; }
+        public string HeaderImageUrn { get; private set; }
 
         public CreateUserProfileCommand(
             string name,
@@ -28,8 +28,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
             string occupation,
             string location,
             string bio,
-            Uri avatar_image_uri,
-            Uri header_image_uri
+            string avatar_image_urn,
+            string header_image_urn
         )
         {
             Name = name;
@@ -42,9 +42,9 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
 
             Bio = bio;
 
-            AvatarImageUri = avatar_image_uri;
+            AvatarImageUrn = avatar_image_urn;
 
-            HeaderImageUri = header_image_uri;
+            HeaderImageUrn = header_image_urn;
         }
     }
 }

@@ -88,7 +88,7 @@ function CampaignFormComponent({ campaign, onFormSubmit }) {
 
     useContentApi(() => fetchNewsletters(accessToken, userId), accessToken);
 
-    useContentApi(() => fetchUserProfiles(accessToken, userId), accessToken);
+    useContentApi(() => fetchUserProfiles(accessToken), accessToken);
 
     const formik = useFormik({
         initialValues: campaign,

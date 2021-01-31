@@ -17,16 +17,20 @@ export default class LifeCMSApi {
         return this.client.post('posts', postParams);
     }
 
-    getUserProfiles(userId) {
-        return this.client.get(`users/${userId}/userProfiles`);
+    getUserProfiles() {
+        return this.client.get('userProfiles');
     }
 
-    createUserProfile(userId, userProfileParams) {
-        return this.client.post(`users/${userId}/userProfiles`, userProfileParams);
+    createUserProfile(userProfileParams) {
+        return this.client.post('userProfiles', userProfileParams);
     }
 
-    deleteUserProfile(userId, userProfileId) {
-        return this.client.delete(`users/${userId}/userProfiles/${userProfileId}`);
+    editUserProfile(params) {
+        return this.client.put('userProfiles', params);
+    }
+
+    deleteUserProfile(userProfileId) {
+        return this.client.delete(`userProfiles/${userProfileId}`);
     }
 
     getNewsletters(userId) {
@@ -76,6 +80,10 @@ export default class LifeCMSApi {
 
     createPresignUrl(params) {
         return this.client.post('files', params);
+    }
+
+    createFileUri(fileUrn) {
+        return this.client.post(`files/${fileUrn}`);
     }
 
     getAudiences() {

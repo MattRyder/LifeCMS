@@ -67,7 +67,7 @@ export default function UserProfileIndex() {
     const hasUserProfiles = userProfiles && userProfiles.length > 0;
 
     useContentApi(
-        () => fetchUserProfiles(accessToken, userId),
+        () => fetchUserProfiles(accessToken),
         accessToken,
     );
 

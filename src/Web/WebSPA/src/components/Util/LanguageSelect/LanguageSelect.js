@@ -83,7 +83,7 @@ export default function LanguageSelect({ showGlobeIcon }) {
         const lang = langSet.find((l) => l.language === userLang) || langSet[0];
 
         setCurrentLangName(lang.displayName);
-    }, [i18n.language]);
+    }, []);
 
     return (
         <div className={cx(styles.main)}>

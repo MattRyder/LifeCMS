@@ -181,7 +181,7 @@ export default function HomeView() {
     );
 
     useContentApi(
-        () => fetchUserProfiles(accessToken, userId),
+        () => fetchUserProfiles(accessToken),
         accessToken,
     );
 

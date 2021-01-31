@@ -1,7 +1,7 @@
-namespace LifeCMS.Services.ContentCreation.Infrastructure.Services.Aws
+namespace LifeCMS.Services.ContentCreation.Infrastructure.Services
 {
     public interface IPresignedPostService
     {
-        string CreatePresignedUrl(string filename, string contentType);
+        PresignedPostRequest CreatePresignedUrl(string filename, string contentType);
     }
 }

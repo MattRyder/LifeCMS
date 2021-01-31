@@ -12,9 +12,9 @@ export const deleteUserProfile = createAction(DELETE_USER_PROFILE);
 export const CREATE_USER_PROFILE_SUCCESS = 'CREATE_USER_PROFILE_SUCCESS';
 export const CREATE_USER_PROFILE_FAILURE = 'CREATE_USER_PROFILE_FAILURE';
 
-export const createUserProfileSuccess = (userId, userProfile) => ({
+export const createUserProfileSuccess = (userProfile) => ({
     type: CREATE_USER_PROFILE_SUCCESS,
-    payload: { userId, userProfile },
+    payload: { userProfile },
 });
 
 export const createUserProfileFailure = (userId, error) => ({
@@ -22,11 +22,11 @@ export const createUserProfileFailure = (userId, error) => ({
     payload: { userId, error },
 });
 
-export const fetchUserProfiles = (accessToken, userId) => async (dispatch) => {
+export const fetchUserProfiles = (accessToken) => async (dispatch) => {
     const lifecmsApi = getLifeCMSApi(accessToken);
 
     try {
-        const response = await lifecmsApi.getUserProfiles(userId);
+        const response = await lifecmsApi.getUserProfiles();
 
         response.data.map((profile) => dispatch(fetchUserProfile(profile)));
     } catch (error) {
@@ -35,15 +35,15 @@ export const fetchUserProfiles = (accessToken, userId) => async (dispatch) => {
 };
 
 export const createUserProfile = (
-    accessToken, userId, userProfileParams, redirectTo,
+    accessToken, userProfileParams, redirectTo,
 ) => async (dispatch) => {
     try {
         const response = await getLifeCMSApi(accessToken)
-            .createUserProfile(userId, userProfileParams);
+            .createUserProfile(userProfileParams);
 
         const { data: userProfile } = response;
 
-        dispatch(createUserProfileSuccess(userId, userProfile));
+        dispatch(createUserProfileSuccess(userProfile));
 
         dispatch(toastSuccess('Successfully created the User Profile.'));
 
@@ -51,18 +51,34 @@ export const createUserProfile = (
             dispatch(push(redirectTo));
         }
     } catch (error) {
-        dispatch(createUserProfileFailure(userId, error));
+        dispatch(createUserProfileFailure(error));
 
         dispatch(toastError(error.message));
     }
 };
 
-export const performUserProfileDelete = (
-    accessToken, userId, userProfileId,
-) => async (dispatch) => {
+export const editUserProfile = ({
+    accessToken, params, redirectTo,
+}) => async (dispatch) => {
     try {
         await getLifeCMSApi(accessToken)
-            .deleteUserProfile(userId, userProfileId);
+            .editUserProfile(params);
+
+        dispatch(toastSuccess('Successfully updated the User Profile.'));
+
+        if (redirectTo) {
+            dispatch(push(redirectTo));
+        }
+    } catch (error) {
+        dispatch(toastError(error.message));
+    }
+};
+
+export const performUserProfileDelete = (
+    accessToken, userProfileId,
+) => async (dispatch) => {
+    try {
+        await getLifeCMSApi(accessToken).deleteUserProfile(userProfileId);
 
         dispatch(deleteUserProfile(userProfileId));
 

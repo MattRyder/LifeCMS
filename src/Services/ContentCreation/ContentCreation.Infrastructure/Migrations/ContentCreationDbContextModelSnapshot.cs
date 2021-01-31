@@ -294,7 +294,7 @@ namespace ContentCreation.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("AvatarImageUri")
+                    b.Property<string>("AvatarImageUrn")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Bio")
@@ -305,7 +305,7 @@ namespace ContentCreation.Infrastructure.Migrations
                         .HasColumnType("datetime(6)")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
 
-                    b.Property<string>("HeaderImageUri")
+                    b.Property<string>("HeaderImageUrn")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Location")

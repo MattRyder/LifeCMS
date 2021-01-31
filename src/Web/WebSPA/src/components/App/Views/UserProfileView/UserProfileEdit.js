@@ -1,8 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router';
 import FormPage from 'components/Util/FormPage';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { findUserProfile } from 'redux/redux-orm/ORM';
+import { editUserProfile } from 'redux/actions/UserProfileActions';
 import UserProfileFormComponent from '../../../UserProfile/UserProfileForm/UserProfileFormComponent';
 import { useTranslations, useUser } from '../../../../hooks';
 
@@ -13,11 +14,30 @@ export default function UserProfileEdit() {
 
     const { userId } = useUser();
 
+    const dispatch = useDispatch();
+
+    const { accessToken } = useUser();
+
+    const onSave = (params) => {
+        const paramsWithId = params;
+
+        paramsWithId.id = id;
+
+        dispatch(editUserProfile({
+            accessToken,
+            params,
+            redirectTo: '/user-profiles',
+        }));
+    };
+
     const userProfile = useSelector((state) => findUserProfile(id)(state, userId));
 
     return (
         <FormPage title={t(TextTranslationKeys.settingsView.userProfiles.edit)}>
-            <UserProfileFormComponent userProfile={userProfile} />
+            <UserProfileFormComponent
+                userProfile={userProfile}
+                handleSave={onSave}
+            />
         </FormPage>
     );
 }
