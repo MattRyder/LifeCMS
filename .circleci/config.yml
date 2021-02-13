@@ -2,10 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: faithlife/aspnetcore-build-yarn:2019.12
+      - image: lifecms/dotnet-sdk-yarn:5.0
       - image: mysql/mysql-server:8.0
         environment:
-          MYSQL_ROOT_HOST: '%'
+          MYSQL_ROOT_HOST: "%"
           MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_USER: lifecms_dbuser
           MYSQL_PASSWORD: lifecms_pass

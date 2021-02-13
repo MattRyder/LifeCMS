@@ -1,8 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM faithlife/aspnetcore-build-yarn:2019.12 AS build
+FROM  lifecms/dotnet-sdk-yarn:5.0 AS build
 WORKDIR /src
 
 COPY LifeCMS.sln .

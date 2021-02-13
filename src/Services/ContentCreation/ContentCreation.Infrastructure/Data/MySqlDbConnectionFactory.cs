@@ -1,6 +1,6 @@
 using System.Data;
-using MySql.Data.MySqlClient;
 using LifeCMS.Services.ContentCreation.Infrastructure.Interfaces;
+using MySqlConnector;
 
 namespace LifeCMS.Services.ContentCreation.Infrastructure.Data
 {

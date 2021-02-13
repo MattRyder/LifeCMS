@@ -29,8 +29,13 @@ namespace LifeCMS.Services.ContentCreation.IntegrationTests.Application.Queries
 
             _dbConnectionFactory = new MySqlDbConnectionFactory(integrationConnectionString);
 
+            var connectionString = _dbConnectionFactory.CreateConnection().ConnectionString;
+
             var contextOptions = new DbContextOptionsBuilder<ContentCreationDbContext>()
-            .UseMySql(_dbConnectionFactory.CreateConnection().ConnectionString)
+            .UseMySql(
+                connectionString: connectionString,
+                serverVersion: ServerVersion.AutoDetect(connectionString)
+            )
             .Options;
 
             _dbContext = new ContentCreationDbContext(contextOptions, null);

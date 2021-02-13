@@ -54,7 +54,8 @@ namespace LifeCMS.Services.Identity.API.Extensions
             {
                 options.ConfigureDbContext = db =>
                     db.UseMySql(
-                        identityServerDbConnectionString,
+                        connectionString: identityServerDbConnectionString,
+                        serverVersion: ServerVersion.AutoDetect(identityServerDbConnectionString),
                         sql => sql.MigrationsAssembly(migrationsAssembly)
                     );
             })
@@ -62,7 +63,8 @@ namespace LifeCMS.Services.Identity.API.Extensions
             {
                 options.ConfigureDbContext = db =>
                     db.UseMySql(
-                        identityServerDbConnectionString,
+                        connectionString: identityServerDbConnectionString,
+                        serverVersion: ServerVersion.AutoDetect(identityServerDbConnectionString),
                         sql => sql.MigrationsAssembly(migrationsAssembly)
                     );
             });

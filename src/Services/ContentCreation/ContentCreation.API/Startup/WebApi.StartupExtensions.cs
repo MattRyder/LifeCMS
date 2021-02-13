@@ -41,7 +41,9 @@ namespace LifeCMS.Services.ContentCreation.API.Startup
             })
             .AddDbContext<ContentCreationDbContext>(opts =>
             {
-                opts.UseMySql(connectionString);
+                opts.UseMySql(
+                    connectionString: connectionString,
+                    serverVersion: ServerVersion.AutoDetect(connectionString));
             });
 
             AddWebApiComponents(services, configuration);

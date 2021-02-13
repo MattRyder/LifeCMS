@@ -19,7 +19,10 @@ namespace LifeCMS.Services.Identity.API.Extensions
             var identityDbConnectionString = configuration.GetConnectionString("LifeCMSIdentity");
 
             services
-            .AddDbContext<LifeCMSIdentityDbContext>(options => options.UseMySql(identityDbConnectionString))
+            .AddDbContext<LifeCMSIdentityDbContext>(options => options.UseMySql(
+                connectionString: identityDbConnectionString,
+                serverVersion: ServerVersion.AutoDetect(identityDbConnectionString)
+            ))
             .AddIdentity<LifeCMSIdentityUser, LifeCMSIdentityRole>(options =>
             {
                 options.Password.RequiredLength = 8;
