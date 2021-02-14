@@ -18,7 +18,6 @@ LifeCMS
 ](https://hub.docker.com/repository/docker/lifecms/web-spa)
 
 <img
-width="75%"
 src="docs/screenshots/dashboard-screenshot.png"
 alt="screenshot of the lifecms dashboard">
 
