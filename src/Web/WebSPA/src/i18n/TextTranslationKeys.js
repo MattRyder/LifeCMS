@@ -220,7 +220,7 @@ export default {
                 image: 'newsletterViewEditorToolboxImage',
             },
             imageAttribute: {
-                noImageSelected: 'newsletterViewEditorImageAttributeNoImageSelected',
+                fileModalLabel: 'newsletterViewEditorImageAttributeFileModalLabel',
             },
         },
         index: {

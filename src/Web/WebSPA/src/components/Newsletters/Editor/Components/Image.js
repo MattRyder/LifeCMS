@@ -1,6 +1,7 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import { useNode } from '@craftjs/core';
+import useImageState from 'hooks/useImageState';
 import { PaddingAttribute } from '../Attributes';
 import ComponentWrapper from './ComponentWrapper';
 import ColorAttribute from '../Attributes/ColorAttribute';
@@ -20,12 +21,17 @@ export default function Image() {
         props: {
             backgroundColor,
             padding,
-            file,
+            newFile,
+            urn,
         },
     } = useNode((node) => ({
         isSelected: node.events.selected,
         props: node.data.props,
     }));
+
+    const existingImage = useImageState({ urn });
+
+    const imageSource = newFile.url || existingImage.uri;
 
     return (
         <div ref={(ref) => connect(drag(ref))}>
@@ -34,11 +40,13 @@ export default function Image() {
                 padding={padding}
                 isSelected={isSelected}
             >
-                <img
-                    src={file && file.url}
-                    className={cx(styles.image)}
-                    alt=""
-                />
+                {imageSource && (
+                    <img
+                        src={imageSource}
+                        className={cx(styles.image)}
+                        alt=""
+                    />
+                )}
             </ComponentWrapper>
         </div>
     );
@@ -72,14 +80,17 @@ function ImageAttributesPanel() {
             />
 
             <ImageAttribute
-                file={props.file}
-                handleChange={(file) => {
-                    setProp((props) => (props.file = {
+                urn={props.urn}
+                previewImageUrl={props.newFile.url}
+                handleFileChange={(file) => {
+                    const newFile = {
                         name: file.name,
                         size: file.size,
                         contentType: file.type,
                         url: file.url,
-                    }));
+                    };
+
+                    setProp((props) => (props.newFile = newFile));
                 }}
             />
         </div>
@@ -90,7 +101,13 @@ Image.craft = {
     props: {
         backgroundColor: '#fff',
         padding: [1, 1, 1, 1],
-        file: {},
+        urn: null,
+        newFile: {
+            name: '',
+            size: 0,
+            contentType: '',
+            url: null,
+        },
     },
     related: {
         attributesPanel: ImageAttributesPanel,

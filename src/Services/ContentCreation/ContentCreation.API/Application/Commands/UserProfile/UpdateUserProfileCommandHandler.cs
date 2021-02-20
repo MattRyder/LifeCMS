@@ -18,6 +18,8 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
 
         private readonly IDeleteFileService _deleteFileService;
 
+        private UserProfile _userProfile;
+
         public UpdateUserProfileCommandHandler(
             IUserProfileRepository userProfileRepository,
             ILookupService<UserProfile> lookupService,
@@ -34,24 +36,28 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
             UpdateUserProfileCommand request,
             CancellationToken cancellationToken)
         {
-            var userProfile = await _lookupService
+            _userProfile = await _lookupService
                 .FindEntityByIdAsync(request.Id);
 
-            userProfile = UpdateName(userProfile, request.Name);
+            UpdateName(request.Name);
 
-            userProfile = UpdateEmailAddress(userProfile, request.EmailAddress);
+            UpdateEmailAddress(request.EmailAddress);
 
-            userProfile = UpdateBio(userProfile, request.Bio);
+            UpdateBio(request.Bio);
 
-            userProfile = UpdateLocation(userProfile, request.Location);
+            UpdateLocation(request.Location);
 
-            userProfile = UpdateOccupation(userProfile, request.Occupation);
+            UpdateOccupation(request.Occupation);
 
-            userProfile = UpdateAvatarUrn(userProfile, request.AvatarImageUrn);
+            UpdateAvatarUrn(request.AvatarImageUrn);
 
-            _userProfileRepository.Update(userProfile);
+            UpdateHeaderUrn(request.HeaderImageUrn);
 
-            var saved = await _userProfileRepository.UnitOfWork.SaveEntitiesAsync();
+            _userProfileRepository.Update(_userProfile);
+
+            var saved = await _userProfileRepository
+                .UnitOfWork
+                .SaveEntitiesAsync();
 
             return new BasicResponse()
             {
@@ -59,69 +65,58 @@ namespace LifeCMS.Services.ContentCreation.API.Application.Commands.UserProfiles
             };
         }
 
-        private UserProfile UpdateName(
-            UserProfile userProfile,
-            string name)
+        private void UpdateName(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
-                userProfile.UpdateName(name);
+                _userProfile.UpdateName(name);
             }
-
-            return userProfile;
         }
 
-        private UserProfile UpdateEmailAddress(
-            UserProfile userProfile,
-            EmailAddress emailAddress)
+        private void UpdateEmailAddress(EmailAddress emailAddress)
         {
-            userProfile.UpdateEmailAddress(emailAddress);
-
-            return userProfile;
+            _userProfile.UpdateEmailAddress(emailAddress);
         }
 
-        private UserProfile UpdateBio(
-            UserProfile userProfile,
-            string bio)
+        private void UpdateBio(string bio)
         {
-            userProfile.UpdateBio(bio);
-
-            return userProfile;
+            _userProfile.UpdateBio(bio);
         }
 
-        private UserProfile UpdateLocation(
-            UserProfile userProfile,
-            string location)
+        private void UpdateLocation(string location)
         {
-            userProfile.UpdateLocation(location);
-
-            return userProfile;
+            _userProfile.UpdateLocation(location);
         }
 
-        private UserProfile UpdateOccupation(
-            UserProfile userProfile,
-            string occupation)
+        private void UpdateOccupation(string occupation)
         {
-            userProfile.UpdateLocation(occupation);
-
-            return userProfile;
+            _userProfile.UpdateLocation(occupation);
         }
 
-        private UserProfile UpdateAvatarUrn(
-            UserProfile userProfile,
-            string avatarImageUrn)
+        private void UpdateAvatarUrn(string avatarImageUrn)
         {
-            var willDelete = !string.IsNullOrEmpty(userProfile.AvatarImageUrn)
-                && !userProfile.AvatarImageUrn.Equals(avatarImageUrn);
+            var willDelete = !string.IsNullOrEmpty(_userProfile.AvatarImageUrn)
+                && !_userProfile.AvatarImageUrn.Equals(avatarImageUrn);
 
             if (willDelete)
             {
-                _deleteFileService.DeleteFileAsync(userProfile.AvatarImageUrn);
+                _deleteFileService.DeleteFileAsync(_userProfile.AvatarImageUrn);
             }
 
-            userProfile.UpdateAvatarUrn(avatarImageUrn);
+            _userProfile.UpdateAvatarUrn(avatarImageUrn);
+        }
 
-            return userProfile;
+        private void UpdateHeaderUrn(string headerImageUrn)
+        {
+            var willDelete = !string.IsNullOrEmpty(_userProfile.HeaderImageUrn)
+                && !_userProfile.HeaderImageUrn.Equals(headerImageUrn);
+
+            if (willDelete)
+            {
+                _deleteFileService.DeleteFileAsync(_userProfile.HeaderImageUrn);
+            }
+
+            _userProfile.UpdateHeaderImageUrn(headerImageUrn);
         }
     }
 }

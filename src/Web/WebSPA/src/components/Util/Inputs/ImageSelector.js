@@ -75,11 +75,11 @@ const styles = {
 };
 
 export default function ImageSelector({
-    label, modalTitle, imageState, setNewImage, error,
+    label, modalTitle, setNewImage, error, defaultImageUrl, newImageUrl,
 }) {
     const [isModalOpen, toggleModal] = useToggle();
 
-    const shownImage = imageState.newFile.url || imageState.uri;
+    const shownImage = newImageUrl || defaultImageUrl;
 
     const imageStyle = shownImage
         ? styles.imagePresent
@@ -101,7 +101,7 @@ export default function ImageSelector({
                         <img
                             className={styles.image}
                             src={shownImage}
-                            alt={t(TextTranslationKeys.userProfile.properties.avatarImage)}
+                            alt=""
                         />
                     ) : (
                         <Icon icon={Icons.photo} />
@@ -149,13 +149,8 @@ ImageSelector.propTypes = {
     label: PropTypes.string,
     modalTitle: PropTypes.string,
     error: PropTypes.string,
-    imageState: PropTypes.shape({
-        urn: PropTypes.string,
-        uri: PropTypes.string,
-        newFile: PropTypes.shape({
-            url: PropTypes.string,
-        }),
-    }),
+    defaultImageUrl: PropTypes.string,
+    newImageUrl: PropTypes.string,
     setNewImage: PropTypes.func.isRequired,
 };
 
@@ -163,11 +158,6 @@ ImageSelector.defaultProps = {
     label: '',
     modalTitle: '',
     error: undefined,
-    imageState: {
-        urn: null,
-        uri: null,
-        newFile: {
-            url: null,
-        },
-    },
+    defaultImageUrl: null,
+    newImageUrl: null,
 };

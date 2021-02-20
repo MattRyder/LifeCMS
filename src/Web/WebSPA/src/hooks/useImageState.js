@@ -1,13 +1,10 @@
-import { useUser } from 'hooks';
 import { useEffect, useState } from 'react';
 import FileUrnService from 'services/FileUrnService';
+import useUser from './useUser';
 
 const InitialState = {
     uri: null,
     urn: null,
-    newFile: {
-        url: null,
-    },
 };
 
 export default function useImageState({ urn }) {
@@ -34,13 +31,5 @@ export default function useImageState({ urn }) {
         }
     }, [accessToken, urn, state, attempted]);
 
-    const setNewFile = (newFile) => setState({
-        ...state,
-        newFile,
-    });
-
-    return [
-        state,
-        setNewFile,
-    ];
+    return state;
 }

@@ -20,16 +20,21 @@ async function ProcessNode(node, accessToken) {
     const localNode = node;
 
     if (localNode.type && node.type.resolvedName === 'Image') {
-        const { contentType, url } = localNode.props.file;
+        const { contentType, url } = localNode.props.newFile;
 
-        const fileUrl = await UploadFileService(
-            accessToken,
-            uuidv4(),
-            contentType,
-            url,
-        );
+        if (contentType && url) {
+            const fileUrn = await UploadFileService(
+                accessToken,
+                uuidv4(),
+                contentType,
+                url,
+            );
 
-        localNode.props.file.url = fileUrl;
+            localNode.props = {
+                urn: fileUrn,
+                newFile: undefined,
+            };
+        }
     }
 
     return localNode;

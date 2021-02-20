@@ -28,9 +28,8 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
         [JsonConverter(typeof(JsonValueOrArrayConverter<int>))]
         public Tuple<int, int, int, int> Padding { get; set; }
 
-        [JsonProperty("file")]
-        [JsonConverter(typeof(FileConverter))]
-        public CraftJsFile File { get; set; }
+        [JsonProperty("urn")]
+        public string Urn { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }
@@ -101,7 +100,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
             return props;
         }
 
-        public string StringifyValue(int[] values, string unit)
+        public static string StringifyValue(int[] values, string unit)
         {
             return string.Join(" ", values.Select(v => $"{v}{unit}"));
         }

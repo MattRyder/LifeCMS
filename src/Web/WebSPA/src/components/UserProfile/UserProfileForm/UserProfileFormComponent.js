@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import { Button } from 'reactstrap';
@@ -6,11 +6,12 @@ import { css, cx } from 'emotion';
 import { v4 as uuidv4 } from 'uuid';
 import { boxShadow } from 'theme';
 import UploadFileService from 'services/UploadFileService';
-import { useMobileViewport, useTranslations, useUser } from '../../../hooks';
+import {
+    useMobileViewport, useTranslations, useUser, useImageState,
+} from '../../../hooks';
 import Schema, { InitialValues } from './UserProfileFormSchema';
 import ImageFields from './ImageFields';
 import TextFields from './TextFields';
-import useImageState from './useImageState';
 
 const styles = {
     main: css`
@@ -61,7 +62,13 @@ SaveButton.propTypes = {
 };
 
 const MobileLayout = ({
-    formik, avatarState, setNewAvatar, headerState, setNewHeader,
+    formik,
+    existingAvatarUrl,
+    newAvatarUrl,
+    setNewAvatar,
+    existingHeaderUrl,
+    newHeaderUrl,
+    setNewHeader,
 }) => (
     <div>
         <TextFields
@@ -70,10 +77,12 @@ const MobileLayout = ({
 
         <ImageFields
             formik={formik}
-            avatarState={avatarState}
-            setNewAvatar={setNewAvatar}
-            headerState={headerState}
-            setNewHeader={setNewHeader}
+            existingAvatarUrl={existingAvatarUrl}
+            newAvatarUrl={newAvatarUrl}
+            setNewAvatarFile={setNewAvatar}
+            existingHeaderUrl={existingHeaderUrl}
+            newHeaderUrl={newHeaderUrl}
+            setNewHeaderFile={setNewHeader}
         />
 
         <SaveButton disabled={formik.isSubmitting} />
@@ -81,7 +90,13 @@ const MobileLayout = ({
 );
 
 const DesktopLayout = ({
-    formik, avatarState, setNewAvatar, headerState, setNewHeader,
+    formik,
+    existingAvatarUrl,
+    newAvatarUrl,
+    setNewAvatar,
+    existingHeaderUrl,
+    newHeaderUrl,
+    setNewHeader,
 }) => (
     <div className={cx(styles.desktop)}>
         <div>
@@ -92,10 +107,12 @@ const DesktopLayout = ({
         <div>
             <ImageFields
                 formik={formik}
-                avatarState={avatarState}
-                setNewAvatar={setNewAvatar}
-                headerState={headerState}
-                setNewHeader={setNewHeader}
+                existingAvatarUrl={existingAvatarUrl}
+                newAvatarUrl={newAvatarUrl}
+                setNewAvatarFile={setNewAvatar}
+                existingHeaderUrl={existingHeaderUrl}
+                newHeaderUrl={newHeaderUrl}
+                setNewHeaderFile={setNewHeader}
             />
         </div>
     </div>
@@ -104,13 +121,17 @@ const DesktopLayout = ({
 export default function UserProfileFormComponent({ userProfile, handleSave }) {
     const { accessToken } = useUser();
 
-    const [avatarState, setNewAvatar] = useImageState({
+    const avatarState = useImageState({
         urn: userProfile.avatarImageUrn,
     });
 
-    const [headerState, setNewHeader] = useImageState({
+    const headerState = useImageState({
         urn: userProfile.headerImageUrn,
     });
+
+    const [newAvatarFile, setNewAvatarFile] = useState({});
+
+    const [newHeaderFile, setNewHeaderFile] = useState({});
 
     const isMobileOrTablet = useMobileViewport();
 
@@ -118,21 +139,21 @@ export default function UserProfileFormComponent({ userProfile, handleSave }) {
         initialValues: userProfile,
         validationSchema: Schema,
         onSubmit: async (values) => {
-            const imageUrn = avatarState.newFile && avatarState.newFile.url
+            const imageUrn = newAvatarFile && newAvatarFile.url
                 ? await UploadFileService(
                     accessToken,
                     uuidv4(),
-                    avatarState.newFile.type,
-                    avatarState.newFile.url,
+                    newAvatarFile.type,
+                    newAvatarFile.url,
                 )
                 : undefined;
 
-            const headerUrn = headerState.newFile && headerState.newFile.url
+            const headerUrn = newHeaderFile && newHeaderFile.url
                 ? await UploadFileService(
                     accessToken,
                     uuidv4(),
-                    headerState.newFile.type,
-                    headerState.newFile.url,
+                    newHeaderFile.type,
+                    newHeaderFile.url,
                 )
                 : undefined;
 
@@ -159,18 +180,22 @@ export default function UserProfileFormComponent({ userProfile, handleSave }) {
                 {isMobileOrTablet ? (
                     <MobileLayout
                         formik={formik}
-                        avatarState={avatarState}
-                        setNewAvatar={setNewAvatar}
-                        headerState={headerState}
-                        setNewHeader={setNewHeader}
+                        newAvatarUrl={newAvatarFile.url}
+                        existingAvatarUrl={avatarState.uri}
+                        setNewAvatar={setNewAvatarFile}
+                        newHeaderUrl={newHeaderFile.url}
+                        existingHeaderUrl={headerState.uri}
+                        setNewHeader={setNewHeaderFile}
                     />
                 ) : (
                     <DesktopLayout
                         formik={formik}
-                        avatarState={avatarState}
-                        setNewAvatar={setNewAvatar}
-                        headerState={headerState}
-                        setNewHeader={setNewHeader}
+                        newAvatarUrl={newAvatarFile.url}
+                        existingAvatarUrl={avatarState.uri}
+                        setNewAvatar={setNewAvatarFile}
+                        newHeaderUrl={newHeaderFile.url}
+                        existingHeaderUrl={headerState.uri}
+                        setNewHeader={setNewHeaderFile}
                     />
                 )}
             </form>

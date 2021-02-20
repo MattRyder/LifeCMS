@@ -73,9 +73,10 @@ export default function Editor({
     return (
         <ErrorBoundary>
             <div className={cx(styles.editor)}>
-                <CraftJSEditor resolver={{
-                    Columns, Row, Text, Image,
-                }}
+                <CraftJSEditor
+                    resolver={{
+                        Columns, Row, Text, Image,
+                    }}
                 >
                     <div className={cx(
                         styles.designer,

@@ -6,11 +6,11 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
 {
     public class HtmlTagParser
     {
-        public CraftJsBody Body { get; private set; }
+        private readonly CraftJsBody _body;
 
         public HtmlTagParser(CraftJsBody body)
         {
-            Body = body;
+            _body = body;
         }
 
         public HtmlDocument Parse()
@@ -19,7 +19,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
 
             var body = CreateBodyTag();
 
-            var rootNode = Body.GetNode("ROOT");
+            var rootNode = _body.GetNode("ROOT");
 
             body.AppendChild(ParseNode(rootNode));
 
@@ -45,7 +45,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
             return tag;
         }
 
-        private Tag ParseProps(Tag tag, CraftJsProps props)
+        private static Tag ParseProps(Tag tag, CraftJsProps props)
         {
             if (tag == null || props == null)
             {
@@ -65,9 +65,9 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
                     }
                     break;
                 case ImgTag imgTag:
-                    if (!string.IsNullOrEmpty(props.File.Url))
+                    if (!string.IsNullOrEmpty(props.Urn))
                     {
-                        imgTag.SetSource(props.File.Url);
+                        imgTag.SetSource(props.Urn);
                     }
                     break;
                 default:
@@ -81,7 +81,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
         {
             if (!string.IsNullOrEmpty(childNodeId))
             {
-                var childNode = Body.GetNode(childNodeId);
+                var childNode = _body.GetNode(childNodeId);
 
                 if (childNode != null)
                 {
@@ -94,7 +94,7 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
             return tag;
         }
 
-        private Tag CreateTagForNodeType(string type)
+        private static Tag CreateTagForNodeType(string type)
         {
             return type switch
             {
@@ -103,12 +103,12 @@ namespace LifeCMS.Services.ContentCreation.Infrastructure.HtmlGeneration
             };
         }
 
-        private DivTag CreateDivTag() => new DivTag();
+        private static DivTag CreateDivTag() => new();
 
-        private BodyTag CreateBodyTag() => new BodyTag();
+        private static BodyTag CreateBodyTag() => new();
 
-        private HeadTag CreateHeadTag() => new HeadTag();
+        private static HeadTag CreateHeadTag() => new();
 
-        private ImgTag CreateImgTag() => new ImgTag();
+        private static ImgTag CreateImgTag() => new();
     }
 }

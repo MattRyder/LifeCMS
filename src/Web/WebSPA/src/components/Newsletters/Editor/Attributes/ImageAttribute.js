@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { cx, css } from 'emotion';
-import { Button } from 'reactstrap';
 import fileSize from 'filesize';
-import { useToggle, useTranslations } from 'hooks';
+import { useTranslations } from 'hooks';
+import useImageState from 'hooks/useImageState';
+import ImageSelector from 'components/Util/Inputs/ImageSelector';
 import { ImageIcon } from '../Toolbox/Icons';
 import AttributePanelContainer from '../Components/Interface/AttributePanelContainer';
-import FileModal from '../Components/FileModal';
 
 const styles = {
     controls: css`
@@ -50,7 +50,7 @@ const styles = {
     `,
 };
 
-const PreviewContainer = ({ file }) => {
+const PreviewContainer = ({ name, size, src }) => {
     const { t, TextTranslationKeys } = useTranslations();
 
     const {
@@ -58,9 +58,9 @@ const PreviewContainer = ({ file }) => {
     } = TextTranslationKeys.newsletterView.editor.imageAttribute;
 
     const fileData = {
-        name: file.name || t(noImageSelected),
-        src: file.url || ImageIcon,
-        size: fileSize(file.size ? file.size : 0),
+        name: name || t(noImageSelected),
+        src: src || ImageIcon,
+        size: fileSize(size),
     };
 
     return (
@@ -74,47 +74,45 @@ const PreviewContainer = ({ file }) => {
             </div>
             <div className={cx(styles.previewInfo)}>
                 <p>{fileData.name}</p>
-                <p className={cx(!file.size && styles.sizeNoFileSelected)}>{fileData.size}</p>
+                <p className={cx(size > 0 && styles.sizeNoFileSelected)}>{fileData.size}</p>
             </div>
         </div>
     );
 };
 
-export default function ImageAttribute({ file, handleChange }) {
-    const [isModalOpen, toggleModalOpen] = useToggle();
+PreviewContainer.propTypes = {
+    name: PropTypes.string,
+    size: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+    src: PropTypes.string,
+};
 
+PreviewContainer.defaultProps = {
+    name: '',
+    size: 0,
+    src: undefined,
+};
+
+export default function ImageAttribute({
+    previewImageUrl, handleFileChange, urn,
+}) {
     const { t, TextTranslationKeys } = useTranslations();
+
+    const image = useImageState({ urn });
 
     return (
         <AttributePanelContainer title="Image">
             <div className={cx(styles.controls)}>
-                <PreviewContainer file={file} />
-
-                <div className={cx(styles.uploadButton)}>
-                    { file && (
-                        <Button
-                            color="link"
-                            className="text-danger"
-                            onClick={() => handleChange(undefined)}
-                        >
-                            {t(TextTranslationKeys.common.clear)}
-                        </Button>
+                <ImageSelector
+                    defaultImageUrl={previewImageUrl}
+                    newImageUrl={image.uri}
+                    modalTitle={t(
+                        TextTranslationKeys
+                            .newsletterView
+                            .editor
+                            .imageAttribute
+                            .fileModalLabel,
                     )}
-                    <Button
-                        color="primary"
-                        onClick={toggleModalOpen}
-                    >
-                        {t(TextTranslationKeys.common.upload)}
-                    </Button>
-                </div>
-
-                <FileModal
-                    acceptedTypes="image/*"
-                    isOpen={isModalOpen}
-                    maxFiles={1}
-                    setAcceptedFiles={(files) => handleChange(files[0])}
-                    title="Choose an image"
-                    toggleIsOpen={toggleModalOpen}
+                    setNewImage={(newFile) => handleFileChange(newFile)}
                 />
             </div>
         </AttributePanelContainer>
@@ -122,14 +120,12 @@ export default function ImageAttribute({ file, handleChange }) {
 }
 
 ImageAttribute.propTypes = {
-    file: PropTypes.shape({
-        url: PropTypes.string,
-        name: PropTypes.string,
-        size: PropTypes.number,
-    }),
-    handleChange: PropTypes.func.isRequired,
+    urn: PropTypes.string,
+    previewImageUrl: PropTypes.string,
+    handleFileChange: PropTypes.func.isRequired,
 };
 
 ImageAttribute.defaultProps = {
-    file: {},
+    urn: null,
+    previewImageUrl: null,
 };

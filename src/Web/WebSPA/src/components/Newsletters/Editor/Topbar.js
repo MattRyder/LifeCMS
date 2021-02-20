@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { cx, css } from 'emotion';
 import { Button } from 'reactstrap';
 import { useEditor } from '@craftjs/core';
-
-import Icon, { Icons } from 'components/App/Iconography/Icon';
 import { useTranslations } from 'hooks';
+import EditableText from 'components/Util/EditableText';
+import { useHistory } from 'react-router';
 
 const styles = {
     topbar: css`
@@ -24,19 +24,24 @@ const styles = {
         display: flex;
         justify-self: center;
         flex: 1;
+        height: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
 
         input {
             margin-right: 0.25rem;
         }
     `,
+    editableText: css`
+        display: flex;
+        
+    `,
 };
 
 export default function Topbar({ onSave, title }) {
+    const history = useHistory();
+
     const { query } = useEditor();
-
-    const [isEditable, setEditable] = useState(false);
-
-    const toggleEditable = () => setEditable(!isEditable);
 
     const [editorTitle, setEditorTitle] = useState(title);
 
@@ -44,36 +49,20 @@ export default function Topbar({ onSave, title }) {
 
     return (
         <div className={cx(styles.topbar)}>
-            {isEditable ? (
-                <div className={cx(styles.titleEdit)}>
-                    <input
-                        type="text"
-                        value={editorTitle}
-                        onChange={(e) => setEditorTitle(e.currentTarget.value)}
-                    />
-                    <Button
-                        type="button"
-                        color="primary"
-                        size="sm"
-                        onClick={toggleEditable}
-                    >
-                        <Icon icon={Icons.check} />
-                    </Button>
-                </div>
-            ) : (
-                <div>
-                    <span>
-                        {t(TextTranslationKeys.newsletterView.editor.title)}
-                    </span>
-                    <button
-                        type="button"
-                        className={cx(styles.nameButton)}
-                        onClick={toggleEditable}
-                    >
-                        {editorTitle}
-                    </button>
-                </div>
-            )}
+            <Button
+                onClick={() => history.goBack()}
+                color="secondary"
+            >
+                {t(TextTranslationKeys.common.back)}
+            </Button>
+
+            <div className={cx(styles.titleEdit)}>
+                <EditableText
+                    label={t(TextTranslationKeys.newsletterView.editor.title)}
+                    text={editorTitle}
+                    handleTextChange={(newTitle) => setEditorTitle(newTitle)}
+                />
+            </div>
 
             <Button
                 type="submit"
