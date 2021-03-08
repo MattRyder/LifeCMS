@@ -4,7 +4,7 @@ import { createAction } from '@reduxjs/toolkit';
 import { getLifeCMSApi } from '../LifeCMSApi';
 
 export const FETCH_NEWSLETTER_TEMPLATE = 'newsletterTemplate/FETCH_NEWSLETTER_TEMPLATE';
-export const DELETE_NEWSLETTER_TEMPLATE = 'newsletterTemplate/FETCH_NEWSLETTER_TEMPLATE';
+export const DELETE_NEWSLETTER_TEMPLATE = 'newsletterTemplate/DELETE_NEWSLETTER_TEMPLATE';
 
 export const fetchNewsletterTemplateAction = createAction(FETCH_NEWSLETTER_TEMPLATE);
 export const deleteNewsletterTemplateAction = createAction(DELETE_NEWSLETTER_TEMPLATE);
@@ -14,9 +14,6 @@ export const CREATE_NEWSLETTER_SUCCESS = 'CREATE_NEWSLETTER_SUCCESS';
 export const CREATE_NEWSLETTER_FAILURE = 'CREATE_NEWSLETTER_FAILURE';
 
 export const EDIT_NEWSLETTER_SUCCESS = 'EDIT_NEWSLETTER_SUCCESS';
-
-// export const DELETE_NEWSLETTER_SUCCESS = 'DELETE_NEWSLETTER_SUCCESS';
-// export const DELETE_NEWSLETTER_FAILURE = 'DELETE_NEWSLETTER_FAILURE';
 
 export const createNewsletterTemplateBegin = () => ({
     type: CREATE_NEWSLETTER_BEGIN,
@@ -39,16 +36,6 @@ export const editNewsletterBodyFailure = (userId, newsletterId) => ({
     type: EDIT_NEWSLETTER_SUCCESS,
     payload: { userId, newsletterId },
 });
-
-// export const deleteNewsletterSuccess = (userId, newsletterId) => ({
-//     type: 'DELETE_NEWSLETTER_SUCCESS',
-//     payload: { userId, newsletterId },
-// });
-
-// export const deleteNewsletterFailure = (userId, newsletterId) => ({
-//     type: 'DELETE_NEWSLETTER_FAILURE',
-//     payload: { userId, newsletterId },
-// });
 
 export const fetchNewsletters = (accessToken, userId) => async (dispatch) => {
     try {

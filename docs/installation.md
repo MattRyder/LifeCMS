@@ -26,7 +26,36 @@ cd LifeCMS/
 ```
 
 ### Step 2: Configure the system
-TODO
+
+LifeCMS can be branded in a particular way in order to fit in with your existing
+brand, or as one product as part of an offering you may be providing to a
+customer.
+
+You can use the following environment variables as a base, but you should change
+them to something more appropriate for your use case.
+
+To learn more about what options are available for you to customise, take a look
+at the "[Environment Variables](../ARCHITECTURE.md#environment-variables)"
+section of LifeCMS' architecture document.
+
+```
+export LIFECMS_CONTENTCREATION_EMAIL_FROM_EMAIL_ADDRESS="no-reply@lifecms.localhost"
+export LIFECMS_CONTENTCREATION_EMAIL_FROM_DISPLAY_NAME="no-reply"
+export LIFECMS_EVENTBUS_QUEUENAME="email.lifecms.queue"
+export LIFECMS_IDENTITY_EMAIL_FROM_EMAIL_ADDRESS="no-reply@lifcms.localhost"
+export LIFECMS_RABBITMQ_USERNAME="rabbitmq"
+export LIFECMS_RABBITMQ_PASSWORD="rabbitmq"
+export LIFECMS_ORIGIN_CONTENTCREATION="https://contentcreation.lifcms.localhost"
+export LIFECMS_ORIGIN_WEBSPA="https://lifcms.localhost"
+export LIFECMS_VHOST_CONTENTCREATION="contentcreation.lifcms.localhost"
+export LIFECMS_VHOST_IDENTITY="identity.lifcms.localhost"
+export LIFECMS_VHOST_WEBSPA="lifcms.localhost"
+export LIFECMS_VHOST_EMAIL="email.lifcms.localhost"
+export LIFECMS_EMAIL_PROVIDER="Smtp"
+export LIFECMS_EMAIL_SMTP_HOST="smtp.lifcms.localhost"
+export LIFECMS_EMAIL_SMTP_PORT="1025"
+export LIFECMS_IDENTITY_SERVER_AUTHORITY="https://identity.lifecms.localhost"
+```
 
 ### Step 3: Start the system
 

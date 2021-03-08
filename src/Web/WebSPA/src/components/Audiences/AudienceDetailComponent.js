@@ -18,7 +18,7 @@ export default function AudienceDetailsComponent({ id }) {
 
     const subscribers = useSelector((state) => findAudienceSubscribers(state, id));
 
-    return (
+    return audience ? (
         <>
             <Paper>
                 <DetailRow
@@ -45,7 +45,7 @@ export default function AudienceDetailsComponent({ id }) {
             ]}
             />
         </>
-    );
+    ) : null;
 }
 
 AudienceDetailsComponent.propTypes = {
