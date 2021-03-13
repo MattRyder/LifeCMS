@@ -1,0 +1,17 @@
+export default {
+    add: 'commonAdd',
+    back: 'commonBack',
+    duplicate: 'commonDuplicate',
+    edit: 'commonEdit',
+    save: 'commonSave',
+    load: 'commonLoad',
+    delete: 'commonDelete',
+    post: 'commonPost',
+    settings: 'commonSettings',
+    details: 'commonDetails',
+    update: 'commonUpdate',
+    clear: 'commonClear',
+    upload: 'commonUpload',
+    createdAt: 'commonCreatedAt',
+    updatedAt: 'commonUpdatedAt',
+};

@@ -20,7 +20,7 @@ export default function UserProfileCreate() {
 
     return (
         <FormPage
-            title={t(TextTranslationKeys.settingsView.userProfiles.create)}
+            title={t(TextTranslationKeys.userProfileView.create.pageTitle)}
         >
             <UserProfileFormComponent handleSave={onSave} />
         </FormPage>

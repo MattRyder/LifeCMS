@@ -6,12 +6,34 @@ import { PaddingAttribute } from '../Attributes';
 import ComponentWrapper from './ComponentWrapper';
 import ColorAttribute from '../Attributes/ColorAttribute';
 import ImageAttribute from '../Attributes/ImageAttribute';
+import { ReactComponent as ImageIcon } from '../Toolbox/Icons/ImageIcon.svg';
 
 const styles = {
     image: css`
         width: 100%;
         height: auto;
     `,
+    containerDefault: {
+        container: css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #cdc0be;
+            color: #565656;
+            padding: 1rem;
+            font-size: smaller;
+        `,
+        icon: css`
+            max-width: 2rem;
+            margin-bottom: 0.5rem;
+
+            svg {
+                fill: #565656;
+                width: 100%;
+                height: auto;
+            }
+        `,
+    },
 };
 
 export default function Image() {
@@ -35,19 +57,36 @@ export default function Image() {
 
     return (
         <div ref={(ref) => connect(drag(ref))}>
-            <ComponentWrapper
-                backgroundColor={backgroundColor}
-                padding={padding}
-                isSelected={isSelected}
-            >
-                {imageSource && (
+
+            {imageSource ? (
+                <ComponentWrapper
+                    backgroundColor={backgroundColor}
+                    padding={padding}
+                    isSelected={isSelected}
+                >
                     <img
                         src={imageSource}
                         className={cx(styles.image)}
                         alt=""
                     />
-                )}
-            </ComponentWrapper>
+                </ComponentWrapper>
+
+            ) : (
+                <ComponentWrapper
+                    backgroundColor={backgroundColor}
+                    padding={[0.25, 0.25, 0.25, 0.25]}
+                    isSelected={isSelected}
+                >
+                    <div className={styles.containerDefault.container}>
+                        <div className={styles.containerDefault.icon}>
+                            <ImageIcon />
+                        </div>
+                        <p>No image selected.</p>
+                        <p> Add an image from the Style tab.</p>
+                    </div>
+                </ComponentWrapper>
+
+            )}
         </div>
     );
 }
@@ -100,7 +139,7 @@ function ImageAttributesPanel() {
 Image.craft = {
     props: {
         backgroundColor: '#fff',
-        padding: [1, 1, 1, 1],
+        padding: [0.1, 0.2, 0.1, 0.2],
         urn: null,
         newFile: {
             name: '',

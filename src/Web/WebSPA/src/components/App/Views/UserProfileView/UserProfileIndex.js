@@ -16,9 +16,9 @@ const UserProfileIndexList = ({ collection }) => {
 
     return (
         <ListView
-            title={t(TextTranslationKeys.settingsView.menu.userProfiles)}
+            title={t(TextTranslationKeys.userProfileView.index.pageTitle)}
             ctaLinkTo={newUserProfileRoute}
-            ctaText={t(TextTranslationKeys.settingsView.userProfiles.create)}
+            ctaText={t(TextTranslationKeys.userProfileView.index.ctaText)}
         >
             <Table
                 headings={[

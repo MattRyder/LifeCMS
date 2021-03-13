@@ -4,7 +4,7 @@ import { css, cx } from 'emotion';
 
 const styles = {
     pageComponent: css`
-        min-height: 5rem;
+        min-height: 2.5rem;
         border-width: 2px;
         border-color: rgba(25, 132, 255, 0.15);
         border-style: solid;
@@ -45,3 +45,11 @@ export default function ComponentWrapper({
         </div>
     );
 }
+
+ComponentWrapper.defaultProps = {
+    backgroundColor: '#FFF',
+    color: '#333',
+    fontSize: 1,
+    padding: [0, 0, 0, 0],
+    isSelected: false,
+};

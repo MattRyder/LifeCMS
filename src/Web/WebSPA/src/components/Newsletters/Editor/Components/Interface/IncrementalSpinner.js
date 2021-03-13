@@ -23,7 +23,7 @@ function IncrementalSpinner({
             <Input
                 bsSize="sm"
                 type="text"
-                pattern="\d*"
+                pattern="^\d+(\.\d{1,2})?$"
                 name="padding"
                 id="input-padding"
                 value={value}

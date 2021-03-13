@@ -33,7 +33,7 @@ export default function UserProfileEdit() {
     const userProfile = useSelector((state) => findUserProfile(id)(state, userId));
 
     return (
-        <FormPage title={t(TextTranslationKeys.settingsView.userProfiles.edit)}>
+        <FormPage title={t(TextTranslationKeys.userProfileView.edit.pageTitle)}>
             <UserProfileFormComponent
                 userProfile={userProfile}
                 handleSave={onSave}

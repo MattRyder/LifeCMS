@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import theme from 'theme';
 import { ReactComponent as BlankPageIcon } from './BlankPageIcon.svg';
+import { ReactComponent as MarketingStarterIcon } from './MarketingStarterIcon.svg';
 
 const TemplateContainer = ({ title, children }) => {
     const styles = {
@@ -96,6 +97,12 @@ export default function TemplatesSelector() {
             description: t(TemplateTextTransKeys.blank.description),
             imageComponent: () => <BlankPageIcon />,
             designSourceSlug: 'blank',
+        },
+        {
+            title: t(TemplateTextTransKeys.marketingStarter.title),
+            description: t(TemplateTextTransKeys.marketingStarter.description),
+            imageComponent: () => <MarketingStarterIcon />,
+            designSourceSlug: 'marketing-starter',
         },
     ];
 
