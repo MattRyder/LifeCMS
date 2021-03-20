@@ -18,8 +18,11 @@ LifeCMS
 ](https://hub.docker.com/repository/docker/lifecms/web-spa)
 
 <img
-src="docs/screenshots/dashboard-screenshot.png"
-alt="screenshot of the lifecms dashboard">
+    src="docs/screenshots/lifecms-promo.webp"
+    alt="lifecms-promo-gif">
+<a href="https://youtu.be/1ng7bAJJ-XA" target="_blank">
+    View this promotional video on YouTube
+</a>
 
 LifeCMS is a web-based application for recording events,  curating engaging newsletters, and sharing them with a close audience.
 
